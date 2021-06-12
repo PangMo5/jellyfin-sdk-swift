@@ -6,13 +6,13 @@
 
 import Foundation
 
-@available(*, deprecated, renamed: "JellyfinAPI")
-public typealias JellyfinAPIAPI = JellyfinAPI
+@available(*, deprecated, renamed: "JellyfinAPIEnvironment")
+public typealias JellyfinAPIAPI = JellyfinAPIEnvironment
 
-open class JellyfinAPI {
+open class JellyfinAPIEnvironment {
     public static var basePath = "http://localhost:8096"
-    public static var customHeaders: [String: String] = [:]
     public static var credential: URLCredential?
+    public static var customHeaders: [String: String] = [:]
     public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     public static var apiResponseQueue: DispatchQueue = .main
 }

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **scrollDirection** | [**ScrollDirection**](ScrollDirection.md) |  | [optional] 
 **showBackdrop** | **Bool** | Gets or sets a value indicating whether to show backdrops on this item. | [optional] 
 **rememberSorting** | **Bool** | Gets or sets a value indicating whether [remember sorting]. | [optional] 
-**aPISortOrder** | [**APISortOrder**](APISortOrder.md) |  | [optional] 
+**sortOrder** | [**SortOrder**](SortOrder.md) |  | [optional] 
 **showSidebar** | **Bool** | Gets or sets a value indicating whether [show sidebar]. | [optional] 
 **client** | **String** | Gets or sets the client. | [optional] 
 
