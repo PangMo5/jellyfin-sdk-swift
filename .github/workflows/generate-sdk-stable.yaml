@@ -19,10 +19,18 @@ jobs:
 
     - name: Generate	    
       run: |
-        mint run CreateAPI create-api generate
-        jellyfin-openapi-stable.json 
-        --package JellyfinAPI 
+        mint run CreateAPI create-api generate \
+        jellyfin-openapi-stable.json \
+        --package JellyfinAPI \
         --output .
+
+    - name: Replace Sources
+      run: |
+        rm Package.swift
+        rm -rf Sources
+        mkdir Sources
+        mv JellyfinAPI/Sources/* Sources
+        mv JellyfinAPI/Package.swift .
 
     # "echo" in commit returns true so the build succeeds, even if no changed files
     - name: Commit new changes to the repo
