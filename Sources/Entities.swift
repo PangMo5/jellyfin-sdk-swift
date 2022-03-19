@@ -5,127 +5,2447 @@
 
 import Foundation
 
-public enum TranscodeSeekInfo: String, Codable, CaseIterable {
-    case auto = "Auto"
-    case bytes = "Bytes"
+public enum RecommendationType: String, Codable, CaseIterable {
+    case similarToRecentlyPlayed = "SimilarToRecentlyPlayed"
+    case similarToLikedItem = "SimilarToLikedItem"
+    case hasDirectorFromRecentlyPlayed = "HasDirectorFromRecentlyPlayed"
+    case hasActorFromRecentlyPlayed = "HasActorFromRecentlyPlayed"
+    case hasLikedDirector = "HasLikedDirector"
+    case hasLikedActor = "HasLikedActor"
 }
 
-/// The admin notification dto.
-public struct AdminNotificationDto: Codable {
-    /// Gets or sets the notification level.
-    public var notificationLevel: NotificationLevel?
-    /// Gets or sets the notification description.
-    public var description: String?
-    /// Gets or sets the notification url.
-    public var url: String?
-    /// Gets or sets the notification name.
+public struct GeneralCommand: Codable {
+    public var name: GeneralCommandType?
+    public var arguments: [String: String]?
+    public var controllingUserID: UUID?
+
+    public init(name: GeneralCommandType? = nil, arguments: [String: String]? = nil, controllingUserID: UUID? = nil) {
+        self.name = name
+        self.arguments = arguments
+        self.controllingUserID = controllingUserID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case arguments = "Arguments"
+        case controllingUserID = "ControllingUserId"
+    }
+}
+
+public struct QuickConnectResult: Codable {
+    public var dateAdded: Date?
+    public var error: String?
+    public var authentication: String?
+    public var isAuthenticated: Bool?
+    public var secret: String?
+    public var code: String?
+
+    public init(dateAdded: Date? = nil, error: String? = nil, authentication: String? = nil, isAuthenticated: Bool? = nil, secret: String? = nil, code: String? = nil) {
+        self.dateAdded = dateAdded
+        self.error = error
+        self.authentication = authentication
+        self.isAuthenticated = isAuthenticated
+        self.secret = secret
+        self.code = code
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case dateAdded = "DateAdded"
+        case error = "Error"
+        case authentication = "Authentication"
+        case isAuthenticated = "Authenticated"
+        case secret = "Secret"
+        case code = "Code"
+    }
+}
+
+public struct SearchHint: Codable {
+    public var indexNumber: Int?
+    public var itemID: UUID?
+    public var series: String?
+    public var productionYear: Int?
+    public var type: String?
+    public var channelName: String?
+    public var matchedTerm: String?
+    public var episodeCount: Int?
+    public var parentIndexNumber: Int?
+    public var thumbImageTag: String?
+    public var startDate: Date?
+    public var endDate: Date?
+    public var name: String?
+    public var album: String?
+    public var albumArtist: String?
+    public var runTimeTicks: Int?
+    public var thumbImageItemID: String?
+    public var songCount: Int?
+    public var status: String?
+    public var albumID: UUID?
+    public var id: UUID?
+    public var primaryImageTag: String?
+    public var primaryImageAspectRatio: Double?
+    public var channelID: UUID?
+    public var isFolder: Bool?
+    public var backdropImageItemID: String?
+    public var artists: [String]?
+    public var mediaType: String?
+    public var backdropImageTag: String?
+
+    public init(indexNumber: Int? = nil, itemID: UUID? = nil, series: String? = nil, productionYear: Int? = nil, type: String? = nil, channelName: String? = nil, matchedTerm: String? = nil, episodeCount: Int? = nil, parentIndexNumber: Int? = nil, thumbImageTag: String? = nil, startDate: Date? = nil, endDate: Date? = nil, name: String? = nil, album: String? = nil, albumArtist: String? = nil, runTimeTicks: Int? = nil, thumbImageItemID: String? = nil, songCount: Int? = nil, status: String? = nil, albumID: UUID? = nil, id: UUID? = nil, primaryImageTag: String? = nil, primaryImageAspectRatio: Double? = nil, channelID: UUID? = nil, isFolder: Bool? = nil, backdropImageItemID: String? = nil, artists: [String]? = nil, mediaType: String? = nil, backdropImageTag: String? = nil) {
+        self.indexNumber = indexNumber
+        self.itemID = itemID
+        self.series = series
+        self.productionYear = productionYear
+        self.type = type
+        self.channelName = channelName
+        self.matchedTerm = matchedTerm
+        self.episodeCount = episodeCount
+        self.parentIndexNumber = parentIndexNumber
+        self.thumbImageTag = thumbImageTag
+        self.startDate = startDate
+        self.endDate = endDate
+        self.name = name
+        self.album = album
+        self.albumArtist = albumArtist
+        self.runTimeTicks = runTimeTicks
+        self.thumbImageItemID = thumbImageItemID
+        self.songCount = songCount
+        self.status = status
+        self.albumID = albumID
+        self.id = id
+        self.primaryImageTag = primaryImageTag
+        self.primaryImageAspectRatio = primaryImageAspectRatio
+        self.channelID = channelID
+        self.isFolder = isFolder
+        self.backdropImageItemID = backdropImageItemID
+        self.artists = artists
+        self.mediaType = mediaType
+        self.backdropImageTag = backdropImageTag
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case indexNumber = "IndexNumber"
+        case itemID = "ItemId"
+        case series = "Series"
+        case productionYear = "ProductionYear"
+        case type = "Type"
+        case channelName = "ChannelName"
+        case matchedTerm = "MatchedTerm"
+        case episodeCount = "EpisodeCount"
+        case parentIndexNumber = "ParentIndexNumber"
+        case thumbImageTag = "ThumbImageTag"
+        case startDate = "StartDate"
+        case endDate = "EndDate"
+        case name = "Name"
+        case album = "Album"
+        case albumArtist = "AlbumArtist"
+        case runTimeTicks = "RunTimeTicks"
+        case thumbImageItemID = "ThumbImageItemId"
+        case songCount = "SongCount"
+        case status = "Status"
+        case albumID = "AlbumId"
+        case id = "Id"
+        case primaryImageTag = "PrimaryImageTag"
+        case primaryImageAspectRatio = "PrimaryImageAspectRatio"
+        case channelID = "ChannelId"
+        case isFolder = "IsFolder"
+        case backdropImageItemID = "BackdropImageItemId"
+        case artists = "Artists"
+        case mediaType = "MediaType"
+        case backdropImageTag = "BackdropImageTag"
+    }
+}
+
+public struct ImageInfo: Codable {
+    public var imageType: ImageType?
+    public var path: String?
+    public var imageTag: String?
+    public var height: Int?
+    public var imageIndex: Int?
+    public var blurHash: String?
+    public var width: Int?
+    public var size: Int?
+
+    public init(imageType: ImageType? = nil, path: String? = nil, imageTag: String? = nil, height: Int? = nil, imageIndex: Int? = nil, blurHash: String? = nil, width: Int? = nil, size: Int? = nil) {
+        self.imageType = imageType
+        self.path = path
+        self.imageTag = imageTag
+        self.height = height
+        self.imageIndex = imageIndex
+        self.blurHash = blurHash
+        self.width = width
+        self.size = size
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case imageType = "ImageType"
+        case path = "Path"
+        case imageTag = "ImageTag"
+        case height = "Height"
+        case imageIndex = "ImageIndex"
+        case blurHash = "BlurHash"
+        case width = "Width"
+        case size = "Size"
+    }
+}
+
+public enum TaskCompletionStatus: String, Codable, CaseIterable {
+    case completed = "Completed"
+    case failed = "Failed"
+    case cancelled = "Cancelled"
+    case aborted = "Aborted"
+}
+
+public struct ForgotPasswordResult: Codable {
+    public var pinFile: String?
+    public var action: ForgotPasswordAction?
+    public var pinExpirationDate: Date?
+
+    public init(pinFile: String? = nil, action: ForgotPasswordAction? = nil, pinExpirationDate: Date? = nil) {
+        self.pinFile = pinFile
+        self.action = action
+        self.pinExpirationDate = pinExpirationDate
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case pinFile = "PinFile"
+        case action = "Action"
+        case pinExpirationDate = "PinExpirationDate"
+    }
+}
+
+public struct SendCommand: Codable {
+    public var positionTicks: Int?
+    public var playlistItemID: UUID?
+    public var groupID: UUID?
+    public var when: Date?
+    public var command: SendCommandType?
+    public var emittedAt: Date?
+
+    public init(positionTicks: Int? = nil, playlistItemID: UUID? = nil, groupID: UUID? = nil, when: Date? = nil, command: SendCommandType? = nil, emittedAt: Date? = nil) {
+        self.positionTicks = positionTicks
+        self.playlistItemID = playlistItemID
+        self.groupID = groupID
+        self.when = when
+        self.command = command
+        self.emittedAt = emittedAt
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case positionTicks = "PositionTicks"
+        case playlistItemID = "PlaylistItemId"
+        case groupID = "GroupId"
+        case when = "When"
+        case command = "Command"
+        case emittedAt = "EmittedAt"
+    }
+}
+
+public struct TimerInfoDto: Codable {
+    public var channelName: String?
+    public var serviceName: String?
+    public var prePaddingSeconds: Int?
+    public var serverID: String?
+    public var endDate: Date?
+    public var priority: Int?
+    public var isPostPaddingRequired: Bool?
+    public var parentBackdropItemID: String?
+    public var channelID: UUID?
+    public var externalID: String?
+    public var name: String?
+    public var isPrePaddingRequired: Bool?
+    public var externalSeriesTimerID: String?
+    public var seriesTimerID: String?
+    public var programInfo: BaseItemDto?
+    public var parentBackdropImageTags: [String]?
+    public var startDate: Date?
+    public var postPaddingSeconds: Int?
+    public var runTimeTicks: Int?
+    public var overview: String?
+    public var externalProgramID: String?
+    public var type: String?
+    public var channelPrimaryImageTag: String?
+    public var programID: String?
+    public var id: String?
+    public var externalChannelID: String?
+    public var keepUntil: KeepUntil?
+    public var status: RecordingStatus?
+
+    public init(channelName: String? = nil, serviceName: String? = nil, prePaddingSeconds: Int? = nil, serverID: String? = nil, endDate: Date? = nil, priority: Int? = nil, isPostPaddingRequired: Bool? = nil, parentBackdropItemID: String? = nil, channelID: UUID? = nil, externalID: String? = nil, name: String? = nil, isPrePaddingRequired: Bool? = nil, externalSeriesTimerID: String? = nil, seriesTimerID: String? = nil, programInfo: BaseItemDto? = nil, parentBackdropImageTags: [String]? = nil, startDate: Date? = nil, postPaddingSeconds: Int? = nil, runTimeTicks: Int? = nil, overview: String? = nil, externalProgramID: String? = nil, type: String? = nil, channelPrimaryImageTag: String? = nil, programID: String? = nil, id: String? = nil, externalChannelID: String? = nil, keepUntil: KeepUntil? = nil, status: RecordingStatus? = nil) {
+        self.channelName = channelName
+        self.serviceName = serviceName
+        self.prePaddingSeconds = prePaddingSeconds
+        self.serverID = serverID
+        self.endDate = endDate
+        self.priority = priority
+        self.isPostPaddingRequired = isPostPaddingRequired
+        self.parentBackdropItemID = parentBackdropItemID
+        self.channelID = channelID
+        self.externalID = externalID
+        self.name = name
+        self.isPrePaddingRequired = isPrePaddingRequired
+        self.externalSeriesTimerID = externalSeriesTimerID
+        self.seriesTimerID = seriesTimerID
+        self.programInfo = programInfo
+        self.parentBackdropImageTags = parentBackdropImageTags
+        self.startDate = startDate
+        self.postPaddingSeconds = postPaddingSeconds
+        self.runTimeTicks = runTimeTicks
+        self.overview = overview
+        self.externalProgramID = externalProgramID
+        self.type = type
+        self.channelPrimaryImageTag = channelPrimaryImageTag
+        self.programID = programID
+        self.id = id
+        self.externalChannelID = externalChannelID
+        self.keepUntil = keepUntil
+        self.status = status
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case channelName = "ChannelName"
+        case serviceName = "ServiceName"
+        case prePaddingSeconds = "PrePaddingSeconds"
+        case serverID = "ServerId"
+        case endDate = "EndDate"
+        case priority = "Priority"
+        case isPostPaddingRequired = "IsPostPaddingRequired"
+        case parentBackdropItemID = "ParentBackdropItemId"
+        case channelID = "ChannelId"
+        case externalID = "ExternalId"
+        case name = "Name"
+        case isPrePaddingRequired = "IsPrePaddingRequired"
+        case externalSeriesTimerID = "ExternalSeriesTimerId"
+        case seriesTimerID = "SeriesTimerId"
+        case programInfo = "ProgramInfo"
+        case parentBackdropImageTags = "ParentBackdropImageTags"
+        case startDate = "StartDate"
+        case postPaddingSeconds = "PostPaddingSeconds"
+        case runTimeTicks = "RunTimeTicks"
+        case overview = "Overview"
+        case externalProgramID = "ExternalProgramId"
+        case type = "Type"
+        case channelPrimaryImageTag = "ChannelPrimaryImageTag"
+        case programID = "ProgramId"
+        case id = "Id"
+        case externalChannelID = "ExternalChannelId"
+        case keepUntil = "KeepUntil"
+        case status = "Status"
+    }
+}
+
+public enum ForgotPasswordAction: String, Codable, CaseIterable {
+    case contactAdmin = "ContactAdmin"
+    case pinCode = "PinCode"
+    case inNetworkRequired = "InNetworkRequired"
+}
+
+public struct SeriesTimerInfoDtoQueryResult: Codable {
+    public var items: [SeriesTimerInfoDto]?
+    public var startIndex: Int?
+    public var totalRecordCount: Int?
+
+    public init(items: [SeriesTimerInfoDto]? = nil, startIndex: Int? = nil, totalRecordCount: Int? = nil) {
+        self.items = items
+        self.startIndex = startIndex
+        self.totalRecordCount = totalRecordCount
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case items = "Items"
+        case startIndex = "StartIndex"
+        case totalRecordCount = "TotalRecordCount"
+    }
+}
+
+public struct ServerConfiguration: Codable {
+    public var uDPSendDelay: Int?
+    public var preferredMetadataLanguage: String?
+    public var uninstalledPlugins: [String]?
+    public var metadataNetworkPath: String?
+    public var pathSubstitutions: [PathSubstitution]?
+    public var enableDashboardResponseCaching: Bool?
+    public var enableExternalContentInSuggestions: Bool?
+    public var sortRemoveCharacters: [String]?
+    public var uDPPortRange: String?
+    public var serverName: String?
+    public var sortReplaceCharacters: [String]?
+    public var httpsPortNumber: Int?
+    public var enableRemoteAccess: Bool?
+    public var isUPnPCreateHTTPPortMap: Bool?
+    public var enableNormalizedItemByNameIDs: Bool?
+    public var imageSavingConvention: ImageSavingConvention?
+    public var enableIPV6: Bool?
+    public var enableCaseSensitiveItemIDs: Bool?
+    public var isRemoveOldPlugins: Bool?
+    public var contentTypes: [NameValuePair]?
+    public var enableMetrics: Bool?
+    public var isSaveMetadataHidden: Bool?
+    public var minResumeDurationSeconds: Int?
+    public var enableSlowResponseWarning: Bool?
+    public var hDHomerunPortRange: String?
+    public var activityLogRetentionDays: Int?
+    public var isPortAuthorized: Bool?
+    public var uDPSendCount: Int?
+    public var maxAudiobookResume: Int?
+    public var publishedServerUriBySubnet: [String]?
+    public var libraryMetadataRefreshConcurrency: Int?
+    public var libraryScanFanoutConcurrency: Int?
+    public var certificatePath: String?
+    public var publicPort: Int?
+    public var uICulture: String?
+    public var maxResumePct: Int?
+    public var minAudiobookResume: Int?
+    public var httpserverPortNumber: Int?
+    public var enableHTTPS: Bool?
+    public var libraryMonitorDelay: Int?
+    public var remoteClientBitrateLimit: Int?
+    public var isSkipDeserializationForBasicTypes: Bool?
+    public var minResumePct: Int?
+    public var metadataPath: String?
+    public var isIgnoreVirtualInterfaces: Bool?
+    public var localNetworkAddresses: [String]?
+    public var previousVersion: Version?
+    public var isDisplaySpecialsWithinSeasons: Bool?
+    public var pluginRepositories: [RepositoryInfo]?
+    public var sortRemoveWords: [String]?
+    public var localNetworkSubnets: [String]?
+    public var requireHTTPS: Bool?
+    public var enableSSDPTracing: Bool?
+    public var isTrustAllIP6Interfaces: Bool?
+    public var enableFolderView: Bool?
+    public var enableUPnP: Bool?
+    public var remoteIPFilter: [String]?
+    public var isAutoDiscoveryTracing: Bool?
+    public var sSDPTracingFilter: String?
+    public var slowResponseThresholdMs: Int?
+    public var enableGroupingIntoCollections: Bool?
+    public var knownProxies: [String]?
+    public var metadataCountryCode: String?
+    public var isRemoteIPFilterBlacklist: Bool?
+    public var publicHTTPSPort: Int?
+    public var enableIPV4: Bool?
+    public var codecsUsed: [String]?
+    public var logFileRetentionDays: Int?
+    public var enableMultiSocketBinding: Bool?
+    public var isQuickConnectAvailable: Bool?
+    public var isDisableLiveTvChannelUserDataName: Bool?
+    public var imageExtractionTimeoutMs: Int?
+    public var enableNewOmdbSupport: Bool?
+    public var gatewayMonitorPeriod: Int?
+    public var virtualInterfaceNames: String?
+    public var isAutoDiscovery: Bool?
+    public var cachePath: String?
+    public var previousVersionStr: String?
+    public var metadataOptions: [MetadataOptions]?
+    public var baseURL: String?
+    public var corsHosts: [String]?
+    public var certificatePassword: String?
+    public var isStartupWizardCompleted: Bool?
+
+    public init(uDPSendDelay: Int? = nil, preferredMetadataLanguage: String? = nil, uninstalledPlugins: [String]? = nil, metadataNetworkPath: String? = nil, pathSubstitutions: [PathSubstitution]? = nil, enableDashboardResponseCaching: Bool? = nil, enableExternalContentInSuggestions: Bool? = nil, sortRemoveCharacters: [String]? = nil, uDPPortRange: String? = nil, serverName: String? = nil, sortReplaceCharacters: [String]? = nil, httpsPortNumber: Int? = nil, enableRemoteAccess: Bool? = nil, isUPnPCreateHTTPPortMap: Bool? = nil, enableNormalizedItemByNameIDs: Bool? = nil, imageSavingConvention: ImageSavingConvention? = nil, enableIPV6: Bool? = nil, enableCaseSensitiveItemIDs: Bool? = nil, isRemoveOldPlugins: Bool? = nil, contentTypes: [NameValuePair]? = nil, enableMetrics: Bool? = nil, isSaveMetadataHidden: Bool? = nil, minResumeDurationSeconds: Int? = nil, enableSlowResponseWarning: Bool? = nil, hDHomerunPortRange: String? = nil, activityLogRetentionDays: Int? = nil, isPortAuthorized: Bool? = nil, uDPSendCount: Int? = nil, maxAudiobookResume: Int? = nil, publishedServerUriBySubnet: [String]? = nil, libraryMetadataRefreshConcurrency: Int? = nil, libraryScanFanoutConcurrency: Int? = nil, certificatePath: String? = nil, publicPort: Int? = nil, uICulture: String? = nil, maxResumePct: Int? = nil, minAudiobookResume: Int? = nil, httpserverPortNumber: Int? = nil, enableHTTPS: Bool? = nil, libraryMonitorDelay: Int? = nil, remoteClientBitrateLimit: Int? = nil, isSkipDeserializationForBasicTypes: Bool? = nil, minResumePct: Int? = nil, metadataPath: String? = nil, isIgnoreVirtualInterfaces: Bool? = nil, localNetworkAddresses: [String]? = nil, previousVersion: Version? = nil, isDisplaySpecialsWithinSeasons: Bool? = nil, pluginRepositories: [RepositoryInfo]? = nil, sortRemoveWords: [String]? = nil, localNetworkSubnets: [String]? = nil, requireHTTPS: Bool? = nil, enableSSDPTracing: Bool? = nil, isTrustAllIP6Interfaces: Bool? = nil, enableFolderView: Bool? = nil, enableUPnP: Bool? = nil, remoteIPFilter: [String]? = nil, isAutoDiscoveryTracing: Bool? = nil, sSDPTracingFilter: String? = nil, slowResponseThresholdMs: Int? = nil, enableGroupingIntoCollections: Bool? = nil, knownProxies: [String]? = nil, metadataCountryCode: String? = nil, isRemoteIPFilterBlacklist: Bool? = nil, publicHTTPSPort: Int? = nil, enableIPV4: Bool? = nil, codecsUsed: [String]? = nil, logFileRetentionDays: Int? = nil, enableMultiSocketBinding: Bool? = nil, isQuickConnectAvailable: Bool? = nil, isDisableLiveTvChannelUserDataName: Bool? = nil, imageExtractionTimeoutMs: Int? = nil, enableNewOmdbSupport: Bool? = nil, gatewayMonitorPeriod: Int? = nil, virtualInterfaceNames: String? = nil, isAutoDiscovery: Bool? = nil, cachePath: String? = nil, previousVersionStr: String? = nil, metadataOptions: [MetadataOptions]? = nil, baseURL: String? = nil, corsHosts: [String]? = nil, certificatePassword: String? = nil, isStartupWizardCompleted: Bool? = nil) {
+        self.uDPSendDelay = uDPSendDelay
+        self.preferredMetadataLanguage = preferredMetadataLanguage
+        self.uninstalledPlugins = uninstalledPlugins
+        self.metadataNetworkPath = metadataNetworkPath
+        self.pathSubstitutions = pathSubstitutions
+        self.enableDashboardResponseCaching = enableDashboardResponseCaching
+        self.enableExternalContentInSuggestions = enableExternalContentInSuggestions
+        self.sortRemoveCharacters = sortRemoveCharacters
+        self.uDPPortRange = uDPPortRange
+        self.serverName = serverName
+        self.sortReplaceCharacters = sortReplaceCharacters
+        self.httpsPortNumber = httpsPortNumber
+        self.enableRemoteAccess = enableRemoteAccess
+        self.isUPnPCreateHTTPPortMap = isUPnPCreateHTTPPortMap
+        self.enableNormalizedItemByNameIDs = enableNormalizedItemByNameIDs
+        self.imageSavingConvention = imageSavingConvention
+        self.enableIPV6 = enableIPV6
+        self.enableCaseSensitiveItemIDs = enableCaseSensitiveItemIDs
+        self.isRemoveOldPlugins = isRemoveOldPlugins
+        self.contentTypes = contentTypes
+        self.enableMetrics = enableMetrics
+        self.isSaveMetadataHidden = isSaveMetadataHidden
+        self.minResumeDurationSeconds = minResumeDurationSeconds
+        self.enableSlowResponseWarning = enableSlowResponseWarning
+        self.hDHomerunPortRange = hDHomerunPortRange
+        self.activityLogRetentionDays = activityLogRetentionDays
+        self.isPortAuthorized = isPortAuthorized
+        self.uDPSendCount = uDPSendCount
+        self.maxAudiobookResume = maxAudiobookResume
+        self.publishedServerUriBySubnet = publishedServerUriBySubnet
+        self.libraryMetadataRefreshConcurrency = libraryMetadataRefreshConcurrency
+        self.libraryScanFanoutConcurrency = libraryScanFanoutConcurrency
+        self.certificatePath = certificatePath
+        self.publicPort = publicPort
+        self.uICulture = uICulture
+        self.maxResumePct = maxResumePct
+        self.minAudiobookResume = minAudiobookResume
+        self.httpserverPortNumber = httpserverPortNumber
+        self.enableHTTPS = enableHTTPS
+        self.libraryMonitorDelay = libraryMonitorDelay
+        self.remoteClientBitrateLimit = remoteClientBitrateLimit
+        self.isSkipDeserializationForBasicTypes = isSkipDeserializationForBasicTypes
+        self.minResumePct = minResumePct
+        self.metadataPath = metadataPath
+        self.isIgnoreVirtualInterfaces = isIgnoreVirtualInterfaces
+        self.localNetworkAddresses = localNetworkAddresses
+        self.previousVersion = previousVersion
+        self.isDisplaySpecialsWithinSeasons = isDisplaySpecialsWithinSeasons
+        self.pluginRepositories = pluginRepositories
+        self.sortRemoveWords = sortRemoveWords
+        self.localNetworkSubnets = localNetworkSubnets
+        self.requireHTTPS = requireHTTPS
+        self.enableSSDPTracing = enableSSDPTracing
+        self.isTrustAllIP6Interfaces = isTrustAllIP6Interfaces
+        self.enableFolderView = enableFolderView
+        self.enableUPnP = enableUPnP
+        self.remoteIPFilter = remoteIPFilter
+        self.isAutoDiscoveryTracing = isAutoDiscoveryTracing
+        self.sSDPTracingFilter = sSDPTracingFilter
+        self.slowResponseThresholdMs = slowResponseThresholdMs
+        self.enableGroupingIntoCollections = enableGroupingIntoCollections
+        self.knownProxies = knownProxies
+        self.metadataCountryCode = metadataCountryCode
+        self.isRemoteIPFilterBlacklist = isRemoteIPFilterBlacklist
+        self.publicHTTPSPort = publicHTTPSPort
+        self.enableIPV4 = enableIPV4
+        self.codecsUsed = codecsUsed
+        self.logFileRetentionDays = logFileRetentionDays
+        self.enableMultiSocketBinding = enableMultiSocketBinding
+        self.isQuickConnectAvailable = isQuickConnectAvailable
+        self.isDisableLiveTvChannelUserDataName = isDisableLiveTvChannelUserDataName
+        self.imageExtractionTimeoutMs = imageExtractionTimeoutMs
+        self.enableNewOmdbSupport = enableNewOmdbSupport
+        self.gatewayMonitorPeriod = gatewayMonitorPeriod
+        self.virtualInterfaceNames = virtualInterfaceNames
+        self.isAutoDiscovery = isAutoDiscovery
+        self.cachePath = cachePath
+        self.previousVersionStr = previousVersionStr
+        self.metadataOptions = metadataOptions
+        self.baseURL = baseURL
+        self.corsHosts = corsHosts
+        self.certificatePassword = certificatePassword
+        self.isStartupWizardCompleted = isStartupWizardCompleted
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case uDPSendDelay = "UDPSendDelay"
+        case preferredMetadataLanguage = "PreferredMetadataLanguage"
+        case uninstalledPlugins = "UninstalledPlugins"
+        case metadataNetworkPath = "MetadataNetworkPath"
+        case pathSubstitutions = "PathSubstitutions"
+        case enableDashboardResponseCaching = "EnableDashboardResponseCaching"
+        case enableExternalContentInSuggestions = "EnableExternalContentInSuggestions"
+        case sortRemoveCharacters = "SortRemoveCharacters"
+        case uDPPortRange = "UDPPortRange"
+        case serverName = "ServerName"
+        case sortReplaceCharacters = "SortReplaceCharacters"
+        case httpsPortNumber = "HttpsPortNumber"
+        case enableRemoteAccess = "EnableRemoteAccess"
+        case isUPnPCreateHTTPPortMap = "UPnPCreateHttpPortMap"
+        case enableNormalizedItemByNameIDs = "EnableNormalizedItemByNameIds"
+        case imageSavingConvention = "ImageSavingConvention"
+        case enableIPV6 = "EnableIPV6"
+        case enableCaseSensitiveItemIDs = "EnableCaseSensitiveItemIds"
+        case isRemoveOldPlugins = "RemoveOldPlugins"
+        case contentTypes = "ContentTypes"
+        case enableMetrics = "EnableMetrics"
+        case isSaveMetadataHidden = "SaveMetadataHidden"
+        case minResumeDurationSeconds = "MinResumeDurationSeconds"
+        case enableSlowResponseWarning = "EnableSlowResponseWarning"
+        case hDHomerunPortRange = "HDHomerunPortRange"
+        case activityLogRetentionDays = "ActivityLogRetentionDays"
+        case isPortAuthorized = "IsPortAuthorized"
+        case uDPSendCount = "UDPSendCount"
+        case maxAudiobookResume = "MaxAudiobookResume"
+        case publishedServerUriBySubnet = "PublishedServerUriBySubnet"
+        case libraryMetadataRefreshConcurrency = "LibraryMetadataRefreshConcurrency"
+        case libraryScanFanoutConcurrency = "LibraryScanFanoutConcurrency"
+        case certificatePath = "CertificatePath"
+        case publicPort = "PublicPort"
+        case uICulture = "UICulture"
+        case maxResumePct = "MaxResumePct"
+        case minAudiobookResume = "MinAudiobookResume"
+        case httpserverPortNumber = "HttpServerPortNumber"
+        case enableHTTPS = "EnableHttps"
+        case libraryMonitorDelay = "LibraryMonitorDelay"
+        case remoteClientBitrateLimit = "RemoteClientBitrateLimit"
+        case isSkipDeserializationForBasicTypes = "SkipDeserializationForBasicTypes"
+        case minResumePct = "MinResumePct"
+        case metadataPath = "MetadataPath"
+        case isIgnoreVirtualInterfaces = "IgnoreVirtualInterfaces"
+        case localNetworkAddresses = "LocalNetworkAddresses"
+        case previousVersion = "PreviousVersion"
+        case isDisplaySpecialsWithinSeasons = "DisplaySpecialsWithinSeasons"
+        case pluginRepositories = "PluginRepositories"
+        case sortRemoveWords = "SortRemoveWords"
+        case localNetworkSubnets = "LocalNetworkSubnets"
+        case requireHTTPS = "RequireHttps"
+        case enableSSDPTracing = "EnableSSDPTracing"
+        case isTrustAllIP6Interfaces = "TrustAllIP6Interfaces"
+        case enableFolderView = "EnableFolderView"
+        case enableUPnP = "EnableUPnP"
+        case remoteIPFilter = "RemoteIPFilter"
+        case isAutoDiscoveryTracing = "AutoDiscoveryTracing"
+        case sSDPTracingFilter = "SSDPTracingFilter"
+        case slowResponseThresholdMs = "SlowResponseThresholdMs"
+        case enableGroupingIntoCollections = "EnableGroupingIntoCollections"
+        case knownProxies = "KnownProxies"
+        case metadataCountryCode = "MetadataCountryCode"
+        case isRemoteIPFilterBlacklist = "IsRemoteIPFilterBlacklist"
+        case publicHTTPSPort = "PublicHttpsPort"
+        case enableIPV4 = "EnableIPV4"
+        case codecsUsed = "CodecsUsed"
+        case logFileRetentionDays = "LogFileRetentionDays"
+        case enableMultiSocketBinding = "EnableMultiSocketBinding"
+        case isQuickConnectAvailable = "QuickConnectAvailable"
+        case isDisableLiveTvChannelUserDataName = "DisableLiveTvChannelUserDataName"
+        case imageExtractionTimeoutMs = "ImageExtractionTimeoutMs"
+        case enableNewOmdbSupport = "EnableNewOmdbSupport"
+        case gatewayMonitorPeriod = "GatewayMonitorPeriod"
+        case virtualInterfaceNames = "VirtualInterfaceNames"
+        case isAutoDiscovery = "AutoDiscovery"
+        case cachePath = "CachePath"
+        case previousVersionStr = "PreviousVersionStr"
+        case metadataOptions = "MetadataOptions"
+        case baseURL = "BaseUrl"
+        case corsHosts = "CorsHosts"
+        case certificatePassword = "CertificatePassword"
+        case isStartupWizardCompleted = "IsStartupWizardCompleted"
+    }
+}
+
+public struct LogFile: Codable {
+    public var size: Int?
+    public var dateCreated: Date?
+    public var dateModified: Date?
     public var name: String?
 
-    public init(notificationLevel: NotificationLevel? = nil, description: String? = nil, url: String? = nil, name: String? = nil) {
-        self.notificationLevel = notificationLevel
+    public init(size: Int? = nil, dateCreated: Date? = nil, dateModified: Date? = nil, name: String? = nil) {
+        self.size = size
+        self.dateCreated = dateCreated
+        self.dateModified = dateModified
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case size = "Size"
+        case dateCreated = "DateCreated"
+        case dateModified = "DateModified"
+        case name = "Name"
+    }
+}
+
+public struct PackageInfo: Codable {
+    public var overview: String?
+    public var category: String?
+    public var imageURL: String?
+    public var versions: [VersionInfo]?
+    public var owner: String?
+    public var name: String?
+    public var guid: String?
+    public var description: String?
+
+    public init(overview: String? = nil, category: String? = nil, imageURL: String? = nil, versions: [VersionInfo]? = nil, owner: String? = nil, name: String? = nil, guid: String? = nil, description: String? = nil) {
+        self.overview = overview
+        self.category = category
+        self.imageURL = imageURL
+        self.versions = versions
+        self.owner = owner
+        self.name = name
+        self.guid = guid
         self.description = description
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case overview
+        case category
+        case imageURL = "imageUrl"
+        case versions
+        case owner
+        case name
+        case guid
+        case description
+    }
+}
+
+public struct ChapterInfo: Codable {
+    public var imagePath: String?
+    public var imageTag: String?
+    public var imageDateModified: Date?
+    public var name: String?
+    public var startPositionTicks: Int?
+
+    public init(imagePath: String? = nil, imageTag: String? = nil, imageDateModified: Date? = nil, name: String? = nil, startPositionTicks: Int? = nil) {
+        self.imagePath = imagePath
+        self.imageTag = imageTag
+        self.imageDateModified = imageDateModified
+        self.name = name
+        self.startPositionTicks = startPositionTicks
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case imagePath = "ImagePath"
+        case imageTag = "ImageTag"
+        case imageDateModified = "ImageDateModified"
+        case name = "Name"
+        case startPositionTicks = "StartPositionTicks"
+    }
+}
+
+public struct MediaAttachment: Codable {
+    public var comment: String?
+    public var codecTag: String?
+    public var deliveryURL: String?
+    public var fileName: String?
+    public var index: Int?
+    public var codec: String?
+    public var mimeType: String?
+
+    public init(comment: String? = nil, codecTag: String? = nil, deliveryURL: String? = nil, fileName: String? = nil, index: Int? = nil, codec: String? = nil, mimeType: String? = nil) {
+        self.comment = comment
+        self.codecTag = codecTag
+        self.deliveryURL = deliveryURL
+        self.fileName = fileName
+        self.index = index
+        self.codec = codec
+        self.mimeType = mimeType
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case comment = "Comment"
+        case codecTag = "CodecTag"
+        case deliveryURL = "DeliveryUrl"
+        case fileName = "FileName"
+        case index = "Index"
+        case codec = "Codec"
+        case mimeType = "MimeType"
+    }
+}
+
+public struct CollectionCreationResult: Codable {
+    public var id: UUID?
+
+    public init(id: UUID? = nil) {
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+    }
+}
+
+public enum GroupUpdateType: String, Codable, CaseIterable {
+    case userJoined = "UserJoined"
+    case userLeft = "UserLeft"
+    case groupJoined = "GroupJoined"
+    case groupLeft = "GroupLeft"
+    case stateUpdate = "StateUpdate"
+    case playQueue = "PlayQueue"
+    case notInGroup = "NotInGroup"
+    case groupDoesNotExist = "GroupDoesNotExist"
+    case createGroupDenied = "CreateGroupDenied"
+    case joinGroupDenied = "JoinGroupDenied"
+    case libraryAccessDenied = "LibraryAccessDenied"
+}
+
+public struct DeviceInfoQueryResult: Codable {
+    public var items: [DeviceInfo]?
+    public var startIndex: Int?
+    public var totalRecordCount: Int?
+
+    public init(items: [DeviceInfo]? = nil, startIndex: Int? = nil, totalRecordCount: Int? = nil) {
+        self.items = items
+        self.startIndex = startIndex
+        self.totalRecordCount = totalRecordCount
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case items = "Items"
+        case startIndex = "StartIndex"
+        case totalRecordCount = "TotalRecordCount"
+    }
+}
+
+public struct MediaSourceInfo: Codable {
+    public var formats: [String]?
+    public var video3DFormat: Video3DFormat?
+    public var bufferMs: Int?
+    public var requiresClosing: Bool?
+    public var mediaAttachments: [MediaAttachment]?
+    public var liveStreamID: String?
+    public var requiredHTTPHeaders: [String: String]?
+    public var transcodingContainer: String?
+    public var openToken: String?
+    public var videoType: VideoType?
+    public var isGenPtsInput: Bool?
+    public var defaultAudioStreamIndex: Int?
+    public var `protocol`: MediaProtocol?
+    public var type: MediaSourceType?
+    public var bitrate: Int?
+    public var encoderProtocol: MediaProtocol?
+    public var isSupportsProbing: Bool?
+    public var isoType: IsoType?
+    public var name: String?
+    public var defaultSubtitleStreamIndex: Int?
+    public var container: String?
+    public var mediaStreams: [MediaStream]?
+    public var transcodingURL: String?
+    public var isSupportsTranscoding: Bool?
+    public var isReadAtNativeFramerate: Bool?
+    public var id: String?
+    public var eTag: String?
+    public var transcodingSubProtocol: String?
+    public var size: Int?
+    public var isSupportsDirectPlay: Bool?
+    public var analyzeDurationMs: Int?
+    public var isIgnoreDts: Bool?
+    public var isRemote: Bool?
+    public var requiresLooping: Bool?
+    public var runTimeTicks: Int?
+    public var encoderPath: String?
+    public var isInfiniteStream: Bool?
+    public var isIgnoreIndex: Bool?
+    public var timestamp: TransportStreamTimestamp?
+    public var requiresOpening: Bool?
+    public var path: String?
+    public var isSupportsDirectStream: Bool?
+
+    public init(formats: [String]? = nil, video3DFormat: Video3DFormat? = nil, bufferMs: Int? = nil, requiresClosing: Bool? = nil, mediaAttachments: [MediaAttachment]? = nil, liveStreamID: String? = nil, requiredHTTPHeaders: [String: String]? = nil, transcodingContainer: String? = nil, openToken: String? = nil, videoType: VideoType? = nil, isGenPtsInput: Bool? = nil, defaultAudioStreamIndex: Int? = nil, `protocol`: MediaProtocol? = nil, type: MediaSourceType? = nil, bitrate: Int? = nil, encoderProtocol: MediaProtocol? = nil, isSupportsProbing: Bool? = nil, isoType: IsoType? = nil, name: String? = nil, defaultSubtitleStreamIndex: Int? = nil, container: String? = nil, mediaStreams: [MediaStream]? = nil, transcodingURL: String? = nil, isSupportsTranscoding: Bool? = nil, isReadAtNativeFramerate: Bool? = nil, id: String? = nil, eTag: String? = nil, transcodingSubProtocol: String? = nil, size: Int? = nil, isSupportsDirectPlay: Bool? = nil, analyzeDurationMs: Int? = nil, isIgnoreDts: Bool? = nil, isRemote: Bool? = nil, requiresLooping: Bool? = nil, runTimeTicks: Int? = nil, encoderPath: String? = nil, isInfiniteStream: Bool? = nil, isIgnoreIndex: Bool? = nil, timestamp: TransportStreamTimestamp? = nil, requiresOpening: Bool? = nil, path: String? = nil, isSupportsDirectStream: Bool? = nil) {
+        self.formats = formats
+        self.video3DFormat = video3DFormat
+        self.bufferMs = bufferMs
+        self.requiresClosing = requiresClosing
+        self.mediaAttachments = mediaAttachments
+        self.liveStreamID = liveStreamID
+        self.requiredHTTPHeaders = requiredHTTPHeaders
+        self.transcodingContainer = transcodingContainer
+        self.openToken = openToken
+        self.videoType = videoType
+        self.isGenPtsInput = isGenPtsInput
+        self.defaultAudioStreamIndex = defaultAudioStreamIndex
+        self.protocol = `protocol`
+        self.type = type
+        self.bitrate = bitrate
+        self.encoderProtocol = encoderProtocol
+        self.isSupportsProbing = isSupportsProbing
+        self.isoType = isoType
+        self.name = name
+        self.defaultSubtitleStreamIndex = defaultSubtitleStreamIndex
+        self.container = container
+        self.mediaStreams = mediaStreams
+        self.transcodingURL = transcodingURL
+        self.isSupportsTranscoding = isSupportsTranscoding
+        self.isReadAtNativeFramerate = isReadAtNativeFramerate
+        self.id = id
+        self.eTag = eTag
+        self.transcodingSubProtocol = transcodingSubProtocol
+        self.size = size
+        self.isSupportsDirectPlay = isSupportsDirectPlay
+        self.analyzeDurationMs = analyzeDurationMs
+        self.isIgnoreDts = isIgnoreDts
+        self.isRemote = isRemote
+        self.requiresLooping = requiresLooping
+        self.runTimeTicks = runTimeTicks
+        self.encoderPath = encoderPath
+        self.isInfiniteStream = isInfiniteStream
+        self.isIgnoreIndex = isIgnoreIndex
+        self.timestamp = timestamp
+        self.requiresOpening = requiresOpening
+        self.path = path
+        self.isSupportsDirectStream = isSupportsDirectStream
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case formats = "Formats"
+        case video3DFormat = "Video3DFormat"
+        case bufferMs = "BufferMs"
+        case requiresClosing = "RequiresClosing"
+        case mediaAttachments = "MediaAttachments"
+        case liveStreamID = "LiveStreamId"
+        case requiredHTTPHeaders = "RequiredHttpHeaders"
+        case transcodingContainer = "TranscodingContainer"
+        case openToken = "OpenToken"
+        case videoType = "VideoType"
+        case isGenPtsInput = "GenPtsInput"
+        case defaultAudioStreamIndex = "DefaultAudioStreamIndex"
+        case `protocol` = "Protocol"
+        case type = "Type"
+        case bitrate = "Bitrate"
+        case encoderProtocol = "EncoderProtocol"
+        case isSupportsProbing = "SupportsProbing"
+        case isoType = "IsoType"
+        case name = "Name"
+        case defaultSubtitleStreamIndex = "DefaultSubtitleStreamIndex"
+        case container = "Container"
+        case mediaStreams = "MediaStreams"
+        case transcodingURL = "TranscodingUrl"
+        case isSupportsTranscoding = "SupportsTranscoding"
+        case isReadAtNativeFramerate = "ReadAtNativeFramerate"
+        case id = "Id"
+        case eTag = "ETag"
+        case transcodingSubProtocol = "TranscodingSubProtocol"
+        case size = "Size"
+        case isSupportsDirectPlay = "SupportsDirectPlay"
+        case analyzeDurationMs = "AnalyzeDurationMs"
+        case isIgnoreDts = "IgnoreDts"
+        case isRemote = "IsRemote"
+        case requiresLooping = "RequiresLooping"
+        case runTimeTicks = "RunTimeTicks"
+        case encoderPath = "EncoderPath"
+        case isInfiniteStream = "IsInfiniteStream"
+        case isIgnoreIndex = "IgnoreIndex"
+        case timestamp = "Timestamp"
+        case requiresOpening = "RequiresOpening"
+        case path = "Path"
+        case isSupportsDirectStream = "SupportsDirectStream"
+    }
+}
+
+public enum ItemFilter: String, Codable, CaseIterable {
+    case isFolder = "IsFolder"
+    case isNotFolder = "IsNotFolder"
+    case isUnplayed = "IsUnplayed"
+    case isPlayed = "IsPlayed"
+    case isFavorite = "IsFavorite"
+    case isResumable = "IsResumable"
+    case likes = "Likes"
+    case dislikes = "Dislikes"
+    case isFavoriteOrLikes = "IsFavoriteOrLikes"
+}
+
+public struct DeviceProfileInfo: Codable {
+    public var name: String?
+    public var type: DeviceProfileType?
+    public var id: String?
+
+    public init(name: String? = nil, type: DeviceProfileType? = nil, id: String? = nil) {
+        self.name = name
+        self.type = type
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case type = "Type"
+        case id = "Id"
+    }
+}
+
+public struct DisplayPreferencesDto: Codable {
+    public var client: String?
+    public var primaryImageHeight: Int?
+    public var sortOrder: SortOrder?
+    public var viewType: String?
+    public var primaryImageWidth: Int?
+    public var indexBy: String?
+    public var isRememberSorting: Bool?
+    public var scrollDirection: ScrollDirection?
+    public var isShowBackdrop: Bool?
+    public var sortBy: String?
+    public var customPrefs: [String: String]?
+    public var id: String?
+    public var isShowSidebar: Bool?
+    public var isRememberIndexing: Bool?
+
+    public init(client: String? = nil, primaryImageHeight: Int? = nil, sortOrder: SortOrder? = nil, viewType: String? = nil, primaryImageWidth: Int? = nil, indexBy: String? = nil, isRememberSorting: Bool? = nil, scrollDirection: ScrollDirection? = nil, isShowBackdrop: Bool? = nil, sortBy: String? = nil, customPrefs: [String: String]? = nil, id: String? = nil, isShowSidebar: Bool? = nil, isRememberIndexing: Bool? = nil) {
+        self.client = client
+        self.primaryImageHeight = primaryImageHeight
+        self.sortOrder = sortOrder
+        self.viewType = viewType
+        self.primaryImageWidth = primaryImageWidth
+        self.indexBy = indexBy
+        self.isRememberSorting = isRememberSorting
+        self.scrollDirection = scrollDirection
+        self.isShowBackdrop = isShowBackdrop
+        self.sortBy = sortBy
+        self.customPrefs = customPrefs
+        self.id = id
+        self.isShowSidebar = isShowSidebar
+        self.isRememberIndexing = isRememberIndexing
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case client = "Client"
+        case primaryImageHeight = "PrimaryImageHeight"
+        case sortOrder = "SortOrder"
+        case viewType = "ViewType"
+        case primaryImageWidth = "PrimaryImageWidth"
+        case indexBy = "IndexBy"
+        case isRememberSorting = "RememberSorting"
+        case scrollDirection = "ScrollDirection"
+        case isShowBackdrop = "ShowBackdrop"
+        case sortBy = "SortBy"
+        case customPrefs = "CustomPrefs"
+        case id = "Id"
+        case isShowSidebar = "ShowSidebar"
+        case isRememberIndexing = "RememberIndexing"
+    }
+}
+
+public struct UploadSubtitleDto: Codable {
+    public var isForced: Bool
+    public var language: String
+    public var format: String
+    public var data: String
+
+    public init(isForced: Bool, language: String, format: String, data: String) {
+        self.isForced = isForced
+        self.language = language
+        self.format = format
+        self.data = data
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isForced = "IsForced"
+        case language = "Language"
+        case format = "Format"
+        case data = "Data"
+    }
+}
+
+public struct PlaybackStopInfo: Codable {
+    public var itemID: UUID?
+    public var mediaSourceID: String?
+    public var nowPlayingQueue: [QueueItem]?
+    public var playSessionID: String?
+    public var sessionID: String?
+    public var positionTicks: Int?
+    public var isFailed: Bool?
+    public var playlistItemID: String?
+    public var nextMediaType: String?
+    public var item: BaseItemDto?
+    public var liveStreamID: String?
+
+    public init(itemID: UUID? = nil, mediaSourceID: String? = nil, nowPlayingQueue: [QueueItem]? = nil, playSessionID: String? = nil, sessionID: String? = nil, positionTicks: Int? = nil, isFailed: Bool? = nil, playlistItemID: String? = nil, nextMediaType: String? = nil, item: BaseItemDto? = nil, liveStreamID: String? = nil) {
+        self.itemID = itemID
+        self.mediaSourceID = mediaSourceID
+        self.nowPlayingQueue = nowPlayingQueue
+        self.playSessionID = playSessionID
+        self.sessionID = sessionID
+        self.positionTicks = positionTicks
+        self.isFailed = isFailed
+        self.playlistItemID = playlistItemID
+        self.nextMediaType = nextMediaType
+        self.item = item
+        self.liveStreamID = liveStreamID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case itemID = "ItemId"
+        case mediaSourceID = "MediaSourceId"
+        case nowPlayingQueue = "NowPlayingQueue"
+        case playSessionID = "PlaySessionId"
+        case sessionID = "SessionId"
+        case positionTicks = "PositionTicks"
+        case isFailed = "Failed"
+        case playlistItemID = "PlaylistItemId"
+        case nextMediaType = "NextMediaType"
+        case item = "Item"
+        case liveStreamID = "LiveStreamId"
+    }
+}
+
+public struct LiveTvInfo: Codable {
+    public var enabledUsers: [String]?
+    public var services: [LiveTvServiceInfo]?
+    public var isEnabled: Bool?
+
+    public init(enabledUsers: [String]? = nil, services: [LiveTvServiceInfo]? = nil, isEnabled: Bool? = nil) {
+        self.enabledUsers = enabledUsers
+        self.services = services
+        self.isEnabled = isEnabled
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case enabledUsers = "EnabledUsers"
+        case services = "Services"
+        case isEnabled = "IsEnabled"
+    }
+}
+
+public struct AlbumInfo: Codable {
+    public var metadataCountryCode: String?
+    public var path: String?
+    public var providerIDs: [String: String]?
+    public var parentIndexNumber: Int?
+    public var songInfos: [SongInfo]?
+    public var artistProviderIDs: [String: String]?
+    public var albumArtists: [String]?
+    public var isAutomated: Bool?
+    public var premiereDate: Date?
+    public var indexNumber: Int?
+    public var metadataLanguage: String?
+    public var name: String?
+    public var year: Int?
+
+    public init(metadataCountryCode: String? = nil, path: String? = nil, providerIDs: [String: String]? = nil, parentIndexNumber: Int? = nil, songInfos: [SongInfo]? = nil, artistProviderIDs: [String: String]? = nil, albumArtists: [String]? = nil, isAutomated: Bool? = nil, premiereDate: Date? = nil, indexNumber: Int? = nil, metadataLanguage: String? = nil, name: String? = nil, year: Int? = nil) {
+        self.metadataCountryCode = metadataCountryCode
+        self.path = path
+        self.providerIDs = providerIDs
+        self.parentIndexNumber = parentIndexNumber
+        self.songInfos = songInfos
+        self.artistProviderIDs = artistProviderIDs
+        self.albumArtists = albumArtists
+        self.isAutomated = isAutomated
+        self.premiereDate = premiereDate
+        self.indexNumber = indexNumber
+        self.metadataLanguage = metadataLanguage
+        self.name = name
+        self.year = year
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case metadataCountryCode = "MetadataCountryCode"
+        case path = "Path"
+        case providerIDs = "ProviderIds"
+        case parentIndexNumber = "ParentIndexNumber"
+        case songInfos = "SongInfos"
+        case artistProviderIDs = "ArtistProviderIds"
+        case albumArtists = "AlbumArtists"
+        case isAutomated = "IsAutomated"
+        case premiereDate = "PremiereDate"
+        case indexNumber = "IndexNumber"
+        case metadataLanguage = "MetadataLanguage"
+        case name = "Name"
+        case year = "Year"
+    }
+}
+
+public struct JoinGroupRequestDto: Codable {
+    public var groupID: UUID?
+
+    public init(groupID: UUID? = nil) {
+        self.groupID = groupID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case groupID = "GroupId"
+    }
+}
+
+public struct AdminNotificationDto: Codable {
+    public var description: String?
+    public var url: String?
+    public var notificationLevel: NotificationLevel?
+    public var name: String?
+
+    public init(description: String? = nil, url: String? = nil, notificationLevel: NotificationLevel? = nil, name: String? = nil) {
+        self.description = description
+        self.url = url
+        self.notificationLevel = notificationLevel
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case description = "Description"
+        case url = "Url"
+        case notificationLevel = "NotificationLevel"
+        case name = "Name"
+    }
+}
+
+public enum VideoType: String, Codable, CaseIterable {
+    case videoFile = "VideoFile"
+    case iso = "Iso"
+    case dvd = "Dvd"
+    case bluRay = "BluRay"
+}
+
+public struct MetadataEditorInfo: Codable {
+    public var cultures: [CultureDto]?
+    public var countries: [CountryInfo]?
+    public var contentType: String?
+    public var parentalRatingOptions: [ParentalRating]?
+    public var externalIDInfos: [ExternalIDInfo]?
+    public var contentTypeOptions: [NameValuePair]?
+
+    public init(cultures: [CultureDto]? = nil, countries: [CountryInfo]? = nil, contentType: String? = nil, parentalRatingOptions: [ParentalRating]? = nil, externalIDInfos: [ExternalIDInfo]? = nil, contentTypeOptions: [NameValuePair]? = nil) {
+        self.cultures = cultures
+        self.countries = countries
+        self.contentType = contentType
+        self.parentalRatingOptions = parentalRatingOptions
+        self.externalIDInfos = externalIDInfos
+        self.contentTypeOptions = contentTypeOptions
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case cultures = "Cultures"
+        case countries = "Countries"
+        case contentType = "ContentType"
+        case parentalRatingOptions = "ParentalRatingOptions"
+        case externalIDInfos = "ExternalIdInfos"
+        case contentTypeOptions = "ContentTypeOptions"
+    }
+}
+
+public struct PlaybackProgressInfo: Codable {
+    public var audioStreamIndex: Int?
+    public var repeatMode: RepeatMode?
+    public var playlistItemID: String?
+    public var nowPlayingQueue: [QueueItem]?
+    public var playbackStartTimeTicks: Int?
+    public var playSessionID: String?
+    public var subtitleStreamIndex: Int?
+    public var isPaused: Bool?
+    public var itemID: UUID?
+    public var volumeLevel: Int?
+    public var canSeek: Bool?
+    public var liveStreamID: String?
+    public var isMuted: Bool?
+    public var playMethod: PlayMethod?
+    public var brightness: Int?
+    public var mediaSourceID: String?
+    public var item: BaseItemDto?
+    public var sessionID: String?
+    public var positionTicks: Int?
+    public var aspectRatio: String?
+
+    public init(audioStreamIndex: Int? = nil, repeatMode: RepeatMode? = nil, playlistItemID: String? = nil, nowPlayingQueue: [QueueItem]? = nil, playbackStartTimeTicks: Int? = nil, playSessionID: String? = nil, subtitleStreamIndex: Int? = nil, isPaused: Bool? = nil, itemID: UUID? = nil, volumeLevel: Int? = nil, canSeek: Bool? = nil, liveStreamID: String? = nil, isMuted: Bool? = nil, playMethod: PlayMethod? = nil, brightness: Int? = nil, mediaSourceID: String? = nil, item: BaseItemDto? = nil, sessionID: String? = nil, positionTicks: Int? = nil, aspectRatio: String? = nil) {
+        self.audioStreamIndex = audioStreamIndex
+        self.repeatMode = repeatMode
+        self.playlistItemID = playlistItemID
+        self.nowPlayingQueue = nowPlayingQueue
+        self.playbackStartTimeTicks = playbackStartTimeTicks
+        self.playSessionID = playSessionID
+        self.subtitleStreamIndex = subtitleStreamIndex
+        self.isPaused = isPaused
+        self.itemID = itemID
+        self.volumeLevel = volumeLevel
+        self.canSeek = canSeek
+        self.liveStreamID = liveStreamID
+        self.isMuted = isMuted
+        self.playMethod = playMethod
+        self.brightness = brightness
+        self.mediaSourceID = mediaSourceID
+        self.item = item
+        self.sessionID = sessionID
+        self.positionTicks = positionTicks
+        self.aspectRatio = aspectRatio
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case audioStreamIndex = "AudioStreamIndex"
+        case repeatMode = "RepeatMode"
+        case playlistItemID = "PlaylistItemId"
+        case nowPlayingQueue = "NowPlayingQueue"
+        case playbackStartTimeTicks = "PlaybackStartTimeTicks"
+        case playSessionID = "PlaySessionId"
+        case subtitleStreamIndex = "SubtitleStreamIndex"
+        case isPaused = "IsPaused"
+        case itemID = "ItemId"
+        case volumeLevel = "VolumeLevel"
+        case canSeek = "CanSeek"
+        case liveStreamID = "LiveStreamId"
+        case isMuted = "IsMuted"
+        case playMethod = "PlayMethod"
+        case brightness = "Brightness"
+        case mediaSourceID = "MediaSourceId"
+        case item = "Item"
+        case sessionID = "SessionId"
+        case positionTicks = "PositionTicks"
+        case aspectRatio = "AspectRatio"
+    }
+}
+
+public struct CodecProfile: Codable {
+    public var applyConditions: [ProfileCondition]?
+    public var container: String?
+    public var type: CodecType?
+    public var codec: String?
+    public var conditions: [ProfileCondition]?
+
+    public init(applyConditions: [ProfileCondition]? = nil, container: String? = nil, type: CodecType? = nil, codec: String? = nil, conditions: [ProfileCondition]? = nil) {
+        self.applyConditions = applyConditions
+        self.container = container
+        self.type = type
+        self.codec = codec
+        self.conditions = conditions
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case applyConditions = "ApplyConditions"
+        case container = "Container"
+        case type = "Type"
+        case codec = "Codec"
+        case conditions = "Conditions"
+    }
+}
+
+public struct ExternalURL: Codable {
+    public var url: String?
+    public var name: String?
+
+    public init(url: String? = nil, name: String? = nil) {
         self.url = url
         self.name = name
     }
 
     private enum CodingKeys: String, CodingKey {
-        case notificationLevel = "NotificationLevel"
-        case description = "Description"
         case url = "Url"
         case name = "Name"
     }
 }
 
-public struct BoxSetInfoRemoteSearchQuery: Codable {
-    public var searchInfo: BoxSetInfo?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var itemID: UUID?
+public struct LiveTvServiceInfo: Codable {
+    public var status: LiveTvServiceStatus?
+    public var tuners: [String]?
+    public var isVisible: Bool?
+    public var homePageURL: String?
+    public var version: String?
+    public var name: String?
+    public var statusMessage: String?
+    public var hasUpdateAvailable: Bool?
 
-    public init(searchInfo: BoxSetInfo? = nil, searchProviderName: String? = nil, isIncludeDisabledProviders: Bool? = nil, itemID: UUID? = nil) {
-        self.searchInfo = searchInfo
+    public init(status: LiveTvServiceStatus? = nil, tuners: [String]? = nil, isVisible: Bool? = nil, homePageURL: String? = nil, version: String? = nil, name: String? = nil, statusMessage: String? = nil, hasUpdateAvailable: Bool? = nil) {
+        self.status = status
+        self.tuners = tuners
+        self.isVisible = isVisible
+        self.homePageURL = homePageURL
+        self.version = version
+        self.name = name
+        self.statusMessage = statusMessage
+        self.hasUpdateAvailable = hasUpdateAvailable
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case status = "Status"
+        case tuners = "Tuners"
+        case isVisible = "IsVisible"
+        case homePageURL = "HomePageUrl"
+        case version = "Version"
+        case name = "Name"
+        case statusMessage = "StatusMessage"
+        case hasUpdateAvailable = "HasUpdateAvailable"
+    }
+}
+
+public enum LogLevel: String, Codable, CaseIterable {
+    case trace = "Trace"
+    case debug = "Debug"
+    case information = "Information"
+    case warning = "Warning"
+    case error = "Error"
+    case critical = "Critical"
+    case `none` = "None"
+}
+
+public enum ConfigurationPageType: String, Codable, CaseIterable {
+    case pluginConfiguration = "PluginConfiguration"
+    case `none` = "None"
+}
+
+public enum RecordingStatus: String, Codable, CaseIterable {
+    case new = "New"
+    case inProgress = "InProgress"
+    case completed = "Completed"
+    case cancelled = "Cancelled"
+    case conflictedOk = "ConflictedOk"
+    case conflictedNotOk = "ConflictedNotOk"
+    case error = "Error"
+}
+
+public struct TypeOptions: Codable {
+    public var imageFetchers: [String]?
+    public var imageOptions: [ImageOption]?
+    public var metadataFetchers: [String]?
+    public var metadataFetcherOrder: [String]?
+    public var imageFetcherOrder: [String]?
+    public var type: String?
+
+    public init(imageFetchers: [String]? = nil, imageOptions: [ImageOption]? = nil, metadataFetchers: [String]? = nil, metadataFetcherOrder: [String]? = nil, imageFetcherOrder: [String]? = nil, type: String? = nil) {
+        self.imageFetchers = imageFetchers
+        self.imageOptions = imageOptions
+        self.metadataFetchers = metadataFetchers
+        self.metadataFetcherOrder = metadataFetcherOrder
+        self.imageFetcherOrder = imageFetcherOrder
+        self.type = type
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case imageFetchers = "ImageFetchers"
+        case imageOptions = "ImageOptions"
+        case metadataFetchers = "MetadataFetchers"
+        case metadataFetcherOrder = "MetadataFetcherOrder"
+        case imageFetcherOrder = "ImageFetcherOrder"
+        case type = "Type"
+    }
+}
+
+public struct ItemCounts: Codable {
+    public var albumCount: Int?
+    public var musicVideoCount: Int?
+    public var programCount: Int?
+    public var boxSetCount: Int?
+    public var seriesCount: Int?
+    public var artistCount: Int?
+    public var bookCount: Int?
+    public var itemCount: Int?
+    public var songCount: Int?
+    public var movieCount: Int?
+    public var episodeCount: Int?
+    public var trailerCount: Int?
+
+    public init(albumCount: Int? = nil, musicVideoCount: Int? = nil, programCount: Int? = nil, boxSetCount: Int? = nil, seriesCount: Int? = nil, artistCount: Int? = nil, bookCount: Int? = nil, itemCount: Int? = nil, songCount: Int? = nil, movieCount: Int? = nil, episodeCount: Int? = nil, trailerCount: Int? = nil) {
+        self.albumCount = albumCount
+        self.musicVideoCount = musicVideoCount
+        self.programCount = programCount
+        self.boxSetCount = boxSetCount
+        self.seriesCount = seriesCount
+        self.artistCount = artistCount
+        self.bookCount = bookCount
+        self.itemCount = itemCount
+        self.songCount = songCount
+        self.movieCount = movieCount
+        self.episodeCount = episodeCount
+        self.trailerCount = trailerCount
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case albumCount = "AlbumCount"
+        case musicVideoCount = "MusicVideoCount"
+        case programCount = "ProgramCount"
+        case boxSetCount = "BoxSetCount"
+        case seriesCount = "SeriesCount"
+        case artistCount = "ArtistCount"
+        case bookCount = "BookCount"
+        case itemCount = "ItemCount"
+        case songCount = "SongCount"
+        case movieCount = "MovieCount"
+        case episodeCount = "EpisodeCount"
+        case trailerCount = "TrailerCount"
+    }
+}
+
+public struct BaseItemPerson: Codable {
+    public var role: String?
+    public var imageBlurHashes: ImageBlurHashes?
+    public var name: String?
+    public var type: String?
+    public var primaryImageTag: String?
+    public var id: String?
+
+    public struct ImageBlurHashes: Codable {
+        public var profile: [String: String]?
+        public var art: [String: String]?
+        public var backdrop: [String: String]?
+        public var banner: [String: String]?
+        public var logo: [String: String]?
+        public var menu: [String: String]?
+        public var screenshot: [String: String]?
+        public var box: [String: String]?
+        public var thumb: [String: String]?
+        public var primary: [String: String]?
+        public var chapter: [String: String]?
+        public var disc: [String: String]?
+        public var boxRear: [String: String]?
+
+        public init(profile: [String: String]? = nil, art: [String: String]? = nil, backdrop: [String: String]? = nil, banner: [String: String]? = nil, logo: [String: String]? = nil, menu: [String: String]? = nil, screenshot: [String: String]? = nil, box: [String: String]? = nil, thumb: [String: String]? = nil, primary: [String: String]? = nil, chapter: [String: String]? = nil, disc: [String: String]? = nil, boxRear: [String: String]? = nil) {
+            self.profile = profile
+            self.art = art
+            self.backdrop = backdrop
+            self.banner = banner
+            self.logo = logo
+            self.menu = menu
+            self.screenshot = screenshot
+            self.box = box
+            self.thumb = thumb
+            self.primary = primary
+            self.chapter = chapter
+            self.disc = disc
+            self.boxRear = boxRear
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
+            case art = "Art"
+            case backdrop = "Backdrop"
+            case banner = "Banner"
+            case logo = "Logo"
+            case menu = "Menu"
+            case screenshot = "Screenshot"
+            case box = "Box"
+            case thumb = "Thumb"
+            case primary = "Primary"
+            case chapter = "Chapter"
+            case disc = "Disc"
+            case boxRear = "BoxRear"
+        }
+    }
+
+    public init(role: String? = nil, imageBlurHashes: ImageBlurHashes? = nil, name: String? = nil, type: String? = nil, primaryImageTag: String? = nil, id: String? = nil) {
+        self.role = role
+        self.imageBlurHashes = imageBlurHashes
+        self.name = name
+        self.type = type
+        self.primaryImageTag = primaryImageTag
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case role = "Role"
+        case imageBlurHashes = "ImageBlurHashes"
+        case name = "Name"
+        case type = "Type"
+        case primaryImageTag = "PrimaryImageTag"
+        case id = "Id"
+    }
+}
+
+public struct PluginInfo: Codable {
+    public var status: PluginStatus?
+    public var description: String?
+    public var name: String?
+    public var canUninstall: Bool?
+    public var hasImage: Bool?
+    public var configurationFileName: String?
+    public var version: Version?
+    public var id: UUID?
+
+    public init(status: PluginStatus? = nil, description: String? = nil, name: String? = nil, canUninstall: Bool? = nil, hasImage: Bool? = nil, configurationFileName: String? = nil, version: Version? = nil, id: UUID? = nil) {
+        self.status = status
+        self.description = description
+        self.name = name
+        self.canUninstall = canUninstall
+        self.hasImage = hasImage
+        self.configurationFileName = configurationFileName
+        self.version = version
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case status = "Status"
+        case description = "Description"
+        case name = "Name"
+        case canUninstall = "CanUninstall"
+        case hasImage = "HasImage"
+        case configurationFileName = "ConfigurationFileName"
+        case version = "Version"
+        case id = "Id"
+    }
+}
+
+public struct SystemInfo: Codable {
+    public var webSocketPortNumber: Int?
+    public var cachePath: String?
+    public var internalMetadataPath: String?
+    public var operatingSystemDisplayName: String?
+    public var operatingSystem: String?
+    public var encoderLocation: FFmpegLocation?
+    public var systemArchitecture: Architecture?
+    public var isStartupWizardCompleted: Bool?
+    public var isShuttingDown: Bool?
+    public var id: String?
+    public var transcodingTempPath: String?
+    public var hasUpdateAvailable: Bool?
+    public var itemsByNamePath: String?
+    public var logPath: String?
+    public var isSupportsLibraryMonitor: Bool?
+    public var hasPendingRestart: Bool?
+    public var canSelfRestart: Bool?
+    public var completedInstallations: [InstallationInfo]?
+    public var packageName: String?
+    public var localAddress: String?
+    public var serverName: String?
+    public var webPath: String?
+    public var programDataPath: String?
+    public var productName: String?
+    public var version: String?
+    public var canLaunchWebBrowser: Bool?
+
+    public init(webSocketPortNumber: Int? = nil, cachePath: String? = nil, internalMetadataPath: String? = nil, operatingSystemDisplayName: String? = nil, operatingSystem: String? = nil, encoderLocation: FFmpegLocation? = nil, systemArchitecture: Architecture? = nil, isStartupWizardCompleted: Bool? = nil, isShuttingDown: Bool? = nil, id: String? = nil, transcodingTempPath: String? = nil, hasUpdateAvailable: Bool? = nil, itemsByNamePath: String? = nil, logPath: String? = nil, isSupportsLibraryMonitor: Bool? = nil, hasPendingRestart: Bool? = nil, canSelfRestart: Bool? = nil, completedInstallations: [InstallationInfo]? = nil, packageName: String? = nil, localAddress: String? = nil, serverName: String? = nil, webPath: String? = nil, programDataPath: String? = nil, productName: String? = nil, version: String? = nil, canLaunchWebBrowser: Bool? = nil) {
+        self.webSocketPortNumber = webSocketPortNumber
+        self.cachePath = cachePath
+        self.internalMetadataPath = internalMetadataPath
+        self.operatingSystemDisplayName = operatingSystemDisplayName
+        self.operatingSystem = operatingSystem
+        self.encoderLocation = encoderLocation
+        self.systemArchitecture = systemArchitecture
+        self.isStartupWizardCompleted = isStartupWizardCompleted
+        self.isShuttingDown = isShuttingDown
+        self.id = id
+        self.transcodingTempPath = transcodingTempPath
+        self.hasUpdateAvailable = hasUpdateAvailable
+        self.itemsByNamePath = itemsByNamePath
+        self.logPath = logPath
+        self.isSupportsLibraryMonitor = isSupportsLibraryMonitor
+        self.hasPendingRestart = hasPendingRestart
+        self.canSelfRestart = canSelfRestart
+        self.completedInstallations = completedInstallations
+        self.packageName = packageName
+        self.localAddress = localAddress
+        self.serverName = serverName
+        self.webPath = webPath
+        self.programDataPath = programDataPath
+        self.productName = productName
+        self.version = version
+        self.canLaunchWebBrowser = canLaunchWebBrowser
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case webSocketPortNumber = "WebSocketPortNumber"
+        case cachePath = "CachePath"
+        case internalMetadataPath = "InternalMetadataPath"
+        case operatingSystemDisplayName = "OperatingSystemDisplayName"
+        case operatingSystem = "OperatingSystem"
+        case encoderLocation = "EncoderLocation"
+        case systemArchitecture = "SystemArchitecture"
+        case isStartupWizardCompleted = "StartupWizardCompleted"
+        case isShuttingDown = "IsShuttingDown"
+        case id = "Id"
+        case transcodingTempPath = "TranscodingTempPath"
+        case hasUpdateAvailable = "HasUpdateAvailable"
+        case itemsByNamePath = "ItemsByNamePath"
+        case logPath = "LogPath"
+        case isSupportsLibraryMonitor = "SupportsLibraryMonitor"
+        case hasPendingRestart = "HasPendingRestart"
+        case canSelfRestart = "CanSelfRestart"
+        case completedInstallations = "CompletedInstallations"
+        case packageName = "PackageName"
+        case localAddress = "LocalAddress"
+        case serverName = "ServerName"
+        case webPath = "WebPath"
+        case programDataPath = "ProgramDataPath"
+        case productName = "ProductName"
+        case version = "Version"
+        case canLaunchWebBrowser = "CanLaunchWebBrowser"
+    }
+}
+
+public struct PlaybackInfoResponse: Codable {
+    public var playSessionID: String?
+    public var errorCode: PlaybackErrorCode?
+    public var mediaSources: [MediaSourceInfo]?
+
+    public init(playSessionID: String? = nil, errorCode: PlaybackErrorCode? = nil, mediaSources: [MediaSourceInfo]? = nil) {
+        self.playSessionID = playSessionID
+        self.errorCode = errorCode
+        self.mediaSources = mediaSources
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playSessionID = "PlaySessionId"
+        case errorCode = "ErrorCode"
+        case mediaSources = "MediaSources"
+    }
+}
+
+public struct StartupConfigurationDto: Codable {
+    public var metadataCountryCode: String?
+    public var uICulture: String?
+    public var preferredMetadataLanguage: String?
+
+    public init(metadataCountryCode: String? = nil, uICulture: String? = nil, preferredMetadataLanguage: String? = nil) {
+        self.metadataCountryCode = metadataCountryCode
+        self.uICulture = uICulture
+        self.preferredMetadataLanguage = preferredMetadataLanguage
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case metadataCountryCode = "MetadataCountryCode"
+        case uICulture = "UICulture"
+        case preferredMetadataLanguage = "PreferredMetadataLanguage"
+    }
+}
+
+public struct BrandingOptions: Codable {
+    public var loginDisclaimer: String?
+    public var customCss: String?
+
+    public init(loginDisclaimer: String? = nil, customCss: String? = nil) {
+        self.loginDisclaimer = loginDisclaimer
+        self.customCss = customCss
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case loginDisclaimer = "LoginDisclaimer"
+        case customCss = "CustomCss"
+    }
+}
+
+public enum PlayCommand: String, Codable, CaseIterable {
+    case playNow = "PlayNow"
+    case playNext = "PlayNext"
+    case playLast = "PlayLast"
+    case playInstantMix = "PlayInstantMix"
+    case playShuffle = "PlayShuffle"
+}
+
+public enum ChannelItemSortField: String, Codable, CaseIterable {
+    case name = "Name"
+    case communityRating = "CommunityRating"
+    case premiereDate = "PremiereDate"
+    case dateCreated = "DateCreated"
+    case runtime = "Runtime"
+    case playCount = "PlayCount"
+    case communityPlayCount = "CommunityPlayCount"
+}
+
+public struct RemoteImageInfo: Codable {
+    public var thumbnailURL: String?
+    public var voteCount: Int?
+    public var language: String?
+    public var communityRating: Double?
+    public var height: Int?
+    public var type: ImageType?
+    public var width: Int?
+    public var providerName: String?
+    public var url: String?
+    public var ratingType: RatingType?
+
+    public init(thumbnailURL: String? = nil, voteCount: Int? = nil, language: String? = nil, communityRating: Double? = nil, height: Int? = nil, type: ImageType? = nil, width: Int? = nil, providerName: String? = nil, url: String? = nil, ratingType: RatingType? = nil) {
+        self.thumbnailURL = thumbnailURL
+        self.voteCount = voteCount
+        self.language = language
+        self.communityRating = communityRating
+        self.height = height
+        self.type = type
+        self.width = width
+        self.providerName = providerName
+        self.url = url
+        self.ratingType = ratingType
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case thumbnailURL = "ThumbnailUrl"
+        case voteCount = "VoteCount"
+        case language = "Language"
+        case communityRating = "CommunityRating"
+        case height = "Height"
+        case type = "Type"
+        case width = "Width"
+        case providerName = "ProviderName"
+        case url = "Url"
+        case ratingType = "RatingType"
+    }
+}
+
+public final class RemoteSearchResult: Codable {
+    public let albumArtist: RemoteSearchResult?
+    public let artists: [RemoteSearchResult]?
+    public let overview: String?
+    public let searchProviderName: String?
+    public let parentIndexNumber: Int?
+    public let name: String?
+    public let indexNumber: Int?
+    public let providerIDs: [String: String]?
+    public let premiereDate: Date?
+    public let productionYear: Int?
+    public let indexNumberEnd: Int?
+    public let imageURL: String?
+
+    public init(albumArtist: RemoteSearchResult? = nil, artists: [RemoteSearchResult]? = nil, overview: String? = nil, searchProviderName: String? = nil, parentIndexNumber: Int? = nil, name: String? = nil, indexNumber: Int? = nil, providerIDs: [String: String]? = nil, premiereDate: Date? = nil, productionYear: Int? = nil, indexNumberEnd: Int? = nil, imageURL: String? = nil) {
+        self.albumArtist = albumArtist
+        self.artists = artists
+        self.overview = overview
+        self.searchProviderName = searchProviderName
+        self.parentIndexNumber = parentIndexNumber
+        self.name = name
+        self.indexNumber = indexNumber
+        self.providerIDs = providerIDs
+        self.premiereDate = premiereDate
+        self.productionYear = productionYear
+        self.indexNumberEnd = indexNumberEnd
+        self.imageURL = imageURL
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case albumArtist = "AlbumArtist"
+        case artists = "Artists"
+        case overview = "Overview"
+        case searchProviderName = "SearchProviderName"
+        case parentIndexNumber = "ParentIndexNumber"
+        case name = "Name"
+        case indexNumber = "IndexNumber"
+        case providerIDs = "ProviderIds"
+        case premiereDate = "PremiereDate"
+        case productionYear = "ProductionYear"
+        case indexNumberEnd = "IndexNumberEnd"
+        case imageURL = "ImageUrl"
+    }
+}
+
+public struct TrailerInfo: Codable {
+    public var parentIndexNumber: Int?
+    public var indexNumber: Int?
+    public var path: String?
+    public var year: Int?
+    public var providerIDs: [String: String]?
+    public var premiereDate: Date?
+    public var isAutomated: Bool?
+    public var metadataCountryCode: String?
+    public var metadataLanguage: String?
+    public var name: String?
+
+    public init(parentIndexNumber: Int? = nil, indexNumber: Int? = nil, path: String? = nil, year: Int? = nil, providerIDs: [String: String]? = nil, premiereDate: Date? = nil, isAutomated: Bool? = nil, metadataCountryCode: String? = nil, metadataLanguage: String? = nil, name: String? = nil) {
+        self.parentIndexNumber = parentIndexNumber
+        self.indexNumber = indexNumber
+        self.path = path
+        self.year = year
+        self.providerIDs = providerIDs
+        self.premiereDate = premiereDate
+        self.isAutomated = isAutomated
+        self.metadataCountryCode = metadataCountryCode
+        self.metadataLanguage = metadataLanguage
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case parentIndexNumber = "ParentIndexNumber"
+        case indexNumber = "IndexNumber"
+        case path = "Path"
+        case year = "Year"
+        case providerIDs = "ProviderIds"
+        case premiereDate = "PremiereDate"
+        case isAutomated = "IsAutomated"
+        case metadataCountryCode = "MetadataCountryCode"
+        case metadataLanguage = "MetadataLanguage"
+        case name = "Name"
+    }
+}
+
+public struct PlayRequestDto: Codable {
+    public var playingQueue: [UUID]?
+    public var startPositionTicks: Int?
+    public var playingItemPosition: Int?
+
+    public init(playingQueue: [UUID]? = nil, startPositionTicks: Int? = nil, playingItemPosition: Int? = nil) {
+        self.playingQueue = playingQueue
+        self.startPositionTicks = startPositionTicks
+        self.playingItemPosition = playingItemPosition
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playingQueue = "PlayingQueue"
+        case startPositionTicks = "StartPositionTicks"
+        case playingItemPosition = "PlayingItemPosition"
+    }
+}
+
+public struct CultureDto: Codable {
+    public var threeLetterISOLanguageNames: [String]?
+    public var name: String?
+    public var threeLetterISOLanguageName: String?
+    public var displayName: String?
+    public var twoLetterISOLanguageName: String?
+
+    public init(threeLetterISOLanguageNames: [String]? = nil, name: String? = nil, threeLetterISOLanguageName: String? = nil, displayName: String? = nil, twoLetterISOLanguageName: String? = nil) {
+        self.threeLetterISOLanguageNames = threeLetterISOLanguageNames
+        self.name = name
+        self.threeLetterISOLanguageName = threeLetterISOLanguageName
+        self.displayName = displayName
+        self.twoLetterISOLanguageName = twoLetterISOLanguageName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case threeLetterISOLanguageNames = "ThreeLetterISOLanguageNames"
+        case name = "Name"
+        case threeLetterISOLanguageName = "ThreeLetterISOLanguageName"
+        case displayName = "DisplayName"
+        case twoLetterISOLanguageName = "TwoLetterISOLanguageName"
+    }
+}
+
+public struct TaskInfo: Codable {
+    public var triggers: [TaskTriggerInfo]?
+    public var state: TaskState?
+    public var currentProgressPercentage: Double?
+    public var key: String?
+    public var id: String?
+    public var isHidden: Bool?
+    public var description: String?
+    public var name: String?
+    public var category: String?
+    public var lastExecutionResult: TaskResult?
+
+    public init(triggers: [TaskTriggerInfo]? = nil, state: TaskState? = nil, currentProgressPercentage: Double? = nil, key: String? = nil, id: String? = nil, isHidden: Bool? = nil, description: String? = nil, name: String? = nil, category: String? = nil, lastExecutionResult: TaskResult? = nil) {
+        self.triggers = triggers
+        self.state = state
+        self.currentProgressPercentage = currentProgressPercentage
+        self.key = key
+        self.id = id
+        self.isHidden = isHidden
+        self.description = description
+        self.name = name
+        self.category = category
+        self.lastExecutionResult = lastExecutionResult
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case triggers = "Triggers"
+        case state = "State"
+        case currentProgressPercentage = "CurrentProgressPercentage"
+        case key = "Key"
+        case id = "Id"
+        case isHidden = "IsHidden"
+        case description = "Description"
+        case name = "Name"
+        case category = "Category"
+        case lastExecutionResult = "LastExecutionResult"
+    }
+}
+
+public struct TaskResult: Codable {
+    public var longErrorMessage: String?
+    public var startTimeUtc: Date?
+    public var errorMessage: String?
+    public var id: String?
+    public var key: String?
+    public var endTimeUtc: Date?
+    public var name: String?
+    public var status: TaskCompletionStatus?
+
+    public init(longErrorMessage: String? = nil, startTimeUtc: Date? = nil, errorMessage: String? = nil, id: String? = nil, key: String? = nil, endTimeUtc: Date? = nil, name: String? = nil, status: TaskCompletionStatus? = nil) {
+        self.longErrorMessage = longErrorMessage
+        self.startTimeUtc = startTimeUtc
+        self.errorMessage = errorMessage
+        self.id = id
+        self.key = key
+        self.endTimeUtc = endTimeUtc
+        self.name = name
+        self.status = status
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case longErrorMessage = "LongErrorMessage"
+        case startTimeUtc = "StartTimeUtc"
+        case errorMessage = "ErrorMessage"
+        case id = "Id"
+        case key = "Key"
+        case endTimeUtc = "EndTimeUtc"
+        case name = "Name"
+        case status = "Status"
+    }
+}
+
+public struct AlbumInfoRemoteSearchQuery: Codable {
+    public var itemID: UUID?
+    public var searchProviderName: String?
+    public var isIncludeDisabledProviders: Bool?
+    public var searchInfo: AlbumInfo?
+
+    public init(itemID: UUID? = nil, searchProviderName: String? = nil, isIncludeDisabledProviders: Bool? = nil, searchInfo: AlbumInfo? = nil) {
+        self.itemID = itemID
         self.searchProviderName = searchProviderName
         self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.itemID = itemID
+        self.searchInfo = searchInfo
     }
 
     private enum CodingKeys: String, CodingKey {
-        case searchInfo = "SearchInfo"
+        case itemID = "ItemId"
         case searchProviderName = "SearchProviderName"
         case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case itemID = "ItemId"
+        case searchInfo = "SearchInfo"
     }
 }
 
-/// Class NewGroupRequestDto.
-public struct NewGroupRequestDto: Codable {
-    /// Gets or sets the group name.
-    public var groupName: String?
+public struct ResponseProfile: Codable {
+    public var audioCodec: String?
+    public var container: String?
+    public var mimeType: String?
+    public var type: DlnaProfileType?
+    public var videoCodec: String?
+    public var orgPn: String?
+    public var conditions: [ProfileCondition]?
 
-    public init(groupName: String? = nil) {
-        self.groupName = groupName
+    public init(audioCodec: String? = nil, container: String? = nil, mimeType: String? = nil, type: DlnaProfileType? = nil, videoCodec: String? = nil, orgPn: String? = nil, conditions: [ProfileCondition]? = nil) {
+        self.audioCodec = audioCodec
+        self.container = container
+        self.mimeType = mimeType
+        self.type = type
+        self.videoCodec = videoCodec
+        self.orgPn = orgPn
+        self.conditions = conditions
     }
 
     private enum CodingKeys: String, CodingKey {
-        case groupName = "GroupName"
+        case audioCodec = "AudioCodec"
+        case container = "Container"
+        case mimeType = "MimeType"
+        case type = "Type"
+        case videoCodec = "VideoCodec"
+        case orgPn = "OrgPn"
+        case conditions = "Conditions"
     }
 }
 
-/// The different kinds of messages that are used in the WebSocket api.
-public enum SessionMessageType: String, Codable, CaseIterable {
-    case forceKeepAlive = "ForceKeepAlive"
-    case generalCommand = "GeneralCommand"
-    case userDataChanged = "UserDataChanged"
-    case sessions = "Sessions"
-    case play = "Play"
-    case syncPlayCommand = "SyncPlayCommand"
-    case syncPlayGroupUpdate = "SyncPlayGroupUpdate"
-    case playstate = "Playstate"
-    case restartRequired = "RestartRequired"
-    case serverShuttingDown = "ServerShuttingDown"
-    case serverRestarting = "ServerRestarting"
-    case libraryChanged = "LibraryChanged"
-    case userDeleted = "UserDeleted"
-    case userUpdated = "UserUpdated"
-    case seriesTimerCreated = "SeriesTimerCreated"
-    case timerCreated = "TimerCreated"
-    case seriesTimerCancelled = "SeriesTimerCancelled"
-    case timerCancelled = "TimerCancelled"
-    case refreshProgress = "RefreshProgress"
-    case scheduledTaskEnded = "ScheduledTaskEnded"
-    case packageInstallationCancelled = "PackageInstallationCancelled"
-    case packageInstallationFailed = "PackageInstallationFailed"
-    case packageInstallationCompleted = "PackageInstallationCompleted"
-    case packageInstalling = "PackageInstalling"
-    case packageUninstalled = "PackageUninstalled"
-    case activityLogEntry = "ActivityLogEntry"
-    case scheduledTasksInfo = "ScheduledTasksInfo"
-    case activityLogEntryStart = "ActivityLogEntryStart"
-    case activityLogEntryStop = "ActivityLogEntryStop"
-    case sessionsStart = "SessionsStart"
-    case sessionsStop = "SessionsStop"
-    case scheduledTasksInfoStart = "ScheduledTasksInfoStart"
-    case scheduledTasksInfoStop = "ScheduledTasksInfoStop"
-    case keepAlive = "KeepAlive"
+public struct TunerHostInfo: Codable {
+    public var userAgent: String?
+    public var isImportFavoritesOnly: Bool?
+    public var tunerCount: Int?
+    public var id: String?
+    public var enableStreamLooping: Bool?
+    public var allowHWTranscoding: Bool?
+    public var deviceID: String?
+    public var source: String?
+    public var type: String?
+    public var friendlyName: String?
+    public var url: String?
+
+    public init(userAgent: String? = nil, isImportFavoritesOnly: Bool? = nil, tunerCount: Int? = nil, id: String? = nil, enableStreamLooping: Bool? = nil, allowHWTranscoding: Bool? = nil, deviceID: String? = nil, source: String? = nil, type: String? = nil, friendlyName: String? = nil, url: String? = nil) {
+        self.userAgent = userAgent
+        self.isImportFavoritesOnly = isImportFavoritesOnly
+        self.tunerCount = tunerCount
+        self.id = id
+        self.enableStreamLooping = enableStreamLooping
+        self.allowHWTranscoding = allowHWTranscoding
+        self.deviceID = deviceID
+        self.source = source
+        self.type = type
+        self.friendlyName = friendlyName
+        self.url = url
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case userAgent = "UserAgent"
+        case isImportFavoritesOnly = "ImportFavoritesOnly"
+        case tunerCount = "TunerCount"
+        case id = "Id"
+        case enableStreamLooping = "EnableStreamLooping"
+        case allowHWTranscoding = "AllowHWTranscoding"
+        case deviceID = "DeviceId"
+        case source = "Source"
+        case type = "Type"
+        case friendlyName = "FriendlyName"
+        case url = "Url"
+    }
 }
 
-/// Default directory browser info.
-public struct DefaultDirectoryBrowserInfoDto: Codable {
-    /// Gets or sets the path.
+public struct QueryFilters: Codable {
+    public var tags: [String]?
+    public var genres: [NameGuidPair]?
+
+    public init(tags: [String]? = nil, genres: [NameGuidPair]? = nil) {
+        self.tags = tags
+        self.genres = genres
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case tags = "Tags"
+        case genres = "Genres"
+    }
+}
+
+public struct PersonLookupInfo: Codable {
+    public var metadataCountryCode: String?
+    public var premiereDate: Date?
+    public var isAutomated: Bool?
+    public var name: String?
+    public var year: Int?
+    public var providerIDs: [String: String]?
+    public var parentIndexNumber: Int?
+    public var indexNumber: Int?
     public var path: String?
+    public var metadataLanguage: String?
 
-    public init(path: String? = nil) {
+    public init(metadataCountryCode: String? = nil, premiereDate: Date? = nil, isAutomated: Bool? = nil, name: String? = nil, year: Int? = nil, providerIDs: [String: String]? = nil, parentIndexNumber: Int? = nil, indexNumber: Int? = nil, path: String? = nil, metadataLanguage: String? = nil) {
+        self.metadataCountryCode = metadataCountryCode
+        self.premiereDate = premiereDate
+        self.isAutomated = isAutomated
+        self.name = name
+        self.year = year
+        self.providerIDs = providerIDs
+        self.parentIndexNumber = parentIndexNumber
+        self.indexNumber = indexNumber
         self.path = path
+        self.metadataLanguage = metadataLanguage
     }
 
     private enum CodingKeys: String, CodingKey {
+        case metadataCountryCode = "MetadataCountryCode"
+        case premiereDate = "PremiereDate"
+        case isAutomated = "IsAutomated"
+        case name = "Name"
+        case year = "Year"
+        case providerIDs = "ProviderIds"
+        case parentIndexNumber = "ParentIndexNumber"
+        case indexNumber = "IndexNumber"
         case path = "Path"
+        case metadataLanguage = "MetadataLanguage"
     }
 }
 
-/// An enum representing a subtitle playback mode.
+public struct PinRedeemResult: Codable {
+    public var isSuccess: Bool?
+    public var usersReset: [String]?
+
+    public init(isSuccess: Bool? = nil, usersReset: [String]? = nil) {
+        self.isSuccess = isSuccess
+        self.usersReset = usersReset
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isSuccess = "Success"
+        case usersReset = "UsersReset"
+    }
+}
+
+public enum FFmpegLocation: String, Codable, CaseIterable {
+    case notFound = "NotFound"
+    case setByArgument = "SetByArgument"
+    case custom = "Custom"
+    case system = "System"
+}
+
+public struct NotificationsSummaryDto: Codable {
+    public var unreadCount: Int?
+    public var maxUnreadNotificationLevel: NotificationLevel?
+
+    public init(unreadCount: Int? = nil, maxUnreadNotificationLevel: NotificationLevel? = nil) {
+        self.unreadCount = unreadCount
+        self.maxUnreadNotificationLevel = maxUnreadNotificationLevel
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case unreadCount = "UnreadCount"
+        case maxUnreadNotificationLevel = "MaxUnreadNotificationLevel"
+    }
+}
+
+public enum TranscodeSeekInfo: String, Codable, CaseIterable {
+    case auto = "Auto"
+    case bytes = "Bytes"
+}
+
+public struct CountryInfo: Codable {
+    public var twoLetterISORegionName: String?
+    public var displayName: String?
+    public var name: String?
+    public var threeLetterISORegionName: String?
+
+    public init(twoLetterISORegionName: String? = nil, displayName: String? = nil, name: String? = nil, threeLetterISORegionName: String? = nil) {
+        self.twoLetterISORegionName = twoLetterISORegionName
+        self.displayName = displayName
+        self.name = name
+        self.threeLetterISORegionName = threeLetterISORegionName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case twoLetterISORegionName = "TwoLetterISORegionName"
+        case displayName = "DisplayName"
+        case name = "Name"
+        case threeLetterISORegionName = "ThreeLetterISORegionName"
+    }
+}
+
+public struct UserPolicy: Codable {
+    public var isForceRemoteSourceTranscoding: Bool?
+    public var enablePublicSharing: Bool?
+    public var enablePlaybackRemuxing: Bool?
+    public var invalidLoginAttemptCount: Int?
+    public var syncPlayAccess: SyncPlayUserAccessType?
+    public var enableAllFolders: Bool?
+    public var isDisabled: Bool?
+    public var maxActiveSessions: Int?
+    public var enableContentDownloading: Bool?
+    public var loginAttemptsBeforeLockout: Int?
+    public var enableAudioPlaybackTranscoding: Bool?
+    public var passwordResetProviderID: String?
+    public var enableRemoteControlOfOtherUsers: Bool?
+    public var authenticationProviderID: String?
+    public var enableRemoteAccess: Bool?
+    public var enableContentDeletion: Bool?
+    public var enableMediaConversion: Bool?
+    public var blockedMediaFolders: [UUID]?
+    public var isHidden: Bool?
+    public var blockedChannels: [UUID]?
+    public var isAdministrator: Bool?
+    public var enableSharedDeviceControl: Bool?
+    public var maxParentalRating: Int?
+    public var enableVideoPlaybackTranscoding: Bool?
+    public var remoteClientBitrateLimit: Int?
+    public var enableUserPreferenceAccess: Bool?
+    public var enableAllDevices: Bool?
+    public var enabledChannels: [UUID]?
+    public var blockUnratedItems: [UnratedItem]?
+    public var enableSyncTranscoding: Bool?
+    public var enabledFolders: [UUID]?
+    public var enableAllChannels: Bool?
+    public var enableContentDeletionFromFolders: [String]?
+    public var enabledDevices: [String]?
+    public var enableLiveTvAccess: Bool?
+    public var enableLiveTvManagement: Bool?
+    public var accessSchedules: [AccessSchedule]?
+    public var enableMediaPlayback: Bool?
+    public var blockedTags: [String]?
+
+    public init(isForceRemoteSourceTranscoding: Bool? = nil, enablePublicSharing: Bool? = nil, enablePlaybackRemuxing: Bool? = nil, invalidLoginAttemptCount: Int? = nil, syncPlayAccess: SyncPlayUserAccessType? = nil, enableAllFolders: Bool? = nil, isDisabled: Bool? = nil, maxActiveSessions: Int? = nil, enableContentDownloading: Bool? = nil, loginAttemptsBeforeLockout: Int? = nil, enableAudioPlaybackTranscoding: Bool? = nil, passwordResetProviderID: String? = nil, enableRemoteControlOfOtherUsers: Bool? = nil, authenticationProviderID: String? = nil, enableRemoteAccess: Bool? = nil, enableContentDeletion: Bool? = nil, enableMediaConversion: Bool? = nil, blockedMediaFolders: [UUID]? = nil, isHidden: Bool? = nil, blockedChannels: [UUID]? = nil, isAdministrator: Bool? = nil, enableSharedDeviceControl: Bool? = nil, maxParentalRating: Int? = nil, enableVideoPlaybackTranscoding: Bool? = nil, remoteClientBitrateLimit: Int? = nil, enableUserPreferenceAccess: Bool? = nil, enableAllDevices: Bool? = nil, enabledChannels: [UUID]? = nil, blockUnratedItems: [UnratedItem]? = nil, enableSyncTranscoding: Bool? = nil, enabledFolders: [UUID]? = nil, enableAllChannels: Bool? = nil, enableContentDeletionFromFolders: [String]? = nil, enabledDevices: [String]? = nil, enableLiveTvAccess: Bool? = nil, enableLiveTvManagement: Bool? = nil, accessSchedules: [AccessSchedule]? = nil, enableMediaPlayback: Bool? = nil, blockedTags: [String]? = nil) {
+        self.isForceRemoteSourceTranscoding = isForceRemoteSourceTranscoding
+        self.enablePublicSharing = enablePublicSharing
+        self.enablePlaybackRemuxing = enablePlaybackRemuxing
+        self.invalidLoginAttemptCount = invalidLoginAttemptCount
+        self.syncPlayAccess = syncPlayAccess
+        self.enableAllFolders = enableAllFolders
+        self.isDisabled = isDisabled
+        self.maxActiveSessions = maxActiveSessions
+        self.enableContentDownloading = enableContentDownloading
+        self.loginAttemptsBeforeLockout = loginAttemptsBeforeLockout
+        self.enableAudioPlaybackTranscoding = enableAudioPlaybackTranscoding
+        self.passwordResetProviderID = passwordResetProviderID
+        self.enableRemoteControlOfOtherUsers = enableRemoteControlOfOtherUsers
+        self.authenticationProviderID = authenticationProviderID
+        self.enableRemoteAccess = enableRemoteAccess
+        self.enableContentDeletion = enableContentDeletion
+        self.enableMediaConversion = enableMediaConversion
+        self.blockedMediaFolders = blockedMediaFolders
+        self.isHidden = isHidden
+        self.blockedChannels = blockedChannels
+        self.isAdministrator = isAdministrator
+        self.enableSharedDeviceControl = enableSharedDeviceControl
+        self.maxParentalRating = maxParentalRating
+        self.enableVideoPlaybackTranscoding = enableVideoPlaybackTranscoding
+        self.remoteClientBitrateLimit = remoteClientBitrateLimit
+        self.enableUserPreferenceAccess = enableUserPreferenceAccess
+        self.enableAllDevices = enableAllDevices
+        self.enabledChannels = enabledChannels
+        self.blockUnratedItems = blockUnratedItems
+        self.enableSyncTranscoding = enableSyncTranscoding
+        self.enabledFolders = enabledFolders
+        self.enableAllChannels = enableAllChannels
+        self.enableContentDeletionFromFolders = enableContentDeletionFromFolders
+        self.enabledDevices = enabledDevices
+        self.enableLiveTvAccess = enableLiveTvAccess
+        self.enableLiveTvManagement = enableLiveTvManagement
+        self.accessSchedules = accessSchedules
+        self.enableMediaPlayback = enableMediaPlayback
+        self.blockedTags = blockedTags
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isForceRemoteSourceTranscoding = "ForceRemoteSourceTranscoding"
+        case enablePublicSharing = "EnablePublicSharing"
+        case enablePlaybackRemuxing = "EnablePlaybackRemuxing"
+        case invalidLoginAttemptCount = "InvalidLoginAttemptCount"
+        case syncPlayAccess = "SyncPlayAccess"
+        case enableAllFolders = "EnableAllFolders"
+        case isDisabled = "IsDisabled"
+        case maxActiveSessions = "MaxActiveSessions"
+        case enableContentDownloading = "EnableContentDownloading"
+        case loginAttemptsBeforeLockout = "LoginAttemptsBeforeLockout"
+        case enableAudioPlaybackTranscoding = "EnableAudioPlaybackTranscoding"
+        case passwordResetProviderID = "PasswordResetProviderId"
+        case enableRemoteControlOfOtherUsers = "EnableRemoteControlOfOtherUsers"
+        case authenticationProviderID = "AuthenticationProviderId"
+        case enableRemoteAccess = "EnableRemoteAccess"
+        case enableContentDeletion = "EnableContentDeletion"
+        case enableMediaConversion = "EnableMediaConversion"
+        case blockedMediaFolders = "BlockedMediaFolders"
+        case isHidden = "IsHidden"
+        case blockedChannels = "BlockedChannels"
+        case isAdministrator = "IsAdministrator"
+        case enableSharedDeviceControl = "EnableSharedDeviceControl"
+        case maxParentalRating = "MaxParentalRating"
+        case enableVideoPlaybackTranscoding = "EnableVideoPlaybackTranscoding"
+        case remoteClientBitrateLimit = "RemoteClientBitrateLimit"
+        case enableUserPreferenceAccess = "EnableUserPreferenceAccess"
+        case enableAllDevices = "EnableAllDevices"
+        case enabledChannels = "EnabledChannels"
+        case blockUnratedItems = "BlockUnratedItems"
+        case enableSyncTranscoding = "EnableSyncTranscoding"
+        case enabledFolders = "EnabledFolders"
+        case enableAllChannels = "EnableAllChannels"
+        case enableContentDeletionFromFolders = "EnableContentDeletionFromFolders"
+        case enabledDevices = "EnabledDevices"
+        case enableLiveTvAccess = "EnableLiveTvAccess"
+        case enableLiveTvManagement = "EnableLiveTvManagement"
+        case accessSchedules = "AccessSchedules"
+        case enableMediaPlayback = "EnableMediaPlayback"
+        case blockedTags = "BlockedTags"
+    }
+}
+
+public struct SearchHintResult: Codable {
+    public var searchHints: [SearchHint]?
+    public var totalRecordCount: Int?
+
+    public init(searchHints: [SearchHint]? = nil, totalRecordCount: Int? = nil) {
+        self.searchHints = searchHints
+        self.totalRecordCount = totalRecordCount
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case searchHints = "SearchHints"
+        case totalRecordCount = "TotalRecordCount"
+    }
+}
+
+public struct UpdateUserEasyPassword: Codable {
+    public var newPassword: String?
+    public var isResetPassword: Bool?
+    public var newPw: String?
+
+    public init(newPassword: String? = nil, isResetPassword: Bool? = nil, newPw: String? = nil) {
+        self.newPassword = newPassword
+        self.isResetPassword = isResetPassword
+        self.newPw = newPw
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case newPassword = "NewPassword"
+        case isResetPassword = "ResetPassword"
+        case newPw = "NewPw"
+    }
+}
+
+public struct BoxSetInfoRemoteSearchQuery: Codable {
+    public var itemID: UUID?
+    public var searchProviderName: String?
+    public var isIncludeDisabledProviders: Bool?
+    public var searchInfo: BoxSetInfo?
+
+    public init(itemID: UUID? = nil, searchProviderName: String? = nil, isIncludeDisabledProviders: Bool? = nil, searchInfo: BoxSetInfo? = nil) {
+        self.itemID = itemID
+        self.searchProviderName = searchProviderName
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+        self.searchInfo = searchInfo
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case itemID = "ItemId"
+        case searchProviderName = "SearchProviderName"
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+        case searchInfo = "SearchInfo"
+    }
+}
+
+public enum ImageType: String, Codable, CaseIterable {
+    case primary = "Primary"
+    case art = "Art"
+    case backdrop = "Backdrop"
+    case banner = "Banner"
+    case logo = "Logo"
+    case thumb = "Thumb"
+    case disc = "Disc"
+    case box = "Box"
+    case screenshot = "Screenshot"
+    case menu = "Menu"
+    case chapter = "Chapter"
+    case boxRear = "BoxRear"
+    case profile = "Profile"
+}
+
+public struct QueryFiltersLegacy: Codable {
+    public var officialRatings: [String]?
+    public var genres: [String]?
+    public var years: [Int]?
+    public var tags: [String]?
+
+    public init(officialRatings: [String]? = nil, genres: [String]? = nil, years: [Int]? = nil, tags: [String]? = nil) {
+        self.officialRatings = officialRatings
+        self.genres = genres
+        self.years = years
+        self.tags = tags
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case officialRatings = "OfficialRatings"
+        case genres = "Genres"
+        case years = "Years"
+        case tags = "Tags"
+    }
+}
+
+public struct AllThemeMediaResult: Codable {
+    public var themeVideosResult: ThemeMediaResult?
+    public var soundtrackSongsResult: ThemeMediaResult?
+    public var themeSongsResult: ThemeMediaResult?
+
+    public init(themeVideosResult: ThemeMediaResult? = nil, soundtrackSongsResult: ThemeMediaResult? = nil, themeSongsResult: ThemeMediaResult? = nil) {
+        self.themeVideosResult = themeVideosResult
+        self.soundtrackSongsResult = soundtrackSongsResult
+        self.themeSongsResult = themeSongsResult
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case themeVideosResult = "ThemeVideosResult"
+        case soundtrackSongsResult = "SoundtrackSongsResult"
+        case themeSongsResult = "ThemeSongsResult"
+    }
+}
+
+public struct DeviceOptions: Codable {
+    public var customName: String?
+
+    public init(customName: String? = nil) {
+        self.customName = customName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case customName = "CustomName"
+    }
+}
+
+public struct ClientCapabilities: Codable {
+    public var messageCallbackURL: String?
+    public var deviceProfile: DeviceProfile?
+    public var isSupportsContentUploading: Bool?
+    public var isSupportsPersistentIdentifier: Bool?
+    public var isSupportsSync: Bool?
+    public var appStoreURL: String?
+    public var playableMediaTypes: [String]?
+    public var isSupportsMediaControl: Bool?
+    public var supportedCommands: [GeneralCommandType]?
+    public var iconURL: String?
+
+    public init(messageCallbackURL: String? = nil, deviceProfile: DeviceProfile? = nil, isSupportsContentUploading: Bool? = nil, isSupportsPersistentIdentifier: Bool? = nil, isSupportsSync: Bool? = nil, appStoreURL: String? = nil, playableMediaTypes: [String]? = nil, isSupportsMediaControl: Bool? = nil, supportedCommands: [GeneralCommandType]? = nil, iconURL: String? = nil) {
+        self.messageCallbackURL = messageCallbackURL
+        self.deviceProfile = deviceProfile
+        self.isSupportsContentUploading = isSupportsContentUploading
+        self.isSupportsPersistentIdentifier = isSupportsPersistentIdentifier
+        self.isSupportsSync = isSupportsSync
+        self.appStoreURL = appStoreURL
+        self.playableMediaTypes = playableMediaTypes
+        self.isSupportsMediaControl = isSupportsMediaControl
+        self.supportedCommands = supportedCommands
+        self.iconURL = iconURL
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case messageCallbackURL = "MessageCallbackUrl"
+        case deviceProfile = "DeviceProfile"
+        case isSupportsContentUploading = "SupportsContentUploading"
+        case isSupportsPersistentIdentifier = "SupportsPersistentIdentifier"
+        case isSupportsSync = "SupportsSync"
+        case appStoreURL = "AppStoreUrl"
+        case playableMediaTypes = "PlayableMediaTypes"
+        case isSupportsMediaControl = "SupportsMediaControl"
+        case supportedCommands = "SupportedCommands"
+        case iconURL = "IconUrl"
+    }
+}
+
+public struct UpdateUserPassword: Codable {
+    public var isResetPassword: Bool?
+    public var newPw: String?
+    public var currentPassword: String?
+    public var currentPw: String?
+
+    public init(isResetPassword: Bool? = nil, newPw: String? = nil, currentPassword: String? = nil, currentPw: String? = nil) {
+        self.isResetPassword = isResetPassword
+        self.newPw = newPw
+        self.currentPassword = currentPassword
+        self.currentPw = currentPw
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isResetPassword = "ResetPassword"
+        case newPw = "NewPw"
+        case currentPassword = "CurrentPassword"
+        case currentPw = "CurrentPw"
+    }
+}
+
+public enum ChannelMediaContentType: String, Codable, CaseIterable {
+    case clip = "Clip"
+    case podcast = "Podcast"
+    case trailer = "Trailer"
+    case movie = "Movie"
+    case episode = "Episode"
+    case song = "Song"
+    case movieExtra = "MovieExtra"
+    case tvExtra = "TvExtra"
+}
+
 public enum SubtitlePlaybackMode: String, Codable, CaseIterable {
     case `default` = "Default"
     case always = "Always"
@@ -134,729 +2454,57 @@ public enum SubtitlePlaybackMode: String, Codable, CaseIterable {
     case smart = "Smart"
 }
 
-/// Class UserDto.
-public struct UserDto: Codable {
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the server identifier.
-    public var serverID: String?
-    /// Gets or sets the name of the server.
-This is not used by the server and is for client-side usage only.
-    public var serverName: String?
-    /// Gets or sets whether async login is enabled or not.
-    public var enableAutoLogin: Bool?
-    /// Gets or sets the id.
-    public var id: UUID?
-    /// Gets or sets the primary image tag.
-    public var primaryImageTag: String?
-    /// Gets or sets the last login date.
-    public var lastLoginDate: Date?
-    /// Gets or sets the policy.
-    public var policy: UserPolicy?
-    /// Gets or sets the configuration.
-    public var configuration: UserConfiguration?
-    /// Gets or sets a value indicating whether this instance has configured password.
-    public var hasConfiguredPassword: Bool?
-    /// Gets or sets a value indicating whether this instance has password.
-    public var hasPassword: Bool?
-    /// Gets or sets the primary image aspect ratio.
-    public var primaryImageAspectRatio: Double?
-    /// Gets or sets the last activity date.
-    public var lastActivityDate: Date?
-    /// Gets or sets a value indicating whether this instance has configured easy password.
-    public var hasConfiguredEasyPassword: Bool?
-
-    public init(name: String? = nil, serverID: String? = nil, serverName: String? = nil, enableAutoLogin: Bool? = nil, id: UUID? = nil, primaryImageTag: String? = nil, lastLoginDate: Date? = nil, policy: UserPolicy? = nil, configuration: UserConfiguration? = nil, hasConfiguredPassword: Bool? = nil, hasPassword: Bool? = nil, primaryImageAspectRatio: Double? = nil, lastActivityDate: Date? = nil, hasConfiguredEasyPassword: Bool? = nil) {
-        self.name = name
-        self.serverID = serverID
-        self.serverName = serverName
-        self.enableAutoLogin = enableAutoLogin
-        self.id = id
-        self.primaryImageTag = primaryImageTag
-        self.lastLoginDate = lastLoginDate
-        self.policy = policy
-        self.configuration = configuration
-        self.hasConfiguredPassword = hasConfiguredPassword
-        self.hasPassword = hasPassword
-        self.primaryImageAspectRatio = primaryImageAspectRatio
-        self.lastActivityDate = lastActivityDate
-        self.hasConfiguredEasyPassword = hasConfiguredEasyPassword
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case serverID = "ServerId"
-        case serverName = "ServerName"
-        case enableAutoLogin = "EnableAutoLogin"
-        case id = "Id"
-        case primaryImageTag = "PrimaryImageTag"
-        case lastLoginDate = "LastLoginDate"
-        case policy = "Policy"
-        case configuration = "Configuration"
-        case hasConfiguredPassword = "HasConfiguredPassword"
-        case hasPassword = "HasPassword"
-        case primaryImageAspectRatio = "PrimaryImageAspectRatio"
-        case lastActivityDate = "LastActivityDate"
-        case hasConfiguredEasyPassword = "HasConfiguredEasyPassword"
-    }
-}
-
-/// Enum PlaystateCommand.
-public enum PlaystateCommand: String, Codable, CaseIterable {
-    case stop = "Stop"
-    case pause = "Pause"
-    case unpause = "Unpause"
-    case nextTrack = "NextTrack"
-    case previousTrack = "PreviousTrack"
-    case seek = "Seek"
-    case rewind = "Rewind"
-    case fastForward = "FastForward"
-    case playPause = "PlayPause"
-}
-
-/// The startup configuration DTO.
-public struct StartupConfigurationDto: Codable {
-    /// Gets or sets UI language culture.
-    public var uICulture: String?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    /// Gets or sets the preferred language for the metadata.
-    public var preferredMetadataLanguage: String?
-
-    public init(uICulture: String? = nil, metadataCountryCode: String? = nil, preferredMetadataLanguage: String? = nil) {
-        self.uICulture = uICulture
-        self.metadataCountryCode = metadataCountryCode
-        self.preferredMetadataLanguage = preferredMetadataLanguage
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case uICulture = "UICulture"
-        case metadataCountryCode = "MetadataCountryCode"
-        case preferredMetadataLanguage = "PreferredMetadataLanguage"
-    }
-}
-
-public struct MetadataEditorInfo: Codable {
-    public var contentType: String?
-    public var countries: [CountryInfo]?
-    public var contentTypeOptions: [NameValuePair]?
-    public var cultures: [CultureDto]?
-    public var externalIDInfos: [ExternalIDInfo]?
-    public var parentalRatingOptions: [ParentalRating]?
-
-    public init(contentType: String? = nil, countries: [CountryInfo]? = nil, contentTypeOptions: [NameValuePair]? = nil, cultures: [CultureDto]? = nil, externalIDInfos: [ExternalIDInfo]? = nil, parentalRatingOptions: [ParentalRating]? = nil) {
-        self.contentType = contentType
-        self.countries = countries
-        self.contentTypeOptions = contentTypeOptions
-        self.cultures = cultures
-        self.externalIDInfos = externalIDInfos
-        self.parentalRatingOptions = parentalRatingOptions
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case contentType = "ContentType"
-        case countries = "Countries"
-        case contentTypeOptions = "ContentTypeOptions"
-        case cultures = "Cultures"
-        case externalIDInfos = "ExternalIdInfos"
-        case parentalRatingOptions = "ParentalRatingOptions"
-    }
-}
-
-/// Class BaseItem.
-public struct BaseItem: Codable {
-    public var dateLastSaved: Date?
-    public var shortcutPath: String?
-    public var size: Int?
-    public var height: Int?
-    public var extraIDs: [UUID]?
-    public var isSupportsExternalTransfer: Bool?
-    /// Gets or sets the remote trailers.
-    public var remoteTrailers: [MediaURL]?
-    public var container: String?
-    public var isShortcut: Bool?
-    public var width: Int?
-    public var isHD: Bool?
-
-    public init(dateLastSaved: Date? = nil, shortcutPath: String? = nil, size: Int? = nil, height: Int? = nil, extraIDs: [UUID]? = nil, isSupportsExternalTransfer: Bool? = nil, remoteTrailers: [MediaURL]? = nil, container: String? = nil, isShortcut: Bool? = nil, width: Int? = nil, isHD: Bool? = nil) {
-        self.dateLastSaved = dateLastSaved
-        self.shortcutPath = shortcutPath
-        self.size = size
-        self.height = height
-        self.extraIDs = extraIDs
-        self.isSupportsExternalTransfer = isSupportsExternalTransfer
-        self.remoteTrailers = remoteTrailers
-        self.container = container
-        self.isShortcut = isShortcut
-        self.width = width
-        self.isHD = isHD
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case dateLastSaved = "DateLastSaved"
-        case shortcutPath = "ShortcutPath"
-        case size = "Size"
-        case height = "Height"
-        case extraIDs = "ExtraIds"
-        case isSupportsExternalTransfer = "SupportsExternalTransfer"
-        case remoteTrailers = "RemoteTrailers"
-        case container = "Container"
-        case isShortcut = "IsShortcut"
-        case width = "Width"
-        case isHD = "IsHD"
-    }
-}
-
-public enum DayOfWeek: String, Codable, CaseIterable {
-    case sunday = "Sunday"
-    case monday = "Monday"
-    case tuesday = "Tuesday"
-    case wednesday = "Wednesday"
-    case thursday = "Thursday"
-    case friday = "Friday"
-    case saturday = "Saturday"
-}
-
-/// Stores the result of an incoming quick connect request.
-public struct QuickConnectResult: Codable {
-    /// Gets or sets an error message.
-    public var error: String?
-    /// Gets or sets the DateTime that this request was created.
-    public var dateAdded: Date?
-    /// Gets or sets the secret value used to uniquely identify this request. Can be used to retrieve authentication information.
-    public var secret: String?
-    /// Gets a value indicating whether this request is authorized.
-    public var isAuthenticated: Bool?
-    /// Gets or sets the private access token.
-    public var authentication: String?
-    /// Gets or sets the user facing code used so the user can quickly differentiate this request from others.
-    public var code: String?
-
-    public init(error: String? = nil, dateAdded: Date? = nil, secret: String? = nil, isAuthenticated: Bool? = nil, authentication: String? = nil, code: String? = nil) {
-        self.error = error
-        self.dateAdded = dateAdded
-        self.secret = secret
-        self.isAuthenticated = isAuthenticated
-        self.authentication = authentication
-        self.code = code
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case error = "Error"
-        case dateAdded = "DateAdded"
-        case secret = "Secret"
-        case isAuthenticated = "Authenticated"
-        case authentication = "Authentication"
-        case code = "Code"
-    }
-}
-
-/// Class TaskExecutionInfo.
-public struct TaskResult: Codable {
-    /// Gets or sets the key.
-    public var key: String?
-    /// Gets or sets the id.
-    public var id: String?
-    /// Gets or sets the error message.
-    public var errorMessage: String?
-    /// Gets or sets the long error message.
-    public var longErrorMessage: String?
-    /// Gets or sets the end time UTC.
-    public var endTimeUtc: Date?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the status.
-    public var status: TaskCompletionStatus?
-    /// Gets or sets the start time UTC.
-    public var startTimeUtc: Date?
-
-    public init(key: String? = nil, id: String? = nil, errorMessage: String? = nil, longErrorMessage: String? = nil, endTimeUtc: Date? = nil, name: String? = nil, status: TaskCompletionStatus? = nil, startTimeUtc: Date? = nil) {
-        self.key = key
-        self.id = id
-        self.errorMessage = errorMessage
-        self.longErrorMessage = longErrorMessage
-        self.endTimeUtc = endTimeUtc
-        self.name = name
-        self.status = status
-        self.startTimeUtc = startTimeUtc
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case key = "Key"
-        case id = "Id"
-        case errorMessage = "ErrorMessage"
-        case longErrorMessage = "LongErrorMessage"
-        case endTimeUtc = "EndTimeUtc"
-        case name = "Name"
-        case status = "Status"
-        case startTimeUtc = "StartTimeUtc"
-    }
-}
-
-/// Class ImageProviderInfo.
-public struct ImageProviderInfo: Codable {
-    /// Gets the name.
-    public var name: String?
-    /// Gets the supported image types.
-    public var supportedImages: [ImageType]?
-
-    public init(name: String? = nil, supportedImages: [ImageType]? = nil) {
-        self.name = name
-        self.supportedImages = supportedImages
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case supportedImages = "SupportedImages"
-    }
-}
-
-/// Class SendCommand.
-public struct SendCommand: Codable {
-    /// Gets the position ticks.
-    public var positionTicks: Int?
-    /// Gets the group identifier.
-    public var groupID: UUID?
-    /// Gets the playlist identifier of the playing item.
-    public var playlistItemID: UUID?
-    /// Gets or sets the UTC time when to execute the command.
-    public var when: Date?
-    /// Gets the UTC time when this command has been emitted.
-    public var emittedAt: Date?
-    /// Gets the command.
-    public var command: SendCommandType?
-
-    public init(positionTicks: Int? = nil, groupID: UUID? = nil, playlistItemID: UUID? = nil, when: Date? = nil, emittedAt: Date? = nil, command: SendCommandType? = nil) {
-        self.positionTicks = positionTicks
-        self.groupID = groupID
-        self.playlistItemID = playlistItemID
-        self.when = when
-        self.emittedAt = emittedAt
-        self.command = command
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case positionTicks = "PositionTicks"
-        case groupID = "GroupId"
-        case playlistItemID = "PlaylistItemId"
-        case when = "When"
-        case emittedAt = "EmittedAt"
-        case command = "Command"
-    }
-}
-
-public struct NotificationTypeInfo: Codable {
-    public var name: String?
-    public var isBasedOnUserEvent: Bool?
-    public var category: String?
-    public var type: String?
-    public var isEnabled: Bool?
-
-    public init(name: String? = nil, isBasedOnUserEvent: Bool? = nil, category: String? = nil, type: String? = nil, isEnabled: Bool? = nil) {
-        self.name = name
-        self.isBasedOnUserEvent = isBasedOnUserEvent
-        self.category = category
-        self.type = type
-        self.isEnabled = isEnabled
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case isBasedOnUserEvent = "IsBasedOnUserEvent"
-        case category = "Category"
-        case type = "Type"
-        case isEnabled = "Enabled"
-    }
-}
-
-public struct MusicVideoInfoRemoteSearchQuery: Codable {
-    public var itemID: UUID?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var searchInfo: MusicVideoInfo?
-
-    public init(itemID: UUID? = nil, searchProviderName: String? = nil, isIncludeDisabledProviders: Bool? = nil, searchInfo: MusicVideoInfo? = nil) {
-        self.itemID = itemID
-        self.searchProviderName = searchProviderName
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.searchInfo = searchInfo
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemID = "ItemId"
-        case searchProviderName = "SearchProviderName"
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case searchInfo = "SearchInfo"
-    }
-}
-
-public enum DlnaProfileType: String, Codable, CaseIterable {
-    case audio = "Audio"
-    case video = "Video"
-    case photo = "Photo"
-}
-
-/// A list of notifications with the total record count for pagination.
-public struct NotificationResultDto: Codable {
-    /// Gets or sets the total number of notifications.
-    public var totalRecordCount: Int?
-    /// Gets or sets the current page of notifications.
-    public var notifications: [NotificationDto]?
-
-    public init(totalRecordCount: Int? = nil, notifications: [NotificationDto]? = nil) {
-        self.totalRecordCount = totalRecordCount
-        self.notifications = notifications
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case totalRecordCount = "TotalRecordCount"
-        case notifications = "Notifications"
-    }
-}
-
-public enum TransportStreamTimestamp: String, Codable, CaseIterable {
-    case `none` = "None"
-    case zero = "Zero"
-    case valid = "Valid"
-}
-
-/// Defines the MediaBrowser.Model.Configuration.PathSubstitution.
 public struct PathSubstitution: Codable {
-    /// Gets or sets the value to substitute.
-    public var from: String?
-    /// Gets or sets the value to substitution with.
     public var to: String?
+    public var from: String?
 
-    public init(from: String? = nil, to: String? = nil) {
-        self.from = from
+    public init(to: String? = nil, from: String? = nil) {
         self.to = to
+        self.from = from
     }
 
     private enum CodingKeys: String, CodingKey {
-        case from = "From"
         case to = "To"
+        case from = "From"
     }
 }
 
-/// Enum ImageOutputFormat.
-public enum ImageFormat: String, Codable, CaseIterable {
-    case bmp = "Bmp"
-    case gif = "Gif"
-    case jpg = "Jpg"
-    case png = "Png"
-    case webp = "Webp"
-}
+public struct ProfileCondition: Codable {
+    public var property: ProfileConditionValue?
+    public var isRequired: Bool?
+    public var condition: ProfileConditionType?
+    public var value: String?
 
-public struct TunerChannelMapping: Codable {
-    public var providerChannelID: String?
-    public var id: String?
-    public var name: String?
-    public var providerChannelName: String?
-
-    public init(providerChannelID: String? = nil, id: String? = nil, name: String? = nil, providerChannelName: String? = nil) {
-        self.providerChannelID = providerChannelID
-        self.id = id
-        self.name = name
-        self.providerChannelName = providerChannelName
+    public init(property: ProfileConditionValue? = nil, isRequired: Bool? = nil, condition: ProfileConditionType? = nil, value: String? = nil) {
+        self.property = property
+        self.isRequired = isRequired
+        self.condition = condition
+        self.value = value
     }
 
     private enum CodingKeys: String, CodingKey {
-        case providerChannelID = "ProviderChannelId"
-        case id = "Id"
-        case name = "Name"
-        case providerChannelName = "ProviderChannelName"
+        case property = "Property"
+        case isRequired = "IsRequired"
+        case condition = "Condition"
+        case value = "Value"
     }
 }
 
-public struct ArtistInfo: Codable {
-    public var songInfos: [SongInfo]?
-    public var indexNumber: Int?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the path.
-    public var path: String?
-    public var parentIndexNumber: Int?
-    public var isAutomated: Bool?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    public var premiereDate: Date?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    /// Gets or sets the year.
-    public var year: Int?
+public struct TimerInfoDtoQueryResult: Codable {
+    public var startIndex: Int?
+    public var totalRecordCount: Int?
+    public var items: [TimerInfoDto]?
 
-    public init(songInfos: [SongInfo]? = nil, indexNumber: Int? = nil, metadataCountryCode: String? = nil, name: String? = nil, path: String? = nil, parentIndexNumber: Int? = nil, isAutomated: Bool? = nil, providerIDs: [String: String]? = nil, premiereDate: Date? = nil, metadataLanguage: String? = nil, year: Int? = nil) {
-        self.songInfos = songInfos
-        self.indexNumber = indexNumber
-        self.metadataCountryCode = metadataCountryCode
-        self.name = name
-        self.path = path
-        self.parentIndexNumber = parentIndexNumber
-        self.isAutomated = isAutomated
-        self.providerIDs = providerIDs
-        self.premiereDate = premiereDate
-        self.metadataLanguage = metadataLanguage
-        self.year = year
+    public init(startIndex: Int? = nil, totalRecordCount: Int? = nil, items: [TimerInfoDto]? = nil) {
+        self.startIndex = startIndex
+        self.totalRecordCount = totalRecordCount
+        self.items = items
     }
 
     private enum CodingKeys: String, CodingKey {
-        case songInfos = "SongInfos"
-        case indexNumber = "IndexNumber"
-        case metadataCountryCode = "MetadataCountryCode"
-        case name = "Name"
-        case path = "Path"
-        case parentIndexNumber = "ParentIndexNumber"
-        case isAutomated = "IsAutomated"
-        case providerIDs = "ProviderIds"
-        case premiereDate = "PremiereDate"
-        case metadataLanguage = "MetadataLanguage"
-        case year = "Year"
-    }
-}
-
-/// Class IgnoreWaitRequestDto.
-public struct IgnoreWaitRequestDto: Codable {
-    /// Gets or sets a value indicating whether the client should be ignored.
-    public var isIgnoreWait: Bool?
-
-    public init(isIgnoreWait: Bool? = nil) {
-        self.isIgnoreWait = isIgnoreWait
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isIgnoreWait = "IgnoreWait"
-    }
-}
-
-/// Enum GroupShuffleMode.
-public enum GroupShuffleMode: String, Codable, CaseIterable {
-    case sorted = "Sorted"
-    case shuffle = "Shuffle"
-}
-
-/// Upload subtitles dto.
-public struct UploadSubtitleDto: Codable {
-    /// Gets or sets the subtitle language.
-    public var language: String
-    /// Gets or sets the subtitle data.
-    public var data: String
-    /// Gets or sets a value indicating whether the subtitle is forced.
-    public var isForced: Bool
-    /// Gets or sets the subtitle format.
-    public var format: String
-
-    public init(language: String, data: String, isForced: Bool, format: String) {
-        self.language = language
-        self.data = data
-        self.isForced = isForced
-        self.format = format
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case language = "Language"
-        case data = "Data"
-        case isForced = "IsForced"
-        case format = "Format"
-    }
-}
-
-public enum ProfileConditionType: String, Codable, CaseIterable {
-    case equals = "Equals"
-    case notEquals = "NotEquals"
-    case lessThanEqual = "LessThanEqual"
-    case greaterThanEqual = "GreaterThanEqual"
-    case equalsAny = "EqualsAny"
-}
-
-/// Enum TaskState.
-public enum TaskState: String, Codable, CaseIterable {
-    case idle = "Idle"
-    case cancelling = "Cancelling"
-    case running = "Running"
-}
-
-/// Class QueueRequestDto.
-public struct QueueRequestDto: Codable {
-    /// Gets or sets the items to enqueue.
-    public var itemIDs: [UUID]?
-    /// Gets or sets the mode in which to add the new items.
-    public var mode: GroupQueueMode?
-
-    public init(itemIDs: [UUID]? = nil, mode: GroupQueueMode? = nil) {
-        self.itemIDs = itemIDs
-        self.mode = mode
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemIDs = "ItemIds"
-        case mode = "Mode"
-    }
-}
-
-public enum LiveTvServiceStatus: String, Codable, CaseIterable {
-    case ok = "Ok"
-    case unavailable = "Unavailable"
-}
-
-/// Plabyback info dto.
-public struct PlaybackInfoDto: Codable {
-    /// Gets or sets the max streaming bitrate.
-    public var maxStreamingBitrate: Int?
-    /// Gets or sets a value indicating whether to enable direct stream.
-    public var enableDirectStream: Bool?
-    /// Gets or sets the audio stream index.
-    public var audioStreamIndex: Int?
-    /// Gets or sets the live stream id.
-    public var liveStreamID: String?
-    /// Gets or sets the media source id.
-    public var mediaSourceID: String?
-    /// Gets or sets a value indicating whether to enable video stream copy.
-    public var allowVideoStreamCopy: Bool?
-    /// Gets or sets the max audio channels.
-    public var maxAudioChannels: Int?
-    /// Gets or sets a value indicating whether to enable direct play.
-    public var enableDirectPlay: Bool?
-    /// Gets or sets the subtitle stream index.
-    public var subtitleStreamIndex: Int?
-    /// Gets or sets a value indicating whether to auto open the live stream.
-    public var isAutoOpenLiveStream: Bool?
-    /// Gets or sets a value indicating whether to allow audio stream copy.
-    public var allowAudioStreamCopy: Bool?
-    /// Gets or sets the device profile.
-    public var deviceProfile: DeviceProfile?
-    /// Gets or sets the start time in ticks.
-    public var startTimeTicks: Int?
-    /// Gets or sets a value indicating whether to enable transcoding.
-    public var enableTranscoding: Bool?
-    /// Gets or sets the playback userId.
-    public var userID: UUID?
-
-    public init(maxStreamingBitrate: Int? = nil, enableDirectStream: Bool? = nil, audioStreamIndex: Int? = nil, liveStreamID: String? = nil, mediaSourceID: String? = nil, allowVideoStreamCopy: Bool? = nil, maxAudioChannels: Int? = nil, enableDirectPlay: Bool? = nil, subtitleStreamIndex: Int? = nil, isAutoOpenLiveStream: Bool? = nil, allowAudioStreamCopy: Bool? = nil, deviceProfile: DeviceProfile? = nil, startTimeTicks: Int? = nil, enableTranscoding: Bool? = nil, userID: UUID? = nil) {
-        self.maxStreamingBitrate = maxStreamingBitrate
-        self.enableDirectStream = enableDirectStream
-        self.audioStreamIndex = audioStreamIndex
-        self.liveStreamID = liveStreamID
-        self.mediaSourceID = mediaSourceID
-        self.allowVideoStreamCopy = allowVideoStreamCopy
-        self.maxAudioChannels = maxAudioChannels
-        self.enableDirectPlay = enableDirectPlay
-        self.subtitleStreamIndex = subtitleStreamIndex
-        self.isAutoOpenLiveStream = isAutoOpenLiveStream
-        self.allowAudioStreamCopy = allowAudioStreamCopy
-        self.deviceProfile = deviceProfile
-        self.startTimeTicks = startTimeTicks
-        self.enableTranscoding = enableTranscoding
-        self.userID = userID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case maxStreamingBitrate = "MaxStreamingBitrate"
-        case enableDirectStream = "EnableDirectStream"
-        case audioStreamIndex = "AudioStreamIndex"
-        case liveStreamID = "LiveStreamId"
-        case mediaSourceID = "MediaSourceId"
-        case allowVideoStreamCopy = "AllowVideoStreamCopy"
-        case maxAudioChannels = "MaxAudioChannels"
-        case enableDirectPlay = "EnableDirectPlay"
-        case subtitleStreamIndex = "SubtitleStreamIndex"
-        case isAutoOpenLiveStream = "AutoOpenLiveStream"
-        case allowAudioStreamCopy = "AllowAudioStreamCopy"
-        case deviceProfile = "DeviceProfile"
-        case startTimeTicks = "StartTimeTicks"
-        case enableTranscoding = "EnableTranscoding"
-        case userID = "UserId"
-    }
-}
-
-/// Class MediaAttachment.
-public struct MediaAttachment: Codable {
-    /// Gets or sets the comment.
-    public var comment: String?
-    /// Gets or sets the delivery URL.
-    public var deliveryURL: String?
-    /// Gets or sets the filename.
-    public var fileName: String?
-    /// Gets or sets the index.
-    public var index: Int?
-    /// Gets or sets the MIME type.
-    public var mimeType: String?
-    /// Gets or sets the codec.
-    public var codec: String?
-    /// Gets or sets the codec tag.
-    public var codecTag: String?
-
-    public init(comment: String? = nil, deliveryURL: String? = nil, fileName: String? = nil, index: Int? = nil, mimeType: String? = nil, codec: String? = nil, codecTag: String? = nil) {
-        self.comment = comment
-        self.deliveryURL = deliveryURL
-        self.fileName = fileName
-        self.index = index
-        self.mimeType = mimeType
-        self.codec = codec
-        self.codecTag = codecTag
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case comment = "Comment"
-        case deliveryURL = "DeliveryUrl"
-        case fileName = "FileName"
-        case index = "Index"
-        case mimeType = "MimeType"
-        case codec = "Codec"
-        case codecTag = "CodecTag"
-    }
-}
-
-public enum PlayAccess: String, Codable, CaseIterable {
-    case full = "Full"
-    case `none` = "None"
-}
-
-public struct DeviceIdentification: Codable {
-    /// Gets or sets the manufacturer URL.
-    public var manufacturerURL: String?
-    /// Gets or sets the serial number.
-    public var serialNumber: String?
-    /// Gets or sets the model number.
-    public var modelNumber: String?
-    /// Gets or sets the headers.
-    public var headers: [HTTPHeaderInfo]?
-    /// Gets or sets the model URL.
-    public var modelURL: String?
-    /// Gets or sets the name of the friendly.
-    public var friendlyName: String?
-    /// Gets or sets the manufacturer.
-    public var manufacturer: String?
-    /// Gets or sets the model description.
-    public var modelDescription: String?
-    /// Gets or sets the name of the model.
-    public var modelName: String?
-
-    public init(manufacturerURL: String? = nil, serialNumber: String? = nil, modelNumber: String? = nil, headers: [HTTPHeaderInfo]? = nil, modelURL: String? = nil, friendlyName: String? = nil, manufacturer: String? = nil, modelDescription: String? = nil, modelName: String? = nil) {
-        self.manufacturerURL = manufacturerURL
-        self.serialNumber = serialNumber
-        self.modelNumber = modelNumber
-        self.headers = headers
-        self.modelURL = modelURL
-        self.friendlyName = friendlyName
-        self.manufacturer = manufacturer
-        self.modelDescription = modelDescription
-        self.modelName = modelName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case manufacturerURL = "ManufacturerUrl"
-        case serialNumber = "SerialNumber"
-        case modelNumber = "ModelNumber"
-        case headers = "Headers"
-        case modelURL = "ModelUrl"
-        case friendlyName = "FriendlyName"
-        case manufacturer = "Manufacturer"
-        case modelDescription = "ModelDescription"
-        case modelName = "ModelName"
+        case startIndex = "StartIndex"
+        case totalRecordCount = "TotalRecordCount"
+        case items = "Items"
     }
 }
 
@@ -875,354 +2523,226 @@ public struct MediaURL: Codable {
     }
 }
 
-/// Startup remote access dto.
-public struct StartupRemoteAccessDto: Codable {
-    /// Gets or sets a value indicating whether enable automatic port mapping.
-    public var enableAutomaticPortMapping: Bool
-    /// Gets or sets a value indicating whether enable remote access.
-    public var enableRemoteAccess: Bool
-
-    public init(enableAutomaticPortMapping: Bool, enableRemoteAccess: Bool) {
-        self.enableAutomaticPortMapping = enableAutomaticPortMapping
-        self.enableRemoteAccess = enableRemoteAccess
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case enableAutomaticPortMapping = "EnableAutomaticPortMapping"
-        case enableRemoteAccess = "EnableRemoteAccess"
-    }
+public enum LocationType: String, Codable, CaseIterable {
+    case fileSystem = "FileSystem"
+    case remote = "Remote"
+    case virtual = "Virtual"
+    case offline = "Offline"
 }
 
-public struct BookInfo: Codable {
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    public var isAutomated: Bool?
-    public var parentIndexNumber: Int?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var indexNumber: Int?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the path.
-    public var path: String?
-    /// Gets or sets the year.
-    public var year: Int?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    public var premiereDate: Date?
-    public var seriesName: String?
-
-    public init(providerIDs: [String: String]? = nil, isAutomated: Bool? = nil, parentIndexNumber: Int? = nil, metadataCountryCode: String? = nil, indexNumber: Int? = nil, name: String? = nil, path: String? = nil, year: Int? = nil, metadataLanguage: String? = nil, premiereDate: Date? = nil, seriesName: String? = nil) {
-        self.providerIDs = providerIDs
-        self.isAutomated = isAutomated
-        self.parentIndexNumber = parentIndexNumber
-        self.metadataCountryCode = metadataCountryCode
-        self.indexNumber = indexNumber
-        self.name = name
-        self.path = path
-        self.year = year
-        self.metadataLanguage = metadataLanguage
-        self.premiereDate = premiereDate
-        self.seriesName = seriesName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case providerIDs = "ProviderIds"
-        case isAutomated = "IsAutomated"
-        case parentIndexNumber = "ParentIndexNumber"
-        case metadataCountryCode = "MetadataCountryCode"
-        case indexNumber = "IndexNumber"
-        case name = "Name"
-        case path = "Path"
-        case year = "Year"
-        case metadataLanguage = "MetadataLanguage"
-        case premiereDate = "PremiereDate"
-        case seriesName = "SeriesName"
-    }
-}
-
-/// Class PlayRequest.
-public struct PlayRequest: Codable {
-    /// Gets or sets the controlling user identifier.
-    public var controllingUserID: UUID?
-    public var mediaSourceID: String?
-    /// Gets or sets the start position ticks that the first item should be played at.
-    public var startPositionTicks: Int?
-    public var subtitleStreamIndex: Int?
-    public var audioStreamIndex: Int?
-    public var startIndex: Int?
-    /// Gets or sets the play command.
-    public var playCommand: PlayCommand?
-    /// Gets or sets the item ids.
-    public var itemIDs: [UUID]?
-
-    public init(controllingUserID: UUID? = nil, mediaSourceID: String? = nil, startPositionTicks: Int? = nil, subtitleStreamIndex: Int? = nil, audioStreamIndex: Int? = nil, startIndex: Int? = nil, playCommand: PlayCommand? = nil, itemIDs: [UUID]? = nil) {
-        self.controllingUserID = controllingUserID
-        self.mediaSourceID = mediaSourceID
-        self.startPositionTicks = startPositionTicks
-        self.subtitleStreamIndex = subtitleStreamIndex
-        self.audioStreamIndex = audioStreamIndex
-        self.startIndex = startIndex
-        self.playCommand = playCommand
-        self.itemIDs = itemIDs
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case controllingUserID = "ControllingUserId"
-        case mediaSourceID = "MediaSourceId"
-        case startPositionTicks = "StartPositionTicks"
-        case subtitleStreamIndex = "SubtitleStreamIndex"
-        case audioStreamIndex = "AudioStreamIndex"
-        case startIndex = "StartIndex"
-        case playCommand = "PlayCommand"
-        case itemIDs = "ItemIds"
-    }
-}
-
-public enum MetadataRefreshMode: String, Codable, CaseIterable {
-    case `none` = "None"
-    case validationOnly = "ValidationOnly"
-    case `default` = "Default"
-    case fullRefresh = "FullRefresh"
-}
-
-/// Class NextItemRequestDto.
-public struct NextItemRequestDto: Codable {
-    /// Gets or sets the playing item identifier.
-    public var playlistItemID: UUID?
-
-    public init(playlistItemID: UUID? = nil) {
-        self.playlistItemID = playlistItemID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playlistItemID = "PlaylistItemId"
-    }
-}
-
-/// Class SearchHintResult.
-public struct SearchHintResult: Codable {
-    /// Gets or sets the search hints.
-    public var searchHints: [SearchHint]?
-    /// Gets or sets the total record count.
-    public var totalRecordCount: Int?
-
-    public init(searchHints: [SearchHint]? = nil, totalRecordCount: Int? = nil) {
-        self.searchHints = searchHints
-        self.totalRecordCount = totalRecordCount
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case searchHints = "SearchHints"
-        case totalRecordCount = "TotalRecordCount"
-    }
-}
-
-public struct SeriesInfoRemoteSearchQuery: Codable {
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var searchInfo: SeriesInfo?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    public var itemID: UUID?
-
-    public init(isIncludeDisabledProviders: Bool? = nil, searchInfo: SeriesInfo? = nil, searchProviderName: String? = nil, itemID: UUID? = nil) {
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.searchInfo = searchInfo
-        self.searchProviderName = searchProviderName
-        self.itemID = itemID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case searchInfo = "SearchInfo"
-        case searchProviderName = "SearchProviderName"
-        case itemID = "ItemId"
-    }
-}
-
-/// An enum representing the axis that should be scrolled.
-public enum ScrollDirection: String, Codable, CaseIterable {
-    case horizontal = "Horizontal"
-    case vertical = "Vertical"
-}
-
-/// Class PlaybackStopInfo.
-public struct PlaybackStopInfo: Codable {
-    /// Gets or sets the session id.
-    public var sessionID: String?
-    /// Gets or sets the media version identifier.
-    public var mediaSourceID: String?
-    /// Gets or sets the item identifier.
-    public var itemID: UUID?
-    public var nowPlayingQueue: [QueueItem]?
-    /// Gets or sets a value indicating whether this MediaBrowser.Model.Session.PlaybackStopInfo is failed.
-    public var isFailed: Bool?
-    public var nextMediaType: String?
-    /// Gets or sets the position ticks.
-    public var positionTicks: Int?
-    /// Gets or sets the play session identifier.
-    public var playSessionID: String?
-    /// Gets or sets the item.
-    public var item: BaseItemDto?
-    public var playlistItemID: String?
-    /// Gets or sets the live stream identifier.
-    public var liveStreamID: String?
-
-    public init(sessionID: String? = nil, mediaSourceID: String? = nil, itemID: UUID? = nil, nowPlayingQueue: [QueueItem]? = nil, isFailed: Bool? = nil, nextMediaType: String? = nil, positionTicks: Int? = nil, playSessionID: String? = nil, item: BaseItemDto? = nil, playlistItemID: String? = nil, liveStreamID: String? = nil) {
-        self.sessionID = sessionID
-        self.mediaSourceID = mediaSourceID
-        self.itemID = itemID
-        self.nowPlayingQueue = nowPlayingQueue
-        self.isFailed = isFailed
-        self.nextMediaType = nextMediaType
-        self.positionTicks = positionTicks
-        self.playSessionID = playSessionID
-        self.item = item
-        self.playlistItemID = playlistItemID
-        self.liveStreamID = liveStreamID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case sessionID = "SessionId"
-        case mediaSourceID = "MediaSourceId"
-        case itemID = "ItemId"
-        case nowPlayingQueue = "NowPlayingQueue"
-        case isFailed = "Failed"
-        case nextMediaType = "NextMediaType"
-        case positionTicks = "PositionTicks"
-        case playSessionID = "PlaySessionId"
-        case item = "Item"
-        case playlistItemID = "PlaylistItemId"
-        case liveStreamID = "LiveStreamId"
-    }
-}
-
-public struct DeviceInfoQueryResult: Codable {
-    /// The index of the first record in Items.
-    public var startIndex: Int?
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-    /// Gets or sets the items.
-    public var items: [DeviceInfo]?
-
-    public init(startIndex: Int? = nil, totalRecordCount: Int? = nil, items: [DeviceInfo]? = nil) {
-        self.startIndex = startIndex
-        self.totalRecordCount = totalRecordCount
-        self.items = items
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case startIndex = "StartIndex"
-        case totalRecordCount = "TotalRecordCount"
-        case items = "Items"
-    }
-}
-
-public enum ChannelMediaContentType: String, Codable, CaseIterable {
-    case clip = "Clip"
-    case podcast = "Podcast"
-    case trailer = "Trailer"
-    case movie = "Movie"
+public enum ExternalIDMediaType: String, Codable, CaseIterable {
+    case album = "Album"
+    case albumArtist = "AlbumArtist"
+    case artist = "Artist"
+    case boxSet = "BoxSet"
     case episode = "Episode"
-    case song = "Song"
-    case movieExtra = "MovieExtra"
-    case tvExtra = "TvExtra"
+    case movie = "Movie"
+    case otherArtist = "OtherArtist"
+    case person = "Person"
+    case releaseGroup = "ReleaseGroup"
+    case season = "Season"
+    case series = "Series"
+    case track = "Track"
 }
 
-public struct ActivityLogEntry: Codable {
-    /// Gets or sets the item identifier.
-    public var itemID: String?
-    /// Gets or sets the name.
+public struct RemoteSubtitleInfo: Codable {
+    public var threeLetterISOLanguageName: String?
+    public var comment: String?
+    public var isHashMatch: Bool?
     public var name: String?
-    /// Gets or sets the user primary image tag.
-    ///
-    /// - warning: Deprecated.
-    public var userPrimaryImageTag: String?
-    /// Gets or sets the overview.
-    public var overview: String?
-    /// Gets or sets the log severity.
-    public var severity: LogLevel?
-    /// Gets or sets the identifier.
-    public var id: Int?
-    /// Gets or sets the short overview.
-    public var shortOverview: String?
-    /// Gets or sets the date.
-    public var date: Date?
-    /// Gets or sets the type.
-    public var type: String?
-    /// Gets or sets the user identifier.
-    public var userID: UUID?
-
-    public init(itemID: String? = nil, name: String? = nil, userPrimaryImageTag: String? = nil, overview: String? = nil, severity: LogLevel? = nil, id: Int? = nil, shortOverview: String? = nil, date: Date? = nil, type: String? = nil, userID: UUID? = nil) {
-        self.itemID = itemID
-        self.name = name
-        self.userPrimaryImageTag = userPrimaryImageTag
-        self.overview = overview
-        self.severity = severity
-        self.id = id
-        self.shortOverview = shortOverview
-        self.date = date
-        self.type = type
-        self.userID = userID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemID = "ItemId"
-        case name = "Name"
-        case userPrimaryImageTag = "UserPrimaryImageTag"
-        case overview = "Overview"
-        case severity = "Severity"
-        case id = "Id"
-        case shortOverview = "ShortOverview"
-        case date = "Date"
-        case type = "Type"
-        case userID = "UserId"
-    }
-}
-
-/// Class PlaybackInfoResponse.
-public struct PlaybackInfoResponse: Codable {
-    /// Gets or sets the error code.
-    public var errorCode: PlaybackErrorCode?
-    /// Gets or sets the media sources.
-    public var mediaSources: [MediaSourceInfo]?
-    /// Gets or sets the play session identifier.
-    public var playSessionID: String?
-
-    public init(errorCode: PlaybackErrorCode? = nil, mediaSources: [MediaSourceInfo]? = nil, playSessionID: String? = nil) {
-        self.errorCode = errorCode
-        self.mediaSources = mediaSources
-        self.playSessionID = playSessionID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case errorCode = "ErrorCode"
-        case mediaSources = "MediaSources"
-        case playSessionID = "PlaySessionId"
-    }
-}
-
-/// Enum IsoType.
-public enum IsoType: String, Codable, CaseIterable {
-    case dvd = "Dvd"
-    case bluRay = "BluRay"
-}
-
-public struct NameIDPair: Codable {
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the identifier.
+    public var providerName: String?
+    public var format: String?
+    public var author: String?
     public var id: String?
+    public var dateCreated: Date?
+    public var downloadCount: Int?
+    public var communityRating: Double?
 
-    public init(name: String? = nil, id: String? = nil) {
+    public init(threeLetterISOLanguageName: String? = nil, comment: String? = nil, isHashMatch: Bool? = nil, name: String? = nil, providerName: String? = nil, format: String? = nil, author: String? = nil, id: String? = nil, dateCreated: Date? = nil, downloadCount: Int? = nil, communityRating: Double? = nil) {
+        self.threeLetterISOLanguageName = threeLetterISOLanguageName
+        self.comment = comment
+        self.isHashMatch = isHashMatch
         self.name = name
+        self.providerName = providerName
+        self.format = format
+        self.author = author
         self.id = id
+        self.dateCreated = dateCreated
+        self.downloadCount = downloadCount
+        self.communityRating = communityRating
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case threeLetterISOLanguageName = "ThreeLetterISOLanguageName"
+        case comment = "Comment"
+        case isHashMatch = "IsHashMatch"
+        case name = "Name"
+        case providerName = "ProviderName"
+        case format = "Format"
+        case author = "Author"
+        case id = "Id"
+        case dateCreated = "DateCreated"
+        case downloadCount = "DownloadCount"
+        case communityRating = "CommunityRating"
+    }
+}
+
+public struct ChannelFeatures: Codable {
+    public var name: String?
+    public var defaultSortFields: [ChannelItemSortField]?
+    public var autoRefreshLevels: Int?
+    public var id: String?
+    public var canSearch: Bool?
+    public var canFilter: Bool?
+    public var maxPageSize: Int?
+    public var contentTypes: [ChannelMediaContentType]?
+    public var mediaTypes: [ChannelMediaType]?
+    public var isSupportsSortOrderToggle: Bool?
+    public var isSupportsContentDownloading: Bool?
+    public var isSupportsLatestMedia: Bool?
+
+    public init(name: String? = nil, defaultSortFields: [ChannelItemSortField]? = nil, autoRefreshLevels: Int? = nil, id: String? = nil, canSearch: Bool? = nil, canFilter: Bool? = nil, maxPageSize: Int? = nil, contentTypes: [ChannelMediaContentType]? = nil, mediaTypes: [ChannelMediaType]? = nil, isSupportsSortOrderToggle: Bool? = nil, isSupportsContentDownloading: Bool? = nil, isSupportsLatestMedia: Bool? = nil) {
+        self.name = name
+        self.defaultSortFields = defaultSortFields
+        self.autoRefreshLevels = autoRefreshLevels
+        self.id = id
+        self.canSearch = canSearch
+        self.canFilter = canFilter
+        self.maxPageSize = maxPageSize
+        self.contentTypes = contentTypes
+        self.mediaTypes = mediaTypes
+        self.isSupportsSortOrderToggle = isSupportsSortOrderToggle
+        self.isSupportsContentDownloading = isSupportsContentDownloading
+        self.isSupportsLatestMedia = isSupportsLatestMedia
     }
 
     private enum CodingKeys: String, CodingKey {
         case name = "Name"
+        case defaultSortFields = "DefaultSortFields"
+        case autoRefreshLevels = "AutoRefreshLevels"
         case id = "Id"
+        case canSearch = "CanSearch"
+        case canFilter = "CanFilter"
+        case maxPageSize = "MaxPageSize"
+        case contentTypes = "ContentTypes"
+        case mediaTypes = "MediaTypes"
+        case isSupportsSortOrderToggle = "SupportsSortOrderToggle"
+        case isSupportsContentDownloading = "SupportsContentDownloading"
+        case isSupportsLatestMedia = "SupportsLatestMedia"
+    }
+}
+
+public enum MediaSourceType: String, Codable, CaseIterable {
+    case `default` = "Default"
+    case grouping = "Grouping"
+    case placeholder = "Placeholder"
+}
+
+public struct MetadataOptions: Codable {
+    public var localMetadataReaderOrder: [String]?
+    public var metadataFetcherOrder: [String]?
+    public var disabledImageFetchers: [String]?
+    public var imageFetcherOrder: [String]?
+    public var disabledMetadataSavers: [String]?
+    public var disabledMetadataFetchers: [String]?
+    public var itemType: String?
+
+    public init(localMetadataReaderOrder: [String]? = nil, metadataFetcherOrder: [String]? = nil, disabledImageFetchers: [String]? = nil, imageFetcherOrder: [String]? = nil, disabledMetadataSavers: [String]? = nil, disabledMetadataFetchers: [String]? = nil, itemType: String? = nil) {
+        self.localMetadataReaderOrder = localMetadataReaderOrder
+        self.metadataFetcherOrder = metadataFetcherOrder
+        self.disabledImageFetchers = disabledImageFetchers
+        self.imageFetcherOrder = imageFetcherOrder
+        self.disabledMetadataSavers = disabledMetadataSavers
+        self.disabledMetadataFetchers = disabledMetadataFetchers
+        self.itemType = itemType
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case localMetadataReaderOrder = "LocalMetadataReaderOrder"
+        case metadataFetcherOrder = "MetadataFetcherOrder"
+        case disabledImageFetchers = "DisabledImageFetchers"
+        case imageFetcherOrder = "ImageFetcherOrder"
+        case disabledMetadataSavers = "DisabledMetadataSavers"
+        case disabledMetadataFetchers = "DisabledMetadataFetchers"
+        case itemType = "ItemType"
+    }
+}
+
+public struct ThemeMediaResult: Codable {
+    public var startIndex: Int?
+    public var items: [BaseItemDto]?
+    public var ownerID: UUID?
+    public var totalRecordCount: Int?
+
+    public init(startIndex: Int? = nil, items: [BaseItemDto]? = nil, ownerID: UUID? = nil, totalRecordCount: Int? = nil) {
+        self.startIndex = startIndex
+        self.items = items
+        self.ownerID = ownerID
+        self.totalRecordCount = totalRecordCount
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case startIndex = "StartIndex"
+        case items = "Items"
+        case ownerID = "OwnerId"
+        case totalRecordCount = "TotalRecordCount"
+    }
+}
+
+public enum ChannelMediaType: String, Codable, CaseIterable {
+    case audio = "Audio"
+    case video = "Video"
+    case photo = "Photo"
+}
+
+public struct UserDto: Codable {
+    public var hasConfiguredEasyPassword: Bool?
+    public var primaryImageTag: String?
+    public var configuration: UserConfiguration?
+    public var hasPassword: Bool?
+    public var name: String?
+    public var hasConfiguredPassword: Bool?
+    public var lastActivityDate: Date?
+    public var primaryImageAspectRatio: Double?
+    public var serverName: String?
+    public var lastLoginDate: Date?
+    public var serverID: String?
+    public var policy: UserPolicy?
+    public var id: UUID?
+    public var enableAutoLogin: Bool?
+
+    public init(hasConfiguredEasyPassword: Bool? = nil, primaryImageTag: String? = nil, configuration: UserConfiguration? = nil, hasPassword: Bool? = nil, name: String? = nil, hasConfiguredPassword: Bool? = nil, lastActivityDate: Date? = nil, primaryImageAspectRatio: Double? = nil, serverName: String? = nil, lastLoginDate: Date? = nil, serverID: String? = nil, policy: UserPolicy? = nil, id: UUID? = nil, enableAutoLogin: Bool? = nil) {
+        self.hasConfiguredEasyPassword = hasConfiguredEasyPassword
+        self.primaryImageTag = primaryImageTag
+        self.configuration = configuration
+        self.hasPassword = hasPassword
+        self.name = name
+        self.hasConfiguredPassword = hasConfiguredPassword
+        self.lastActivityDate = lastActivityDate
+        self.primaryImageAspectRatio = primaryImageAspectRatio
+        self.serverName = serverName
+        self.lastLoginDate = lastLoginDate
+        self.serverID = serverID
+        self.policy = policy
+        self.id = id
+        self.enableAutoLogin = enableAutoLogin
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case hasConfiguredEasyPassword = "HasConfiguredEasyPassword"
+        case primaryImageTag = "PrimaryImageTag"
+        case configuration = "Configuration"
+        case hasPassword = "HasPassword"
+        case name = "Name"
+        case hasConfiguredPassword = "HasConfiguredPassword"
+        case lastActivityDate = "LastActivityDate"
+        case primaryImageAspectRatio = "PrimaryImageAspectRatio"
+        case serverName = "ServerName"
+        case lastLoginDate = "LastLoginDate"
+        case serverID = "ServerId"
+        case policy = "Policy"
+        case id = "Id"
+        case enableAutoLogin = "EnableAutoLogin"
     }
 }
 
@@ -1252,195 +2772,438 @@ public enum TranscodeReason: String, Codable, CaseIterable {
     case directPlayError = "DirectPlayError"
 }
 
-public enum ForgotPasswordAction: String, Codable, CaseIterable {
-    case contactAdmin = "ContactAdmin"
-    case pinCode = "PinCode"
-    case inNetworkRequired = "InNetworkRequired"
-}
-
-/// Class CountryInfo.
-public struct CountryInfo: Codable {
-    /// Gets or sets the display name.
-    public var displayName: String?
-    /// Gets or sets the name of the two letter ISO region.
-    public var twoLetterISORegionName: String?
-    /// Gets or sets the name.
+public struct CreateUserByName: Codable {
+    public var password: String?
     public var name: String?
-    /// Gets or sets the name of the three letter ISO region.
-    public var threeLetterISORegionName: String?
 
-    public init(displayName: String? = nil, twoLetterISORegionName: String? = nil, name: String? = nil, threeLetterISORegionName: String? = nil) {
-        self.displayName = displayName
-        self.twoLetterISORegionName = twoLetterISORegionName
+    public init(password: String? = nil, name: String? = nil) {
+        self.password = password
         self.name = name
-        self.threeLetterISORegionName = threeLetterISORegionName
     }
 
     private enum CodingKeys: String, CodingKey {
-        case displayName = "DisplayName"
-        case twoLetterISORegionName = "TwoLetterISORegionName"
+        case password = "Password"
         case name = "Name"
-        case threeLetterISORegionName = "ThreeLetterISORegionName"
     }
 }
 
-/// This is a serializable stub class that is used by the api to provide information about installed plugins.
-public struct PluginInfo: Codable {
-    /// Gets or sets a value indicating whether the plugin can be uninstalled.
-    public var canUninstall: Bool?
-    /// Gets or sets the description.
-    public var description: String?
-    /// Gets or sets the unique id.
-    public var id: UUID?
-    /// Gets or sets a value indicating the status of the plugin.
-    public var status: PluginStatus?
-    /// Gets or sets a value indicating whether this plugin has a valid image.
-    public var hasImage: Bool?
-    /// Gets or sets the name of the configuration file.
-    public var configurationFileName: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the version.
-    public var version: Version?
+public struct RemoveFromPlaylistRequestDto: Codable {
+    public var playlistItemIDs: [UUID]?
 
-    public init(canUninstall: Bool? = nil, description: String? = nil, id: UUID? = nil, status: PluginStatus? = nil, hasImage: Bool? = nil, configurationFileName: String? = nil, name: String? = nil, version: Version? = nil) {
-        self.canUninstall = canUninstall
-        self.description = description
-        self.id = id
-        self.status = status
-        self.hasImage = hasImage
-        self.configurationFileName = configurationFileName
-        self.name = name
-        self.version = version
+    public init(playlistItemIDs: [UUID]? = nil) {
+        self.playlistItemIDs = playlistItemIDs
     }
 
     private enum CodingKeys: String, CodingKey {
-        case canUninstall = "CanUninstall"
-        case description = "Description"
-        case id = "Id"
-        case status = "Status"
-        case hasImage = "HasImage"
-        case configurationFileName = "ConfigurationFileName"
-        case name = "Name"
-        case version = "Version"
+        case playlistItemIDs = "PlaylistItemIds"
     }
 }
 
-public struct TranscodingProfile: Codable {
-    public var isEstimateContentLength: Bool?
-    public var segmentLength: Int?
-    public var audioCodec: String?
-    public var isBreakOnNonKeyFrames: Bool?
-    public var maxAudioChannels: String?
-    public var minSegments: Int?
-    public var enableMpegtsM2TsMode: Bool?
-    public var type: DlnaProfileType?
-    public var enableSubtitlesInManifest: Bool?
-    public var container: String?
-    public var `protocol`: String?
-    public var transcodeSeekInfo: TranscodeSeekInfo?
-    public var videoCodec: String?
-    public var isCopyTimestamps: Bool?
-    public var context: EncodingContext?
+public enum FileSystemEntryType: String, Codable, CaseIterable {
+    case file = "File"
+    case directory = "Directory"
+    case networkComputer = "NetworkComputer"
+    case networkShare = "NetworkShare"
+}
 
-    public init(isEstimateContentLength: Bool? = nil, segmentLength: Int? = nil, audioCodec: String? = nil, isBreakOnNonKeyFrames: Bool? = nil, maxAudioChannels: String? = nil, minSegments: Int? = nil, enableMpegtsM2TsMode: Bool? = nil, type: DlnaProfileType? = nil, enableSubtitlesInManifest: Bool? = nil, container: String? = nil, `protocol`: String? = nil, transcodeSeekInfo: TranscodeSeekInfo? = nil, videoCodec: String? = nil, isCopyTimestamps: Bool? = nil, context: EncodingContext? = nil) {
-        self.isEstimateContentLength = isEstimateContentLength
-        self.segmentLength = segmentLength
-        self.audioCodec = audioCodec
-        self.isBreakOnNonKeyFrames = isBreakOnNonKeyFrames
-        self.maxAudioChannels = maxAudioChannels
-        self.minSegments = minSegments
-        self.enableMpegtsM2TsMode = enableMpegtsM2TsMode
+public struct NotificationTypeInfo: Codable {
+    public var type: String?
+    public var isBasedOnUserEvent: Bool?
+    public var isEnabled: Bool?
+    public var name: String?
+    public var category: String?
+
+    public init(type: String? = nil, isBasedOnUserEvent: Bool? = nil, isEnabled: Bool? = nil, name: String? = nil, category: String? = nil) {
         self.type = type
-        self.enableSubtitlesInManifest = enableSubtitlesInManifest
-        self.container = container
-        self.protocol = `protocol`
-        self.transcodeSeekInfo = transcodeSeekInfo
-        self.videoCodec = videoCodec
-        self.isCopyTimestamps = isCopyTimestamps
-        self.context = context
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isEstimateContentLength = "EstimateContentLength"
-        case segmentLength = "SegmentLength"
-        case audioCodec = "AudioCodec"
-        case isBreakOnNonKeyFrames = "BreakOnNonKeyFrames"
-        case maxAudioChannels = "MaxAudioChannels"
-        case minSegments = "MinSegments"
-        case enableMpegtsM2TsMode = "EnableMpegtsM2TsMode"
-        case type = "Type"
-        case enableSubtitlesInManifest = "EnableSubtitlesInManifest"
-        case container = "Container"
-        case `protocol` = "Protocol"
-        case transcodeSeekInfo = "TranscodeSeekInfo"
-        case videoCodec = "VideoCodec"
-        case isCopyTimestamps = "CopyTimestamps"
-        case context = "Context"
-    }
-}
-
-public struct AlbumInfo: Codable {
-    public var indexNumber: Int?
-    /// Gets or sets the path.
-    public var path: String?
-    public var parentIndexNumber: Int?
-    /// Gets or sets the year.
-    public var year: Int?
-    /// Gets or sets the album artist.
-    public var albumArtists: [String]?
-    public var isAutomated: Bool?
-    /// Gets or sets the artist provider ids.
-    public var artistProviderIDs: [String: String]?
-    public var premiereDate: Date?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    /// Gets or sets the name.
-    public var name: String?
-    public var songInfos: [SongInfo]?
-
-    public init(indexNumber: Int? = nil, path: String? = nil, parentIndexNumber: Int? = nil, year: Int? = nil, albumArtists: [String]? = nil, isAutomated: Bool? = nil, artistProviderIDs: [String: String]? = nil, premiereDate: Date? = nil, providerIDs: [String: String]? = nil, metadataLanguage: String? = nil, metadataCountryCode: String? = nil, name: String? = nil, songInfos: [SongInfo]? = nil) {
-        self.indexNumber = indexNumber
-        self.path = path
-        self.parentIndexNumber = parentIndexNumber
-        self.year = year
-        self.albumArtists = albumArtists
-        self.isAutomated = isAutomated
-        self.artistProviderIDs = artistProviderIDs
-        self.premiereDate = premiereDate
-        self.providerIDs = providerIDs
-        self.metadataLanguage = metadataLanguage
-        self.metadataCountryCode = metadataCountryCode
+        self.isBasedOnUserEvent = isBasedOnUserEvent
+        self.isEnabled = isEnabled
         self.name = name
-        self.songInfos = songInfos
+        self.category = category
     }
 
     private enum CodingKeys: String, CodingKey {
-        case indexNumber = "IndexNumber"
-        case path = "Path"
-        case parentIndexNumber = "ParentIndexNumber"
-        case year = "Year"
-        case albumArtists = "AlbumArtists"
-        case isAutomated = "IsAutomated"
-        case artistProviderIDs = "ArtistProviderIds"
-        case premiereDate = "PremiereDate"
-        case providerIDs = "ProviderIds"
-        case metadataLanguage = "MetadataLanguage"
-        case metadataCountryCode = "MetadataCountryCode"
+        case type = "Type"
+        case isBasedOnUserEvent = "IsBasedOnUserEvent"
+        case isEnabled = "Enabled"
         case name = "Name"
-        case songInfos = "SongInfos"
+        case category = "Category"
     }
 }
 
-/// Class ParentalRating.
-public struct ParentalRating: Codable {
-    /// Gets or sets the name.
+public enum PlaystateCommand: String, Codable, CaseIterable {
+    case stop = "Stop"
+    case pause = "Pause"
+    case unpause = "Unpause"
+    case nextTrack = "NextTrack"
+    case previousTrack = "PreviousTrack"
+    case seek = "Seek"
+    case rewind = "Rewind"
+    case fastForward = "FastForward"
+    case playPause = "PlayPause"
+}
+
+public struct UtcTimeResponse: Codable {
+    public var responseTransmissionTime: Date?
+    public var requestReceptionTime: Date?
+
+    public init(responseTransmissionTime: Date? = nil, requestReceptionTime: Date? = nil) {
+        self.responseTransmissionTime = responseTransmissionTime
+        self.requestReceptionTime = requestReceptionTime
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case responseTransmissionTime = "ResponseTransmissionTime"
+        case requestReceptionTime = "RequestReceptionTime"
+    }
+}
+
+public struct MusicVideoInfoRemoteSearchQuery: Codable {
+    public var itemID: UUID?
+    public var searchProviderName: String?
+    public var searchInfo: MusicVideoInfo?
+    public var isIncludeDisabledProviders: Bool?
+
+    public init(itemID: UUID? = nil, searchProviderName: String? = nil, searchInfo: MusicVideoInfo? = nil, isIncludeDisabledProviders: Bool? = nil) {
+        self.itemID = itemID
+        self.searchProviderName = searchProviderName
+        self.searchInfo = searchInfo
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case itemID = "ItemId"
+        case searchProviderName = "SearchProviderName"
+        case searchInfo = "SearchInfo"
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+    }
+}
+
+public struct ChannelMappingOptionsDto: Codable {
+    public var providerChannels: [NameIDPair]?
+    public var providerName: String?
+    public var mappings: [NameValuePair]?
+    public var tunerChannels: [TunerChannelMapping]?
+
+    public init(providerChannels: [NameIDPair]? = nil, providerName: String? = nil, mappings: [NameValuePair]? = nil, tunerChannels: [TunerChannelMapping]? = nil) {
+        self.providerChannels = providerChannels
+        self.providerName = providerName
+        self.mappings = mappings
+        self.tunerChannels = tunerChannels
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case providerChannels = "ProviderChannels"
+        case providerName = "ProviderName"
+        case mappings = "Mappings"
+        case tunerChannels = "TunerChannels"
+    }
+}
+
+public enum Architecture: String, Codable, CaseIterable {
+    case x86 = "X86"
+    case x64 = "X64"
+    case arm = "Arm"
+    case arm64 = "Arm64"
+    case wasm = "Wasm"
+}
+
+public enum SortOrder: String, Codable, CaseIterable {
+    case ascending = "Ascending"
+    case descending = "Descending"
+}
+
+public struct ImageOption: Codable {
+    public var limit: Int?
+    public var type: ImageType?
+    public var minWidth: Int?
+
+    public init(limit: Int? = nil, type: ImageType? = nil, minWidth: Int? = nil) {
+        self.limit = limit
+        self.type = type
+        self.minWidth = minWidth
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case limit = "Limit"
+        case type = "Type"
+        case minWidth = "MinWidth"
+    }
+}
+
+public struct PersonLookupInfoRemoteSearchQuery: Codable {
+    public var isIncludeDisabledProviders: Bool?
+    public var searchInfo: PersonLookupInfo?
+    public var searchProviderName: String?
+    public var itemID: UUID?
+
+    public init(isIncludeDisabledProviders: Bool? = nil, searchInfo: PersonLookupInfo? = nil, searchProviderName: String? = nil, itemID: UUID? = nil) {
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+        self.searchInfo = searchInfo
+        self.searchProviderName = searchProviderName
+        self.itemID = itemID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+        case searchInfo = "SearchInfo"
+        case searchProviderName = "SearchProviderName"
+        case itemID = "ItemId"
+    }
+}
+
+public struct ImageProviderInfo: Codable {
+    public var supportedImages: [ImageType]?
     public var name: String?
-    /// Gets or sets the value.
+
+    public init(supportedImages: [ImageType]? = nil, name: String? = nil) {
+        self.supportedImages = supportedImages
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case supportedImages = "SupportedImages"
+        case name = "Name"
+    }
+}
+
+public struct MediaStream: Codable {
+    public var title: String?
+    public var localizedForced: String?
+    public var type: MediaStreamType?
+    public var codecTag: String?
+    public var score: Int?
+    public var isDefault: Bool?
+    public var language: String?
+    public var level: Double?
+    public var displayTitle: String?
+    public var isInterlaced: Bool?
+    public var isForced: Bool?
+    public var width: Int?
+    public var averageFrameRate: Double?
+    public var timeBase: String?
+    public var height: Int?
+    public var sampleRate: Int?
+    public var bitRate: Int?
+    public var index: Int?
+    public var pixelFormat: String?
+    public var realFrameRate: Double?
+    public var channels: Int?
+    public var path: String?
+    public var codecTimeBase: String?
+    public var deliveryURL: String?
+    public var deliveryMethod: SubtitleDeliveryMethod?
+    public var comment: String?
+    public var nalLengthSize: String?
+    public var refFrames: Int?
+    public var aspectRatio: String?
+    public var isAnamorphic: Bool?
+    public var colorRange: String?
+    public var profile: String?
+    public var isSupportsExternalStream: Bool?
+    public var localizedUndefined: String?
+    public var codec: String?
+    public var isAVC: Bool?
+    public var channelLayout: String?
+    public var bitDepth: Int?
+    public var isExternal: Bool?
+    public var colorPrimaries: String?
+    public var videoRange: String?
+    public var colorSpace: String?
+    public var localizedDefault: String?
+    public var isExternalURL: Bool?
+    public var isTextSubtitleStream: Bool?
+    public var colorTransfer: String?
+    public var packetLength: Int?
+
+    public init(title: String? = nil, localizedForced: String? = nil, type: MediaStreamType? = nil, codecTag: String? = nil, score: Int? = nil, isDefault: Bool? = nil, language: String? = nil, level: Double? = nil, displayTitle: String? = nil, isInterlaced: Bool? = nil, isForced: Bool? = nil, width: Int? = nil, averageFrameRate: Double? = nil, timeBase: String? = nil, height: Int? = nil, sampleRate: Int? = nil, bitRate: Int? = nil, index: Int? = nil, pixelFormat: String? = nil, realFrameRate: Double? = nil, channels: Int? = nil, path: String? = nil, codecTimeBase: String? = nil, deliveryURL: String? = nil, deliveryMethod: SubtitleDeliveryMethod? = nil, comment: String? = nil, nalLengthSize: String? = nil, refFrames: Int? = nil, aspectRatio: String? = nil, isAnamorphic: Bool? = nil, colorRange: String? = nil, profile: String? = nil, isSupportsExternalStream: Bool? = nil, localizedUndefined: String? = nil, codec: String? = nil, isAVC: Bool? = nil, channelLayout: String? = nil, bitDepth: Int? = nil, isExternal: Bool? = nil, colorPrimaries: String? = nil, videoRange: String? = nil, colorSpace: String? = nil, localizedDefault: String? = nil, isExternalURL: Bool? = nil, isTextSubtitleStream: Bool? = nil, colorTransfer: String? = nil, packetLength: Int? = nil) {
+        self.title = title
+        self.localizedForced = localizedForced
+        self.type = type
+        self.codecTag = codecTag
+        self.score = score
+        self.isDefault = isDefault
+        self.language = language
+        self.level = level
+        self.displayTitle = displayTitle
+        self.isInterlaced = isInterlaced
+        self.isForced = isForced
+        self.width = width
+        self.averageFrameRate = averageFrameRate
+        self.timeBase = timeBase
+        self.height = height
+        self.sampleRate = sampleRate
+        self.bitRate = bitRate
+        self.index = index
+        self.pixelFormat = pixelFormat
+        self.realFrameRate = realFrameRate
+        self.channels = channels
+        self.path = path
+        self.codecTimeBase = codecTimeBase
+        self.deliveryURL = deliveryURL
+        self.deliveryMethod = deliveryMethod
+        self.comment = comment
+        self.nalLengthSize = nalLengthSize
+        self.refFrames = refFrames
+        self.aspectRatio = aspectRatio
+        self.isAnamorphic = isAnamorphic
+        self.colorRange = colorRange
+        self.profile = profile
+        self.isSupportsExternalStream = isSupportsExternalStream
+        self.localizedUndefined = localizedUndefined
+        self.codec = codec
+        self.isAVC = isAVC
+        self.channelLayout = channelLayout
+        self.bitDepth = bitDepth
+        self.isExternal = isExternal
+        self.colorPrimaries = colorPrimaries
+        self.videoRange = videoRange
+        self.colorSpace = colorSpace
+        self.localizedDefault = localizedDefault
+        self.isExternalURL = isExternalURL
+        self.isTextSubtitleStream = isTextSubtitleStream
+        self.colorTransfer = colorTransfer
+        self.packetLength = packetLength
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case title = "Title"
+        case localizedForced
+        case type = "Type"
+        case codecTag = "CodecTag"
+        case score = "Score"
+        case isDefault = "IsDefault"
+        case language = "Language"
+        case level = "Level"
+        case displayTitle = "DisplayTitle"
+        case isInterlaced = "IsInterlaced"
+        case isForced = "IsForced"
+        case width = "Width"
+        case averageFrameRate = "AverageFrameRate"
+        case timeBase = "TimeBase"
+        case height = "Height"
+        case sampleRate = "SampleRate"
+        case bitRate = "BitRate"
+        case index = "Index"
+        case pixelFormat = "PixelFormat"
+        case realFrameRate = "RealFrameRate"
+        case channels = "Channels"
+        case path = "Path"
+        case codecTimeBase = "CodecTimeBase"
+        case deliveryURL = "DeliveryUrl"
+        case deliveryMethod = "DeliveryMethod"
+        case comment = "Comment"
+        case nalLengthSize = "NalLengthSize"
+        case refFrames = "RefFrames"
+        case aspectRatio = "AspectRatio"
+        case isAnamorphic = "IsAnamorphic"
+        case colorRange = "ColorRange"
+        case profile = "Profile"
+        case isSupportsExternalStream = "SupportsExternalStream"
+        case localizedUndefined
+        case codec = "Codec"
+        case isAVC = "IsAVC"
+        case channelLayout = "ChannelLayout"
+        case bitDepth = "BitDepth"
+        case isExternal = "IsExternal"
+        case colorPrimaries = "ColorPrimaries"
+        case videoRange = "VideoRange"
+        case colorSpace = "ColorSpace"
+        case localizedDefault
+        case isExternalURL = "IsExternalUrl"
+        case isTextSubtitleStream = "IsTextSubtitleStream"
+        case colorTransfer = "ColorTransfer"
+        case packetLength = "PacketLength"
+    }
+}
+
+public enum GroupShuffleMode: String, Codable, CaseIterable {
+    case sorted = "Sorted"
+    case shuffle = "Shuffle"
+}
+
+public struct ActivityLogEntry: Codable {
+    public var severity: LogLevel?
+    public var shortOverview: String?
+    public var overview: String?
+    public var userID: UUID?
+    public var itemID: String?
+    public var date: Date?
+    public var name: String?
+    public var type: String?
+    public var userPrimaryImageTag: String?
+    public var id: Int?
+
+    public init(severity: LogLevel? = nil, shortOverview: String? = nil, overview: String? = nil, userID: UUID? = nil, itemID: String? = nil, date: Date? = nil, name: String? = nil, type: String? = nil, userPrimaryImageTag: String? = nil, id: Int? = nil) {
+        self.severity = severity
+        self.shortOverview = shortOverview
+        self.overview = overview
+        self.userID = userID
+        self.itemID = itemID
+        self.date = date
+        self.name = name
+        self.type = type
+        self.userPrimaryImageTag = userPrimaryImageTag
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case severity = "Severity"
+        case shortOverview = "ShortOverview"
+        case overview = "Overview"
+        case userID = "UserId"
+        case itemID = "ItemId"
+        case date = "Date"
+        case name = "Name"
+        case type = "Type"
+        case userPrimaryImageTag = "UserPrimaryImageTag"
+        case id = "Id"
+    }
+}
+
+public struct PublicSystemInfo: Codable {
+    public var serverName: String?
+    public var productName: String?
+    public var version: String?
+    public var isStartupWizardCompleted: Bool?
+    public var localAddress: String?
+    public var operatingSystem: String?
+    public var id: String?
+
+    public init(serverName: String? = nil, productName: String? = nil, version: String? = nil, isStartupWizardCompleted: Bool? = nil, localAddress: String? = nil, operatingSystem: String? = nil, id: String? = nil) {
+        self.serverName = serverName
+        self.productName = productName
+        self.version = version
+        self.isStartupWizardCompleted = isStartupWizardCompleted
+        self.localAddress = localAddress
+        self.operatingSystem = operatingSystem
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case serverName = "ServerName"
+        case productName = "ProductName"
+        case version = "Version"
+        case isStartupWizardCompleted = "StartupWizardCompleted"
+        case localAddress = "LocalAddress"
+        case operatingSystem = "OperatingSystem"
+        case id = "Id"
+    }
+}
+
+public struct NewGroupRequestDto: Codable {
+    public var groupName: String?
+
+    public init(groupName: String? = nil) {
+        self.groupName = groupName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case groupName = "GroupName"
+    }
+}
+
+public struct ParentalRating: Codable {
+    public var name: String?
     public var value: Int?
 
     public init(name: String? = nil, value: Int? = nil) {
@@ -1454,5916 +3217,6 @@ public struct ParentalRating: Codable {
     }
 }
 
-/// An enum that represents a day of the week, weekdays, weekends, or all days.
-public enum DynamicDayOfWeek: String, Codable, CaseIterable {
-    case sunday = "Sunday"
-    case monday = "Monday"
-    case tuesday = "Tuesday"
-    case wednesday = "Wednesday"
-    case thursday = "Thursday"
-    case friday = "Friday"
-    case saturday = "Saturday"
-    case everyday = "Everyday"
-    case weekday = "Weekday"
-    case weekend = "Weekend"
-}
-
-public enum ProfileConditionValue: String, Codable, CaseIterable {
-    case audioChannels = "AudioChannels"
-    case audioBitrate = "AudioBitrate"
-    case audioProfile = "AudioProfile"
-    case width = "Width"
-    case height = "Height"
-    case has64BitOffsets = "Has64BitOffsets"
-    case packetLength = "PacketLength"
-    case videoBitDepth = "VideoBitDepth"
-    case videoBitrate = "VideoBitrate"
-    case videoFramerate = "VideoFramerate"
-    case videoLevel = "VideoLevel"
-    case videoProfile = "VideoProfile"
-    case videoTimestamp = "VideoTimestamp"
-    case isAnamorphic = "IsAnamorphic"
-    case refFrames = "RefFrames"
-    case numAudioStreams = "NumAudioStreams"
-    case numVideoStreams = "NumVideoStreams"
-    case isSecondaryAudio = "IsSecondaryAudio"
-    case videoCodecTag = "VideoCodecTag"
-    case isAvc = "IsAvc"
-    case isInterlaced = "IsInterlaced"
-    case audioSampleRate = "AudioSampleRate"
-    case audioBitDepth = "AudioBitDepth"
-}
-
-public struct SubtitleProfile: Codable {
-    public var format: String?
-    public var method: SubtitleDeliveryMethod?
-    public var language: String?
-    public var didlMode: String?
-    public var container: String?
-
-    public init(format: String? = nil, method: SubtitleDeliveryMethod? = nil, language: String? = nil, didlMode: String? = nil, container: String? = nil) {
-        self.format = format
-        self.method = method
-        self.language = language
-        self.didlMode = didlMode
-        self.container = container
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case format = "Format"
-        case method = "Method"
-        case language = "Language"
-        case didlMode = "DidlMode"
-        case container = "Container"
-    }
-}
-
-/// Quick connect state.
-public enum QuickConnectState: String, Codable, CaseIterable {
-    case unavailable = "Unavailable"
-    case available = "Available"
-    case active = "Active"
-}
-
-/// Enum ChannelType.
-public enum ChannelType: String, Codable, CaseIterable {
-    case tv = "TV"
-    case radio = "Radio"
-}
-
-public struct TrailerInfoRemoteSearchQuery: Codable {
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var searchInfo: TrailerInfo?
-    public var itemID: UUID?
-
-    public init(searchProviderName: String? = nil, isIncludeDisabledProviders: Bool? = nil, searchInfo: TrailerInfo? = nil, itemID: UUID? = nil) {
-        self.searchProviderName = searchProviderName
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.searchInfo = searchInfo
-        self.itemID = itemID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case searchProviderName = "SearchProviderName"
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case searchInfo = "SearchInfo"
-        case itemID = "ItemId"
-    }
-}
-
-public struct MusicVideoInfo: Codable {
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var premiereDate: Date?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    /// Gets or sets the year.
-    public var year: Int?
-    public var indexNumber: Int?
-    /// Gets or sets the path.
-    public var path: String?
-    public var parentIndexNumber: Int?
-    public var artists: [String]?
-    public var isAutomated: Bool?
-
-    public init(name: String? = nil, metadataCountryCode: String? = nil, premiereDate: Date? = nil, metadataLanguage: String? = nil, providerIDs: [String: String]? = nil, year: Int? = nil, indexNumber: Int? = nil, path: String? = nil, parentIndexNumber: Int? = nil, artists: [String]? = nil, isAutomated: Bool? = nil) {
-        self.name = name
-        self.metadataCountryCode = metadataCountryCode
-        self.premiereDate = premiereDate
-        self.metadataLanguage = metadataLanguage
-        self.providerIDs = providerIDs
-        self.year = year
-        self.indexNumber = indexNumber
-        self.path = path
-        self.parentIndexNumber = parentIndexNumber
-        self.artists = artists
-        self.isAutomated = isAutomated
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case metadataCountryCode = "MetadataCountryCode"
-        case premiereDate = "PremiereDate"
-        case metadataLanguage = "MetadataLanguage"
-        case providerIDs = "ProviderIds"
-        case year = "Year"
-        case indexNumber = "IndexNumber"
-        case path = "Path"
-        case parentIndexNumber = "ParentIndexNumber"
-        case artists = "Artists"
-        case isAutomated = "IsAutomated"
-    }
-}
-
-/// Class PingRequestDto.
-public struct PingRequestDto: Codable {
-    /// Gets or sets the ping time.
-    public var ping: Int?
-
-    public init(ping: Int? = nil) {
-        self.ping = ping
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case ping = "Ping"
-    }
-}
-
-public struct SeriesTimerInfoDtoQueryResult: Codable {
-    /// Gets or sets the items.
-    public var items: [SeriesTimerInfoDto]?
-    /// The index of the first record in Items.
-    public var startIndex: Int?
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-
-    public init(items: [SeriesTimerInfoDto]? = nil, startIndex: Int? = nil, totalRecordCount: Int? = nil) {
-        self.items = items
-        self.startIndex = startIndex
-        self.totalRecordCount = totalRecordCount
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case items = "Items"
-        case startIndex = "StartIndex"
-        case totalRecordCount = "TotalRecordCount"
-    }
-}
-
-public struct DeviceInfo: Codable {
-    /// Gets or sets the identifier.
-    public var id: String?
-    /// Gets or sets the date last modified.
-    public var dateLastActivity: Date?
-    /// Gets or sets the name of the application.
-    public var appName: String?
-    /// Gets or sets the capabilities.
-    public var capabilities: ClientCapabilities?
-    public var name: String?
-    public var iconURL: String?
-    /// Gets or sets the last name of the user.
-    public var lastUserName: String?
-    /// Gets or sets the application version.
-    public var appVersion: String?
-    /// Gets or sets the last user identifier.
-    public var lastUserID: UUID?
-
-    public init(id: String? = nil, dateLastActivity: Date? = nil, appName: String? = nil, capabilities: ClientCapabilities? = nil, name: String? = nil, iconURL: String? = nil, lastUserName: String? = nil, appVersion: String? = nil, lastUserID: UUID? = nil) {
-        self.id = id
-        self.dateLastActivity = dateLastActivity
-        self.appName = appName
-        self.capabilities = capabilities
-        self.name = name
-        self.iconURL = iconURL
-        self.lastUserName = lastUserName
-        self.appVersion = appVersion
-        self.lastUserID = lastUserID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case dateLastActivity = "DateLastActivity"
-        case appName = "AppName"
-        case capabilities = "Capabilities"
-        case name = "Name"
-        case iconURL = "IconUrl"
-        case lastUserName = "LastUserName"
-        case appVersion = "AppVersion"
-        case lastUserID = "LastUserId"
-    }
-}
-
-/// Class SystemInfo.
-public struct SystemInfo: Codable {
-    /// Gets or sets the name of the server.
-    public var serverName: String?
-    /// Gets or sets a value indicating whether this instance has update available.
-    public var hasUpdateAvailable: Bool?
-    /// Gets or sets a value indicating whether this instance can self restart.
-    public var canSelfRestart: Bool?
-    /// Gets or sets a value indicating whether this instance has pending restart.
-    public var hasPendingRestart: Bool?
-    /// Gets or sets a value indicating whether the startup wizard is completed.
-    public var isStartupWizardCompleted: Bool?
-    /// Gets or sets the completed installations.
-    public var completedInstallations: [InstallationInfo]?
-    /// Gets or sets the program data path.
-    public var programDataPath: String?
-    /// Enum describing the location of the FFmpeg tool.
-    public var encoderLocation: FFmpegLocation?
-    /// Gets or sets the server version.
-    public var version: String?
-    /// Gets or sets the internal metadata path.
-    public var internalMetadataPath: String?
-    /// Get or sets the package name.
-    public var packageName: String?
-    /// Gets or sets the transcode path.
-    public var transcodingTempPath: String?
-    /// Gets or sets the product name. This is the AssemblyProduct name.
-    public var productName: String?
-    /// Gets or sets the web UI resources path.
-    public var webPath: String?
-    /// Gets or sets a value indicating whether [supports library monitor].
-    public var isSupportsLibraryMonitor: Bool?
-    /// Gets or sets the id.
-    public var id: String?
-    public var isShuttingDown: Bool?
-    public var systemArchitecture: Architecture?
-    /// Gets or sets the cache path.
-    public var cachePath: String?
-    /// Gets or sets the web socket port number.
-    public var webSocketPortNumber: Int?
-    /// Gets or sets the display name of the operating system.
-    public var operatingSystemDisplayName: String?
-    /// Gets or sets the operating system.
-    public var operatingSystem: String?
-    public var canLaunchWebBrowser: Bool?
-    /// Gets or sets the items by name path.
-    public var itemsByNamePath: String?
-    /// Gets or sets the local address.
-    public var localAddress: String?
-    /// Gets or sets the log path.
-    public var logPath: String?
-
-    public init(serverName: String? = nil, hasUpdateAvailable: Bool? = nil, canSelfRestart: Bool? = nil, hasPendingRestart: Bool? = nil, isStartupWizardCompleted: Bool? = nil, completedInstallations: [InstallationInfo]? = nil, programDataPath: String? = nil, encoderLocation: FFmpegLocation? = nil, version: String? = nil, internalMetadataPath: String? = nil, packageName: String? = nil, transcodingTempPath: String? = nil, productName: String? = nil, webPath: String? = nil, isSupportsLibraryMonitor: Bool? = nil, id: String? = nil, isShuttingDown: Bool? = nil, systemArchitecture: Architecture? = nil, cachePath: String? = nil, webSocketPortNumber: Int? = nil, operatingSystemDisplayName: String? = nil, operatingSystem: String? = nil, canLaunchWebBrowser: Bool? = nil, itemsByNamePath: String? = nil, localAddress: String? = nil, logPath: String? = nil) {
-        self.serverName = serverName
-        self.hasUpdateAvailable = hasUpdateAvailable
-        self.canSelfRestart = canSelfRestart
-        self.hasPendingRestart = hasPendingRestart
-        self.isStartupWizardCompleted = isStartupWizardCompleted
-        self.completedInstallations = completedInstallations
-        self.programDataPath = programDataPath
-        self.encoderLocation = encoderLocation
-        self.version = version
-        self.internalMetadataPath = internalMetadataPath
-        self.packageName = packageName
-        self.transcodingTempPath = transcodingTempPath
-        self.productName = productName
-        self.webPath = webPath
-        self.isSupportsLibraryMonitor = isSupportsLibraryMonitor
-        self.id = id
-        self.isShuttingDown = isShuttingDown
-        self.systemArchitecture = systemArchitecture
-        self.cachePath = cachePath
-        self.webSocketPortNumber = webSocketPortNumber
-        self.operatingSystemDisplayName = operatingSystemDisplayName
-        self.operatingSystem = operatingSystem
-        self.canLaunchWebBrowser = canLaunchWebBrowser
-        self.itemsByNamePath = itemsByNamePath
-        self.localAddress = localAddress
-        self.logPath = logPath
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case serverName = "ServerName"
-        case hasUpdateAvailable = "HasUpdateAvailable"
-        case canSelfRestart = "CanSelfRestart"
-        case hasPendingRestart = "HasPendingRestart"
-        case isStartupWizardCompleted = "StartupWizardCompleted"
-        case completedInstallations = "CompletedInstallations"
-        case programDataPath = "ProgramDataPath"
-        case encoderLocation = "EncoderLocation"
-        case version = "Version"
-        case internalMetadataPath = "InternalMetadataPath"
-        case packageName = "PackageName"
-        case transcodingTempPath = "TranscodingTempPath"
-        case productName = "ProductName"
-        case webPath = "WebPath"
-        case isSupportsLibraryMonitor = "SupportsLibraryMonitor"
-        case id = "Id"
-        case isShuttingDown = "IsShuttingDown"
-        case systemArchitecture = "SystemArchitecture"
-        case cachePath = "CachePath"
-        case webSocketPortNumber = "WebSocketPortNumber"
-        case operatingSystemDisplayName = "OperatingSystemDisplayName"
-        case operatingSystem = "OperatingSystem"
-        case canLaunchWebBrowser = "CanLaunchWebBrowser"
-        case itemsByNamePath = "ItemsByNamePath"
-        case localAddress = "LocalAddress"
-        case logPath = "LogPath"
-    }
-}
-
-/// Class FileSystemEntryInfo.
-public struct FileSystemEntryInfo: Codable {
-    /// Gets the path.
-    public var path: String?
-    /// Gets the name.
-    public var name: String?
-    /// Gets the type.
-    public var type: FileSystemEntryType?
-
-    public init(path: String? = nil, name: String? = nil, type: FileSystemEntryType? = nil) {
-        self.path = path
-        self.name = name
-        self.type = type
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case path = "Path"
-        case name = "Name"
-        case type = "Type"
-    }
-}
-
-public struct CodecProfile: Codable {
-    public var conditions: [ProfileCondition]?
-    public var applyConditions: [ProfileCondition]?
-    public var type: CodecType?
-    public var container: String?
-    public var codec: String?
-
-    public init(conditions: [ProfileCondition]? = nil, applyConditions: [ProfileCondition]? = nil, type: CodecType? = nil, container: String? = nil, codec: String? = nil) {
-        self.conditions = conditions
-        self.applyConditions = applyConditions
-        self.type = type
-        self.container = container
-        self.codec = codec
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case conditions = "Conditions"
-        case applyConditions = "ApplyConditions"
-        case type = "Type"
-        case container = "Container"
-        case codec = "Codec"
-    }
-}
-
-/// Enum MetadataFields.
-public enum MetadataField: String, Codable, CaseIterable {
-    case cast = "Cast"
-    case genres = "Genres"
-    case productionLocations = "ProductionLocations"
-    case studios = "Studios"
-    case tags = "Tags"
-    case name = "Name"
-    case overview = "Overview"
-    case runtime = "Runtime"
-    case officialRating = "OfficialRating"
-}
-
-public enum HeaderMatchType: String, Codable, CaseIterable {
-    case equals = "Equals"
-    case regex = "Regex"
-    case substring = "Substring"
-}
-
-/// Class MediaStream.
-public struct MediaStream: Codable {
-    /// Gets or sets the codec.
-    public var codec: String?
-    /// Gets or sets the average frame rate.
-    public var averageFrameRate: Double?
-    /// Gets or sets a value indicating whether this instance is interlaced.
-    public var isInterlaced: Bool?
-    public var nalLengthSize: String?
-    /// Gets or sets the sample rate.
-    public var sampleRate: Int?
-    /// Gets or sets the pixel format.
-    public var pixelFormat: String?
-    /// Gets or sets the type.
-    public var type: MediaStreamType?
-    /// Gets or sets the index.
-    public var index: Int?
-    /// Gets or sets a value indicating whether this instance is external.
-    public var isExternal: Bool?
-    /// Gets or sets the reference frames.
-    public var refFrames: Int?
-    /// Gets a value indicating whether this instance is anamorphic.
-    public var isAnamorphic: Bool?
-    public var localizedDefault: String?
-    /// Gets or sets a value indicating whether this instance is external URL.
-    public var isExternalURL: Bool?
-    /// Gets or sets the channels.
-    public var channels: Int?
-    /// Gets or sets the filename.
-    public var path: String?
-    /// Gets or sets the language.
-    public var language: String?
-    /// Gets or sets the comment.
-    public var comment: String?
-    /// Gets or sets the score.
-    public var score: Int?
-    /// Gets or sets a value indicating whether this instance is forced.
-    public var isForced: Bool?
-    /// Gets or sets the title.
-    public var title: String?
-    /// Gets or sets the color space.
-    public var colorSpace: String?
-    public var displayTitle: String?
-    /// Gets or sets the color range.
-    public var colorRange: String?
-    public var localizedUndefined: String?
-    /// Gets or sets a value indicating whether [supports external stream].
-    public var isSupportsExternalStream: Bool?
-    public var isTextSubtitleStream: Bool?
-    public var isAVC: Bool?
-    /// Gets or sets the real frame rate.
-    public var realFrameRate: Double?
-    /// Gets or sets a value indicating whether this instance is default.
-    public var isDefault: Bool?
-    /// Gets or sets the width.
-    public var width: Int?
-    /// Gets or sets the aspect ratio.
-    public var aspectRatio: String?
-    /// Gets or sets the method.
-    public var deliveryMethod: SubtitleDeliveryMethod?
-    /// Gets or sets the time base.
-    public var timeBase: String?
-    /// Gets or sets the bit depth.
-    public var bitDepth: Int?
-    public var localizedForced: String?
-    /// Gets or sets the channel layout.
-    public var channelLayout: String?
-    /// Gets or sets the codec time base.
-    public var codecTimeBase: String?
-    /// Gets or sets the length of the packet.
-    public var packetLength: Int?
-    /// Gets or sets the delivery URL.
-    public var deliveryURL: String?
-    /// Gets or sets the profile.
-    public var profile: String?
-    /// Gets or sets the bit rate.
-    public var bitRate: Int?
-    /// Gets or sets the level.
-    public var level: Double?
-    /// Gets or sets the color transfer.
-    public var colorTransfer: String?
-    /// Gets or sets the codec tag.
-    public var codecTag: String?
-    /// Gets or sets the height.
-    public var height: Int?
-    /// Gets or sets the video range.
-    public var videoRange: String?
-    /// Gets or sets the color primaries.
-    public var colorPrimaries: String?
-
-    public init(codec: String? = nil, averageFrameRate: Double? = nil, isInterlaced: Bool? = nil, nalLengthSize: String? = nil, sampleRate: Int? = nil, pixelFormat: String? = nil, type: MediaStreamType? = nil, index: Int? = nil, isExternal: Bool? = nil, refFrames: Int? = nil, isAnamorphic: Bool? = nil, localizedDefault: String? = nil, isExternalURL: Bool? = nil, channels: Int? = nil, path: String? = nil, language: String? = nil, comment: String? = nil, score: Int? = nil, isForced: Bool? = nil, title: String? = nil, colorSpace: String? = nil, displayTitle: String? = nil, colorRange: String? = nil, localizedUndefined: String? = nil, isSupportsExternalStream: Bool? = nil, isTextSubtitleStream: Bool? = nil, isAVC: Bool? = nil, realFrameRate: Double? = nil, isDefault: Bool? = nil, width: Int? = nil, aspectRatio: String? = nil, deliveryMethod: SubtitleDeliveryMethod? = nil, timeBase: String? = nil, bitDepth: Int? = nil, localizedForced: String? = nil, channelLayout: String? = nil, codecTimeBase: String? = nil, packetLength: Int? = nil, deliveryURL: String? = nil, profile: String? = nil, bitRate: Int? = nil, level: Double? = nil, colorTransfer: String? = nil, codecTag: String? = nil, height: Int? = nil, videoRange: String? = nil, colorPrimaries: String? = nil) {
-        self.codec = codec
-        self.averageFrameRate = averageFrameRate
-        self.isInterlaced = isInterlaced
-        self.nalLengthSize = nalLengthSize
-        self.sampleRate = sampleRate
-        self.pixelFormat = pixelFormat
-        self.type = type
-        self.index = index
-        self.isExternal = isExternal
-        self.refFrames = refFrames
-        self.isAnamorphic = isAnamorphic
-        self.localizedDefault = localizedDefault
-        self.isExternalURL = isExternalURL
-        self.channels = channels
-        self.path = path
-        self.language = language
-        self.comment = comment
-        self.score = score
-        self.isForced = isForced
-        self.title = title
-        self.colorSpace = colorSpace
-        self.displayTitle = displayTitle
-        self.colorRange = colorRange
-        self.localizedUndefined = localizedUndefined
-        self.isSupportsExternalStream = isSupportsExternalStream
-        self.isTextSubtitleStream = isTextSubtitleStream
-        self.isAVC = isAVC
-        self.realFrameRate = realFrameRate
-        self.isDefault = isDefault
-        self.width = width
-        self.aspectRatio = aspectRatio
-        self.deliveryMethod = deliveryMethod
-        self.timeBase = timeBase
-        self.bitDepth = bitDepth
-        self.localizedForced = localizedForced
-        self.channelLayout = channelLayout
-        self.codecTimeBase = codecTimeBase
-        self.packetLength = packetLength
-        self.deliveryURL = deliveryURL
-        self.profile = profile
-        self.bitRate = bitRate
-        self.level = level
-        self.colorTransfer = colorTransfer
-        self.codecTag = codecTag
-        self.height = height
-        self.videoRange = videoRange
-        self.colorPrimaries = colorPrimaries
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case codec = "Codec"
-        case averageFrameRate = "AverageFrameRate"
-        case isInterlaced = "IsInterlaced"
-        case nalLengthSize = "NalLengthSize"
-        case sampleRate = "SampleRate"
-        case pixelFormat = "PixelFormat"
-        case type = "Type"
-        case index = "Index"
-        case isExternal = "IsExternal"
-        case refFrames = "RefFrames"
-        case isAnamorphic = "IsAnamorphic"
-        case localizedDefault
-        case isExternalURL = "IsExternalUrl"
-        case channels = "Channels"
-        case path = "Path"
-        case language = "Language"
-        case comment = "Comment"
-        case score = "Score"
-        case isForced = "IsForced"
-        case title = "Title"
-        case colorSpace = "ColorSpace"
-        case displayTitle = "DisplayTitle"
-        case colorRange = "ColorRange"
-        case localizedUndefined
-        case isSupportsExternalStream = "SupportsExternalStream"
-        case isTextSubtitleStream = "IsTextSubtitleStream"
-        case isAVC = "IsAVC"
-        case realFrameRate = "RealFrameRate"
-        case isDefault = "IsDefault"
-        case width = "Width"
-        case aspectRatio = "AspectRatio"
-        case deliveryMethod = "DeliveryMethod"
-        case timeBase = "TimeBase"
-        case bitDepth = "BitDepth"
-        case localizedForced
-        case channelLayout = "ChannelLayout"
-        case codecTimeBase = "CodecTimeBase"
-        case packetLength = "PacketLength"
-        case deliveryURL = "DeliveryUrl"
-        case profile = "Profile"
-        case bitRate = "BitRate"
-        case level = "Level"
-        case colorTransfer = "ColorTransfer"
-        case codecTag = "CodecTag"
-        case height = "Height"
-        case videoRange = "VideoRange"
-        case colorPrimaries = "ColorPrimaries"
-    }
-}
-
-public struct TypeOptions: Codable {
-    public var metadataFetchers: [String]?
-    public var type: String?
-    public var imageFetcherOrder: [String]?
-    public var imageFetchers: [String]?
-    public var imageOptions: [ImageOption]?
-    public var metadataFetcherOrder: [String]?
-
-    public init(metadataFetchers: [String]? = nil, type: String? = nil, imageFetcherOrder: [String]? = nil, imageFetchers: [String]? = nil, imageOptions: [ImageOption]? = nil, metadataFetcherOrder: [String]? = nil) {
-        self.metadataFetchers = metadataFetchers
-        self.type = type
-        self.imageFetcherOrder = imageFetcherOrder
-        self.imageFetchers = imageFetchers
-        self.imageOptions = imageOptions
-        self.metadataFetcherOrder = metadataFetcherOrder
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case metadataFetchers = "MetadataFetchers"
-        case type = "Type"
-        case imageFetcherOrder = "ImageFetcherOrder"
-        case imageFetchers = "ImageFetchers"
-        case imageOptions = "ImageOptions"
-        case metadataFetcherOrder = "MetadataFetcherOrder"
-    }
-}
-
-/// This exists simply to identify a set of known commands.
-public enum GeneralCommandType: String, Codable, CaseIterable {
-    case moveUp = "MoveUp"
-    case moveDown = "MoveDown"
-    case moveLeft = "MoveLeft"
-    case moveRight = "MoveRight"
-    case pageUp = "PageUp"
-    case pageDown = "PageDown"
-    case previousLetter = "PreviousLetter"
-    case nextLetter = "NextLetter"
-    case toggleOsd = "ToggleOsd"
-    case toggleContextMenu = "ToggleContextMenu"
-    case select = "Select"
-    case back = "Back"
-    case takeScreenshot = "TakeScreenshot"
-    case sendKey = "SendKey"
-    case sendString = "SendString"
-    case goHome = "GoHome"
-    case goToSettings = "GoToSettings"
-    case volumeUp = "VolumeUp"
-    case volumeDown = "VolumeDown"
-    case mute = "Mute"
-    case unmute = "Unmute"
-    case toggleMute = "ToggleMute"
-    case setVolume = "SetVolume"
-    case setAudioStreamIndex = "SetAudioStreamIndex"
-    case setSubtitleStreamIndex = "SetSubtitleStreamIndex"
-    case toggleFullscreen = "ToggleFullscreen"
-    case displayContent = "DisplayContent"
-    case goToSearch = "GoToSearch"
-    case displayMessage = "DisplayMessage"
-    case setRepeatMode = "SetRepeatMode"
-    case channelUp = "ChannelUp"
-    case channelDown = "ChannelDown"
-    case guide = "Guide"
-    case toggleStats = "ToggleStats"
-    case playMediaSource = "PlayMediaSource"
-    case playTrailers = "PlayTrailers"
-    case setShuffleQueue = "SetShuffleQueue"
-    case playState = "PlayState"
-    case playNext = "PlayNext"
-    case toggleOsdMenu = "ToggleOsdMenu"
-    case play = "Play"
-}
-
-public enum PlaybackErrorCode: String, Codable, CaseIterable {
-    case notAllowed = "NotAllowed"
-    case noCompatibleStream = "NoCompatibleStream"
-    case rateLimitExceeded = "RateLimitExceeded"
-}
-
-public enum LogLevel: String, Codable, CaseIterable {
-    case trace = "Trace"
-    case debug = "Debug"
-    case information = "Information"
-    case warning = "Warning"
-    case error = "Error"
-    case critical = "Critical"
-    case `none` = "None"
-}
-
-public struct DeviceOptions: Codable {
-    public var customName: String?
-
-    public init(customName: String? = nil) {
-        self.customName = customName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case customName = "CustomName"
-    }
-}
-
-/// Enum SendCommandType.
-public enum SendCommandType: String, Codable, CaseIterable {
-    case unpause = "Unpause"
-    case pause = "Pause"
-    case stop = "Stop"
-    case seek = "Seek"
-}
-
-/// This is used by the api to get information about a Person within a BaseItem.
-public struct BaseItemPerson: Codable {
-    /// Gets or sets the primary image tag.
-    public var primaryImageTag: String?
-    /// Gets or sets the primary image blurhash.
-    public var imageBlurHashes: ImageBlurHashes?
-    /// Gets or sets the type.
-    public var type: String?
-    /// Gets or sets the role.
-    public var role: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the identifier.
-    public var id: String?
-
-    /// Gets or sets the primary image blurhash.
-    public struct ImageBlurHashes: Codable {
-        public var menu: [String: String]?
-        public var boxRear: [String: String]?
-        public var thumb: [String: String]?
-        public var banner: [String: String]?
-        public var box: [String: String]?
-        public var chapter: [String: String]?
-        public var disc: [String: String]?
-        public var profile: [String: String]?
-        public var primary: [String: String]?
-        public var art: [String: String]?
-        public var screenshot: [String: String]?
-        public var logo: [String: String]?
-        public var backdrop: [String: String]?
-
-        public init(menu: [String: String]? = nil, boxRear: [String: String]? = nil, thumb: [String: String]? = nil, banner: [String: String]? = nil, box: [String: String]? = nil, chapter: [String: String]? = nil, disc: [String: String]? = nil, profile: [String: String]? = nil, primary: [String: String]? = nil, art: [String: String]? = nil, screenshot: [String: String]? = nil, logo: [String: String]? = nil, backdrop: [String: String]? = nil) {
-            self.menu = menu
-            self.boxRear = boxRear
-            self.thumb = thumb
-            self.banner = banner
-            self.box = box
-            self.chapter = chapter
-            self.disc = disc
-            self.profile = profile
-            self.primary = primary
-            self.art = art
-            self.screenshot = screenshot
-            self.logo = logo
-            self.backdrop = backdrop
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case menu = "Menu"
-            case boxRear = "BoxRear"
-            case thumb = "Thumb"
-            case banner = "Banner"
-            case box = "Box"
-            case chapter = "Chapter"
-            case disc = "Disc"
-            case profile = "Profile"
-            case primary = "Primary"
-            case art = "Art"
-            case screenshot = "Screenshot"
-            case logo = "Logo"
-            case backdrop = "Backdrop"
-        }
-    }
-
-    public init(primaryImageTag: String? = nil, imageBlurHashes: ImageBlurHashes? = nil, type: String? = nil, role: String? = nil, name: String? = nil, id: String? = nil) {
-        self.primaryImageTag = primaryImageTag
-        self.imageBlurHashes = imageBlurHashes
-        self.type = type
-        self.role = role
-        self.name = name
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case primaryImageTag = "PrimaryImageTag"
-        case imageBlurHashes = "ImageBlurHashes"
-        case type = "Type"
-        case role = "Role"
-        case name = "Name"
-        case id = "Id"
-    }
-}
-
-public struct PlaylistCreationResult: Codable {
-    public var id: String?
-
-    public init(id: String? = nil) {
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-    }
-}
-
-/// Class PlaybackStartInfo.
-public struct PlaybackStartInfo: Codable {
-    /// Gets or sets a value indicating whether this instance can seek.
-    public var canSeek: Bool?
-    public var playlistItemID: String?
-    /// Gets or sets the play session identifier.
-    public var playSessionID: String?
-    public var brightness: Int?
-    /// Gets or sets the index of the subtitle stream.
-    public var subtitleStreamIndex: Int?
-    /// Gets or sets the session id.
-    public var sessionID: String?
-    /// Gets or sets the position ticks.
-    public var positionTicks: Int?
-    /// Gets or sets the index of the audio stream.
-    public var audioStreamIndex: Int?
-    /// Gets or sets the item.
-    public var item: BaseItemDto?
-    /// Gets or sets the play method.
-    public var playMethod: PlayMethod?
-    /// Gets or sets the volume level.
-    public var volumeLevel: Int?
-    /// Gets or sets the media version identifier.
-    public var mediaSourceID: String?
-    /// Gets or sets a value indicating whether this instance is muted.
-    public var isMuted: Bool?
-    public var aspectRatio: String?
-    public var nowPlayingQueue: [QueueItem]?
-    /// Gets or sets the item identifier.
-    public var itemID: UUID?
-    /// Gets or sets the repeat mode.
-    public var repeatMode: RepeatMode?
-    /// Gets or sets a value indicating whether this instance is paused.
-    public var isPaused: Bool?
-    public var playbackStartTimeTicks: Int?
-    /// Gets or sets the live stream identifier.
-    public var liveStreamID: String?
-
-    public init(canSeek: Bool? = nil, playlistItemID: String? = nil, playSessionID: String? = nil, brightness: Int? = nil, subtitleStreamIndex: Int? = nil, sessionID: String? = nil, positionTicks: Int? = nil, audioStreamIndex: Int? = nil, item: BaseItemDto? = nil, playMethod: PlayMethod? = nil, volumeLevel: Int? = nil, mediaSourceID: String? = nil, isMuted: Bool? = nil, aspectRatio: String? = nil, nowPlayingQueue: [QueueItem]? = nil, itemID: UUID? = nil, repeatMode: RepeatMode? = nil, isPaused: Bool? = nil, playbackStartTimeTicks: Int? = nil, liveStreamID: String? = nil) {
-        self.canSeek = canSeek
-        self.playlistItemID = playlistItemID
-        self.playSessionID = playSessionID
-        self.brightness = brightness
-        self.subtitleStreamIndex = subtitleStreamIndex
-        self.sessionID = sessionID
-        self.positionTicks = positionTicks
-        self.audioStreamIndex = audioStreamIndex
-        self.item = item
-        self.playMethod = playMethod
-        self.volumeLevel = volumeLevel
-        self.mediaSourceID = mediaSourceID
-        self.isMuted = isMuted
-        self.aspectRatio = aspectRatio
-        self.nowPlayingQueue = nowPlayingQueue
-        self.itemID = itemID
-        self.repeatMode = repeatMode
-        self.isPaused = isPaused
-        self.playbackStartTimeTicks = playbackStartTimeTicks
-        self.liveStreamID = liveStreamID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case canSeek = "CanSeek"
-        case playlistItemID = "PlaylistItemId"
-        case playSessionID = "PlaySessionId"
-        case brightness = "Brightness"
-        case subtitleStreamIndex = "SubtitleStreamIndex"
-        case sessionID = "SessionId"
-        case positionTicks = "PositionTicks"
-        case audioStreamIndex = "AudioStreamIndex"
-        case item = "Item"
-        case playMethod = "PlayMethod"
-        case volumeLevel = "VolumeLevel"
-        case mediaSourceID = "MediaSourceId"
-        case isMuted = "IsMuted"
-        case aspectRatio = "AspectRatio"
-        case nowPlayingQueue = "NowPlayingQueue"
-        case itemID = "ItemId"
-        case repeatMode = "RepeatMode"
-        case isPaused = "IsPaused"
-        case playbackStartTimeTicks = "PlaybackStartTimeTicks"
-        case liveStreamID = "LiveStreamId"
-    }
-}
-
-public struct ResponseProfile: Codable {
-    public var type: DlnaProfileType?
-    public var videoCodec: String?
-    public var orgPn: String?
-    public var audioCodec: String?
-    public var container: String?
-    public var conditions: [ProfileCondition]?
-    public var mimeType: String?
-
-    public init(type: DlnaProfileType? = nil, videoCodec: String? = nil, orgPn: String? = nil, audioCodec: String? = nil, container: String? = nil, conditions: [ProfileCondition]? = nil, mimeType: String? = nil) {
-        self.type = type
-        self.videoCodec = videoCodec
-        self.orgPn = orgPn
-        self.audioCodec = audioCodec
-        self.container = container
-        self.conditions = conditions
-        self.mimeType = mimeType
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type = "Type"
-        case videoCodec = "VideoCodec"
-        case orgPn = "OrgPn"
-        case audioCodec = "AudioCodec"
-        case container = "Container"
-        case conditions = "Conditions"
-        case mimeType = "MimeType"
-    }
-}
-
-/// Library option info dto.
-public struct LibraryOptionInfoDto: Codable {
-    /// Gets or sets a value indicating whether default enabled.
-    public var isDefaultEnabled: Bool?
-    /// Gets or sets name.
-    public var name: String?
-
-    public init(isDefaultEnabled: Bool? = nil, name: String? = nil) {
-        self.isDefaultEnabled = isDefaultEnabled
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isDefaultEnabled = "DefaultEnabled"
-        case name = "Name"
-    }
-}
-
-/// Class TaskInfo.
-public struct TaskInfo: Codable {
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the progress.
-    public var currentProgressPercentage: Double?
-    /// Gets or sets the category.
-    public var category: String?
-    /// Gets or sets a value indicating whether this instance is hidden.
-    public var isHidden: Bool?
-    /// Gets or sets the description.
-    public var description: String?
-    /// Gets or sets the id.
-    public var id: String?
-    /// Gets or sets the state of the task.
-    public var state: TaskState?
-    /// Gets or sets the triggers.
-    public var triggers: [TaskTriggerInfo]?
-    /// Gets or sets the key.
-    public var key: String?
-    /// Gets or sets the last execution result.
-    public var lastExecutionResult: TaskResult?
-
-    public init(name: String? = nil, currentProgressPercentage: Double? = nil, category: String? = nil, isHidden: Bool? = nil, description: String? = nil, id: String? = nil, state: TaskState? = nil, triggers: [TaskTriggerInfo]? = nil, key: String? = nil, lastExecutionResult: TaskResult? = nil) {
-        self.name = name
-        self.currentProgressPercentage = currentProgressPercentage
-        self.category = category
-        self.isHidden = isHidden
-        self.description = description
-        self.id = id
-        self.state = state
-        self.triggers = triggers
-        self.key = key
-        self.lastExecutionResult = lastExecutionResult
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case currentProgressPercentage = "CurrentProgressPercentage"
-        case category = "Category"
-        case isHidden = "IsHidden"
-        case description = "Description"
-        case id = "Id"
-        case state = "State"
-        case triggers = "Triggers"
-        case key = "Key"
-        case lastExecutionResult = "LastExecutionResult"
-    }
-}
-
-/// Enum GroupUpdateType.
-public enum GroupUpdateType: String, Codable, CaseIterable {
-    case userJoined = "UserJoined"
-    case userLeft = "UserLeft"
-    case groupJoined = "GroupJoined"
-    case groupLeft = "GroupLeft"
-    case stateUpdate = "StateUpdate"
-    case playQueue = "PlayQueue"
-    case notInGroup = "NotInGroup"
-    case groupDoesNotExist = "GroupDoesNotExist"
-    case createGroupDenied = "CreateGroupDenied"
-    case joinGroupDenied = "JoinGroupDenied"
-    case libraryAccessDenied = "LibraryAccessDenied"
-}
-
-public struct BaseItemDtoQueryResult: Codable {
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-    /// The index of the first record in Items.
-    public var startIndex: Int?
-    /// Gets or sets the items.
-    public var items: [BaseItemDto]?
-
-    public init(totalRecordCount: Int? = nil, startIndex: Int? = nil, items: [BaseItemDto]? = nil) {
-        self.totalRecordCount = totalRecordCount
-        self.startIndex = startIndex
-        self.items = items
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case totalRecordCount = "TotalRecordCount"
-        case startIndex = "StartIndex"
-        case items = "Items"
-    }
-}
-
-/// Enum LocationType.
-public enum LocationType: String, Codable, CaseIterable {
-    case fileSystem = "FileSystem"
-    case remote = "Remote"
-    case virtual = "Virtual"
-    case offline = "Offline"
-}
-
-/// Class JoinGroupRequestDto.
-public struct JoinGroupRequestDto: Codable {
-    /// Gets or sets the group identifier.
-    public var groupID: UUID?
-
-    public init(groupID: UUID? = nil) {
-        self.groupID = groupID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case groupID = "GroupId"
-    }
-}
-
-/// Class PlayRequestDto.
-public struct PlayRequestDto: Codable {
-    /// Gets or sets the position of the playing item in the queue.
-    public var playingItemPosition: Int?
-    /// Gets or sets the start position ticks.
-    public var startPositionTicks: Int?
-    /// Gets or sets the playing queue.
-    public var playingQueue: [UUID]?
-
-    public init(playingItemPosition: Int? = nil, startPositionTicks: Int? = nil, playingQueue: [UUID]? = nil) {
-        self.playingItemPosition = playingItemPosition
-        self.startPositionTicks = startPositionTicks
-        self.playingQueue = playingQueue
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playingItemPosition = "PlayingItemPosition"
-        case startPositionTicks = "StartPositionTicks"
-        case playingQueue = "PlayingQueue"
-    }
-}
-
-public struct ProfileCondition: Codable {
-    public var isRequired: Bool?
-    public var condition: ProfileConditionType?
-    public var value: String?
-    public var property: ProfileConditionValue?
-
-    public init(isRequired: Bool? = nil, condition: ProfileConditionType? = nil, value: String? = nil, property: ProfileConditionValue? = nil) {
-        self.isRequired = isRequired
-        self.condition = condition
-        self.value = value
-        self.property = property
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isRequired = "IsRequired"
-        case condition = "Condition"
-        case value = "Value"
-        case property = "Property"
-    }
-}
-
-/// Enum MediaStreamType.
-public enum MediaStreamType: String, Codable, CaseIterable {
-    case audio = "Audio"
-    case video = "Video"
-    case subtitle = "Subtitle"
-    case embeddedImage = "EmbeddedImage"
-}
-
-/// Class SetShuffleModeRequestDto.
-public struct SetShuffleModeRequestDto: Codable {
-    /// Gets or sets the shuffle mode.
-    public var mode: GroupShuffleMode?
-
-    public init(mode: GroupShuffleMode? = nil) {
-        self.mode = mode
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case mode = "Mode"
-    }
-}
-
-/// Provides the MAC address and port for wake-on-LAN functionality.
-public struct WakeOnLanInfo: Codable {
-    /// Gets the MAC address of the device.
-    public var macAddress: String?
-    /// Gets or sets the wake-on-LAN port.
-    public var port: Int?
-
-    public init(macAddress: String? = nil, port: Int? = nil) {
-        self.macAddress = macAddress
-        self.port = port
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case macAddress = "MacAddress"
-        case port = "Port"
-    }
-}
-
-/// Class SeriesTimerInfoDto.
-public struct SeriesTimerInfoDto: Codable {
-    /// Gets or sets the parent primary image item identifier.
-    public var parentPrimaryImageItemID: String?
-    /// Gets or sets the post padding seconds.
-    public var postPaddingSeconds: Int?
-    public var type: String?
-    /// Gets or sets a value indicating whether this instance is pre padding required.
-    public var isPrePaddingRequired: Bool?
-    /// Gets or sets a value indicating whether this instance is post padding required.
-    public var isPostPaddingRequired: Bool?
-    /// Gets or sets the priority.
-    public var priority: Int?
-    /// Gets or sets the day pattern.
-    public var dayPattern: DayPattern?
-    /// Gets or sets the parent thumb item id.
-    public var parentThumbItemID: String?
-    /// ChannelName of the recording.
-    public var channelName: String?
-    /// Gets or sets the image tags.
-    public var imageTags: [String: String]?
-    /// Gets or sets the external identifier.
-    public var externalID: String?
-    /// Name of the recording.
-    public var name: String?
-    /// The end date of the recording, in UTC.
-    public var endDate: Date?
-    /// Gets or sets the parent thumb image tag.
-    public var parentThumbImageTag: String?
-    public var keepUpTo: Int?
-    public var isSkipEpisodesInLibrary: Bool?
-    /// Gets or sets a value indicating whether [record any time].
-    public var isRecordAnyTime: Bool?
-    /// Gets or sets the external program identifier.
-    public var externalProgramID: String?
-    /// Gets or sets the parent primary image tag.
-    public var parentPrimaryImageTag: String?
-    /// ChannelId of the recording.
-    public var channelID: UUID?
-    /// Description of the recording.
-    public var overview: String?
-    /// The start date of the recording, in UTC.
-    public var startDate: Date?
-    public var keepUntil: KeepUntil?
-    /// Gets or sets the name of the service.
-    public var serviceName: String?
-    public var channelPrimaryImageTag: String?
-    /// Id of the recording.
-    public var id: String?
-    /// Gets or sets a value indicating whether [record new only].
-    public var isRecordNewOnly: Bool?
-    /// Gets or sets the external channel identifier.
-    public var externalChannelID: String?
-    /// Gets or sets the days.
-    public var days: [DayOfWeek]?
-    /// Gets or sets the server identifier.
-    public var serverID: String?
-    /// Gets or sets the program identifier.
-    public var programID: String?
-    /// Gets or sets the pre padding seconds.
-    public var prePaddingSeconds: Int?
-    /// If the item does not have any backdrops, this will hold the Id of the Parent that has one.
-    public var parentBackdropItemID: String?
-    /// Gets or sets a value indicating whether [record any channel].
-    public var isRecordAnyChannel: Bool?
-    /// Gets or sets the parent backdrop image tags.
-    public var parentBackdropImageTags: [String]?
-
-    public init(parentPrimaryImageItemID: String? = nil, postPaddingSeconds: Int? = nil, type: String? = nil, isPrePaddingRequired: Bool? = nil, isPostPaddingRequired: Bool? = nil, priority: Int? = nil, dayPattern: DayPattern? = nil, parentThumbItemID: String? = nil, channelName: String? = nil, imageTags: [String: String]? = nil, externalID: String? = nil, name: String? = nil, endDate: Date? = nil, parentThumbImageTag: String? = nil, keepUpTo: Int? = nil, isSkipEpisodesInLibrary: Bool? = nil, isRecordAnyTime: Bool? = nil, externalProgramID: String? = nil, parentPrimaryImageTag: String? = nil, channelID: UUID? = nil, overview: String? = nil, startDate: Date? = nil, keepUntil: KeepUntil? = nil, serviceName: String? = nil, channelPrimaryImageTag: String? = nil, id: String? = nil, isRecordNewOnly: Bool? = nil, externalChannelID: String? = nil, days: [DayOfWeek]? = nil, serverID: String? = nil, programID: String? = nil, prePaddingSeconds: Int? = nil, parentBackdropItemID: String? = nil, isRecordAnyChannel: Bool? = nil, parentBackdropImageTags: [String]? = nil) {
-        self.parentPrimaryImageItemID = parentPrimaryImageItemID
-        self.postPaddingSeconds = postPaddingSeconds
-        self.type = type
-        self.isPrePaddingRequired = isPrePaddingRequired
-        self.isPostPaddingRequired = isPostPaddingRequired
-        self.priority = priority
-        self.dayPattern = dayPattern
-        self.parentThumbItemID = parentThumbItemID
-        self.channelName = channelName
-        self.imageTags = imageTags
-        self.externalID = externalID
-        self.name = name
-        self.endDate = endDate
-        self.parentThumbImageTag = parentThumbImageTag
-        self.keepUpTo = keepUpTo
-        self.isSkipEpisodesInLibrary = isSkipEpisodesInLibrary
-        self.isRecordAnyTime = isRecordAnyTime
-        self.externalProgramID = externalProgramID
-        self.parentPrimaryImageTag = parentPrimaryImageTag
-        self.channelID = channelID
-        self.overview = overview
-        self.startDate = startDate
-        self.keepUntil = keepUntil
-        self.serviceName = serviceName
-        self.channelPrimaryImageTag = channelPrimaryImageTag
-        self.id = id
-        self.isRecordNewOnly = isRecordNewOnly
-        self.externalChannelID = externalChannelID
-        self.days = days
-        self.serverID = serverID
-        self.programID = programID
-        self.prePaddingSeconds = prePaddingSeconds
-        self.parentBackdropItemID = parentBackdropItemID
-        self.isRecordAnyChannel = isRecordAnyChannel
-        self.parentBackdropImageTags = parentBackdropImageTags
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case parentPrimaryImageItemID = "ParentPrimaryImageItemId"
-        case postPaddingSeconds = "PostPaddingSeconds"
-        case type = "Type"
-        case isPrePaddingRequired = "IsPrePaddingRequired"
-        case isPostPaddingRequired = "IsPostPaddingRequired"
-        case priority = "Priority"
-        case dayPattern = "DayPattern"
-        case parentThumbItemID = "ParentThumbItemId"
-        case channelName = "ChannelName"
-        case imageTags = "ImageTags"
-        case externalID = "ExternalId"
-        case name = "Name"
-        case endDate = "EndDate"
-        case parentThumbImageTag = "ParentThumbImageTag"
-        case keepUpTo = "KeepUpTo"
-        case isSkipEpisodesInLibrary = "SkipEpisodesInLibrary"
-        case isRecordAnyTime = "RecordAnyTime"
-        case externalProgramID = "ExternalProgramId"
-        case parentPrimaryImageTag = "ParentPrimaryImageTag"
-        case channelID = "ChannelId"
-        case overview = "Overview"
-        case startDate = "StartDate"
-        case keepUntil = "KeepUntil"
-        case serviceName = "ServiceName"
-        case channelPrimaryImageTag = "ChannelPrimaryImageTag"
-        case id = "Id"
-        case isRecordNewOnly = "RecordNewOnly"
-        case externalChannelID = "ExternalChannelId"
-        case days = "Days"
-        case serverID = "ServerId"
-        case programID = "ProgramId"
-        case prePaddingSeconds = "PrePaddingSeconds"
-        case parentBackdropItemID = "ParentBackdropItemId"
-        case isRecordAnyChannel = "RecordAnyChannel"
-        case parentBackdropImageTags = "ParentBackdropImageTags"
-    }
-}
-
-/// Class InstallationInfo.
-public struct InstallationInfo: Codable {
-    /// Gets or sets the changelog for this version.
-    public var changelog: String?
-    /// Gets or sets the version.
-    public var version: Version?
-    /// Gets or sets package information for the installation.
-    public var packageInfo: PackageInfo?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets a checksum for the binary.
-    public var checksum: String?
-    /// Gets or sets the Id.
-    public var guid: UUID?
-    /// Gets or sets the source URL.
-    public var sourceURL: String?
-
-    public init(changelog: String? = nil, version: Version? = nil, packageInfo: PackageInfo? = nil, name: String? = nil, checksum: String? = nil, guid: UUID? = nil, sourceURL: String? = nil) {
-        self.changelog = changelog
-        self.version = version
-        self.packageInfo = packageInfo
-        self.name = name
-        self.checksum = checksum
-        self.guid = guid
-        self.sourceURL = sourceURL
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case changelog = "Changelog"
-        case version = "Version"
-        case packageInfo = "PackageInfo"
-        case name = "Name"
-        case checksum = "Checksum"
-        case guid = "Guid"
-        case sourceURL = "SourceUrl"
-    }
-}
-
-/// Class ChapterInfo.
-public struct ChapterInfo: Codable {
-    public var imageTag: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the start position ticks.
-    public var startPositionTicks: Int?
-    /// Gets or sets the image path.
-    public var imagePath: String?
-    public var imageDateModified: Date?
-
-    public init(imageTag: String? = nil, name: String? = nil, startPositionTicks: Int? = nil, imagePath: String? = nil, imageDateModified: Date? = nil) {
-        self.imageTag = imageTag
-        self.name = name
-        self.startPositionTicks = startPositionTicks
-        self.imagePath = imagePath
-        self.imageDateModified = imageDateModified
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case imageTag = "ImageTag"
-        case name = "Name"
-        case startPositionTicks = "StartPositionTicks"
-        case imagePath = "ImagePath"
-        case imageDateModified = "ImageDateModified"
-    }
-}
-
-/// The media update info path.
-public struct MediaUpdateInfoPathDto: Codable {
-    /// Gets or sets media path.
-    public var path: String?
-    /// Gets or sets media update type.
-Created, Modified, Deleted.
-    public var updateType: String?
-
-    public init(path: String? = nil, updateType: String? = nil) {
-        self.path = path
-        self.updateType = updateType
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case path = "Path"
-        case updateType = "UpdateType"
-    }
-}
-
-/// Class LibraryUpdateInfo.
-public struct LibraryUpdateInfo: Codable {
-    public var isEmpty: Bool?
-    /// Gets or sets the items removed.
-    public var itemsRemoved: [String]?
-    public var collectionFolders: [String]?
-    /// Gets or sets the items added.
-    public var itemsAdded: [String]?
-    /// Gets or sets the folders removed from.
-    public var foldersRemovedFrom: [String]?
-    /// Gets or sets the folders added to.
-    public var foldersAddedTo: [String]?
-    /// Gets or sets the items updated.
-    public var itemsUpdated: [String]?
-
-    public init(isEmpty: Bool? = nil, itemsRemoved: [String]? = nil, collectionFolders: [String]? = nil, itemsAdded: [String]? = nil, foldersRemovedFrom: [String]? = nil, foldersAddedTo: [String]? = nil, itemsUpdated: [String]? = nil) {
-        self.isEmpty = isEmpty
-        self.itemsRemoved = itemsRemoved
-        self.collectionFolders = collectionFolders
-        self.itemsAdded = itemsAdded
-        self.foldersRemovedFrom = foldersRemovedFrom
-        self.foldersAddedTo = foldersAddedTo
-        self.itemsUpdated = itemsUpdated
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isEmpty = "IsEmpty"
-        case itemsRemoved = "ItemsRemoved"
-        case collectionFolders = "CollectionFolders"
-        case itemsAdded = "ItemsAdded"
-        case foldersRemovedFrom = "FoldersRemovedFrom"
-        case foldersAddedTo = "FoldersAddedTo"
-        case itemsUpdated = "ItemsUpdated"
-    }
-}
-
-public enum MediaSourceType: String, Codable, CaseIterable {
-    case `default` = "Default"
-    case grouping = "Grouping"
-    case placeholder = "Placeholder"
-}
-
-/// Enum VideoType.
-public enum VideoType: String, Codable, CaseIterable {
-    case videoFile = "VideoFile"
-    case iso = "Iso"
-    case dvd = "Dvd"
-    case bluRay = "BluRay"
-}
-
-/// The quick connect request body.
-public struct QuickConnectDto: Codable {
-    /// Gets or sets the quick connect token.
-    public var token: String
-
-    public init(token: String) {
-        self.token = token
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case token = "Token"
-    }
-}
-
-/// Class ServiceInfo.
-public struct LiveTvServiceInfo: Codable {
-    /// Gets or sets the status message.
-    public var statusMessage: String?
-    /// Gets or sets the status.
-    public var status: LiveTvServiceStatus?
-    /// Gets or sets the name.
-    public var name: String?
-    public var tuners: [String]?
-    /// Gets or sets a value indicating whether this instance is visible.
-    public var isVisible: Bool?
-    /// Gets or sets the version.
-    public var version: String?
-    /// Gets or sets the home page URL.
-    public var homePageURL: String?
-    /// Gets or sets a value indicating whether this instance has update available.
-    public var hasUpdateAvailable: Bool?
-
-    public init(statusMessage: String? = nil, status: LiveTvServiceStatus? = nil, name: String? = nil, tuners: [String]? = nil, isVisible: Bool? = nil, version: String? = nil, homePageURL: String? = nil, hasUpdateAvailable: Bool? = nil) {
-        self.statusMessage = statusMessage
-        self.status = status
-        self.name = name
-        self.tuners = tuners
-        self.isVisible = isVisible
-        self.version = version
-        self.homePageURL = homePageURL
-        self.hasUpdateAvailable = hasUpdateAvailable
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case statusMessage = "StatusMessage"
-        case status = "Status"
-        case name = "Name"
-        case tuners = "Tuners"
-        case isVisible = "IsVisible"
-        case version = "Version"
-        case homePageURL = "HomePageUrl"
-        case hasUpdateAvailable = "HasUpdateAvailable"
-    }
-}
-
-/// Class ImageInfo.
-public struct ImageInfo: Codable {
-    /// Gets or sets the index of the image.
-    public var imageIndex: Int?
-    /// Gets or sets the width.
-    public var width: Int?
-    /// Gets or sets the type of the image.
-    public var imageType: ImageType?
-    /// Gets or sets the height.
-    public var height: Int?
-    /// Gets or sets the path.
-    public var path: String?
-    /// Gets or sets the blurhash.
-    public var blurHash: String?
-    /// Gets or sets the image tag.
-    public var imageTag: String?
-    /// Gets or sets the size.
-    public var size: Int?
-
-    public init(imageIndex: Int? = nil, width: Int? = nil, imageType: ImageType? = nil, height: Int? = nil, path: String? = nil, blurHash: String? = nil, imageTag: String? = nil, size: Int? = nil) {
-        self.imageIndex = imageIndex
-        self.width = width
-        self.imageType = imageType
-        self.height = height
-        self.path = path
-        self.blurHash = blurHash
-        self.imageTag = imageTag
-        self.size = size
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case imageIndex = "ImageIndex"
-        case width = "Width"
-        case imageType = "ImageType"
-        case height = "Height"
-        case path = "Path"
-        case blurHash = "BlurHash"
-        case imageTag = "ImageTag"
-        case size = "Size"
-    }
-}
-
-public enum RepeatMode: String, Codable, CaseIterable {
-    case repeatNone = "RepeatNone"
-    case repeatAll = "RepeatAll"
-    case repeatOne = "RepeatOne"
-}
-
-/// Update library options dto.
-public struct UpdateMediaPathRequestDto: Codable {
-    /// Gets or sets the library name.
-    public var name: String
-    /// Gets or sets library folder path information.
-    public var pathInfo: MediaPathInfo
-
-    public init(name: String, pathInfo: MediaPathInfo) {
-        self.name = name
-        self.pathInfo = pathInfo
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case pathInfo = "PathInfo"
-    }
-}
-
-/// The notification summary DTO.
-public struct NotificationsSummaryDto: Codable {
-    /// Gets or sets the maximum unread notification level.
-    public var maxUnreadNotificationLevel: NotificationLevel?
-    /// Gets or sets the number of unread notifications.
-    public var unreadCount: Int?
-
-    public init(maxUnreadNotificationLevel: NotificationLevel? = nil, unreadCount: Int? = nil) {
-        self.maxUnreadNotificationLevel = maxUnreadNotificationLevel
-        self.unreadCount = unreadCount
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case maxUnreadNotificationLevel = "MaxUnreadNotificationLevel"
-        case unreadCount = "UnreadCount"
-    }
-}
-
-/// Enum ImageType.
-public enum ImageType: String, Codable, CaseIterable {
-    case primary = "Primary"
-    case art = "Art"
-    case backdrop = "Backdrop"
-    case banner = "Banner"
-    case logo = "Logo"
-    case thumb = "Thumb"
-    case disc = "Disc"
-    case box = "Box"
-    case screenshot = "Screenshot"
-    case menu = "Menu"
-    case chapter = "Chapter"
-    case boxRear = "BoxRear"
-    case profile = "Profile"
-}
-
-public struct QueryFiltersLegacy: Codable {
-    public var years: [Int]?
-    public var officialRatings: [String]?
-    public var tags: [String]?
-    public var genres: [String]?
-
-    public init(years: [Int]? = nil, officialRatings: [String]? = nil, tags: [String]? = nil, genres: [String]? = nil) {
-        self.years = years
-        self.officialRatings = officialRatings
-        self.tags = tags
-        self.genres = genres
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case years = "Years"
-        case officialRatings = "OfficialRatings"
-        case tags = "Tags"
-        case genres = "Genres"
-    }
-}
-
-/// The configuration page info.
-public struct ConfigurationPageInfo: Codable {
-    /// Gets or sets a value indicating whether the configurations page is enabled in the main menu.
-    public var enableInMainMenu: Bool?
-    /// Gets or sets the menu icon.
-    public var menuIcon: String?
-    /// Gets or sets the display name.
-    public var displayName: String?
-    /// Gets or sets the type of the configuration page.
-    public var configurationPageType: ConfigurationPageType?
-    /// Gets or sets the plugin id.
-    public var pluginID: UUID?
-    /// Gets or sets the menu section.
-    public var menuSection: String?
-    /// Gets or sets the name.
-    public var name: String?
-
-    public init(enableInMainMenu: Bool? = nil, menuIcon: String? = nil, displayName: String? = nil, configurationPageType: ConfigurationPageType? = nil, pluginID: UUID? = nil, menuSection: String? = nil, name: String? = nil) {
-        self.enableInMainMenu = enableInMainMenu
-        self.menuIcon = menuIcon
-        self.displayName = displayName
-        self.configurationPageType = configurationPageType
-        self.pluginID = pluginID
-        self.menuSection = menuSection
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case enableInMainMenu = "EnableInMainMenu"
-        case menuIcon = "MenuIcon"
-        case displayName = "DisplayName"
-        case configurationPageType = "ConfigurationPageType"
-        case pluginID = "PluginId"
-        case menuSection = "MenuSection"
-        case name = "Name"
-    }
-}
-
-public enum DeviceProfileType: String, Codable, CaseIterable {
-    case system = "System"
-    case user = "User"
-}
-
-/// Library type options dto.
-public struct LibraryTypeOptionsDto: Codable {
-    /// Gets or sets the supported image types.
-    public var supportedImageTypes: [ImageType]?
-    /// Gets or sets the default image options.
-    public var defaultImageOptions: [ImageOption]?
-    /// Gets or sets the type.
-    public var type: String?
-    /// Gets or sets the metadata fetchers.
-    public var metadataFetchers: [LibraryOptionInfoDto]?
-    /// Gets or sets the image fetchers.
-    public var imageFetchers: [LibraryOptionInfoDto]?
-
-    public init(supportedImageTypes: [ImageType]? = nil, defaultImageOptions: [ImageOption]? = nil, type: String? = nil, metadataFetchers: [LibraryOptionInfoDto]? = nil, imageFetchers: [LibraryOptionInfoDto]? = nil) {
-        self.supportedImageTypes = supportedImageTypes
-        self.defaultImageOptions = defaultImageOptions
-        self.type = type
-        self.metadataFetchers = metadataFetchers
-        self.imageFetchers = imageFetchers
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case supportedImageTypes = "SupportedImageTypes"
-        case defaultImageOptions = "DefaultImageOptions"
-        case type = "Type"
-        case metadataFetchers = "MetadataFetchers"
-        case imageFetchers = "ImageFetchers"
-    }
-}
-
-public enum RecommendationType: String, Codable, CaseIterable {
-    case similarToRecentlyPlayed = "SimilarToRecentlyPlayed"
-    case similarToLikedItem = "SimilarToLikedItem"
-    case hasDirectorFromRecentlyPlayed = "HasDirectorFromRecentlyPlayed"
-    case hasActorFromRecentlyPlayed = "HasActorFromRecentlyPlayed"
-    case hasLikedDirector = "HasLikedDirector"
-    case hasLikedActor = "HasLikedActor"
-}
-
-public enum EncodingContext: String, Codable, CaseIterable {
-    case streaming = "Streaming"
-    case `static` = "Static"
-}
-
-/// Class FontFile.
-public struct FontFile: Codable {
-    /// Gets or sets the date created.
-    public var dateCreated: Date?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the date modified.
-    public var dateModified: Date?
-    /// Gets or sets the size.
-    public var size: Int?
-
-    public init(dateCreated: Date? = nil, name: String? = nil, dateModified: Date? = nil, size: Int? = nil) {
-        self.dateCreated = dateCreated
-        self.name = name
-        self.dateModified = dateModified
-        self.size = size
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case dateCreated = "DateCreated"
-        case name = "Name"
-        case dateModified = "DateModified"
-        case size = "Size"
-    }
-}
-
-public struct LibraryOptions: Codable {
-    public var disabledLocalMetadataReaders: [String]?
-    public var pathInfos: [MediaPathInfo]?
-    /// Gets or sets the preferred metadata language.
-    public var preferredMetadataLanguage: String?
-    public var isExtractChapterImagesDuringLibraryScan: Bool?
-    public var enableEmbeddedTitles: Bool?
-    public var subtitleFetcherOrder: [String]?
-    public var enableAutomaticSeriesGrouping: Bool?
-    public var automaticRefreshIntervalDays: Int?
-    public var typeOptions: [TypeOptions]?
-    public var seasonZeroDisplayName: String?
-    public var isSkipSubtitlesIfEmbeddedSubtitlesPresent: Bool?
-    public var isSaveLocalMetadata: Bool?
-    public var disabledSubtitleFetchers: [String]?
-    public var isSkipSubtitlesIfAudioTrackMatches: Bool?
-    public var enableChapterImageExtraction: Bool?
-    public var localMetadataReaderOrder: [String]?
-    public var enableInternetProviders: Bool?
-    public var enableRealtimeMonitor: Bool?
-    public var requirePerfectSubtitleMatch: Bool?
-    public var enablePhotos: Bool?
-    public var metadataSavers: [String]?
-    public var enableEmbeddedEpisodeInfos: Bool?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var subtitleDownloadLanguages: [String]?
-    public var isSaveSubtitlesWithMedia: Bool?
-
-    public init(disabledLocalMetadataReaders: [String]? = nil, pathInfos: [MediaPathInfo]? = nil, preferredMetadataLanguage: String? = nil, isExtractChapterImagesDuringLibraryScan: Bool? = nil, enableEmbeddedTitles: Bool? = nil, subtitleFetcherOrder: [String]? = nil, enableAutomaticSeriesGrouping: Bool? = nil, automaticRefreshIntervalDays: Int? = nil, typeOptions: [TypeOptions]? = nil, seasonZeroDisplayName: String? = nil, isSkipSubtitlesIfEmbeddedSubtitlesPresent: Bool? = nil, isSaveLocalMetadata: Bool? = nil, disabledSubtitleFetchers: [String]? = nil, isSkipSubtitlesIfAudioTrackMatches: Bool? = nil, enableChapterImageExtraction: Bool? = nil, localMetadataReaderOrder: [String]? = nil, enableInternetProviders: Bool? = nil, enableRealtimeMonitor: Bool? = nil, requirePerfectSubtitleMatch: Bool? = nil, enablePhotos: Bool? = nil, metadataSavers: [String]? = nil, enableEmbeddedEpisodeInfos: Bool? = nil, metadataCountryCode: String? = nil, subtitleDownloadLanguages: [String]? = nil, isSaveSubtitlesWithMedia: Bool? = nil) {
-        self.disabledLocalMetadataReaders = disabledLocalMetadataReaders
-        self.pathInfos = pathInfos
-        self.preferredMetadataLanguage = preferredMetadataLanguage
-        self.isExtractChapterImagesDuringLibraryScan = isExtractChapterImagesDuringLibraryScan
-        self.enableEmbeddedTitles = enableEmbeddedTitles
-        self.subtitleFetcherOrder = subtitleFetcherOrder
-        self.enableAutomaticSeriesGrouping = enableAutomaticSeriesGrouping
-        self.automaticRefreshIntervalDays = automaticRefreshIntervalDays
-        self.typeOptions = typeOptions
-        self.seasonZeroDisplayName = seasonZeroDisplayName
-        self.isSkipSubtitlesIfEmbeddedSubtitlesPresent = isSkipSubtitlesIfEmbeddedSubtitlesPresent
-        self.isSaveLocalMetadata = isSaveLocalMetadata
-        self.disabledSubtitleFetchers = disabledSubtitleFetchers
-        self.isSkipSubtitlesIfAudioTrackMatches = isSkipSubtitlesIfAudioTrackMatches
-        self.enableChapterImageExtraction = enableChapterImageExtraction
-        self.localMetadataReaderOrder = localMetadataReaderOrder
-        self.enableInternetProviders = enableInternetProviders
-        self.enableRealtimeMonitor = enableRealtimeMonitor
-        self.requirePerfectSubtitleMatch = requirePerfectSubtitleMatch
-        self.enablePhotos = enablePhotos
-        self.metadataSavers = metadataSavers
-        self.enableEmbeddedEpisodeInfos = enableEmbeddedEpisodeInfos
-        self.metadataCountryCode = metadataCountryCode
-        self.subtitleDownloadLanguages = subtitleDownloadLanguages
-        self.isSaveSubtitlesWithMedia = isSaveSubtitlesWithMedia
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case disabledLocalMetadataReaders = "DisabledLocalMetadataReaders"
-        case pathInfos = "PathInfos"
-        case preferredMetadataLanguage = "PreferredMetadataLanguage"
-        case isExtractChapterImagesDuringLibraryScan = "ExtractChapterImagesDuringLibraryScan"
-        case enableEmbeddedTitles = "EnableEmbeddedTitles"
-        case subtitleFetcherOrder = "SubtitleFetcherOrder"
-        case enableAutomaticSeriesGrouping = "EnableAutomaticSeriesGrouping"
-        case automaticRefreshIntervalDays = "AutomaticRefreshIntervalDays"
-        case typeOptions = "TypeOptions"
-        case seasonZeroDisplayName = "SeasonZeroDisplayName"
-        case isSkipSubtitlesIfEmbeddedSubtitlesPresent = "SkipSubtitlesIfEmbeddedSubtitlesPresent"
-        case isSaveLocalMetadata = "SaveLocalMetadata"
-        case disabledSubtitleFetchers = "DisabledSubtitleFetchers"
-        case isSkipSubtitlesIfAudioTrackMatches = "SkipSubtitlesIfAudioTrackMatches"
-        case enableChapterImageExtraction = "EnableChapterImageExtraction"
-        case localMetadataReaderOrder = "LocalMetadataReaderOrder"
-        case enableInternetProviders = "EnableInternetProviders"
-        case enableRealtimeMonitor = "EnableRealtimeMonitor"
-        case requirePerfectSubtitleMatch = "RequirePerfectSubtitleMatch"
-        case enablePhotos = "EnablePhotos"
-        case metadataSavers = "MetadataSavers"
-        case enableEmbeddedEpisodeInfos = "EnableEmbeddedEpisodeInfos"
-        case metadataCountryCode = "MetadataCountryCode"
-        case subtitleDownloadLanguages = "SubtitleDownloadLanguages"
-        case isSaveSubtitlesWithMedia = "SaveSubtitlesWithMedia"
-    }
-}
-
-/// Class ReadyRequest.
-public struct ReadyRequestDto: Codable {
-    /// Gets or sets the playlist item identifier of the playing item.
-    public var playlistItemID: UUID?
-    /// Gets or sets the position ticks.
-    public var positionTicks: Int?
-    /// Gets or sets when the request has been made by the client.
-    public var when: Date?
-    /// Gets or sets a value indicating whether the client playback is unpaused.
-    public var isPlaying: Bool?
-
-    public init(playlistItemID: UUID? = nil, positionTicks: Int? = nil, when: Date? = nil, isPlaying: Bool? = nil) {
-        self.playlistItemID = playlistItemID
-        self.positionTicks = positionTicks
-        self.when = when
-        self.isPlaying = isPlaying
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playlistItemID = "PlaylistItemId"
-        case positionTicks = "PositionTicks"
-        case when = "When"
-        case isPlaying = "IsPlaying"
-    }
-}
-
-/// Class SearchHintResult.
-public struct SearchHint: Codable {
-    /// Gets or sets the backdrop image tag.
-    public var backdropImageTag: String?
-    public var id: UUID?
-    /// Gets or sets the run time ticks.
-    public var runTimeTicks: Int?
-    public var startDate: Date?
-    /// Gets or sets the image tag.
-    public var primaryImageTag: String?
-    /// Gets or sets the item id.
-    public var itemID: UUID?
-    /// Gets or sets the artists.
-    public var artists: [String]?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the type.
-    public var type: String?
-    /// Gets or sets the thumb image item identifier.
-    public var thumbImageItemID: String?
-    /// Gets or sets the episode count.
-    public var episodeCount: Int?
-    public var endDate: Date?
-    /// Gets or sets the matched term.
-    public var matchedTerm: String?
-    public var albumID: UUID?
-    /// Gets or sets the production year.
-    public var productionYear: Int?
-    /// Gets or sets the primary image aspect ratio.
-    public var primaryImageAspectRatio: Double?
-    /// Gets or sets the thumb image tag.
-    public var thumbImageTag: String?
-    /// Gets or sets the channel identifier.
-    public var channelID: UUID?
-    /// Gets or sets the type of the media.
-    public var mediaType: String?
-    /// Gets or sets the index number.
-    public var indexNumber: Int?
-    /// Gets or sets the album artist.
-    public var albumArtist: String?
-    /// Gets or sets the parent index number.
-    public var parentIndexNumber: Int?
-    public var status: String?
-    public var isFolder: Bool?
-    /// Gets or sets the album.
-    public var album: String?
-    /// Gets or sets the backdrop image item identifier.
-    public var backdropImageItemID: String?
-    /// Gets or sets the name of the channel.
-    public var channelName: String?
-    /// Gets or sets the song count.
-    public var songCount: Int?
-    /// Gets or sets the series.
-    public var series: String?
-
-    public init(backdropImageTag: String? = nil, id: UUID? = nil, runTimeTicks: Int? = nil, startDate: Date? = nil, primaryImageTag: String? = nil, itemID: UUID? = nil, artists: [String]? = nil, name: String? = nil, type: String? = nil, thumbImageItemID: String? = nil, episodeCount: Int? = nil, endDate: Date? = nil, matchedTerm: String? = nil, albumID: UUID? = nil, productionYear: Int? = nil, primaryImageAspectRatio: Double? = nil, thumbImageTag: String? = nil, channelID: UUID? = nil, mediaType: String? = nil, indexNumber: Int? = nil, albumArtist: String? = nil, parentIndexNumber: Int? = nil, status: String? = nil, isFolder: Bool? = nil, album: String? = nil, backdropImageItemID: String? = nil, channelName: String? = nil, songCount: Int? = nil, series: String? = nil) {
-        self.backdropImageTag = backdropImageTag
-        self.id = id
-        self.runTimeTicks = runTimeTicks
-        self.startDate = startDate
-        self.primaryImageTag = primaryImageTag
-        self.itemID = itemID
-        self.artists = artists
-        self.name = name
-        self.type = type
-        self.thumbImageItemID = thumbImageItemID
-        self.episodeCount = episodeCount
-        self.endDate = endDate
-        self.matchedTerm = matchedTerm
-        self.albumID = albumID
-        self.productionYear = productionYear
-        self.primaryImageAspectRatio = primaryImageAspectRatio
-        self.thumbImageTag = thumbImageTag
-        self.channelID = channelID
-        self.mediaType = mediaType
-        self.indexNumber = indexNumber
-        self.albumArtist = albumArtist
-        self.parentIndexNumber = parentIndexNumber
-        self.status = status
-        self.isFolder = isFolder
-        self.album = album
-        self.backdropImageItemID = backdropImageItemID
-        self.channelName = channelName
-        self.songCount = songCount
-        self.series = series
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case backdropImageTag = "BackdropImageTag"
-        case id = "Id"
-        case runTimeTicks = "RunTimeTicks"
-        case startDate = "StartDate"
-        case primaryImageTag = "PrimaryImageTag"
-        case itemID = "ItemId"
-        case artists = "Artists"
-        case name = "Name"
-        case type = "Type"
-        case thumbImageItemID = "ThumbImageItemId"
-        case episodeCount = "EpisodeCount"
-        case endDate = "EndDate"
-        case matchedTerm = "MatchedTerm"
-        case albumID = "AlbumId"
-        case productionYear = "ProductionYear"
-        case primaryImageAspectRatio = "PrimaryImageAspectRatio"
-        case thumbImageTag = "ThumbImageTag"
-        case channelID = "ChannelId"
-        case mediaType = "MediaType"
-        case indexNumber = "IndexNumber"
-        case albumArtist = "AlbumArtist"
-        case parentIndexNumber = "ParentIndexNumber"
-        case status = "Status"
-        case isFolder = "IsFolder"
-        case album = "Album"
-        case backdropImageItemID = "BackdropImageItemId"
-        case channelName = "ChannelName"
-        case songCount = "SongCount"
-        case series = "Series"
-    }
-}
-
-public enum MediaProtocol: String, Codable, CaseIterable {
-    case file = "File"
-    case http = "Http"
-    case rtmp = "Rtmp"
-    case rtsp = "Rtsp"
-    case udp = "Udp"
-    case rtp = "Rtp"
-    case ftp = "Ftp"
-}
-
-public struct DirectPlayProfile: Codable {
-    public var type: DlnaProfileType?
-    public var videoCodec: String?
-    public var container: String?
-    public var audioCodec: String?
-
-    public init(type: DlnaProfileType? = nil, videoCodec: String? = nil, container: String? = nil, audioCodec: String? = nil) {
-        self.type = type
-        self.videoCodec = videoCodec
-        self.container = container
-        self.audioCodec = audioCodec
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type = "Type"
-        case videoCodec = "VideoCodec"
-        case container = "Container"
-        case audioCodec = "AudioCodec"
-    }
-}
-
-/// Plugin load status.
-public enum PluginStatus: String, Codable, CaseIterable {
-    case active = "Active"
-    case restart = "Restart"
-    case deleted = "Deleted"
-    case superceded = "Superceded"
-    case malfunctioned = "Malfunctioned"
-    case notSupported = "NotSupported"
-    case disabled = "Disabled"
-}
-
-/// Class PreviousItemRequestDto.
-public struct PreviousItemRequestDto: Codable {
-    /// Gets or sets the playing item identifier.
-    public var playlistItemID: UUID?
-
-    public init(playlistItemID: UUID? = nil) {
-        self.playlistItemID = playlistItemID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playlistItemID = "PlaylistItemId"
-    }
-}
-
-/// Class PlaybackProgressInfo.
-public struct PlaybackProgressInfo: Codable {
-    /// Gets or sets the item.
-    public var item: BaseItemDto?
-    /// Gets or sets the play session identifier.
-    public var playSessionID: String?
-    public var playbackStartTimeTicks: Int?
-    /// Gets or sets the index of the audio stream.
-    public var audioStreamIndex: Int?
-    public var playlistItemID: String?
-    /// Gets or sets the media version identifier.
-    public var mediaSourceID: String?
-    /// Gets or sets the repeat mode.
-    public var repeatMode: RepeatMode?
-    /// Gets or sets a value indicating whether this instance can seek.
-    public var canSeek: Bool?
-    /// Gets or sets the live stream identifier.
-    public var liveStreamID: String?
-    public var nowPlayingQueue: [QueueItem]?
-    /// Gets or sets the position ticks.
-    public var positionTicks: Int?
-    /// Gets or sets the item identifier.
-    public var itemID: UUID?
-    /// Gets or sets the index of the subtitle stream.
-    public var subtitleStreamIndex: Int?
-    /// Gets or sets the volume level.
-    public var volumeLevel: Int?
-    /// Gets or sets a value indicating whether this instance is paused.
-    public var isPaused: Bool?
-    /// Gets or sets the play method.
-    public var playMethod: PlayMethod?
-    /// Gets or sets the session id.
-    public var sessionID: String?
-    public var brightness: Int?
-    /// Gets or sets a value indicating whether this instance is muted.
-    public var isMuted: Bool?
-    public var aspectRatio: String?
-
-    public init(item: BaseItemDto? = nil, playSessionID: String? = nil, playbackStartTimeTicks: Int? = nil, audioStreamIndex: Int? = nil, playlistItemID: String? = nil, mediaSourceID: String? = nil, repeatMode: RepeatMode? = nil, canSeek: Bool? = nil, liveStreamID: String? = nil, nowPlayingQueue: [QueueItem]? = nil, positionTicks: Int? = nil, itemID: UUID? = nil, subtitleStreamIndex: Int? = nil, volumeLevel: Int? = nil, isPaused: Bool? = nil, playMethod: PlayMethod? = nil, sessionID: String? = nil, brightness: Int? = nil, isMuted: Bool? = nil, aspectRatio: String? = nil) {
-        self.item = item
-        self.playSessionID = playSessionID
-        self.playbackStartTimeTicks = playbackStartTimeTicks
-        self.audioStreamIndex = audioStreamIndex
-        self.playlistItemID = playlistItemID
-        self.mediaSourceID = mediaSourceID
-        self.repeatMode = repeatMode
-        self.canSeek = canSeek
-        self.liveStreamID = liveStreamID
-        self.nowPlayingQueue = nowPlayingQueue
-        self.positionTicks = positionTicks
-        self.itemID = itemID
-        self.subtitleStreamIndex = subtitleStreamIndex
-        self.volumeLevel = volumeLevel
-        self.isPaused = isPaused
-        self.playMethod = playMethod
-        self.sessionID = sessionID
-        self.brightness = brightness
-        self.isMuted = isMuted
-        self.aspectRatio = aspectRatio
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case item = "Item"
-        case playSessionID = "PlaySessionId"
-        case playbackStartTimeTicks = "PlaybackStartTimeTicks"
-        case audioStreamIndex = "AudioStreamIndex"
-        case playlistItemID = "PlaylistItemId"
-        case mediaSourceID = "MediaSourceId"
-        case repeatMode = "RepeatMode"
-        case canSeek = "CanSeek"
-        case liveStreamID = "LiveStreamId"
-        case nowPlayingQueue = "NowPlayingQueue"
-        case positionTicks = "PositionTicks"
-        case itemID = "ItemId"
-        case subtitleStreamIndex = "SubtitleStreamIndex"
-        case volumeLevel = "VolumeLevel"
-        case isPaused = "IsPaused"
-        case playMethod = "PlayMethod"
-        case sessionID = "SessionId"
-        case brightness = "Brightness"
-        case isMuted = "IsMuted"
-        case aspectRatio = "AspectRatio"
-    }
-}
-
-/// Class TaskTriggerInfo.
-public struct TaskTriggerInfo: Codable {
-    /// Gets or sets the time of day.
-    public var timeOfDayTicks: Int?
-    /// Gets or sets the day of week.
-    public var dayOfWeek: DayOfWeek?
-    /// Gets or sets the maximum runtime ticks.
-    public var maxRuntimeTicks: Int?
-    /// Gets or sets the type.
-    public var type: String?
-    /// Gets or sets the interval.
-    public var intervalTicks: Int?
-
-    public init(timeOfDayTicks: Int? = nil, dayOfWeek: DayOfWeek? = nil, maxRuntimeTicks: Int? = nil, type: String? = nil, intervalTicks: Int? = nil) {
-        self.timeOfDayTicks = timeOfDayTicks
-        self.dayOfWeek = dayOfWeek
-        self.maxRuntimeTicks = maxRuntimeTicks
-        self.type = type
-        self.intervalTicks = intervalTicks
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case timeOfDayTicks = "TimeOfDayTicks"
-        case dayOfWeek = "DayOfWeek"
-        case maxRuntimeTicks = "MaxRuntimeTicks"
-        case type = "Type"
-        case intervalTicks = "IntervalTicks"
-    }
-}
-
-public struct ServerDiscoveryInfo: Codable {
-    /// Gets or sets the address.
-    public var address: String?
-    /// Gets or sets the server identifier.
-    public var id: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the endpoint address.
-    public var endpointAddress: String?
-
-    public init(address: String? = nil, id: String? = nil, name: String? = nil, endpointAddress: String? = nil) {
-        self.address = address
-        self.id = id
-        self.name = name
-        self.endpointAddress = endpointAddress
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case address = "Address"
-        case id = "Id"
-        case name = "Name"
-        case endpointAddress = "EndpointAddress"
-    }
-}
-
-public struct ActivityLogEntryQueryResult: Codable {
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-    /// Gets or sets the items.
-    public var items: [ActivityLogEntry]?
-    /// The index of the first record in Items.
-    public var startIndex: Int?
-
-    public init(totalRecordCount: Int? = nil, items: [ActivityLogEntry]? = nil, startIndex: Int? = nil) {
-        self.totalRecordCount = totalRecordCount
-        self.items = items
-        self.startIndex = startIndex
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case totalRecordCount = "TotalRecordCount"
-        case items = "Items"
-        case startIndex = "StartIndex"
-    }
-}
-
-/// Class SessionInfo.
-public struct SessionInfo: Codable {
-    /// Gets or sets the now playing item.
-    public var nowPlayingItem: BaseItemDto?
-    /// Gets a value indicating whether this instance is active.
-    public var isActive: Bool?
-    public var additionalUsers: [SessionUserInfo]?
-    /// Gets or sets the application version.
-    public var applicationVersion: String?
-    /// Gets or sets the device id.
-    public var deviceID: String?
-    public var nowPlayingQueue: [QueueItem]?
-    public var userPrimaryImageTag: String?
-    /// Gets or sets the playable media types.
-    public var playableMediaTypes: [String]?
-    /// Gets or sets the user id.
-    public var userID: UUID?
-    public var isSupportsMediaControl: Bool?
-    /// Gets or sets the type of the client.
-    public var client: String?
-    /// Gets or sets the username.
-    public var userName: String?
-    /// Gets or sets the last playback check in.
-    public var lastPlaybackCheckIn: Date?
-    public var playlistItemID: String?
-    public var capabilities: ClientCapabilities?
-    public var transcodingInfo: TranscodingInfo?
-    public var playState: PlayerStateInfo?
-    /// Gets or sets the remote end point.
-    public var remoteEndPoint: String?
-    /// This is strictly used as a data transfer object from the api layer.
-This holds information about a BaseItem in a format that is convenient for the client.
-    public var nowViewingItem: BaseItemDto?
-    /// Gets or sets the type of the device.
-    public var deviceType: String?
-    /// Gets or sets the last activity date.
-    public var lastActivityDate: Date?
-    /// Class BaseItem.
-    public var fullNowPlayingItem: BaseItem?
-    /// Gets or sets the id.
-    public var id: String?
-    /// Gets or sets the name of the device.
-    public var deviceName: String?
-    public var serverID: String?
-    public var isSupportsRemoteControl: Bool?
-    /// Gets or sets the supported commands.
-    public var supportedCommands: [GeneralCommandType]?
-    public var hasCustomDeviceName: Bool?
-
-    public init(nowPlayingItem: BaseItemDto? = nil, isActive: Bool? = nil, additionalUsers: [SessionUserInfo]? = nil, applicationVersion: String? = nil, deviceID: String? = nil, nowPlayingQueue: [QueueItem]? = nil, userPrimaryImageTag: String? = nil, playableMediaTypes: [String]? = nil, userID: UUID? = nil, isSupportsMediaControl: Bool? = nil, client: String? = nil, userName: String? = nil, lastPlaybackCheckIn: Date? = nil, playlistItemID: String? = nil, capabilities: ClientCapabilities? = nil, transcodingInfo: TranscodingInfo? = nil, playState: PlayerStateInfo? = nil, remoteEndPoint: String? = nil, nowViewingItem: BaseItemDto? = nil, deviceType: String? = nil, lastActivityDate: Date? = nil, fullNowPlayingItem: BaseItem? = nil, id: String? = nil, deviceName: String? = nil, serverID: String? = nil, isSupportsRemoteControl: Bool? = nil, supportedCommands: [GeneralCommandType]? = nil, hasCustomDeviceName: Bool? = nil) {
-        self.nowPlayingItem = nowPlayingItem
-        self.isActive = isActive
-        self.additionalUsers = additionalUsers
-        self.applicationVersion = applicationVersion
-        self.deviceID = deviceID
-        self.nowPlayingQueue = nowPlayingQueue
-        self.userPrimaryImageTag = userPrimaryImageTag
-        self.playableMediaTypes = playableMediaTypes
-        self.userID = userID
-        self.isSupportsMediaControl = isSupportsMediaControl
-        self.client = client
-        self.userName = userName
-        self.lastPlaybackCheckIn = lastPlaybackCheckIn
-        self.playlistItemID = playlistItemID
-        self.capabilities = capabilities
-        self.transcodingInfo = transcodingInfo
-        self.playState = playState
-        self.remoteEndPoint = remoteEndPoint
-        self.nowViewingItem = nowViewingItem
-        self.deviceType = deviceType
-        self.lastActivityDate = lastActivityDate
-        self.fullNowPlayingItem = fullNowPlayingItem
-        self.id = id
-        self.deviceName = deviceName
-        self.serverID = serverID
-        self.isSupportsRemoteControl = isSupportsRemoteControl
-        self.supportedCommands = supportedCommands
-        self.hasCustomDeviceName = hasCustomDeviceName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case nowPlayingItem = "NowPlayingItem"
-        case isActive = "IsActive"
-        case additionalUsers = "AdditionalUsers"
-        case applicationVersion = "ApplicationVersion"
-        case deviceID = "DeviceId"
-        case nowPlayingQueue = "NowPlayingQueue"
-        case userPrimaryImageTag = "UserPrimaryImageTag"
-        case playableMediaTypes = "PlayableMediaTypes"
-        case userID = "UserId"
-        case isSupportsMediaControl = "SupportsMediaControl"
-        case client = "Client"
-        case userName = "UserName"
-        case lastPlaybackCheckIn = "LastPlaybackCheckIn"
-        case playlistItemID = "PlaylistItemId"
-        case capabilities = "Capabilities"
-        case transcodingInfo = "TranscodingInfo"
-        case playState = "PlayState"
-        case remoteEndPoint = "RemoteEndPoint"
-        case nowViewingItem = "NowViewingItem"
-        case deviceType = "DeviceType"
-        case lastActivityDate = "LastActivityDate"
-        case fullNowPlayingItem = "FullNowPlayingItem"
-        case id = "Id"
-        case deviceName = "DeviceName"
-        case serverID = "ServerId"
-        case isSupportsRemoteControl = "SupportsRemoteControl"
-        case supportedCommands = "SupportedCommands"
-        case hasCustomDeviceName = "HasCustomDeviceName"
-    }
-}
-
-public final class RemoteSearchResult: Codable {
-    /// Gets or sets the year.
-    public let productionYear: Int?
-    public let premiereDate: Date?
-    /// Gets or sets the provider ids.
-    public let providerIDs: [String: String]?
-    public let indexNumberEnd: Int?
-    public let imageURL: String?
-    public let artists: [RemoteSearchResult]?
-    /// Gets or sets the name.
-    public let name: String?
-    public let searchProviderName: String?
-    public let albumArtist: RemoteSearchResult?
-    public let indexNumber: Int?
-    public let overview: String?
-    public let parentIndexNumber: Int?
-
-    public init(productionYear: Int? = nil, premiereDate: Date? = nil, providerIDs: [String: String]? = nil, indexNumberEnd: Int? = nil, imageURL: String? = nil, artists: [RemoteSearchResult]? = nil, name: String? = nil, searchProviderName: String? = nil, albumArtist: RemoteSearchResult? = nil, indexNumber: Int? = nil, overview: String? = nil, parentIndexNumber: Int? = nil) {
-        self.productionYear = productionYear
-        self.premiereDate = premiereDate
-        self.providerIDs = providerIDs
-        self.indexNumberEnd = indexNumberEnd
-        self.imageURL = imageURL
-        self.artists = artists
-        self.name = name
-        self.searchProviderName = searchProviderName
-        self.albumArtist = albumArtist
-        self.indexNumber = indexNumber
-        self.overview = overview
-        self.parentIndexNumber = parentIndexNumber
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case productionYear = "ProductionYear"
-        case premiereDate = "PremiereDate"
-        case providerIDs = "ProviderIds"
-        case indexNumberEnd = "IndexNumberEnd"
-        case imageURL = "ImageUrl"
-        case artists = "Artists"
-        case name = "Name"
-        case searchProviderName = "SearchProviderName"
-        case albumArtist = "AlbumArtist"
-        case indexNumber = "IndexNumber"
-        case overview = "Overview"
-        case parentIndexNumber = "ParentIndexNumber"
-    }
-}
-
-public enum ImageOrientation: String, Codable, CaseIterable {
-    case topLeft = "TopLeft"
-    case topRight = "TopRight"
-    case bottomRight = "BottomRight"
-    case bottomLeft = "BottomLeft"
-    case leftTop = "LeftTop"
-    case rightTop = "RightTop"
-    case rightBottom = "RightBottom"
-    case leftBottom = "LeftBottom"
-}
-
-public struct CollectionCreationResult: Codable {
-    public var id: UUID?
-
-    public init(id: UUID? = nil) {
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-    }
-}
-
-/// Class GroupUpdate.
-public struct ObjectGroupUpdate: Codable {
-    /// Gets the update type.
-    public var type: GroupUpdateType?
-    /// Gets the update data.
-    public var data: AnyJSON?
-    /// Gets the group identifier.
-    public var groupID: UUID?
-
-    public init(type: GroupUpdateType? = nil, data: AnyJSON? = nil, groupID: UUID? = nil) {
-        self.type = type
-        self.data = data
-        self.groupID = groupID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type = "Type"
-        case data = "Data"
-        case groupID = "GroupId"
-    }
-}
-
-public enum KeepUntil: String, Codable, CaseIterable {
-    case untilDeleted = "UntilDeleted"
-    case untilSpaceNeeded = "UntilSpaceNeeded"
-    case untilWatched = "UntilWatched"
-    case untilDate = "UntilDate"
-}
-
-/// Class RemoveFromPlaylistRequestDto.
-public struct RemoveFromPlaylistRequestDto: Codable {
-    /// Gets or sets the playlist identifiers ot the items.
-    public var playlistItemIDs: [UUID]?
-
-    public init(playlistItemIDs: [UUID]? = nil) {
-        self.playlistItemIDs = playlistItemIDs
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playlistItemIDs = "PlaylistItemIds"
-    }
-}
-
-/// Enum SeriesStatus.
-public enum SeriesStatus: String, Codable, CaseIterable {
-    case continuing = "Continuing"
-    case ended = "Ended"
-}
-
-/// The startup user DTO.
-public struct StartupUserDto: Codable {
-    /// Gets or sets the user's password.
-    public var password: String?
-    /// Gets or sets the username.
-    public var name: String?
-
-    public init(password: String? = nil, name: String? = nil) {
-        self.password = password
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case password = "Password"
-        case name = "Name"
-    }
-}
-
-public enum Architecture: String, Codable, CaseIterable {
-    case x86 = "X86"
-    case x64 = "X64"
-    case arm = "Arm"
-    case arm64 = "Arm64"
-    case wasm = "Wasm"
-}
-
-/// Class UtcTimeResponse.
-public struct UtcTimeResponse: Codable {
-    /// Gets the UTC time when request has been received.
-    public var requestReceptionTime: Date?
-    /// Gets the UTC time when response has been sent.
-    public var responseTransmissionTime: Date?
-
-    public init(requestReceptionTime: Date? = nil, responseTransmissionTime: Date? = nil) {
-        self.requestReceptionTime = requestReceptionTime
-        self.responseTransmissionTime = responseTransmissionTime
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case requestReceptionTime = "RequestReceptionTime"
-        case responseTransmissionTime = "ResponseTransmissionTime"
-    }
-}
-
-/// The update user easy password request body.
-public struct UpdateUserEasyPassword: Codable {
-    /// Gets or sets the new password.
-    public var newPw: String?
-    /// Gets or sets a value indicating whether to reset the password.
-    public var isResetPassword: Bool?
-    /// Gets or sets the new sha1-hashed password.
-    public var newPassword: String?
-
-    public init(newPw: String? = nil, isResetPassword: Bool? = nil, newPassword: String? = nil) {
-        self.newPw = newPw
-        self.isResetPassword = isResetPassword
-        self.newPassword = newPassword
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case newPw = "NewPw"
-        case isResetPassword = "ResetPassword"
-        case newPassword = "NewPassword"
-    }
-}
-
-public struct ListingsProviderInfo: Codable {
-    public var sportsCategories: [String]?
-    public var password: String?
-    public var kidsCategories: [String]?
-    public var enabledTuners: [String]?
-    public var country: String?
-    public var newsCategories: [String]?
-    public var path: String?
-    public var zipCode: String?
-    public var username: String?
-    public var moviePrefix: String?
-    public var channelMappings: [NameValuePair]?
-    public var enableAllTuners: Bool?
-    public var preferredLanguage: String?
-    public var userAgent: String?
-    public var listingsID: String?
-    public var movieCategories: [String]?
-    public var type: String?
-    public var id: String?
-
-    public init(sportsCategories: [String]? = nil, password: String? = nil, kidsCategories: [String]? = nil, enabledTuners: [String]? = nil, country: String? = nil, newsCategories: [String]? = nil, path: String? = nil, zipCode: String? = nil, username: String? = nil, moviePrefix: String? = nil, channelMappings: [NameValuePair]? = nil, enableAllTuners: Bool? = nil, preferredLanguage: String? = nil, userAgent: String? = nil, listingsID: String? = nil, movieCategories: [String]? = nil, type: String? = nil, id: String? = nil) {
-        self.sportsCategories = sportsCategories
-        self.password = password
-        self.kidsCategories = kidsCategories
-        self.enabledTuners = enabledTuners
-        self.country = country
-        self.newsCategories = newsCategories
-        self.path = path
-        self.zipCode = zipCode
-        self.username = username
-        self.moviePrefix = moviePrefix
-        self.channelMappings = channelMappings
-        self.enableAllTuners = enableAllTuners
-        self.preferredLanguage = preferredLanguage
-        self.userAgent = userAgent
-        self.listingsID = listingsID
-        self.movieCategories = movieCategories
-        self.type = type
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case sportsCategories = "SportsCategories"
-        case password = "Password"
-        case kidsCategories = "KidsCategories"
-        case enabledTuners = "EnabledTuners"
-        case country = "Country"
-        case newsCategories = "NewsCategories"
-        case path = "Path"
-        case zipCode = "ZipCode"
-        case username = "Username"
-        case moviePrefix = "MoviePrefix"
-        case channelMappings = "ChannelMappings"
-        case enableAllTuners = "EnableAllTuners"
-        case preferredLanguage = "PreferredLanguage"
-        case userAgent = "UserAgent"
-        case listingsID = "ListingsId"
-        case movieCategories = "MovieCategories"
-        case type = "Type"
-        case id = "Id"
-    }
-}
-
-/// Library options result dto.
-public struct LibraryOptionsResultDto: Codable {
-    /// Gets or sets the metadata savers.
-    public var metadataSavers: [LibraryOptionInfoDto]?
-    /// Gets or sets the metadata readers.
-    public var metadataReaders: [LibraryOptionInfoDto]?
-    /// Gets or sets the type options.
-    public var typeOptions: [LibraryTypeOptionsDto]?
-    /// Gets or sets the subtitle fetchers.
-    public var subtitleFetchers: [LibraryOptionInfoDto]?
-
-    public init(metadataSavers: [LibraryOptionInfoDto]? = nil, metadataReaders: [LibraryOptionInfoDto]? = nil, typeOptions: [LibraryTypeOptionsDto]? = nil, subtitleFetchers: [LibraryOptionInfoDto]? = nil) {
-        self.metadataSavers = metadataSavers
-        self.metadataReaders = metadataReaders
-        self.typeOptions = typeOptions
-        self.subtitleFetchers = subtitleFetchers
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case metadataSavers = "MetadataSavers"
-        case metadataReaders = "MetadataReaders"
-        case typeOptions = "TypeOptions"
-        case subtitleFetchers = "SubtitleFetchers"
-    }
-}
-
-/// Used to hold information about a user's list of configured virtual folders.
-public struct VirtualFolderInfo: Codable {
-    /// Gets or sets the item identifier.
-    public var itemID: String?
-    /// Gets or sets the type of the collection.
-    public var collectionType: CollectionTypeOptions?
-    /// Gets or sets the primary image item identifier.
-    public var primaryImageItemID: String?
-    /// Gets or sets the name.
-    public var name: String?
-    public var refreshProgress: Double?
-    public var refreshStatus: String?
-    /// Gets or sets the locations.
-    public var locations: [String]?
-    public var libraryOptions: LibraryOptions?
-
-    public init(itemID: String? = nil, collectionType: CollectionTypeOptions? = nil, primaryImageItemID: String? = nil, name: String? = nil, refreshProgress: Double? = nil, refreshStatus: String? = nil, locations: [String]? = nil, libraryOptions: LibraryOptions? = nil) {
-        self.itemID = itemID
-        self.collectionType = collectionType
-        self.primaryImageItemID = primaryImageItemID
-        self.name = name
-        self.refreshProgress = refreshProgress
-        self.refreshStatus = refreshStatus
-        self.locations = locations
-        self.libraryOptions = libraryOptions
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemID = "ItemId"
-        case collectionType = "CollectionType"
-        case primaryImageItemID = "PrimaryImageItemId"
-        case name = "Name"
-        case refreshProgress = "RefreshProgress"
-        case refreshStatus = "RefreshStatus"
-        case locations = "Locations"
-        case libraryOptions = "LibraryOptions"
-    }
-}
-
-/// Class LibrarySummary.
-public struct ItemCounts: Codable {
-    /// Gets or sets the item count.
-    public var itemCount: Int?
-    /// Gets or sets the movie count.
-    public var movieCount: Int?
-    /// Gets or sets the album count.
-    public var albumCount: Int?
-    /// Gets or sets the song count.
-    public var songCount: Int?
-    /// Gets or sets the music video count.
-    public var musicVideoCount: Int?
-    /// Gets or sets the box set count.
-    public var boxSetCount: Int?
-    /// Gets or sets the artist count.
-    public var artistCount: Int?
-    /// Gets or sets the trailer count.
-    public var trailerCount: Int?
-    /// Gets or sets the program count.
-    public var programCount: Int?
-    /// Gets or sets the episode count.
-    public var episodeCount: Int?
-    /// Gets or sets the book count.
-    public var bookCount: Int?
-    /// Gets or sets the series count.
-    public var seriesCount: Int?
-
-    public init(itemCount: Int? = nil, movieCount: Int? = nil, albumCount: Int? = nil, songCount: Int? = nil, musicVideoCount: Int? = nil, boxSetCount: Int? = nil, artistCount: Int? = nil, trailerCount: Int? = nil, programCount: Int? = nil, episodeCount: Int? = nil, bookCount: Int? = nil, seriesCount: Int? = nil) {
-        self.itemCount = itemCount
-        self.movieCount = movieCount
-        self.albumCount = albumCount
-        self.songCount = songCount
-        self.musicVideoCount = musicVideoCount
-        self.boxSetCount = boxSetCount
-        self.artistCount = artistCount
-        self.trailerCount = trailerCount
-        self.programCount = programCount
-        self.episodeCount = episodeCount
-        self.bookCount = bookCount
-        self.seriesCount = seriesCount
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemCount = "ItemCount"
-        case movieCount = "MovieCount"
-        case albumCount = "AlbumCount"
-        case songCount = "SongCount"
-        case musicVideoCount = "MusicVideoCount"
-        case boxSetCount = "BoxSetCount"
-        case artistCount = "ArtistCount"
-        case trailerCount = "TrailerCount"
-        case programCount = "ProgramCount"
-        case episodeCount = "EpisodeCount"
-        case bookCount = "BookCount"
-        case seriesCount = "SeriesCount"
-    }
-}
-
-/// Class SeekRequestDto.
-public struct SeekRequestDto: Codable {
-    /// Gets or sets the position ticks.
-    public var positionTicks: Int?
-
-    public init(positionTicks: Int? = nil) {
-        self.positionTicks = positionTicks
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case positionTicks = "PositionTicks"
-    }
-}
-
-/// Class SessionUserInfo.
-public struct SessionUserInfo: Codable {
-    /// Gets or sets the name of the user.
-    public var userName: String?
-    /// Gets or sets the user identifier.
-    public var userID: UUID?
-
-    public init(userName: String? = nil, userID: UUID? = nil) {
-        self.userName = userName
-        self.userID = userID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case userName = "UserName"
-        case userID = "UserId"
-    }
-}
-
-public struct ImageByNameInfo: Codable {
-    /// Gets or sets the theme.
-    public var theme: String?
-    /// Gets or sets the context.
-    public var context: String?
-    /// Gets or sets the length of the file.
-    public var fileLength: Int?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the format.
-    public var format: String?
-
-    public init(theme: String? = nil, context: String? = nil, fileLength: Int? = nil, name: String? = nil, format: String? = nil) {
-        self.theme = theme
-        self.context = context
-        self.fileLength = fileLength
-        self.name = name
-        self.format = format
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case theme = "Theme"
-        case context = "Context"
-        case fileLength = "FileLength"
-        case name = "Name"
-        case format = "Format"
-    }
-}
-
-public struct SongInfo: Codable {
-    public var premiereDate: Date?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    /// Gets or sets the year.
-    public var year: Int?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    public var parentIndexNumber: Int?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the path.
-    public var path: String?
-    public var artists: [String]?
-    public var indexNumber: Int?
-    public var isAutomated: Bool?
-    public var album: String?
-    public var albumArtists: [String]?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-
-    public init(premiereDate: Date? = nil, metadataLanguage: String? = nil, year: Int? = nil, providerIDs: [String: String]? = nil, parentIndexNumber: Int? = nil, name: String? = nil, path: String? = nil, artists: [String]? = nil, indexNumber: Int? = nil, isAutomated: Bool? = nil, album: String? = nil, albumArtists: [String]? = nil, metadataCountryCode: String? = nil) {
-        self.premiereDate = premiereDate
-        self.metadataLanguage = metadataLanguage
-        self.year = year
-        self.providerIDs = providerIDs
-        self.parentIndexNumber = parentIndexNumber
-        self.name = name
-        self.path = path
-        self.artists = artists
-        self.indexNumber = indexNumber
-        self.isAutomated = isAutomated
-        self.album = album
-        self.albumArtists = albumArtists
-        self.metadataCountryCode = metadataCountryCode
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case premiereDate = "PremiereDate"
-        case metadataLanguage = "MetadataLanguage"
-        case year = "Year"
-        case providerIDs = "ProviderIds"
-        case parentIndexNumber = "ParentIndexNumber"
-        case name = "Name"
-        case path = "Path"
-        case artists = "Artists"
-        case indexNumber = "IndexNumber"
-        case isAutomated = "IsAutomated"
-        case album = "Album"
-        case albumArtists = "AlbumArtists"
-        case metadataCountryCode = "MetadataCountryCode"
-    }
-}
-
-/// Class MovePlaylistItemRequestDto.
-public struct MovePlaylistItemRequestDto: Codable {
-    /// Gets or sets the new position.
-    public var newIndex: Int?
-    /// Gets or sets the playlist identifier of the item.
-    public var playlistItemID: UUID?
-
-    public init(newIndex: Int? = nil, playlistItemID: UUID? = nil) {
-        self.newIndex = newIndex
-        self.playlistItemID = playlistItemID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case newIndex = "NewIndex"
-        case playlistItemID = "PlaylistItemId"
-    }
-}
-
-/// Enum FileSystemEntryType.
-public enum FileSystemEntryType: String, Codable, CaseIterable {
-    case file = "File"
-    case directory = "Directory"
-    case networkComputer = "NetworkComputer"
-    case networkShare = "NetworkShare"
-}
-
-public struct TimerInfoDto: Codable {
-    public var type: String?
-    public var channelPrimaryImageTag: String?
-    /// Gets or sets the series timer identifier.
-    public var seriesTimerID: String?
-    /// Gets or sets the pre padding seconds.
-    public var prePaddingSeconds: Int?
-    /// ChannelId of the recording.
-    public var channelID: UUID?
-    /// Description of the recording.
-    public var overview: String?
-    public var keepUntil: KeepUntil?
-    /// Gets or sets the priority.
-    public var priority: Int?
-    /// Id of the recording.
-    public var id: String?
-    /// Gets or sets the name of the service.
-    public var serviceName: String?
-    /// Gets or sets the external series timer identifier.
-    public var externalSeriesTimerID: String?
-    /// Gets or sets the parent backdrop image tags.
-    public var parentBackdropImageTags: [String]?
-    /// Name of the recording.
-    public var name: String?
-    /// Gets or sets a value indicating whether this instance is pre padding required.
-    public var isPrePaddingRequired: Bool?
-    /// Gets or sets the status.
-    public var status: RecordingStatus?
-    /// Gets or sets the external program identifier.
-    public var externalProgramID: String?
-    /// Gets or sets the server identifier.
-    public var serverID: String?
-    /// Gets or sets the external identifier.
-    public var externalID: String?
-    /// The start date of the recording, in UTC.
-    public var startDate: Date?
-    /// Gets or sets the post padding seconds.
-    public var postPaddingSeconds: Int?
-    /// Gets or sets the program information.
-    public var programInfo: BaseItemDto?
-    /// Gets or sets the external channel identifier.
-    public var externalChannelID: String?
-    /// If the item does not have any backdrops, this will hold the Id of the Parent that has one.
-    public var parentBackdropItemID: String?
-    /// Gets or sets a value indicating whether this instance is post padding required.
-    public var isPostPaddingRequired: Bool?
-    /// ChannelName of the recording.
-    public var channelName: String?
-    /// Gets or sets the run time ticks.
-    public var runTimeTicks: Int?
-    /// Gets or sets the program identifier.
-    public var programID: String?
-    /// The end date of the recording, in UTC.
-    public var endDate: Date?
-
-    public init(type: String? = nil, channelPrimaryImageTag: String? = nil, seriesTimerID: String? = nil, prePaddingSeconds: Int? = nil, channelID: UUID? = nil, overview: String? = nil, keepUntil: KeepUntil? = nil, priority: Int? = nil, id: String? = nil, serviceName: String? = nil, externalSeriesTimerID: String? = nil, parentBackdropImageTags: [String]? = nil, name: String? = nil, isPrePaddingRequired: Bool? = nil, status: RecordingStatus? = nil, externalProgramID: String? = nil, serverID: String? = nil, externalID: String? = nil, startDate: Date? = nil, postPaddingSeconds: Int? = nil, programInfo: BaseItemDto? = nil, externalChannelID: String? = nil, parentBackdropItemID: String? = nil, isPostPaddingRequired: Bool? = nil, channelName: String? = nil, runTimeTicks: Int? = nil, programID: String? = nil, endDate: Date? = nil) {
-        self.type = type
-        self.channelPrimaryImageTag = channelPrimaryImageTag
-        self.seriesTimerID = seriesTimerID
-        self.prePaddingSeconds = prePaddingSeconds
-        self.channelID = channelID
-        self.overview = overview
-        self.keepUntil = keepUntil
-        self.priority = priority
-        self.id = id
-        self.serviceName = serviceName
-        self.externalSeriesTimerID = externalSeriesTimerID
-        self.parentBackdropImageTags = parentBackdropImageTags
-        self.name = name
-        self.isPrePaddingRequired = isPrePaddingRequired
-        self.status = status
-        self.externalProgramID = externalProgramID
-        self.serverID = serverID
-        self.externalID = externalID
-        self.startDate = startDate
-        self.postPaddingSeconds = postPaddingSeconds
-        self.programInfo = programInfo
-        self.externalChannelID = externalChannelID
-        self.parentBackdropItemID = parentBackdropItemID
-        self.isPostPaddingRequired = isPostPaddingRequired
-        self.channelName = channelName
-        self.runTimeTicks = runTimeTicks
-        self.programID = programID
-        self.endDate = endDate
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type = "Type"
-        case channelPrimaryImageTag = "ChannelPrimaryImageTag"
-        case seriesTimerID = "SeriesTimerId"
-        case prePaddingSeconds = "PrePaddingSeconds"
-        case channelID = "ChannelId"
-        case overview = "Overview"
-        case keepUntil = "KeepUntil"
-        case priority = "Priority"
-        case id = "Id"
-        case serviceName = "ServiceName"
-        case externalSeriesTimerID = "ExternalSeriesTimerId"
-        case parentBackdropImageTags = "ParentBackdropImageTags"
-        case name = "Name"
-        case isPrePaddingRequired = "IsPrePaddingRequired"
-        case status = "Status"
-        case externalProgramID = "ExternalProgramId"
-        case serverID = "ServerId"
-        case externalID = "ExternalId"
-        case startDate = "StartDate"
-        case postPaddingSeconds = "PostPaddingSeconds"
-        case programInfo = "ProgramInfo"
-        case externalChannelID = "ExternalChannelId"
-        case parentBackdropItemID = "ParentBackdropItemId"
-        case isPostPaddingRequired = "IsPostPaddingRequired"
-        case channelName = "ChannelName"
-        case runTimeTicks = "RunTimeTicks"
-        case programID = "ProgramId"
-        case endDate = "EndDate"
-    }
-}
-
-/// Represents the external id information for serialization to the client.
-public struct ExternalIDInfo: Codable {
-    /// Gets or sets the display name of the external id provider (IE: IMDB, MusicBrainz, etc).
-    public var name: String?
-    /// Gets or sets the URL format string.
-    public var urlFormatString: String?
-    /// Gets or sets the unique key for this id. This key should be unique across all providers.
-    public var key: String?
-    /// Gets or sets the specific media type for this id. This is used to distinguish between the different
-external id types for providers with multiple ids.
-A null value indicates there is no specific media type associated with the external id, or this is the
-default id for the external provider so there is no need to specify a type.
-    public var type: ExternalIDMediaType?
-
-    public init(name: String? = nil, urlFormatString: String? = nil, key: String? = nil, type: ExternalIDMediaType? = nil) {
-        self.name = name
-        self.urlFormatString = urlFormatString
-        self.key = key
-        self.type = type
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case urlFormatString = "UrlFormatString"
-        case key = "Key"
-        case type = "Type"
-    }
-}
-
-/// Enum ConfigurationPageType.
-public enum ConfigurationPageType: String, Codable, CaseIterable {
-    case pluginConfiguration = "PluginConfiguration"
-    case `none` = "None"
-}
-
-/// The authenticate user by name request body.
-public struct AuthenticateUserByName: Codable {
-    /// Gets or sets the plain text password.
-    public var pw: String?
-    /// Gets or sets the sha1-hashed password.
-    public var password: String?
-    /// Gets or sets the username.
-    public var username: String?
-
-    public init(pw: String? = nil, password: String? = nil, username: String? = nil) {
-        self.pw = pw
-        self.password = password
-        self.username = username
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case pw = "Pw"
-        case password = "Password"
-        case username = "Username"
-    }
-}
-
-/// Class GroupInfoDto.
-public struct GroupInfoDto: Codable {
-    /// Gets the group state.
-    public var state: GroupStateType?
-    /// Gets the date when this DTO has been created.
-    public var lastUpdatedAt: Date?
-    /// Gets the group name.
-    public var groupName: String?
-    /// Gets the participants.
-    public var participants: [String]?
-    /// Gets the group identifier.
-    public var groupID: UUID?
-
-    public init(state: GroupStateType? = nil, lastUpdatedAt: Date? = nil, groupName: String? = nil, participants: [String]? = nil, groupID: UUID? = nil) {
-        self.state = state
-        self.lastUpdatedAt = lastUpdatedAt
-        self.groupName = groupName
-        self.participants = participants
-        self.groupID = groupID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case state = "State"
-        case lastUpdatedAt = "LastUpdatedAt"
-        case groupName = "GroupName"
-        case participants = "Participants"
-        case groupID = "GroupId"
-    }
-}
-
-public enum RecordingStatus: String, Codable, CaseIterable {
-    case new = "New"
-    case inProgress = "InProgress"
-    case completed = "Completed"
-    case cancelled = "Cancelled"
-    case conflictedOk = "ConflictedOk"
-    case conflictedNotOk = "ConflictedNotOk"
-    case error = "Error"
-}
-
-/// The update user password request body.
-public struct UpdateUserPassword: Codable {
-    /// Gets or sets a value indicating whether to reset the password.
-    public var isResetPassword: Bool?
-    /// Gets or sets the current plain text password.
-    public var currentPw: String?
-    /// Gets or sets the current sha1-hashed password.
-    public var currentPassword: String?
-    /// Gets or sets the new plain text password.
-    public var newPw: String?
-
-    public init(isResetPassword: Bool? = nil, currentPw: String? = nil, currentPassword: String? = nil, newPw: String? = nil) {
-        self.isResetPassword = isResetPassword
-        self.currentPw = currentPw
-        self.currentPassword = currentPassword
-        self.newPw = newPw
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isResetPassword = "ResetPassword"
-        case currentPw = "CurrentPw"
-        case currentPassword = "CurrentPassword"
-        case newPw = "NewPw"
-    }
-}
-
-/// Class ThemeMediaResult.
-public struct ThemeMediaResult: Codable {
-    /// The index of the first record in Items.
-    public var startIndex: Int?
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-    /// Gets or sets the items.
-    public var items: [BaseItemDto]?
-    /// Gets or sets the owner id.
-    public var ownerID: UUID?
-
-    public init(startIndex: Int? = nil, totalRecordCount: Int? = nil, items: [BaseItemDto]? = nil, ownerID: UUID? = nil) {
-        self.startIndex = startIndex
-        self.totalRecordCount = totalRecordCount
-        self.items = items
-        self.ownerID = ownerID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case startIndex = "StartIndex"
-        case totalRecordCount = "TotalRecordCount"
-        case items = "Items"
-        case ownerID = "OwnerId"
-    }
-}
-
-public struct LocalizationOption: Codable {
-    public var value: String?
-    public var name: String?
-
-    public init(value: String? = nil, name: String? = nil) {
-        self.value = value
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case value = "Value"
-        case name = "Name"
-    }
-}
-
-/// Create new playlist dto.
-public struct CreatePlaylistDto: Codable {
-    /// Gets or sets the name of the new playlist.
-    public var name: String?
-    /// Gets or sets the media type.
-    public var mediaType: String?
-    /// Gets or sets item ids to add to the playlist.
-    public var ids: [UUID]?
-    /// Gets or sets the user id.
-    public var userID: UUID?
-
-    public init(name: String? = nil, mediaType: String? = nil, ids: [UUID]? = nil, userID: UUID? = nil) {
-        self.name = name
-        self.mediaType = mediaType
-        self.ids = ids
-        self.userID = userID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case mediaType = "MediaType"
-        case ids = "Ids"
-        case userID = "UserId"
-    }
-}
-
-public struct BoxSetInfo: Codable {
-    public var indexNumber: Int?
-    /// Gets or sets the path.
-    public var path: String?
-    public var isAutomated: Bool?
-    public var premiereDate: Date?
-    /// Gets or sets the year.
-    public var year: Int?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    public var parentIndexNumber: Int?
-    /// Gets or sets the name.
-    public var name: String?
-
-    public init(indexNumber: Int? = nil, path: String? = nil, isAutomated: Bool? = nil, premiereDate: Date? = nil, year: Int? = nil, metadataCountryCode: String? = nil, providerIDs: [String: String]? = nil, metadataLanguage: String? = nil, parentIndexNumber: Int? = nil, name: String? = nil) {
-        self.indexNumber = indexNumber
-        self.path = path
-        self.isAutomated = isAutomated
-        self.premiereDate = premiereDate
-        self.year = year
-        self.metadataCountryCode = metadataCountryCode
-        self.providerIDs = providerIDs
-        self.metadataLanguage = metadataLanguage
-        self.parentIndexNumber = parentIndexNumber
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case indexNumber = "IndexNumber"
-        case path = "Path"
-        case isAutomated = "IsAutomated"
-        case premiereDate = "PremiereDate"
-        case year = "Year"
-        case metadataCountryCode = "MetadataCountryCode"
-        case providerIDs = "ProviderIds"
-        case metadataLanguage = "MetadataLanguage"
-        case parentIndexNumber = "ParentIndexNumber"
-        case name = "Name"
-    }
-}
-
-public struct RecommendationDto: Codable {
-    public var items: [BaseItemDto]?
-    public var recommendationType: RecommendationType?
-    public var baselineItemName: String?
-    public var categoryID: UUID?
-
-    public init(items: [BaseItemDto]? = nil, recommendationType: RecommendationType? = nil, baselineItemName: String? = nil, categoryID: UUID? = nil) {
-        self.items = items
-        self.recommendationType = recommendationType
-        self.baselineItemName = baselineItemName
-        self.categoryID = categoryID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case items = "Items"
-        case recommendationType = "RecommendationType"
-        case baselineItemName = "BaselineItemName"
-        case categoryID = "CategoryId"
-    }
-}
-
-public struct LiveStreamResponse: Codable {
-    public var mediaSource: MediaSourceInfo?
-
-    public init(mediaSource: MediaSourceInfo? = nil) {
-        self.mediaSource = mediaSource
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case mediaSource = "MediaSource"
-    }
-}
-
-public enum CollectionTypeOptions: String, Codable, CaseIterable {
-    case movies = "Movies"
-    case tvShows = "TvShows"
-    case music = "Music"
-    case musicVideos = "MusicVideos"
-    case homeVideos = "HomeVideos"
-    case boxSets = "BoxSets"
-    case books = "Books"
-    case mixed = "Mixed"
-}
-
-public enum CodecType: String, Codable, CaseIterable {
-    case video = "Video"
-    case videoAudio = "VideoAudio"
-    case audio = "Audio"
-}
-
-/// Defines the MediaBrowser.Model.Updates.VersionInfo class.
-public struct VersionInfo: Codable {
-    /// Gets or sets the ABI that this version was built against.
-    public var targetAbi: String?
-    /// Gets or sets a timestamp of when the binary was built.
-    public var timestamp: String?
-    /// Gets or sets a checksum for the binary.
-    public var checksum: String?
-    /// Gets or sets the changelog for this version.
-    public var changelog: String?
-    /// Gets or sets the repository url.
-    public var repositoryURL: String?
-    /// Gets the version as a System.Version.
-    public var versionNumber: Version?
-    /// Gets or sets the repository name.
-    public var repositoryName: String?
-    /// Gets or sets the version.
-    public var version: String?
-    /// Gets or sets the source URL.
-    public var sourceURL: String?
-
-    public init(targetAbi: String? = nil, timestamp: String? = nil, checksum: String? = nil, changelog: String? = nil, repositoryURL: String? = nil, versionNumber: Version? = nil, repositoryName: String? = nil, version: String? = nil, sourceURL: String? = nil) {
-        self.targetAbi = targetAbi
-        self.timestamp = timestamp
-        self.checksum = checksum
-        self.changelog = changelog
-        self.repositoryURL = repositoryURL
-        self.versionNumber = versionNumber
-        self.repositoryName = repositoryName
-        self.version = version
-        self.sourceURL = sourceURL
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case targetAbi
-        case timestamp
-        case checksum
-        case changelog
-        case repositoryURL = "repositoryUrl"
-        case versionNumber = "VersionNumber"
-        case repositoryName
-        case version
-        case sourceURL = "sourceUrl"
-    }
-}
-
-public struct MessageCommand: Codable {
-    public var text: String
-    public var header: String?
-    public var timeoutMs: Int?
-
-    public init(text: String, header: String? = nil, timeoutMs: Int? = nil) {
-        self.text = text
-        self.header = header
-        self.timeoutMs = timeoutMs
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case text = "Text"
-        case header = "Header"
-        case timeoutMs = "TimeoutMs"
-    }
-}
-
-/// Set channel mapping dto.
-public struct SetChannelMappingDto: Codable {
-    /// Gets or sets the provider channel id.
-    public var providerChannelID: String
-    /// Gets or sets the provider id.
-    public var providerID: String
-    /// Gets or sets the tuner channel id.
-    public var tunerChannelID: String
-
-    public init(providerChannelID: String, providerID: String, tunerChannelID: String) {
-        self.providerChannelID = providerChannelID
-        self.providerID = providerID
-        self.tunerChannelID = tunerChannelID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case providerChannelID = "ProviderChannelId"
-        case providerID = "ProviderId"
-        case tunerChannelID = "TunerChannelId"
-    }
-}
-
-public struct ImageOption: Codable {
-    /// Gets or sets the type.
-    public var type: ImageType?
-    /// Gets or sets the limit.
-    public var limit: Int?
-    /// Gets or sets the minimum width.
-    public var minWidth: Int?
-
-    public init(type: ImageType? = nil, limit: Int? = nil, minWidth: Int? = nil) {
-        self.type = type
-        self.limit = limit
-        self.minWidth = minWidth
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type = "Type"
-        case limit = "Limit"
-        case minWidth = "MinWidth"
-    }
-}
-
-public struct TranscodingInfo: Codable {
-    public var width: Int?
-    public var audioChannels: Int?
-    public var height: Int?
-    public var videoCodec: String?
-    public var transcodeReasons: [TranscodeReason]?
-    public var isAudioDirect: Bool?
-    public var bitrate: Int?
-    public var isVideoDirect: Bool?
-    public var container: String?
-    public var framerate: Double?
-    public var audioCodec: String?
-    public var completionPercentage: Double?
-
-    public init(width: Int? = nil, audioChannels: Int? = nil, height: Int? = nil, videoCodec: String? = nil, transcodeReasons: [TranscodeReason]? = nil, isAudioDirect: Bool? = nil, bitrate: Int? = nil, isVideoDirect: Bool? = nil, container: String? = nil, framerate: Double? = nil, audioCodec: String? = nil, completionPercentage: Double? = nil) {
-        self.width = width
-        self.audioChannels = audioChannels
-        self.height = height
-        self.videoCodec = videoCodec
-        self.transcodeReasons = transcodeReasons
-        self.isAudioDirect = isAudioDirect
-        self.bitrate = bitrate
-        self.isVideoDirect = isVideoDirect
-        self.container = container
-        self.framerate = framerate
-        self.audioCodec = audioCodec
-        self.completionPercentage = completionPercentage
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case width = "Width"
-        case audioChannels = "AudioChannels"
-        case height = "Height"
-        case videoCodec = "VideoCodec"
-        case transcodeReasons = "TranscodeReasons"
-        case isAudioDirect = "IsAudioDirect"
-        case bitrate = "Bitrate"
-        case isVideoDirect = "IsVideoDirect"
-        case container = "Container"
-        case framerate = "Framerate"
-        case audioCodec = "AudioCodec"
-        case completionPercentage = "CompletionPercentage"
-    }
-}
-
-public enum NotificationLevel: String, Codable, CaseIterable {
-    case normal = "Normal"
-    case warning = "Warning"
-    case error = "Error"
-}
-
-public struct TimerEventInfo: Codable {
-    public var id: String?
-    public var programID: UUID?
-
-    public init(id: String? = nil, programID: UUID? = nil) {
-        self.id = id
-        self.programID = programID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case programID = "ProgramId"
-    }
-}
-
-/// Enum describing the location of the FFmpeg tool.
-public enum FFmpegLocation: String, Codable, CaseIterable {
-    case notFound = "NotFound"
-    case setByArgument = "SetByArgument"
-    case custom = "Custom"
-    case system = "System"
-}
-
-/// Class SetPlaylistItemRequestDto.
-public struct SetPlaylistItemRequestDto: Codable {
-    /// Gets or sets the playlist identifier of the playing item.
-    public var playlistItemID: UUID?
-
-    public init(playlistItemID: UUID? = nil) {
-        self.playlistItemID = playlistItemID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playlistItemID = "PlaylistItemId"
-    }
-}
-
-public struct PersonLookupInfo: Codable {
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    public var isAutomated: Bool?
-    public var parentIndexNumber: Int?
-    public var indexNumber: Int?
-    /// Gets or sets the year.
-    public var year: Int?
-    /// Gets or sets the path.
-    public var path: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var premiereDate: Date?
-
-    public init(metadataLanguage: String? = nil, isAutomated: Bool? = nil, parentIndexNumber: Int? = nil, indexNumber: Int? = nil, year: Int? = nil, path: String? = nil, name: String? = nil, providerIDs: [String: String]? = nil, metadataCountryCode: String? = nil, premiereDate: Date? = nil) {
-        self.metadataLanguage = metadataLanguage
-        self.isAutomated = isAutomated
-        self.parentIndexNumber = parentIndexNumber
-        self.indexNumber = indexNumber
-        self.year = year
-        self.path = path
-        self.name = name
-        self.providerIDs = providerIDs
-        self.metadataCountryCode = metadataCountryCode
-        self.premiereDate = premiereDate
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case metadataLanguage = "MetadataLanguage"
-        case isAutomated = "IsAutomated"
-        case parentIndexNumber = "ParentIndexNumber"
-        case indexNumber = "IndexNumber"
-        case year = "Year"
-        case path = "Path"
-        case name = "Name"
-        case providerIDs = "ProviderIds"
-        case metadataCountryCode = "MetadataCountryCode"
-        case premiereDate = "PremiereDate"
-    }
-}
-
-/// Enum GroupState.
-public enum GroupStateType: String, Codable, CaseIterable {
-    case idle = "Idle"
-    case waiting = "Waiting"
-    case paused = "Paused"
-    case playing = "Playing"
-}
-
-public enum SubtitleDeliveryMethod: String, Codable, CaseIterable {
-    case encode = "Encode"
-    case embed = "Embed"
-    case external = "External"
-    case hls = "Hls"
-}
-
-/// Class PackageInfo.
-public struct PackageInfo: Codable {
-    /// Gets or sets a short overview of what the plugin does.
-    public var overview: String?
-    /// Gets or sets the category.
-    public var category: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets a long description of the plugin containing features or helpful explanations.
-    public var description: String?
-    /// Gets or sets the guid of the assembly associated with this plugin.
-This is used to identify the proper item for automatic updates.
-    public var guid: String?
-    /// Gets or sets the owner.
-    public var owner: String?
-    /// Gets or sets the versions.
-    public var versions: [VersionInfo]?
-    /// Gets or sets the image url for the package.
-    public var imageURL: String?
-
-    public init(overview: String? = nil, category: String? = nil, name: String? = nil, description: String? = nil, guid: String? = nil, owner: String? = nil, versions: [VersionInfo]? = nil, imageURL: String? = nil) {
-        self.overview = overview
-        self.category = category
-        self.name = name
-        self.description = description
-        self.guid = guid
-        self.owner = owner
-        self.versions = versions
-        self.imageURL = imageURL
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case overview
-        case category
-        case name
-        case description
-        case guid
-        case owner
-        case versions
-        case imageURL = "imageUrl"
-    }
-}
-
-/// Open live stream dto.
-public struct OpenLiveStreamDto: Codable {
-    /// Gets or sets a value indicating whether to enale direct stream.
-    public var enableDirectStream: Bool?
-    /// Gets or sets the device profile.
-    public var deviceProfile: DeviceProfile?
-    /// Gets or sets the audio stream index.
-    public var audioStreamIndex: Int?
-    /// Gets or sets the item id.
-    public var itemID: UUID?
-    /// Gets or sets a value indicating whether to enable direct play.
-    public var enableDirectPlay: Bool?
-    /// Gets or sets the start time in ticks.
-    public var startTimeTicks: Int?
-    /// Gets or sets the device play protocols.
-    public var directPlayProtocols: [MediaProtocol]?
-    /// Gets or sets the open token.
-    public var openToken: String?
-    /// Gets or sets the play session id.
-    public var playSessionID: String?
-    /// Gets or sets the subtitle stream index.
-    public var subtitleStreamIndex: Int?
-    /// Gets or sets the max audio channels.
-    public var maxAudioChannels: Int?
-    /// Gets or sets the max streaming bitrate.
-    public var maxStreamingBitrate: Int?
-    /// Gets or sets the user id.
-    public var userID: UUID?
-
-    public init(enableDirectStream: Bool? = nil, deviceProfile: DeviceProfile? = nil, audioStreamIndex: Int? = nil, itemID: UUID? = nil, enableDirectPlay: Bool? = nil, startTimeTicks: Int? = nil, directPlayProtocols: [MediaProtocol]? = nil, openToken: String? = nil, playSessionID: String? = nil, subtitleStreamIndex: Int? = nil, maxAudioChannels: Int? = nil, maxStreamingBitrate: Int? = nil, userID: UUID? = nil) {
-        self.enableDirectStream = enableDirectStream
-        self.deviceProfile = deviceProfile
-        self.audioStreamIndex = audioStreamIndex
-        self.itemID = itemID
-        self.enableDirectPlay = enableDirectPlay
-        self.startTimeTicks = startTimeTicks
-        self.directPlayProtocols = directPlayProtocols
-        self.openToken = openToken
-        self.playSessionID = playSessionID
-        self.subtitleStreamIndex = subtitleStreamIndex
-        self.maxAudioChannels = maxAudioChannels
-        self.maxStreamingBitrate = maxStreamingBitrate
-        self.userID = userID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case enableDirectStream = "EnableDirectStream"
-        case deviceProfile = "DeviceProfile"
-        case audioStreamIndex = "AudioStreamIndex"
-        case itemID = "ItemId"
-        case enableDirectPlay = "EnableDirectPlay"
-        case startTimeTicks = "StartTimeTicks"
-        case directPlayProtocols = "DirectPlayProtocols"
-        case openToken = "OpenToken"
-        case playSessionID = "PlaySessionId"
-        case subtitleStreamIndex = "SubtitleStreamIndex"
-        case maxAudioChannels = "MaxAudioChannels"
-        case maxStreamingBitrate = "MaxStreamingBitrate"
-        case userID = "UserId"
-    }
-}
-
-/// Class SetRepeatModeRequestDto.
-public struct SetRepeatModeRequestDto: Codable {
-    /// Gets or sets the repeat mode.
-    public var mode: GroupRepeatMode?
-
-    public init(mode: GroupRepeatMode? = nil) {
-        self.mode = mode
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case mode = "Mode"
-    }
-}
-
-public struct ForgotPasswordResult: Codable {
-    /// Gets or sets the action.
-    public var action: ForgotPasswordAction?
-    /// Gets or sets the pin expiration date.
-    public var pinExpirationDate: Date?
-    /// Gets or sets the pin file.
-    public var pinFile: String?
-
-    public init(action: ForgotPasswordAction? = nil, pinExpirationDate: Date? = nil, pinFile: String? = nil) {
-        self.action = action
-        self.pinExpirationDate = pinExpirationDate
-        self.pinFile = pinFile
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case action = "Action"
-        case pinExpirationDate = "PinExpirationDate"
-        case pinFile = "PinFile"
-    }
-}
-
-/// Class RepositoryInfo.
-public struct RepositoryInfo: Codable {
-    /// Gets or sets a value indicating whether the repository is enabled.
-    public var isEnabled: Bool?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the URL.
-    public var url: String?
-
-    public init(isEnabled: Bool? = nil, name: String? = nil, url: String? = nil) {
-        self.isEnabled = isEnabled
-        self.name = name
-        self.url = url
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isEnabled = "Enabled"
-        case name = "Name"
-        case url = "Url"
-    }
-}
-
-/// Defines the MediaBrowser.Model.Dlna.XmlAttribute.
-public struct XmlAttribute: Codable {
-    /// Gets or sets the name of the attribute.
-    public var name: String?
-    /// Gets or sets the value of the attribute.
-    public var value: String?
-
-    public init(name: String? = nil, value: String? = nil) {
-        self.name = name
-        self.value = value
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case value = "Value"
-    }
-}
-
-public struct TrailerInfo: Codable {
-    public var parentIndexNumber: Int?
-    public var isAutomated: Bool?
-    /// Gets or sets the year.
-    public var year: Int?
-    /// Gets or sets the path.
-    public var path: String?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    public var indexNumber: Int?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var premiereDate: Date?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-
-    public init(parentIndexNumber: Int? = nil, isAutomated: Bool? = nil, year: Int? = nil, path: String? = nil, providerIDs: [String: String]? = nil, indexNumber: Int? = nil, metadataCountryCode: String? = nil, premiereDate: Date? = nil, name: String? = nil, metadataLanguage: String? = nil) {
-        self.parentIndexNumber = parentIndexNumber
-        self.isAutomated = isAutomated
-        self.year = year
-        self.path = path
-        self.providerIDs = providerIDs
-        self.indexNumber = indexNumber
-        self.metadataCountryCode = metadataCountryCode
-        self.premiereDate = premiereDate
-        self.name = name
-        self.metadataLanguage = metadataLanguage
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case parentIndexNumber = "ParentIndexNumber"
-        case isAutomated = "IsAutomated"
-        case year = "Year"
-        case path = "Path"
-        case providerIDs = "ProviderIds"
-        case indexNumber = "IndexNumber"
-        case metadataCountryCode = "MetadataCountryCode"
-        case premiereDate = "PremiereDate"
-        case name = "Name"
-        case metadataLanguage = "MetadataLanguage"
-    }
-}
-
-/// Class UserConfiguration.
-public struct UserConfiguration: Codable {
-    /// Gets or sets the subtitle language preference.
-    public var subtitleLanguagePreference: String?
-    public var groupedFolders: [String]?
-    /// Gets or sets the audio language preference.
-    public var audioLanguagePreference: String?
-    public var enableNextEpisodeAutoPlay: Bool?
-    public var isDisplayCollectionsView: Bool?
-    public var isRememberAudioSelections: Bool?
-    public var isDisplayMissingEpisodes: Bool?
-    public var isHidePlayedInLatest: Bool?
-    public var isRememberSubtitleSelections: Bool?
-    public var enableLocalPassword: Bool?
-    public var myMediaExcludes: [String]?
-    public var latestItemsExcludes: [String]?
-    /// An enum representing a subtitle playback mode.
-    public var subtitleMode: SubtitlePlaybackMode?
-    public var orderedViews: [String]?
-    /// Gets or sets a value indicating whether [play default audio track].
-    public var isPlayDefaultAudioTrack: Bool?
-
-    public init(subtitleLanguagePreference: String? = nil, groupedFolders: [String]? = nil, audioLanguagePreference: String? = nil, enableNextEpisodeAutoPlay: Bool? = nil, isDisplayCollectionsView: Bool? = nil, isRememberAudioSelections: Bool? = nil, isDisplayMissingEpisodes: Bool? = nil, isHidePlayedInLatest: Bool? = nil, isRememberSubtitleSelections: Bool? = nil, enableLocalPassword: Bool? = nil, myMediaExcludes: [String]? = nil, latestItemsExcludes: [String]? = nil, subtitleMode: SubtitlePlaybackMode? = nil, orderedViews: [String]? = nil, isPlayDefaultAudioTrack: Bool? = nil) {
-        self.subtitleLanguagePreference = subtitleLanguagePreference
-        self.groupedFolders = groupedFolders
-        self.audioLanguagePreference = audioLanguagePreference
-        self.enableNextEpisodeAutoPlay = enableNextEpisodeAutoPlay
-        self.isDisplayCollectionsView = isDisplayCollectionsView
-        self.isRememberAudioSelections = isRememberAudioSelections
-        self.isDisplayMissingEpisodes = isDisplayMissingEpisodes
-        self.isHidePlayedInLatest = isHidePlayedInLatest
-        self.isRememberSubtitleSelections = isRememberSubtitleSelections
-        self.enableLocalPassword = enableLocalPassword
-        self.myMediaExcludes = myMediaExcludes
-        self.latestItemsExcludes = latestItemsExcludes
-        self.subtitleMode = subtitleMode
-        self.orderedViews = orderedViews
-        self.isPlayDefaultAudioTrack = isPlayDefaultAudioTrack
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case subtitleLanguagePreference = "SubtitleLanguagePreference"
-        case groupedFolders = "GroupedFolders"
-        case audioLanguagePreference = "AudioLanguagePreference"
-        case enableNextEpisodeAutoPlay = "EnableNextEpisodeAutoPlay"
-        case isDisplayCollectionsView = "DisplayCollectionsView"
-        case isRememberAudioSelections = "RememberAudioSelections"
-        case isDisplayMissingEpisodes = "DisplayMissingEpisodes"
-        case isHidePlayedInLatest = "HidePlayedInLatest"
-        case isRememberSubtitleSelections = "RememberSubtitleSelections"
-        case enableLocalPassword = "EnableLocalPassword"
-        case myMediaExcludes = "MyMediaExcludes"
-        case latestItemsExcludes = "LatestItemsExcludes"
-        case subtitleMode = "SubtitleMode"
-        case orderedViews = "OrderedViews"
-        case isPlayDefaultAudioTrack = "PlayDefaultAudioTrack"
-    }
-}
-
-public struct PinRedeemResult: Codable {
-    /// Gets or sets a value indicating whether this MediaBrowser.Model.Users.PinRedeemResult is success.
-    public var isSuccess: Bool?
-    /// Gets or sets the users reset.
-    public var usersReset: [String]?
-
-    public init(isSuccess: Bool? = nil, usersReset: [String]? = nil) {
-        self.isSuccess = isSuccess
-        self.usersReset = usersReset
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isSuccess = "Success"
-        case usersReset = "UsersReset"
-    }
-}
-
-public struct Version: Codable {
-    public var major: Int?
-    public var build: Int?
-    public var minorRevision: Int?
-    public var minor: Int?
-    public var majorRevision: Int?
-    public var revision: Int?
-
-    public init(major: Int? = nil, build: Int? = nil, minorRevision: Int? = nil, minor: Int? = nil, majorRevision: Int? = nil, revision: Int? = nil) {
-        self.major = major
-        self.build = build
-        self.minorRevision = minorRevision
-        self.minor = minor
-        self.majorRevision = majorRevision
-        self.revision = revision
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case major = "Major"
-        case build = "Build"
-        case minorRevision = "MinorRevision"
-        case minor = "Minor"
-        case majorRevision = "MajorRevision"
-        case revision = "Revision"
-    }
-}
-
-public struct AlbumInfoRemoteSearchQuery: Codable {
-    public var itemID: UUID?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    public var searchInfo: AlbumInfo?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-
-    public init(itemID: UUID? = nil, searchProviderName: String? = nil, searchInfo: AlbumInfo? = nil, isIncludeDisabledProviders: Bool? = nil) {
-        self.itemID = itemID
-        self.searchProviderName = searchProviderName
-        self.searchInfo = searchInfo
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemID = "ItemId"
-        case searchProviderName = "SearchProviderName"
-        case searchInfo = "SearchInfo"
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-    }
-}
-
-/// Class CultureDto.
-public struct CultureDto: Codable {
-    /// Gets or sets the display name.
-    public var displayName: String?
-    public var threeLetterISOLanguageNames: [String]?
-    /// Gets or sets the name of the two letter ISO language.
-    public var twoLetterISOLanguageName: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the name of the three letter ISO language.
-    public var threeLetterISOLanguageName: String?
-
-    public init(displayName: String? = nil, threeLetterISOLanguageNames: [String]? = nil, twoLetterISOLanguageName: String? = nil, name: String? = nil, threeLetterISOLanguageName: String? = nil) {
-        self.displayName = displayName
-        self.threeLetterISOLanguageNames = threeLetterISOLanguageNames
-        self.twoLetterISOLanguageName = twoLetterISOLanguageName
-        self.name = name
-        self.threeLetterISOLanguageName = threeLetterISOLanguageName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case displayName = "DisplayName"
-        case threeLetterISOLanguageNames = "ThreeLetterISOLanguageNames"
-        case twoLetterISOLanguageName = "TwoLetterISOLanguageName"
-        case name = "Name"
-        case threeLetterISOLanguageName = "ThreeLetterISOLanguageName"
-    }
-}
-
-public struct ClientCapabilities: Codable {
-    public var isSupportsSync: Bool?
-    public var iconURL: String?
-    public var isSupportsPersistentIdentifier: Bool?
-    /// Defines the MediaBrowser.Model.Dlna.DeviceProfile.
-    public var deviceProfile: DeviceProfile?
-    public var messageCallbackURL: String?
-    public var playableMediaTypes: [String]?
-    public var isSupportsContentUploading: Bool?
-    public var supportedCommands: [GeneralCommandType]?
-    public var isSupportsMediaControl: Bool?
-    public var appStoreURL: String?
-
-    public init(isSupportsSync: Bool? = nil, iconURL: String? = nil, isSupportsPersistentIdentifier: Bool? = nil, deviceProfile: DeviceProfile? = nil, messageCallbackURL: String? = nil, playableMediaTypes: [String]? = nil, isSupportsContentUploading: Bool? = nil, supportedCommands: [GeneralCommandType]? = nil, isSupportsMediaControl: Bool? = nil, appStoreURL: String? = nil) {
-        self.isSupportsSync = isSupportsSync
-        self.iconURL = iconURL
-        self.isSupportsPersistentIdentifier = isSupportsPersistentIdentifier
-        self.deviceProfile = deviceProfile
-        self.messageCallbackURL = messageCallbackURL
-        self.playableMediaTypes = playableMediaTypes
-        self.isSupportsContentUploading = isSupportsContentUploading
-        self.supportedCommands = supportedCommands
-        self.isSupportsMediaControl = isSupportsMediaControl
-        self.appStoreURL = appStoreURL
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isSupportsSync = "SupportsSync"
-        case iconURL = "IconUrl"
-        case isSupportsPersistentIdentifier = "SupportsPersistentIdentifier"
-        case deviceProfile = "DeviceProfile"
-        case messageCallbackURL = "MessageCallbackUrl"
-        case playableMediaTypes = "PlayableMediaTypes"
-        case isSupportsContentUploading = "SupportsContentUploading"
-        case supportedCommands = "SupportedCommands"
-        case isSupportsMediaControl = "SupportsMediaControl"
-        case appStoreURL = "AppStoreUrl"
-    }
-}
-
-/// The notification DTO.
-public struct NotificationDto: Codable {
-    /// Gets or sets the notification's name. Defaults to an empty string.
-    public var name: String?
-    /// Gets or sets the notification's description. Defaults to an empty string.
-    public var description: String?
-    /// Gets or sets the notification ID. Defaults to an empty string.
-    public var id: String?
-    /// Gets or sets the notification level.
-    public var level: NotificationLevel?
-    /// Gets or sets a value indicating whether the notification has been read. Defaults to false.
-    public var isRead: Bool?
-    /// Gets or sets the notification's URL. Defaults to an empty string.
-    public var url: String?
-    /// Gets or sets the notification date.
-    public var date: Date?
-    /// Gets or sets the notification's user ID. Defaults to an empty string.
-    public var userID: String?
-
-    public init(name: String? = nil, description: String? = nil, id: String? = nil, level: NotificationLevel? = nil, isRead: Bool? = nil, url: String? = nil, date: Date? = nil, userID: String? = nil) {
-        self.name = name
-        self.description = description
-        self.id = id
-        self.level = level
-        self.isRead = isRead
-        self.url = url
-        self.date = date
-        self.userID = userID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case description = "Description"
-        case id = "Id"
-        case level = "Level"
-        case isRead = "IsRead"
-        case url = "Url"
-        case date = "Date"
-        case userID = "UserId"
-    }
-}
-
-public struct ChannelFeatures: Codable {
-    /// Gets or sets a value indicating whether this instance can search.
-    public var canSearch: Bool?
-    /// Gets or sets a value indicating whether this instance can filter.
-    public var canFilter: Bool?
-    /// Gets or sets the automatic refresh levels.
-    public var autoRefreshLevels: Int?
-    /// Gets or sets the identifier.
-    public var id: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the content types.
-    public var contentTypes: [ChannelMediaContentType]?
-    /// Gets or sets a value indicating whether [supports content downloading].
-    public var isSupportsContentDownloading: Bool?
-    /// Gets or sets the media types.
-    public var mediaTypes: [ChannelMediaType]?
-    /// Represents the maximum number of records the channel allows retrieving at a time.
-    public var maxPageSize: Int?
-    /// Indicates if a sort ascending/descending toggle is supported or not.
-    public var isSupportsSortOrderToggle: Bool?
-    /// Gets or sets the default sort orders.
-    public var defaultSortFields: [ChannelItemSortField]?
-    /// Gets or sets a value indicating whether [supports latest media].
-    public var isSupportsLatestMedia: Bool?
-
-    public init(canSearch: Bool? = nil, canFilter: Bool? = nil, autoRefreshLevels: Int? = nil, id: String? = nil, name: String? = nil, contentTypes: [ChannelMediaContentType]? = nil, isSupportsContentDownloading: Bool? = nil, mediaTypes: [ChannelMediaType]? = nil, maxPageSize: Int? = nil, isSupportsSortOrderToggle: Bool? = nil, defaultSortFields: [ChannelItemSortField]? = nil, isSupportsLatestMedia: Bool? = nil) {
-        self.canSearch = canSearch
-        self.canFilter = canFilter
-        self.autoRefreshLevels = autoRefreshLevels
-        self.id = id
-        self.name = name
-        self.contentTypes = contentTypes
-        self.isSupportsContentDownloading = isSupportsContentDownloading
-        self.mediaTypes = mediaTypes
-        self.maxPageSize = maxPageSize
-        self.isSupportsSortOrderToggle = isSupportsSortOrderToggle
-        self.defaultSortFields = defaultSortFields
-        self.isSupportsLatestMedia = isSupportsLatestMedia
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case canSearch = "CanSearch"
-        case canFilter = "CanFilter"
-        case autoRefreshLevels = "AutoRefreshLevels"
-        case id = "Id"
-        case name = "Name"
-        case contentTypes = "ContentTypes"
-        case isSupportsContentDownloading = "SupportsContentDownloading"
-        case mediaTypes = "MediaTypes"
-        case maxPageSize = "MaxPageSize"
-        case isSupportsSortOrderToggle = "SupportsSortOrderToggle"
-        case defaultSortFields = "DefaultSortFields"
-        case isSupportsLatestMedia = "SupportsLatestMedia"
-    }
-}
-
-public struct EndPointInfo: Codable {
-    public var isLocal: Bool?
-    public var isInNetwork: Bool?
-
-    public init(isLocal: Bool? = nil, isInNetwork: Bool? = nil) {
-        self.isLocal = isLocal
-        self.isInNetwork = isInNetwork
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isLocal = "IsLocal"
-        case isInNetwork = "IsInNetwork"
-    }
-}
-
-public struct NameValuePair: Codable {
-    /// Gets or sets the value.
-    public var value: String?
-    /// Gets or sets the name.
-    public var name: String?
-
-    public init(value: String? = nil, name: String? = nil) {
-        self.value = value
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case value = "Value"
-        case name = "Name"
-    }
-}
-
-public struct NameGuidPair: Codable {
-    public var id: UUID?
-    public var name: String?
-
-    public init(id: UUID? = nil, name: String? = nil) {
-        self.id = id
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case name = "Name"
-    }
-}
-
-public struct AuthenticationResult: Codable {
-    public var accessToken: String?
-    /// Class SessionInfo.
-    public var sessionInfo: SessionInfo?
-    /// Class UserDto.
-    public var user: UserDto?
-    public var serverID: String?
-
-    public init(accessToken: String? = nil, sessionInfo: SessionInfo? = nil, user: UserDto? = nil, serverID: String? = nil) {
-        self.accessToken = accessToken
-        self.sessionInfo = sessionInfo
-        self.user = user
-        self.serverID = serverID
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case accessToken = "AccessToken"
-        case sessionInfo = "SessionInfo"
-        case user = "User"
-        case serverID = "ServerId"
-    }
-}
-
-public struct GeneralCommand: Codable {
-    public var arguments: [String: String]?
-    public var controllingUserID: UUID?
-    /// This exists simply to identify a set of known commands.
-    public var name: GeneralCommandType?
-
-    public init(arguments: [String: String]? = nil, controllingUserID: UUID? = nil, name: GeneralCommandType? = nil) {
-        self.arguments = arguments
-        self.controllingUserID = controllingUserID
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case arguments = "Arguments"
-        case controllingUserID = "ControllingUserId"
-        case name = "Name"
-    }
-}
-
-public struct HTTPHeaderInfo: Codable {
-    public var value: String?
-    public var match: HeaderMatchType?
-    public var name: String?
-
-    public init(value: String? = nil, match: HeaderMatchType? = nil, name: String? = nil) {
-        self.value = value
-        self.match = match
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case value = "Value"
-        case match = "Match"
-        case name = "Name"
-    }
-}
-
-/// Enum GroupQueueMode.
-public enum GroupQueueMode: String, Codable, CaseIterable {
-    case queue = "Queue"
-    case queueNext = "QueueNext"
-}
-
-public struct MediaSourceInfo: Codable {
-    public var encoderProtocol: MediaProtocol?
-    public var transcodingURL: String?
-    public var timestamp: TransportStreamTimestamp?
-    public var isoType: IsoType?
-    public var isIgnoreIndex: Bool?
-    public var isInfiniteStream: Bool?
-    public var isIgnoreDts: Bool?
-    public var container: String?
-    public var liveStreamID: String?
-    public var isSupportsTranscoding: Bool?
-    public var mediaStreams: [MediaStream]?
-    public var requiredHTTPHeaders: [String: String]?
-    public var isSupportsProbing: Bool?
-    public var videoType: VideoType?
-    public var isGenPtsInput: Bool?
-    public var name: String?
-    public var requiresOpening: Bool?
-    /// Differentiate internet url vs local network.
-    public var isRemote: Bool?
-    public var formats: [String]?
-    public var openToken: String?
-    public var id: String?
-    public var defaultSubtitleStreamIndex: Int?
-    public var runTimeTicks: Int?
-    public var requiresClosing: Bool?
-    public var type: MediaSourceType?
-    public var transcodingSubProtocol: String?
-    public var mediaAttachments: [MediaAttachment]?
-    public var isSupportsDirectPlay: Bool?
-    public var bufferMs: Int?
-    public var isSupportsDirectStream: Bool?
-    public var encoderPath: String?
-    public var bitrate: Int?
-    public var video3DFormat: Video3DFormat?
-    public var `protocol`: MediaProtocol?
-    public var size: Int?
-    public var isReadAtNativeFramerate: Bool?
-    public var path: String?
-    public var defaultAudioStreamIndex: Int?
-    public var analyzeDurationMs: Int?
-    public var transcodingContainer: String?
-    public var requiresLooping: Bool?
-    public var eTag: String?
-
-    public init(encoderProtocol: MediaProtocol? = nil, transcodingURL: String? = nil, timestamp: TransportStreamTimestamp? = nil, isoType: IsoType? = nil, isIgnoreIndex: Bool? = nil, isInfiniteStream: Bool? = nil, isIgnoreDts: Bool? = nil, container: String? = nil, liveStreamID: String? = nil, isSupportsTranscoding: Bool? = nil, mediaStreams: [MediaStream]? = nil, requiredHTTPHeaders: [String: String]? = nil, isSupportsProbing: Bool? = nil, videoType: VideoType? = nil, isGenPtsInput: Bool? = nil, name: String? = nil, requiresOpening: Bool? = nil, isRemote: Bool? = nil, formats: [String]? = nil, openToken: String? = nil, id: String? = nil, defaultSubtitleStreamIndex: Int? = nil, runTimeTicks: Int? = nil, requiresClosing: Bool? = nil, type: MediaSourceType? = nil, transcodingSubProtocol: String? = nil, mediaAttachments: [MediaAttachment]? = nil, isSupportsDirectPlay: Bool? = nil, bufferMs: Int? = nil, isSupportsDirectStream: Bool? = nil, encoderPath: String? = nil, bitrate: Int? = nil, video3DFormat: Video3DFormat? = nil, `protocol`: MediaProtocol? = nil, size: Int? = nil, isReadAtNativeFramerate: Bool? = nil, path: String? = nil, defaultAudioStreamIndex: Int? = nil, analyzeDurationMs: Int? = nil, transcodingContainer: String? = nil, requiresLooping: Bool? = nil, eTag: String? = nil) {
-        self.encoderProtocol = encoderProtocol
-        self.transcodingURL = transcodingURL
-        self.timestamp = timestamp
-        self.isoType = isoType
-        self.isIgnoreIndex = isIgnoreIndex
-        self.isInfiniteStream = isInfiniteStream
-        self.isIgnoreDts = isIgnoreDts
-        self.container = container
-        self.liveStreamID = liveStreamID
-        self.isSupportsTranscoding = isSupportsTranscoding
-        self.mediaStreams = mediaStreams
-        self.requiredHTTPHeaders = requiredHTTPHeaders
-        self.isSupportsProbing = isSupportsProbing
-        self.videoType = videoType
-        self.isGenPtsInput = isGenPtsInput
-        self.name = name
-        self.requiresOpening = requiresOpening
-        self.isRemote = isRemote
-        self.formats = formats
-        self.openToken = openToken
-        self.id = id
-        self.defaultSubtitleStreamIndex = defaultSubtitleStreamIndex
-        self.runTimeTicks = runTimeTicks
-        self.requiresClosing = requiresClosing
-        self.type = type
-        self.transcodingSubProtocol = transcodingSubProtocol
-        self.mediaAttachments = mediaAttachments
-        self.isSupportsDirectPlay = isSupportsDirectPlay
-        self.bufferMs = bufferMs
-        self.isSupportsDirectStream = isSupportsDirectStream
-        self.encoderPath = encoderPath
-        self.bitrate = bitrate
-        self.video3DFormat = video3DFormat
-        self.protocol = `protocol`
-        self.size = size
-        self.isReadAtNativeFramerate = isReadAtNativeFramerate
-        self.path = path
-        self.defaultAudioStreamIndex = defaultAudioStreamIndex
-        self.analyzeDurationMs = analyzeDurationMs
-        self.transcodingContainer = transcodingContainer
-        self.requiresLooping = requiresLooping
-        self.eTag = eTag
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case encoderProtocol = "EncoderProtocol"
-        case transcodingURL = "TranscodingUrl"
-        case timestamp = "Timestamp"
-        case isoType = "IsoType"
-        case isIgnoreIndex = "IgnoreIndex"
-        case isInfiniteStream = "IsInfiniteStream"
-        case isIgnoreDts = "IgnoreDts"
-        case container = "Container"
-        case liveStreamID = "LiveStreamId"
-        case isSupportsTranscoding = "SupportsTranscoding"
-        case mediaStreams = "MediaStreams"
-        case requiredHTTPHeaders = "RequiredHttpHeaders"
-        case isSupportsProbing = "SupportsProbing"
-        case videoType = "VideoType"
-        case isGenPtsInput = "GenPtsInput"
-        case name = "Name"
-        case requiresOpening = "RequiresOpening"
-        case isRemote = "IsRemote"
-        case formats = "Formats"
-        case openToken = "OpenToken"
-        case id = "Id"
-        case defaultSubtitleStreamIndex = "DefaultSubtitleStreamIndex"
-        case runTimeTicks = "RunTimeTicks"
-        case requiresClosing = "RequiresClosing"
-        case type = "Type"
-        case transcodingSubProtocol = "TranscodingSubProtocol"
-        case mediaAttachments = "MediaAttachments"
-        case isSupportsDirectPlay = "SupportsDirectPlay"
-        case bufferMs = "BufferMs"
-        case isSupportsDirectStream = "SupportsDirectStream"
-        case encoderPath = "EncoderPath"
-        case bitrate = "Bitrate"
-        case video3DFormat = "Video3DFormat"
-        case `protocol` = "Protocol"
-        case size = "Size"
-        case isReadAtNativeFramerate = "ReadAtNativeFramerate"
-        case path = "Path"
-        case defaultAudioStreamIndex = "DefaultAudioStreamIndex"
-        case analyzeDurationMs = "AnalyzeDurationMs"
-        case transcodingContainer = "TranscodingContainer"
-        case requiresLooping = "RequiresLooping"
-        case eTag = "ETag"
-    }
-}
-
-/// Class UserItemDataDto.
-public struct UserItemDataDto: Codable {
-    /// Gets or sets a value indicating whether this MediaBrowser.Model.Dto.UserItemDataDto is played.
-    public var isPlayed: Bool?
-    /// Gets or sets the playback position ticks.
-    public var playbackPositionTicks: Int?
-    /// Gets or sets the item identifier.
-    public var itemID: String?
-    /// Gets or sets the unplayed item count.
-    public var unplayedItemCount: Int?
-    /// Gets or sets the last played date.
-    public var lastPlayedDate: Date?
-    /// Gets or sets the rating.
-    public var rating: Double?
-    /// Gets or sets the key.
-    public var key: String?
-    /// Gets or sets the play count.
-    public var playCount: Int?
-    /// Gets or sets a value indicating whether this MediaBrowser.Model.Dto.UserItemDataDto is likes.
-    public var isLikes: Bool?
-    /// Gets or sets a value indicating whether this instance is favorite.
-    public var isFavorite: Bool?
-    /// Gets or sets the played percentage.
-    public var playedPercentage: Double?
-
-    public init(isPlayed: Bool? = nil, playbackPositionTicks: Int? = nil, itemID: String? = nil, unplayedItemCount: Int? = nil, lastPlayedDate: Date? = nil, rating: Double? = nil, key: String? = nil, playCount: Int? = nil, isLikes: Bool? = nil, isFavorite: Bool? = nil, playedPercentage: Double? = nil) {
-        self.isPlayed = isPlayed
-        self.playbackPositionTicks = playbackPositionTicks
-        self.itemID = itemID
-        self.unplayedItemCount = unplayedItemCount
-        self.lastPlayedDate = lastPlayedDate
-        self.rating = rating
-        self.key = key
-        self.playCount = playCount
-        self.isLikes = isLikes
-        self.isFavorite = isFavorite
-        self.playedPercentage = playedPercentage
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isPlayed = "Played"
-        case playbackPositionTicks = "PlaybackPositionTicks"
-        case itemID = "ItemId"
-        case unplayedItemCount = "UnplayedItemCount"
-        case lastPlayedDate = "LastPlayedDate"
-        case rating = "Rating"
-        case key = "Key"
-        case playCount = "PlayCount"
-        case isLikes = "Likes"
-        case isFavorite = "IsFavorite"
-        case playedPercentage = "PlayedPercentage"
-    }
-}
-
-/// Client capabilities dto.
-public struct ClientCapabilitiesDto: Codable {
-    /// Gets or sets the icon url.
-    public var iconURL: String?
-    /// Gets or sets the app store url.
-    public var appStoreURL: String?
-    /// Gets or sets the list of supported commands.
-    public var supportedCommands: [GeneralCommandType]?
-    /// Gets or sets a value indicating whether session supports media control.
-    public var isSupportsMediaControl: Bool?
-    /// Gets or sets the message callback url.
-    public var messageCallbackURL: String?
-    /// Gets or sets the device profile.
-    public var deviceProfile: DeviceProfile?
-    /// Gets or sets a value indicating whether session supports content uploading.
-    public var isSupportsContentUploading: Bool?
-    /// Gets or sets a value indicating whether session supports sync.
-    public var isSupportsSync: Bool?
-    /// Gets or sets a value indicating whether session supports a persistent identifier.
-    public var isSupportsPersistentIdentifier: Bool?
-    /// Gets or sets the list of playable media types.
-    public var playableMediaTypes: [String]?
-
-    public init(iconURL: String? = nil, appStoreURL: String? = nil, supportedCommands: [GeneralCommandType]? = nil, isSupportsMediaControl: Bool? = nil, messageCallbackURL: String? = nil, deviceProfile: DeviceProfile? = nil, isSupportsContentUploading: Bool? = nil, isSupportsSync: Bool? = nil, isSupportsPersistentIdentifier: Bool? = nil, playableMediaTypes: [String]? = nil) {
-        self.iconURL = iconURL
-        self.appStoreURL = appStoreURL
-        self.supportedCommands = supportedCommands
-        self.isSupportsMediaControl = isSupportsMediaControl
-        self.messageCallbackURL = messageCallbackURL
-        self.deviceProfile = deviceProfile
-        self.isSupportsContentUploading = isSupportsContentUploading
-        self.isSupportsSync = isSupportsSync
-        self.isSupportsPersistentIdentifier = isSupportsPersistentIdentifier
-        self.playableMediaTypes = playableMediaTypes
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case iconURL = "IconUrl"
-        case appStoreURL = "AppStoreUrl"
-        case supportedCommands = "SupportedCommands"
-        case isSupportsMediaControl = "SupportsMediaControl"
-        case messageCallbackURL = "MessageCallbackUrl"
-        case deviceProfile = "DeviceProfile"
-        case isSupportsContentUploading = "SupportsContentUploading"
-        case isSupportsSync = "SupportsSync"
-        case isSupportsPersistentIdentifier = "SupportsPersistentIdentifier"
-        case playableMediaTypes = "PlayableMediaTypes"
-    }
-}
-
-public struct TimerInfoDtoQueryResult: Codable {
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-    /// Gets or sets the items.
-    public var items: [TimerInfoDto]?
-    /// The index of the first record in Items.
-    public var startIndex: Int?
-
-    public init(totalRecordCount: Int? = nil, items: [TimerInfoDto]? = nil, startIndex: Int? = nil) {
-        self.totalRecordCount = totalRecordCount
-        self.items = items
-        self.startIndex = startIndex
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case totalRecordCount = "TotalRecordCount"
-        case items = "Items"
-        case startIndex = "StartIndex"
-    }
-}
-
-/// Channel mapping options dto.
-public struct ChannelMappingOptionsDto: Codable {
-    /// Gets or sets list of provider channels.
-    public var providerChannels: [NameIDPair]?
-    /// Gets or sets list of mappings.
-    public var mappings: [NameValuePair]?
-    /// Gets or sets list of tuner channels.
-    public var tunerChannels: [TunerChannelMapping]?
-    /// Gets or sets provider name.
-    public var providerName: String?
-
-    public init(providerChannels: [NameIDPair]? = nil, mappings: [NameValuePair]? = nil, tunerChannels: [TunerChannelMapping]? = nil, providerName: String? = nil) {
-        self.providerChannels = providerChannels
-        self.mappings = mappings
-        self.tunerChannels = tunerChannels
-        self.providerName = providerName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case providerChannels = "ProviderChannels"
-        case mappings = "Mappings"
-        case tunerChannels = "TunerChannels"
-        case providerName = "ProviderName"
-    }
-}
-
-public enum ProgramAudio: String, Codable, CaseIterable {
-    case mono = "Mono"
-    case stereo = "Stereo"
-    case dolby = "Dolby"
-    case dolbyDigital = "DolbyDigital"
-    case thx = "Thx"
-    case atmos = "Atmos"
-}
-
-public struct DeviceProfileInfo: Codable {
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the identifier.
-    public var id: String?
-    /// Gets or sets the type.
-    public var type: DeviceProfileType?
-
-    public init(name: String? = nil, id: String? = nil, type: DeviceProfileType? = nil) {
-        self.name = name
-        self.id = id
-        self.type = type
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case id = "Id"
-        case type = "Type"
-    }
-}
-
-public struct ContainerProfile: Codable {
-    public var type: DlnaProfileType?
-    public var conditions: [ProfileCondition]?
-    public var container: String?
-
-    public init(type: DlnaProfileType? = nil, conditions: [ProfileCondition]? = nil, container: String? = nil) {
-        self.type = type
-        self.conditions = conditions
-        self.container = container
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type = "Type"
-        case conditions = "Conditions"
-        case container = "Container"
-    }
-}
-
-public struct LiveTvInfo: Codable {
-    /// Gets or sets the services.
-    public var services: [LiveTvServiceInfo]?
-    /// Gets or sets the enabled users.
-    public var enabledUsers: [String]?
-    /// Gets or sets a value indicating whether this instance is enabled.
-    public var isEnabled: Bool?
-
-    public init(services: [LiveTvServiceInfo]? = nil, enabledUsers: [String]? = nil, isEnabled: Bool? = nil) {
-        self.services = services
-        self.enabledUsers = enabledUsers
-        self.isEnabled = isEnabled
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case services = "Services"
-        case enabledUsers = "EnabledUsers"
-        case isEnabled = "IsEnabled"
-    }
-}
-
-public enum Video3DFormat: String, Codable, CaseIterable {
-    case halfSideBySide = "HalfSideBySide"
-    case fullSideBySide = "FullSideBySide"
-    case fullTopAndBottom = "FullTopAndBottom"
-    case halfTopAndBottom = "HalfTopAndBottom"
-    case mvc = "MVC"
-}
-
-/// Defines the MediaBrowser.Common.Plugins.IPlugin.
-public struct IPlugin: Codable {
-    /// Gets a value indicating whether the plugin can be uninstalled.
-    public var canUninstall: Bool?
-    /// Gets the full path to the data folder, where the plugin can store any miscellaneous files needed.
-    public var dataFolderPath: String?
-    /// Gets the name of the plugin.
-    public var name: String?
-    /// Gets the plugin version.
-    public var version: Version?
-    /// Gets the unique id.
-    public var id: UUID?
-    /// Gets the Description.
-    public var description: String?
-    /// Gets the path to the assembly file.
-    public var assemblyFilePath: String?
-
-    public init(canUninstall: Bool? = nil, dataFolderPath: String? = nil, name: String? = nil, version: Version? = nil, id: UUID? = nil, description: String? = nil, assemblyFilePath: String? = nil) {
-        self.canUninstall = canUninstall
-        self.dataFolderPath = dataFolderPath
-        self.name = name
-        self.version = version
-        self.id = id
-        self.description = description
-        self.assemblyFilePath = assemblyFilePath
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case canUninstall = "CanUninstall"
-        case dataFolderPath = "DataFolderPath"
-        case name = "Name"
-        case version = "Version"
-        case id = "Id"
-        case description = "Description"
-        case assemblyFilePath = "AssemblyFilePath"
-    }
-}
-
-public struct QueryFilters: Codable {
-    public var genres: [NameGuidPair]?
-    public var tags: [String]?
-
-    public init(genres: [NameGuidPair]? = nil, tags: [String]? = nil) {
-        self.genres = genres
-        self.tags = tags
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case genres = "Genres"
-        case tags = "Tags"
-    }
-}
-
-/// Defines the MediaBrowser.Model.Dlna.DeviceProfile.
-public struct DeviceProfile: Codable {
-    /// Gets or sets a value indicating whether RequiresPlainFolders.
-    public var requiresPlainFolders: Bool?
-    /// Gets or sets the MaxIconHeight.
-    public var maxIconHeight: Int?
-    /// Gets or sets a value indicating whether EnableSingleAlbumArtLimit.
-    public var enableSingleAlbumArtLimit: Bool?
-    /// Gets or sets the ModelUrl.
-    public var modelURL: String?
-    /// Gets or sets the transcoding profiles.
-    public var transcodingProfiles: [TranscodingProfile]?
-    /// Gets or sets the XmlRootAttributes.
-    public var xmlRootAttributes: [XmlAttribute]?
-    /// Gets or sets the Id.
-    public var id: String?
-    /// Gets or sets the ModelNumber.
-    public var modelNumber: String?
-    /// Gets or sets the UserId.
-    public var userID: String?
-    /// Gets or sets the SupportedMediaTypes.
-    public var supportedMediaTypes: String?
-    /// Gets or sets a value indicating whether EnableMSMediaReceiverRegistrar.
-    public var enableMSMediaReceiverRegistrar: Bool?
-    /// Gets or sets the ModelName.
-    public var modelName: String?
-    /// Gets or sets the MaxStreamingBitrate.
-    public var maxStreamingBitrate: Int?
-    /// Gets or sets the MaxIconWidth.
-    public var maxIconWidth: Int?
-    /// Gets or sets the ResponseProfiles.
-    public var responseProfiles: [ResponseProfile]?
-    /// Gets or sets the SubtitleProfiles.
-    public var subtitleProfiles: [SubtitleProfile]?
-    /// Gets or sets the AlbumArtPn.
-    public var albumArtPn: String?
-    /// Gets or sets the MaxStaticBitrate.
-    public var maxStaticBitrate: Int?
-    /// Gets or sets the ManufacturerUrl.
-    public var manufacturerURL: String?
-    /// Gets or sets the ModelDescription.
-    public var modelDescription: String?
-    /// Gets or sets the MaxStaticMusicBitrate.
-    public var maxStaticMusicBitrate: Int?
-    /// Gets or sets the TimelineOffsetSeconds.
-    public var timelineOffsetSeconds: Int?
-    /// Gets or sets the Name.
-    public var name: String?
-    /// Gets or sets the Manufacturer.
-    public var manufacturer: String?
-    /// Gets or sets the MusicStreamingTranscodingBitrate.
-    public var musicStreamingTranscodingBitrate: Int?
-    /// Gets or sets the content of the aggregationFlags element in the urn:schemas-sonycom:av namespace.
-    public var sonyAggregationFlags: String?
-    /// Gets or sets a value indicating whether EnableAlbumArtInDidl.
-    public var enableAlbumArtInDidl: Bool?
-    /// Gets or sets the CodecProfiles.
-    public var codecProfiles: [CodecProfile]?
-    /// Gets or sets a value indicating whether RequiresPlainVideoItems.
-    public var requiresPlainVideoItems: Bool?
-    /// Gets or sets a value indicating whether IgnoreTranscodeByteRangeRequests.
-    public var isIgnoreTranscodeByteRangeRequests: Bool?
-    /// Gets or sets the SerialNumber.
-    public var serialNumber: String?
-    /// Gets or sets the MaxAlbumArtHeight.
-    public var maxAlbumArtHeight: Int?
-    /// Gets or sets the Identification.
-    public var identification: DeviceIdentification?
-    /// Gets or sets a value indicating whether EnableSingleSubtitleLimit.
-    public var enableSingleSubtitleLimit: Bool?
-    /// Gets or sets the direct play profiles.
-    public var directPlayProfiles: [DirectPlayProfile]?
-    /// Gets or sets the ContainerProfiles.
-    public var containerProfiles: [ContainerProfile]?
-    /// Gets or sets the ProtocolInfo.
-    public var protocolInfo: String?
-    /// Gets or sets the MaxAlbumArtWidth.
-    public var maxAlbumArtWidth: Int?
-    /// Gets or sets the FriendlyName.
-    public var friendlyName: String?
-
-    public init(requiresPlainFolders: Bool? = nil, maxIconHeight: Int? = nil, enableSingleAlbumArtLimit: Bool? = nil, modelURL: String? = nil, transcodingProfiles: [TranscodingProfile]? = nil, xmlRootAttributes: [XmlAttribute]? = nil, id: String? = nil, modelNumber: String? = nil, userID: String? = nil, supportedMediaTypes: String? = nil, enableMSMediaReceiverRegistrar: Bool? = nil, modelName: String? = nil, maxStreamingBitrate: Int? = nil, maxIconWidth: Int? = nil, responseProfiles: [ResponseProfile]? = nil, subtitleProfiles: [SubtitleProfile]? = nil, albumArtPn: String? = nil, maxStaticBitrate: Int? = nil, manufacturerURL: String? = nil, modelDescription: String? = nil, maxStaticMusicBitrate: Int? = nil, timelineOffsetSeconds: Int? = nil, name: String? = nil, manufacturer: String? = nil, musicStreamingTranscodingBitrate: Int? = nil, sonyAggregationFlags: String? = nil, enableAlbumArtInDidl: Bool? = nil, codecProfiles: [CodecProfile]? = nil, requiresPlainVideoItems: Bool? = nil, isIgnoreTranscodeByteRangeRequests: Bool? = nil, serialNumber: String? = nil, maxAlbumArtHeight: Int? = nil, identification: DeviceIdentification? = nil, enableSingleSubtitleLimit: Bool? = nil, directPlayProfiles: [DirectPlayProfile]? = nil, containerProfiles: [ContainerProfile]? = nil, protocolInfo: String? = nil, maxAlbumArtWidth: Int? = nil, friendlyName: String? = nil) {
-        self.requiresPlainFolders = requiresPlainFolders
-        self.maxIconHeight = maxIconHeight
-        self.enableSingleAlbumArtLimit = enableSingleAlbumArtLimit
-        self.modelURL = modelURL
-        self.transcodingProfiles = transcodingProfiles
-        self.xmlRootAttributes = xmlRootAttributes
-        self.id = id
-        self.modelNumber = modelNumber
-        self.userID = userID
-        self.supportedMediaTypes = supportedMediaTypes
-        self.enableMSMediaReceiverRegistrar = enableMSMediaReceiverRegistrar
-        self.modelName = modelName
-        self.maxStreamingBitrate = maxStreamingBitrate
-        self.maxIconWidth = maxIconWidth
-        self.responseProfiles = responseProfiles
-        self.subtitleProfiles = subtitleProfiles
-        self.albumArtPn = albumArtPn
-        self.maxStaticBitrate = maxStaticBitrate
-        self.manufacturerURL = manufacturerURL
-        self.modelDescription = modelDescription
-        self.maxStaticMusicBitrate = maxStaticMusicBitrate
-        self.timelineOffsetSeconds = timelineOffsetSeconds
-        self.name = name
-        self.manufacturer = manufacturer
-        self.musicStreamingTranscodingBitrate = musicStreamingTranscodingBitrate
-        self.sonyAggregationFlags = sonyAggregationFlags
-        self.enableAlbumArtInDidl = enableAlbumArtInDidl
-        self.codecProfiles = codecProfiles
-        self.requiresPlainVideoItems = requiresPlainVideoItems
-        self.isIgnoreTranscodeByteRangeRequests = isIgnoreTranscodeByteRangeRequests
-        self.serialNumber = serialNumber
-        self.maxAlbumArtHeight = maxAlbumArtHeight
-        self.identification = identification
-        self.enableSingleSubtitleLimit = enableSingleSubtitleLimit
-        self.directPlayProfiles = directPlayProfiles
-        self.containerProfiles = containerProfiles
-        self.protocolInfo = protocolInfo
-        self.maxAlbumArtWidth = maxAlbumArtWidth
-        self.friendlyName = friendlyName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case requiresPlainFolders = "RequiresPlainFolders"
-        case maxIconHeight = "MaxIconHeight"
-        case enableSingleAlbumArtLimit = "EnableSingleAlbumArtLimit"
-        case modelURL = "ModelUrl"
-        case transcodingProfiles = "TranscodingProfiles"
-        case xmlRootAttributes = "XmlRootAttributes"
-        case id = "Id"
-        case modelNumber = "ModelNumber"
-        case userID = "UserId"
-        case supportedMediaTypes = "SupportedMediaTypes"
-        case enableMSMediaReceiverRegistrar = "EnableMSMediaReceiverRegistrar"
-        case modelName = "ModelName"
-        case maxStreamingBitrate = "MaxStreamingBitrate"
-        case maxIconWidth = "MaxIconWidth"
-        case responseProfiles = "ResponseProfiles"
-        case subtitleProfiles = "SubtitleProfiles"
-        case albumArtPn = "AlbumArtPn"
-        case maxStaticBitrate = "MaxStaticBitrate"
-        case manufacturerURL = "ManufacturerUrl"
-        case modelDescription = "ModelDescription"
-        case maxStaticMusicBitrate = "MaxStaticMusicBitrate"
-        case timelineOffsetSeconds = "TimelineOffsetSeconds"
-        case name = "Name"
-        case manufacturer = "Manufacturer"
-        case musicStreamingTranscodingBitrate = "MusicStreamingTranscodingBitrate"
-        case sonyAggregationFlags = "SonyAggregationFlags"
-        case enableAlbumArtInDidl = "EnableAlbumArtInDidl"
-        case codecProfiles = "CodecProfiles"
-        case requiresPlainVideoItems = "RequiresPlainVideoItems"
-        case isIgnoreTranscodeByteRangeRequests = "IgnoreTranscodeByteRangeRequests"
-        case serialNumber = "SerialNumber"
-        case maxAlbumArtHeight = "MaxAlbumArtHeight"
-        case identification = "Identification"
-        case enableSingleSubtitleLimit = "EnableSingleSubtitleLimit"
-        case directPlayProfiles = "DirectPlayProfiles"
-        case containerProfiles = "ContainerProfiles"
-        case protocolInfo = "ProtocolInfo"
-        case maxAlbumArtWidth = "MaxAlbumArtWidth"
-        case friendlyName = "FriendlyName"
-    }
-}
-
-public struct BookInfoRemoteSearchQuery: Codable {
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    public var itemID: UUID?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var searchInfo: BookInfo?
-
-    public init(searchProviderName: String? = nil, itemID: UUID? = nil, isIncludeDisabledProviders: Bool? = nil, searchInfo: BookInfo? = nil) {
-        self.searchProviderName = searchProviderName
-        self.itemID = itemID
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.searchInfo = searchInfo
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case searchProviderName = "SearchProviderName"
-        case itemID = "ItemId"
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case searchInfo = "SearchInfo"
-    }
-}
-
-/// Class BufferRequestDto.
-public struct BufferRequestDto: Codable {
-    /// Gets or sets when the request has been made by the client.
-    public var when: Date?
-    /// Gets or sets a value indicating whether the client playback is unpaused.
-    public var isPlaying: Bool?
-    /// Gets or sets the playlist item identifier of the playing item.
-    public var playlistItemID: UUID?
-    /// Gets or sets the position ticks.
-    public var positionTicks: Int?
-
-    public init(when: Date? = nil, isPlaying: Bool? = nil, playlistItemID: UUID? = nil, positionTicks: Int? = nil) {
-        self.when = when
-        self.isPlaying = isPlaying
-        self.playlistItemID = playlistItemID
-        self.positionTicks = positionTicks
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case when = "When"
-        case isPlaying = "IsPlaying"
-        case playlistItemID = "PlaylistItemId"
-        case positionTicks = "PositionTicks"
-    }
-}
-
-/// Add virtual folder dto.
-public struct AddVirtualFolderDto: Codable {
-    /// Gets or sets library options.
-    public var libraryOptions: LibraryOptions?
-
-    public init(libraryOptions: LibraryOptions? = nil) {
-        self.libraryOptions = libraryOptions
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case libraryOptions = "LibraryOptions"
-    }
-}
-
-public struct PublicSystemInfo: Codable {
-    /// Gets or sets the product name. This is the AssemblyProduct name.
-    public var productName: String?
-    /// Gets or sets a value indicating whether the startup wizard is completed.
-    public var isStartupWizardCompleted: Bool?
-    /// Gets or sets the local address.
-    public var localAddress: String?
-    /// Gets or sets the name of the server.
-    public var serverName: String?
-    /// Gets or sets the operating system.
-    public var operatingSystem: String?
-    /// Gets or sets the server version.
-    public var version: String?
-    /// Gets or sets the id.
-    public var id: String?
-
-    public init(productName: String? = nil, isStartupWizardCompleted: Bool? = nil, localAddress: String? = nil, serverName: String? = nil, operatingSystem: String? = nil, version: String? = nil, id: String? = nil) {
-        self.productName = productName
-        self.isStartupWizardCompleted = isStartupWizardCompleted
-        self.localAddress = localAddress
-        self.serverName = serverName
-        self.operatingSystem = operatingSystem
-        self.version = version
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case productName = "ProductName"
-        case isStartupWizardCompleted = "StartupWizardCompleted"
-        case localAddress = "LocalAddress"
-        case serverName = "ServerName"
-        case operatingSystem = "OperatingSystem"
-        case version = "Version"
-        case id = "Id"
-    }
-}
-
-/// Validate path object.
-public struct ValidatePathDto: Codable {
-    /// Gets or sets a value indicating whether validate if path is writable.
-    public var isValidateWritable: Bool?
-    /// Gets or sets is path file.
-    public var isFile: Bool?
-    /// Gets or sets the path.
-    public var path: String?
-
-    public init(isValidateWritable: Bool? = nil, isFile: Bool? = nil, path: String? = nil) {
-        self.isValidateWritable = isValidateWritable
-        self.isFile = isFile
-        self.path = path
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isValidateWritable = "ValidateWritable"
-        case isFile = "IsFile"
-        case path = "Path"
-    }
-}
-
-/// An entity representing a user's access schedule.
-public struct AccessSchedule: Codable {
-    /// Gets or sets the id of this instance.
-    public var id: Int
-    /// Gets or sets the day of week.
-    public var dayOfWeek: DynamicDayOfWeek
-    /// Gets or sets the start hour.
-    public var startHour: Double
-    /// Gets or sets the id of the associated user.
-    public var userID: UUID
-    /// Gets or sets the end hour.
-    public var endHour: Double
-
-    public init(id: Int, dayOfWeek: DynamicDayOfWeek, startHour: Double, userID: UUID, endHour: Double) {
-        self.id = id
-        self.dayOfWeek = dayOfWeek
-        self.startHour = startHour
-        self.userID = userID
-        self.endHour = endHour
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case dayOfWeek = "DayOfWeek"
-        case startHour = "StartHour"
-        case userID = "UserId"
-        case endHour = "EndHour"
-    }
-}
-
-/// Forgot Password Pin enter request body DTO.
-public struct ForgotPasswordPinDto: Codable {
-    /// Gets or sets the entered pin to have the password reset.
-    public var pin: String
-
-    public init(pin: String) {
-        self.pin = pin
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case pin = "Pin"
-    }
-}
-
-public struct AuthenticationInfo: Codable {
-    /// Gets or sets a value indicating whether this instance is active.
-    public var isActive: Bool?
-    /// Gets or sets the device identifier.
-    public var deviceID: String?
-    /// Gets or sets the access token.
-    public var accessToken: String?
-    public var dateLastActivity: Date?
-    /// Gets or sets the name of the application.
-    public var appName: String?
-    public var userName: String?
-    /// Gets or sets the user identifier.
-    public var userID: UUID?
-    /// Gets or sets the date revoked.
-    public var dateRevoked: Date?
-    /// Gets or sets the date created.
-    public var dateCreated: Date?
-    /// Gets or sets the name of the device.
-    public var deviceName: String?
-    /// Gets or sets the application version.
-    public var appVersion: String?
-    /// Gets or sets the identifier.
-    public var id: Int?
-
-    public init(isActive: Bool? = nil, deviceID: String? = nil, accessToken: String? = nil, dateLastActivity: Date? = nil, appName: String? = nil, userName: String? = nil, userID: UUID? = nil, dateRevoked: Date? = nil, dateCreated: Date? = nil, deviceName: String? = nil, appVersion: String? = nil, id: Int? = nil) {
-        self.isActive = isActive
-        self.deviceID = deviceID
-        self.accessToken = accessToken
-        self.dateLastActivity = dateLastActivity
-        self.appName = appName
-        self.userName = userName
-        self.userID = userID
-        self.dateRevoked = dateRevoked
-        self.dateCreated = dateCreated
-        self.deviceName = deviceName
-        self.appVersion = appVersion
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isActive = "IsActive"
-        case deviceID = "DeviceId"
-        case accessToken = "AccessToken"
-        case dateLastActivity = "DateLastActivity"
-        case appName = "AppName"
-        case userName = "UserName"
-        case userID = "UserId"
-        case dateRevoked = "DateRevoked"
-        case dateCreated = "DateCreated"
-        case deviceName = "DeviceName"
-        case appVersion = "AppVersion"
-        case id = "Id"
-    }
-}
-
-public struct MediaPathInfo: Codable {
-    public var path: String?
-    public var networkPath: String?
-
-    public init(path: String? = nil, networkPath: String? = nil) {
-        self.path = path
-        self.networkPath = networkPath
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case path = "Path"
-        case networkPath = "NetworkPath"
-    }
-}
-
-/// Special view option dto.
-public struct SpecialViewOptionDto: Codable {
-    /// Gets or sets view option id.
-    public var id: String?
-    /// Gets or sets view option name.
-    public var name: String?
-
-    public init(id: String? = nil, name: String? = nil) {
-        self.id = id
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case name = "Name"
-    }
-}
-
-public struct ExternalURL: Codable {
-    /// Gets or sets the type of the item.
-    public var url: String?
-    /// Gets or sets the name.
-    public var name: String?
-
-    public init(url: String? = nil, name: String? = nil) {
-        self.url = url
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case url = "Url"
-        case name = "Name"
-    }
-}
-
-public struct LogFile: Codable {
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the date modified.
-    public var dateModified: Date?
-    /// Gets or sets the size.
-    public var size: Int?
-    /// Gets or sets the date created.
-    public var dateCreated: Date?
-
-    public init(name: String? = nil, dateModified: Date? = nil, size: Int? = nil, dateCreated: Date? = nil) {
-        self.name = name
-        self.dateModified = dateModified
-        self.size = size
-        self.dateCreated = dateCreated
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case dateModified = "DateModified"
-        case size = "Size"
-        case dateCreated = "DateCreated"
-    }
-}
-
-/// Defines the display preferences for any item that supports them (usually Folders).
-public struct DisplayPreferencesDto: Codable {
-    /// Gets or sets the type of the view.
-    public var viewType: String?
-    /// Gets or sets the user id.
-    public var id: String?
-    /// Gets or sets the sort order.
-    public var sortOrder: SortOrder?
-    /// Gets or sets a value indicating whether [remember sorting].
-    public var isRememberSorting: Bool?
-    /// Gets or sets the sort by.
-    public var sortBy: String?
-    /// Gets or sets the custom prefs.
-    public var customPrefs: [String: String]?
-    /// Gets or sets the scroll direction.
-    public var scrollDirection: ScrollDirection?
-    /// Gets or sets the height of the primary image.
-    public var primaryImageHeight: Int?
-    /// Gets or sets the index by.
-    public var indexBy: String?
-    /// Gets or sets the width of the primary image.
-    public var primaryImageWidth: Int?
-    /// Gets or sets a value indicating whether [show sidebar].
-    public var isShowSidebar: Bool?
-    /// Gets or sets the client.
-    public var client: String?
-    /// Gets or sets a value indicating whether [remember indexing].
-    public var isRememberIndexing: Bool?
-    /// Gets or sets a value indicating whether to show backdrops on this item.
-    public var isShowBackdrop: Bool?
-
-    public init(viewType: String? = nil, id: String? = nil, sortOrder: SortOrder? = nil, isRememberSorting: Bool? = nil, sortBy: String? = nil, customPrefs: [String: String]? = nil, scrollDirection: ScrollDirection? = nil, primaryImageHeight: Int? = nil, indexBy: String? = nil, primaryImageWidth: Int? = nil, isShowSidebar: Bool? = nil, client: String? = nil, isRememberIndexing: Bool? = nil, isShowBackdrop: Bool? = nil) {
-        self.viewType = viewType
-        self.id = id
-        self.sortOrder = sortOrder
-        self.isRememberSorting = isRememberSorting
-        self.sortBy = sortBy
-        self.customPrefs = customPrefs
-        self.scrollDirection = scrollDirection
-        self.primaryImageHeight = primaryImageHeight
-        self.indexBy = indexBy
-        self.primaryImageWidth = primaryImageWidth
-        self.isShowSidebar = isShowSidebar
-        self.client = client
-        self.isRememberIndexing = isRememberIndexing
-        self.isShowBackdrop = isShowBackdrop
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case viewType = "ViewType"
-        case id = "Id"
-        case sortOrder = "SortOrder"
-        case isRememberSorting = "RememberSorting"
-        case sortBy = "SortBy"
-        case customPrefs = "CustomPrefs"
-        case scrollDirection = "ScrollDirection"
-        case primaryImageHeight = "PrimaryImageHeight"
-        case indexBy = "IndexBy"
-        case primaryImageWidth = "PrimaryImageWidth"
-        case isShowSidebar = "ShowSidebar"
-        case client = "Client"
-        case isRememberIndexing = "RememberIndexing"
-        case isShowBackdrop = "ShowBackdrop"
-    }
-}
-
-public struct SeriesInfo: Codable {
-    public var parentIndexNumber: Int?
-    /// Gets or sets the year.
-    public var year: Int?
-    public var isAutomated: Bool?
-    /// Gets or sets the path.
-    public var path: String?
-    public var indexNumber: Int?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var premiereDate: Date?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-
-    public init(parentIndexNumber: Int? = nil, year: Int? = nil, isAutomated: Bool? = nil, path: String? = nil, indexNumber: Int? = nil, name: String? = nil, metadataCountryCode: String? = nil, premiereDate: Date? = nil, providerIDs: [String: String]? = nil, metadataLanguage: String? = nil) {
-        self.parentIndexNumber = parentIndexNumber
-        self.year = year
-        self.isAutomated = isAutomated
-        self.path = path
-        self.indexNumber = indexNumber
-        self.name = name
-        self.metadataCountryCode = metadataCountryCode
-        self.premiereDate = premiereDate
-        self.providerIDs = providerIDs
-        self.metadataLanguage = metadataLanguage
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case parentIndexNumber = "ParentIndexNumber"
-        case year = "Year"
-        case isAutomated = "IsAutomated"
-        case path = "Path"
-        case indexNumber = "IndexNumber"
-        case name = "Name"
-        case metadataCountryCode = "MetadataCountryCode"
-        case premiereDate = "PremiereDate"
-        case providerIDs = "ProviderIds"
-        case metadataLanguage = "MetadataLanguage"
-    }
-}
-
-/// Class RemoteImageResult.
-public struct RemoteImageResult: Codable {
-    /// Gets or sets the providers.
-    public var providers: [String]?
-    /// Gets or sets the total record count.
-    public var totalRecordCount: Int?
-    /// Gets or sets the images.
-    public var images: [RemoteImageInfo]?
-
-    public init(providers: [String]? = nil, totalRecordCount: Int? = nil, images: [RemoteImageInfo]? = nil) {
-        self.providers = providers
-        self.totalRecordCount = totalRecordCount
-        self.images = images
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case providers = "Providers"
-        case totalRecordCount = "TotalRecordCount"
-        case images = "Images"
-    }
-}
-
-public enum RatingType: String, Codable, CaseIterable {
-    case score = "Score"
-    case likes = "Likes"
-}
-
-public struct MovieInfo: Codable {
-    /// Gets or sets the year.
-    public var year: Int?
-    public var premiereDate: Date?
-    public var indexNumber: Int?
-    /// Gets or sets the metadata language.
-    public var metadataLanguage: String?
-    /// Gets or sets the name.
-    public var name: String?
-    /// Gets or sets the path.
-    public var path: String?
-    /// Gets or sets the provider ids.
-    public var providerIDs: [String: String]?
-    public var isAutomated: Bool?
-    public var parentIndexNumber: Int?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-
-    public init(year: Int? = nil, premiereDate: Date? = nil, indexNumber: Int? = nil, metadataLanguage: String? = nil, name: String? = nil, path: String? = nil, providerIDs: [String: String]? = nil, isAutomated: Bool? = nil, parentIndexNumber: Int? = nil, metadataCountryCode: String? = nil) {
-        self.year = year
-        self.premiereDate = premiereDate
-        self.indexNumber = indexNumber
-        self.metadataLanguage = metadataLanguage
-        self.name = name
-        self.path = path
-        self.providerIDs = providerIDs
-        self.isAutomated = isAutomated
-        self.parentIndexNumber = parentIndexNumber
-        self.metadataCountryCode = metadataCountryCode
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case year = "Year"
-        case premiereDate = "PremiereDate"
-        case indexNumber = "IndexNumber"
-        case metadataLanguage = "MetadataLanguage"
-        case name = "Name"
-        case path = "Path"
-        case providerIDs = "ProviderIds"
-        case isAutomated = "IsAutomated"
-        case parentIndexNumber = "ParentIndexNumber"
-        case metadataCountryCode = "MetadataCountryCode"
-    }
-}
-
-/// Media Path dto.
-public struct MediaPathDto: Codable {
-    /// Gets or sets the path to add.
-    public var path: String?
-    /// Gets or sets the path info.
-    public var pathInfo: MediaPathInfo?
-    /// Gets or sets the name of the library.
-    public var name: String
-
-    public init(path: String? = nil, pathInfo: MediaPathInfo? = nil, name: String) {
-        self.path = path
-        self.pathInfo = pathInfo
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case path = "Path"
-        case pathInfo = "PathInfo"
-        case name = "Name"
-    }
-}
-
-/// Enum TaskCompletionStatus.
-public enum TaskCompletionStatus: String, Codable, CaseIterable {
-    case completed = "Completed"
-    case failed = "Failed"
-    case cancelled = "Cancelled"
-    case aborted = "Aborted"
-}
-
-public struct QueueItem: Codable {
-    public var playlistItemID: String?
-    public var id: UUID?
-
-    public init(playlistItemID: String? = nil, id: UUID? = nil) {
-        self.playlistItemID = playlistItemID
-        self.id = id
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playlistItemID = "PlaylistItemId"
-        case id = "Id"
-    }
-}
-
-/// Enum PlayCommand.
-public enum PlayCommand: String, Codable, CaseIterable {
-    case playNow = "PlayNow"
-    case playNext = "PlayNext"
-    case playLast = "PlayLast"
-    case playInstantMix = "PlayInstantMix"
-    case playShuffle = "PlayShuffle"
-}
-
-public struct BrandingOptions: Codable {
-    /// Gets or sets the custom CSS.
-    public var customCss: String?
-    /// Gets or sets the login disclaimer.
-    public var loginDisclaimer: String?
-
-    public init(customCss: String? = nil, loginDisclaimer: String? = nil) {
-        self.customCss = customCss
-        self.loginDisclaimer = loginDisclaimer
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case customCss = "CustomCss"
-        case loginDisclaimer = "LoginDisclaimer"
-    }
-}
-
-/// Get programs dto.
-public struct GetProgramsDto: Codable {
-    /// Gets or sets filter for movies.
-Optional.
-    public var isMovie: Bool?
-    /// Gets or sets the image types to include in the output.
-Optional.
-    public var enableImageTypes: [ImageType]?
-    /// Gets or sets filter for sports.
-Optional.
-    public var isSports: Bool?
-    /// Gets or sets sort Order - Ascending,Descending.
-    public var sortOrder: [SortOrder]?
-    /// Gets or sets the maximum premiere end date.
-Optional.
-    public var maxEndDate: Date?
-    /// Gets or sets a value indicating whether retrieve total record count.
-    public var enableTotalRecordCount: Bool?
-    /// Gets or sets filter by programs that are currently airing, or not.
-Optional.
-    public var isAiring: Bool?
-    /// Gets or sets include user data.
-Optional.
-    public var enableUserData: Bool?
-    /// Gets or sets the max number of images to return, per image type.
-Optional.
-    public var imageTypeLimit: Int?
-    /// Gets or sets specify one or more sort orders, comma delimited. Options: Name, StartDate.
-Optional.
-    public var sortBy: [String]?
-    /// Gets or sets the minimum premiere start date.
-Optional.
-    public var minStartDate: Date?
-    /// Gets or sets filter by series timer id.
-Optional.
-    public var seriesTimerID: String?
-    /// Gets or sets the record index to start at. All items with a lower index will be dropped from the results.
-Optional.
-    public var startIndex: Int?
-    /// Gets or sets the genre ids to return guide information for.
-    public var genreIDs: [UUID]?
-    /// Gets or sets include image information in output.
-Optional.
-    public var enableImages: Bool?
-    /// Gets or sets the minimum premiere end date.
-Optional.
-    public var minEndDate: Date?
-    /// Gets or sets the genres to return guide information for.
-    public var genres: [String]?
-    /// Gets or sets the channels to return guide information for.
-    public var channelIDs: [UUID]?
-    /// Gets or sets filter by programs that have completed airing, or not.
-Optional.
-    public var hasAired: Bool?
-    /// Gets or sets the maximum premiere start date.
-Optional.
-    public var maxStartDate: Date?
-    /// Gets or sets filter for news.
-Optional.
-    public var isNews: Bool?
-    /// Gets or sets filter for series.
-Optional.
-    public var isSeries: Bool?
-    /// Gets or sets the maximum number of records to return.
-Optional.
-    public var limit: Int?
-    /// Gets or sets optional. Filter by user id.
-    public var userID: UUID?
-    /// Gets or sets filter for kids.
-Optional.
-    public var isKids: Bool?
-    /// Gets or sets filter by library series id.
-Optional.
-    public var librarySeriesID: UUID?
-    /// Gets or sets specify additional fields of information to return in the output. This allows multiple, comma delimited. Options: Budget, Chapters, DateCreated, Genres, HomePageUrl, IndexOptions, MediaStreams, Overview, ParentId, Path, People, ProviderIds, PrimaryImageAspectRatio, Revenue, SortName, Studios, Taglines.
-Optional.
-    public var fields: [ItemFields]?
-
-    public init(isMovie: Bool? = nil, enableImageTypes: [ImageType]? = nil, isSports: Bool? = nil, sortOrder: [SortOrder]? = nil, maxEndDate: Date? = nil, enableTotalRecordCount: Bool? = nil, isAiring: Bool? = nil, enableUserData: Bool? = nil, imageTypeLimit: Int? = nil, sortBy: [String]? = nil, minStartDate: Date? = nil, seriesTimerID: String? = nil, startIndex: Int? = nil, genreIDs: [UUID]? = nil, enableImages: Bool? = nil, minEndDate: Date? = nil, genres: [String]? = nil, channelIDs: [UUID]? = nil, hasAired: Bool? = nil, maxStartDate: Date? = nil, isNews: Bool? = nil, isSeries: Bool? = nil, limit: Int? = nil, userID: UUID? = nil, isKids: Bool? = nil, librarySeriesID: UUID? = nil, fields: [ItemFields]? = nil) {
-        self.isMovie = isMovie
-        self.enableImageTypes = enableImageTypes
-        self.isSports = isSports
-        self.sortOrder = sortOrder
-        self.maxEndDate = maxEndDate
-        self.enableTotalRecordCount = enableTotalRecordCount
-        self.isAiring = isAiring
-        self.enableUserData = enableUserData
-        self.imageTypeLimit = imageTypeLimit
-        self.sortBy = sortBy
-        self.minStartDate = minStartDate
-        self.seriesTimerID = seriesTimerID
-        self.startIndex = startIndex
-        self.genreIDs = genreIDs
-        self.enableImages = enableImages
-        self.minEndDate = minEndDate
-        self.genres = genres
-        self.channelIDs = channelIDs
-        self.hasAired = hasAired
-        self.maxStartDate = maxStartDate
-        self.isNews = isNews
-        self.isSeries = isSeries
-        self.limit = limit
-        self.userID = userID
-        self.isKids = isKids
-        self.librarySeriesID = librarySeriesID
-        self.fields = fields
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isMovie = "IsMovie"
-        case enableImageTypes = "EnableImageTypes"
-        case isSports = "IsSports"
-        case sortOrder = "SortOrder"
-        case maxEndDate = "MaxEndDate"
-        case enableTotalRecordCount = "EnableTotalRecordCount"
-        case isAiring = "IsAiring"
-        case enableUserData = "EnableUserData"
-        case imageTypeLimit = "ImageTypeLimit"
-        case sortBy = "SortBy"
-        case minStartDate = "MinStartDate"
-        case seriesTimerID = "SeriesTimerId"
-        case startIndex = "StartIndex"
-        case genreIDs = "GenreIds"
-        case enableImages = "EnableImages"
-        case minEndDate = "MinEndDate"
-        case genres = "Genres"
-        case channelIDs = "ChannelIds"
-        case hasAired = "HasAired"
-        case maxStartDate = "MaxStartDate"
-        case isNews = "IsNews"
-        case isSeries = "IsSeries"
-        case limit = "Limit"
-        case userID = "UserId"
-        case isKids = "IsKids"
-        case librarySeriesID = "LibrarySeriesId"
-        case fields = "Fields"
-    }
-}
-
-/// Media Encoder Path Dto.
-public struct MediaEncoderPathDto: Codable {
-    /// Gets or sets media encoder path type.
-    public var pathType: String?
-    /// Gets or sets media encoder path.
-    public var path: String?
-
-    public init(pathType: String? = nil, path: String? = nil) {
-        self.pathType = pathType
-        self.path = path
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case pathType = "PathType"
-        case path = "Path"
-    }
-}
-
-/// Represents the server configuration.
-public struct ServerConfiguration: Codable {
-    /// Gets or sets a value indicating whether to enable prometheus metrics exporting.
-    public var enableMetrics: Bool?
-    /// Gets or sets a value indicating whether [enable dashboard response caching].
-Allows potential contributors without visual studio to modify production dashboard code and test changes.
-    public var enableDashboardResponseCaching: Bool?
-    /// Gets or sets a value indicating whether IPV4 capability is enabled.
-    public var enableIPV4: Bool?
-    /// Gets or sets the number of days we should retain activity logs.
-    public var activityLogRetentionDays: Int?
-    /// Gets or sets a value indicating whether <seealso cref="P:MediaBrowser.Model.Configuration.ServerConfiguration.RemoteIPFilter" /> contains a blacklist or a whitelist. Default is a whitelist.
-    public var isRemoteIPFilterBlacklist: Bool?
-    /// Gets or sets the metadata path.
-    public var metadataPath: String?
-    /// Gets or sets the filter for remote IP connectivity. Used in conjuntion with <seealso cref="P:MediaBrowser.Model.Configuration.ServerConfiguration.IsRemoteIPFilterBlacklist" />.
-    public var remoteIPFilter: [String]?
-    /// Gets or sets the interface addresses which Jellyfin will bind to. If empty, all interfaces will be used.
-    public var localNetworkAddresses: [String]?
-    public var enableGroupingIntoCollections: Bool?
-    public var imageExtractionTimeoutMs: Int?
-    /// Gets or sets a value indicating whether the server should force connections over HTTPS.
-    public var requireHTTPS: Bool?
-    /// Gets or sets the minimum minutes of a book that must be played in order for playstate to be updated.
-    public var minAudiobookResume: Int?
-    /// Gets or sets a value indicating whether this instance is first run.
-    public var isStartupWizardCompleted: Bool?
-    /// Gets or sets the known proxies.
-    public var knownProxies: [String]?
-    public var enableFolderView: Bool?
-    public var enableExternalContentInSuggestions: Bool?
-    /// Gets or sets PublishedServerUri to advertise for specific subnets.
-    public var publishedServerUriBySubnet: [String]?
-    /// Gets or sets the filesystem path of an X.509 certificate to use for SSL.
-    public var certificatePath: String?
-    /// Gets or sets the number of times SSDP UDP messages are sent.
-    public var uDPSendCount: Int?
-    /// Gets or sets a value indicating whether this instance is port authorized.
-    public var isPortAuthorized: Bool?
-    /// Gets or sets the ports that HDHomerun uses.
-    public var hDHomerunPortRange: String?
-    /// Gets or sets the preferred metadata language.
-    public var preferredMetadataLanguage: String?
-    /// Gets or sets characters to be replaced with a ' ' in strings to create a sort name.
-    public var sortReplaceCharacters: [String]?
-    /// Gets or sets the image saving convention.
-    public var imageSavingConvention: ImageSavingConvention?
-    /// Gets or sets the HTTPS server port number.
-    public var httpsPortNumber: Int?
-    /// Gets or sets a value indicating whether all IPv6 interfaces should be treated as on the internal network.
-Depending on the address range implemented ULA ranges might not be used.
-    public var isTrustAllIP6Interfaces: Bool?
-    public var enableNewOmdbSupport: Bool?
-    public var isSaveMetadataHidden: Bool?
-    public var metadataNetworkPath: String?
-    public var uICulture: String?
-    /// Gets or sets the number of days we should retain log files.
-    public var logFileRetentionDays: Int?
-    public var uninstalledPlugins: [String]?
-    public var serverName: String?
-    /// Gets or sets the HTTP server port number.
-    public var httpserverPortNumber: Int?
-    /// Gets or sets a value indicating whether detailed ssdp logs are sent to the console/log.
-"Emby.Dlna": "Debug" must be set in logging.default.json for this property to work.
-    public var enableSSDPTracing: Bool?
-    /// Gets or sets a value indicating whether to enable automatic port forwarding.
-    public var enableUPnP: Bool?
-    /// Gets or sets the how many metadata refreshes can run concurrently.
-    public var libraryMetadataRefreshConcurrency: Int?
-    /// Gets or sets a value indicating whether [enable case sensitive item ids].
-    public var enableCaseSensitiveItemIDs: Bool?
-    public var isDisplaySpecialsWithinSeasons: Bool?
-    /// Gets or sets the password required to access the X.509 certificate data in the file specified by MediaBrowser.Model.Configuration.ServerConfiguration.CertificatePath.
-    public var certificatePassword: String?
-    public var enableNormalizedItemByNameIDs: Bool?
-    /// Gets or sets the last known version that was ran using the configuration.
-    public var previousVersion: Version?
-    /// Gets or sets the public HTTPS port.
-    public var publicHTTPSPort: Int?
-    /// Gets or sets characters to be removed from strings to create a sort name.
-    public var sortRemoveCharacters: [String]?
-    /// Gets or sets a value indicating whether Autodiscovery tracing is enabled.
-    public var isAutoDiscoveryTracing: Bool?
-    /// Gets or sets a value indicating whether address names that match MediaBrowser.Model.Configuration.ServerConfiguration.VirtualInterfaceNames should be Ignore for the purposes of binding.
-    public var isIgnoreVirtualInterfaces: Bool?
-    /// Gets or sets the stringified PreviousVersion to be stored/loaded,
-because System.Version itself isn't xml-serializable.
-    public var previousVersionStr: String?
-    /// Gets or sets the remaining minutes of a book that can be played while still saving playstate. If this percentage is crossed playstate will be reset to the beginning and the item will be marked watched.
-    public var maxAudiobookResume: Int?
-    /// Gets or sets the metadata country code.
-    public var metadataCountryCode: String?
-    public var pathSubstitutions: [PathSubstitution]?
-    /// Gets or sets a value indicating whether Autodiscovery is enabled.
-    public var isAutoDiscovery: Bool?
-    /// Gets or sets a value indicating whether quick connect is available for use on this server.
-    public var isQuickConnectAvailable: Bool?
-    public var metadataOptions: [MetadataOptions]?
-    public var baseURL: String?
-    /// Gets or sets the cache path.
-    public var cachePath: String?
-    /// Gets or sets the subnets that are deemed to make up the LAN.
-    public var localNetworkSubnets: [String]?
-    /// Gets or sets the delay between each groups of SSDP messages (in ms).
-    public var uDPSendDelay: Int?
-    public var isDisableLiveTvChannelUserDataName: Bool?
-    /// Gets or sets a value indicating whether the http port should be mapped as part of UPnP automatic port forwarding.
-    public var isUPnPCreateHTTPPortMap: Bool?
-    public var pluginRepositories: [RepositoryInfo]?
-    /// Gets or sets a value indicating whether slow server responses should be logged as a warning.
-    public var enableSlowResponseWarning: Bool?
-    /// Gets or sets the maximum percentage of an item that can be played while still saving playstate. If this percentage is crossed playstate will be reset to the beginning and the item will be marked watched.
-    public var maxResumePct: Int?
-    /// Gets or sets a value indicating whether access outside of the LAN is permitted.
-    public var enableRemoteAccess: Bool?
-    /// Gets or sets the minimum duration that an item must have in order to be eligible for playstate updates..
-    public var minResumeDurationSeconds: Int?
-    /// Gets or sets a value indicating whether to use HTTPS.
-    public var enableHTTPS: Bool?
-    /// Gets a value indicating whether multi-socket binding is available.
-    public var enableMultiSocketBinding: Bool?
-    /// Gets or sets the how the library scan fans out.
-    public var libraryScanFanoutConcurrency: Int?
-    /// Gets or sets the time (in seconds) between the pings of SSDP gateway monitor.
-    public var gatewayMonitorPeriod: Int?
-    /// Gets or sets the cors hosts.
-    public var corsHosts: [String]?
-    public var isSkipDeserializationForBasicTypes: Bool?
-    /// Gets or sets the public mapped port.
-    public var publicPort: Int?
-    /// Gets or sets the minimum percentage of an item that must be played in order for playstate to be updated.
-    public var minResumePct: Int?
-    /// Gets or sets a value indicating whether an IP address is to be used to filter the detailed ssdp logs that are being sent to the console/log.
-If the setting "Emby.Dlna": "Debug" msut be set in logging.default.json for this property to work.
-    public var sSDPTracingFilter: String?
-    /// Gets or sets a value indicating the interfaces that should be ignored. The list can be comma separated. <seealso cref="P:MediaBrowser.Model.Configuration.ServerConfiguration.IgnoreVirtualInterfaces" />.
-    public var virtualInterfaceNames: String?
-    /// Gets or sets words to be removed from strings to create a sort name.
-    public var sortRemoveWords: [String]?
-    /// Gets or sets a value indicating whether IPV6 capability is enabled.
-    public var enableIPV6: Bool?
-    public var contentTypes: [NameValuePair]?
-    /// Gets or sets the delay in seconds that we will wait after a file system change to try and discover what has been added/removed
-Some delay is necessary with some items because their creation is not atomic.  It involves the creation of several
-different directories and files.
-    public var libraryMonitorDelay: Int?
-    /// Gets or sets a value indicating whether older plugins should automatically be deleted from the plugin folder.
-    public var isRemoveOldPlugins: Bool?
-    /// Gets or sets client udp port range.
-    public var uDPPortRange: String?
-    public var remoteClientBitrateLimit: Int?
-    /// Gets or sets the threshold for the slow response time warning in ms.
-    public var slowResponseThresholdMs: Int?
-    public var codecsUsed: [String]?
-
-    public init(enableMetrics: Bool? = nil, enableDashboardResponseCaching: Bool? = nil, enableIPV4: Bool? = nil, activityLogRetentionDays: Int? = nil, isRemoteIPFilterBlacklist: Bool? = nil, metadataPath: String? = nil, remoteIPFilter: [String]? = nil, localNetworkAddresses: [String]? = nil, enableGroupingIntoCollections: Bool? = nil, imageExtractionTimeoutMs: Int? = nil, requireHTTPS: Bool? = nil, minAudiobookResume: Int? = nil, isStartupWizardCompleted: Bool? = nil, knownProxies: [String]? = nil, enableFolderView: Bool? = nil, enableExternalContentInSuggestions: Bool? = nil, publishedServerUriBySubnet: [String]? = nil, certificatePath: String? = nil, uDPSendCount: Int? = nil, isPortAuthorized: Bool? = nil, hDHomerunPortRange: String? = nil, preferredMetadataLanguage: String? = nil, sortReplaceCharacters: [String]? = nil, imageSavingConvention: ImageSavingConvention? = nil, httpsPortNumber: Int? = nil, isTrustAllIP6Interfaces: Bool? = nil, enableNewOmdbSupport: Bool? = nil, isSaveMetadataHidden: Bool? = nil, metadataNetworkPath: String? = nil, uICulture: String? = nil, logFileRetentionDays: Int? = nil, uninstalledPlugins: [String]? = nil, serverName: String? = nil, httpserverPortNumber: Int? = nil, enableSSDPTracing: Bool? = nil, enableUPnP: Bool? = nil, libraryMetadataRefreshConcurrency: Int? = nil, enableCaseSensitiveItemIDs: Bool? = nil, isDisplaySpecialsWithinSeasons: Bool? = nil, certificatePassword: String? = nil, enableNormalizedItemByNameIDs: Bool? = nil, previousVersion: Version? = nil, publicHTTPSPort: Int? = nil, sortRemoveCharacters: [String]? = nil, isAutoDiscoveryTracing: Bool? = nil, isIgnoreVirtualInterfaces: Bool? = nil, previousVersionStr: String? = nil, maxAudiobookResume: Int? = nil, metadataCountryCode: String? = nil, pathSubstitutions: [PathSubstitution]? = nil, isAutoDiscovery: Bool? = nil, isQuickConnectAvailable: Bool? = nil, metadataOptions: [MetadataOptions]? = nil, baseURL: String? = nil, cachePath: String? = nil, localNetworkSubnets: [String]? = nil, uDPSendDelay: Int? = nil, isDisableLiveTvChannelUserDataName: Bool? = nil, isUPnPCreateHTTPPortMap: Bool? = nil, pluginRepositories: [RepositoryInfo]? = nil, enableSlowResponseWarning: Bool? = nil, maxResumePct: Int? = nil, enableRemoteAccess: Bool? = nil, minResumeDurationSeconds: Int? = nil, enableHTTPS: Bool? = nil, enableMultiSocketBinding: Bool? = nil, libraryScanFanoutConcurrency: Int? = nil, gatewayMonitorPeriod: Int? = nil, corsHosts: [String]? = nil, isSkipDeserializationForBasicTypes: Bool? = nil, publicPort: Int? = nil, minResumePct: Int? = nil, sSDPTracingFilter: String? = nil, virtualInterfaceNames: String? = nil, sortRemoveWords: [String]? = nil, enableIPV6: Bool? = nil, contentTypes: [NameValuePair]? = nil, libraryMonitorDelay: Int? = nil, isRemoveOldPlugins: Bool? = nil, uDPPortRange: String? = nil, remoteClientBitrateLimit: Int? = nil, slowResponseThresholdMs: Int? = nil, codecsUsed: [String]? = nil) {
-        self.enableMetrics = enableMetrics
-        self.enableDashboardResponseCaching = enableDashboardResponseCaching
-        self.enableIPV4 = enableIPV4
-        self.activityLogRetentionDays = activityLogRetentionDays
-        self.isRemoteIPFilterBlacklist = isRemoteIPFilterBlacklist
-        self.metadataPath = metadataPath
-        self.remoteIPFilter = remoteIPFilter
-        self.localNetworkAddresses = localNetworkAddresses
-        self.enableGroupingIntoCollections = enableGroupingIntoCollections
-        self.imageExtractionTimeoutMs = imageExtractionTimeoutMs
-        self.requireHTTPS = requireHTTPS
-        self.minAudiobookResume = minAudiobookResume
-        self.isStartupWizardCompleted = isStartupWizardCompleted
-        self.knownProxies = knownProxies
-        self.enableFolderView = enableFolderView
-        self.enableExternalContentInSuggestions = enableExternalContentInSuggestions
-        self.publishedServerUriBySubnet = publishedServerUriBySubnet
-        self.certificatePath = certificatePath
-        self.uDPSendCount = uDPSendCount
-        self.isPortAuthorized = isPortAuthorized
-        self.hDHomerunPortRange = hDHomerunPortRange
-        self.preferredMetadataLanguage = preferredMetadataLanguage
-        self.sortReplaceCharacters = sortReplaceCharacters
-        self.imageSavingConvention = imageSavingConvention
-        self.httpsPortNumber = httpsPortNumber
-        self.isTrustAllIP6Interfaces = isTrustAllIP6Interfaces
-        self.enableNewOmdbSupport = enableNewOmdbSupport
-        self.isSaveMetadataHidden = isSaveMetadataHidden
-        self.metadataNetworkPath = metadataNetworkPath
-        self.uICulture = uICulture
-        self.logFileRetentionDays = logFileRetentionDays
-        self.uninstalledPlugins = uninstalledPlugins
-        self.serverName = serverName
-        self.httpserverPortNumber = httpserverPortNumber
-        self.enableSSDPTracing = enableSSDPTracing
-        self.enableUPnP = enableUPnP
-        self.libraryMetadataRefreshConcurrency = libraryMetadataRefreshConcurrency
-        self.enableCaseSensitiveItemIDs = enableCaseSensitiveItemIDs
-        self.isDisplaySpecialsWithinSeasons = isDisplaySpecialsWithinSeasons
-        self.certificatePassword = certificatePassword
-        self.enableNormalizedItemByNameIDs = enableNormalizedItemByNameIDs
-        self.previousVersion = previousVersion
-        self.publicHTTPSPort = publicHTTPSPort
-        self.sortRemoveCharacters = sortRemoveCharacters
-        self.isAutoDiscoveryTracing = isAutoDiscoveryTracing
-        self.isIgnoreVirtualInterfaces = isIgnoreVirtualInterfaces
-        self.previousVersionStr = previousVersionStr
-        self.maxAudiobookResume = maxAudiobookResume
-        self.metadataCountryCode = metadataCountryCode
-        self.pathSubstitutions = pathSubstitutions
-        self.isAutoDiscovery = isAutoDiscovery
-        self.isQuickConnectAvailable = isQuickConnectAvailable
-        self.metadataOptions = metadataOptions
-        self.baseURL = baseURL
-        self.cachePath = cachePath
-        self.localNetworkSubnets = localNetworkSubnets
-        self.uDPSendDelay = uDPSendDelay
-        self.isDisableLiveTvChannelUserDataName = isDisableLiveTvChannelUserDataName
-        self.isUPnPCreateHTTPPortMap = isUPnPCreateHTTPPortMap
-        self.pluginRepositories = pluginRepositories
-        self.enableSlowResponseWarning = enableSlowResponseWarning
-        self.maxResumePct = maxResumePct
-        self.enableRemoteAccess = enableRemoteAccess
-        self.minResumeDurationSeconds = minResumeDurationSeconds
-        self.enableHTTPS = enableHTTPS
-        self.enableMultiSocketBinding = enableMultiSocketBinding
-        self.libraryScanFanoutConcurrency = libraryScanFanoutConcurrency
-        self.gatewayMonitorPeriod = gatewayMonitorPeriod
-        self.corsHosts = corsHosts
-        self.isSkipDeserializationForBasicTypes = isSkipDeserializationForBasicTypes
-        self.publicPort = publicPort
-        self.minResumePct = minResumePct
-        self.sSDPTracingFilter = sSDPTracingFilter
-        self.virtualInterfaceNames = virtualInterfaceNames
-        self.sortRemoveWords = sortRemoveWords
-        self.enableIPV6 = enableIPV6
-        self.contentTypes = contentTypes
-        self.libraryMonitorDelay = libraryMonitorDelay
-        self.isRemoveOldPlugins = isRemoveOldPlugins
-        self.uDPPortRange = uDPPortRange
-        self.remoteClientBitrateLimit = remoteClientBitrateLimit
-        self.slowResponseThresholdMs = slowResponseThresholdMs
-        self.codecsUsed = codecsUsed
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case enableMetrics = "EnableMetrics"
-        case enableDashboardResponseCaching = "EnableDashboardResponseCaching"
-        case enableIPV4 = "EnableIPV4"
-        case activityLogRetentionDays = "ActivityLogRetentionDays"
-        case isRemoteIPFilterBlacklist = "IsRemoteIPFilterBlacklist"
-        case metadataPath = "MetadataPath"
-        case remoteIPFilter = "RemoteIPFilter"
-        case localNetworkAddresses = "LocalNetworkAddresses"
-        case enableGroupingIntoCollections = "EnableGroupingIntoCollections"
-        case imageExtractionTimeoutMs = "ImageExtractionTimeoutMs"
-        case requireHTTPS = "RequireHttps"
-        case minAudiobookResume = "MinAudiobookResume"
-        case isStartupWizardCompleted = "IsStartupWizardCompleted"
-        case knownProxies = "KnownProxies"
-        case enableFolderView = "EnableFolderView"
-        case enableExternalContentInSuggestions = "EnableExternalContentInSuggestions"
-        case publishedServerUriBySubnet = "PublishedServerUriBySubnet"
-        case certificatePath = "CertificatePath"
-        case uDPSendCount = "UDPSendCount"
-        case isPortAuthorized = "IsPortAuthorized"
-        case hDHomerunPortRange = "HDHomerunPortRange"
-        case preferredMetadataLanguage = "PreferredMetadataLanguage"
-        case sortReplaceCharacters = "SortReplaceCharacters"
-        case imageSavingConvention = "ImageSavingConvention"
-        case httpsPortNumber = "HttpsPortNumber"
-        case isTrustAllIP6Interfaces = "TrustAllIP6Interfaces"
-        case enableNewOmdbSupport = "EnableNewOmdbSupport"
-        case isSaveMetadataHidden = "SaveMetadataHidden"
-        case metadataNetworkPath = "MetadataNetworkPath"
-        case uICulture = "UICulture"
-        case logFileRetentionDays = "LogFileRetentionDays"
-        case uninstalledPlugins = "UninstalledPlugins"
-        case serverName = "ServerName"
-        case httpserverPortNumber = "HttpServerPortNumber"
-        case enableSSDPTracing = "EnableSSDPTracing"
-        case enableUPnP = "EnableUPnP"
-        case libraryMetadataRefreshConcurrency = "LibraryMetadataRefreshConcurrency"
-        case enableCaseSensitiveItemIDs = "EnableCaseSensitiveItemIds"
-        case isDisplaySpecialsWithinSeasons = "DisplaySpecialsWithinSeasons"
-        case certificatePassword = "CertificatePassword"
-        case enableNormalizedItemByNameIDs = "EnableNormalizedItemByNameIds"
-        case previousVersion = "PreviousVersion"
-        case publicHTTPSPort = "PublicHttpsPort"
-        case sortRemoveCharacters = "SortRemoveCharacters"
-        case isAutoDiscoveryTracing = "AutoDiscoveryTracing"
-        case isIgnoreVirtualInterfaces = "IgnoreVirtualInterfaces"
-        case previousVersionStr = "PreviousVersionStr"
-        case maxAudiobookResume = "MaxAudiobookResume"
-        case metadataCountryCode = "MetadataCountryCode"
-        case pathSubstitutions = "PathSubstitutions"
-        case isAutoDiscovery = "AutoDiscovery"
-        case isQuickConnectAvailable = "QuickConnectAvailable"
-        case metadataOptions = "MetadataOptions"
-        case baseURL = "BaseUrl"
-        case cachePath = "CachePath"
-        case localNetworkSubnets = "LocalNetworkSubnets"
-        case uDPSendDelay = "UDPSendDelay"
-        case isDisableLiveTvChannelUserDataName = "DisableLiveTvChannelUserDataName"
-        case isUPnPCreateHTTPPortMap = "UPnPCreateHttpPortMap"
-        case pluginRepositories = "PluginRepositories"
-        case enableSlowResponseWarning = "EnableSlowResponseWarning"
-        case maxResumePct = "MaxResumePct"
-        case enableRemoteAccess = "EnableRemoteAccess"
-        case minResumeDurationSeconds = "MinResumeDurationSeconds"
-        case enableHTTPS = "EnableHttps"
-        case enableMultiSocketBinding = "EnableMultiSocketBinding"
-        case libraryScanFanoutConcurrency = "LibraryScanFanoutConcurrency"
-        case gatewayMonitorPeriod = "GatewayMonitorPeriod"
-        case corsHosts = "CorsHosts"
-        case isSkipDeserializationForBasicTypes = "SkipDeserializationForBasicTypes"
-        case publicPort = "PublicPort"
-        case minResumePct = "MinResumePct"
-        case sSDPTracingFilter = "SSDPTracingFilter"
-        case virtualInterfaceNames = "VirtualInterfaceNames"
-        case sortRemoveWords = "SortRemoveWords"
-        case enableIPV6 = "EnableIPV6"
-        case contentTypes = "ContentTypes"
-        case libraryMonitorDelay = "LibraryMonitorDelay"
-        case isRemoveOldPlugins = "RemoveOldPlugins"
-        case uDPPortRange = "UDPPortRange"
-        case remoteClientBitrateLimit = "RemoteClientBitrateLimit"
-        case slowResponseThresholdMs = "SlowResponseThresholdMs"
-        case codecsUsed = "CodecsUsed"
-    }
-}
-
-public enum ImageSavingConvention: String, Codable, CaseIterable {
-    case legacy = "Legacy"
-    case compatible = "Compatible"
-}
-
-public struct PlayerStateInfo: Codable {
-    /// Gets or sets the play method.
-    public var playMethod: PlayMethod?
-    /// Gets or sets the now playing media version identifier.
-    public var mediaSourceID: String?
-    /// Gets or sets a value indicating whether this instance can seek.
-    public var canSeek: Bool?
-    /// Gets or sets the index of the now playing subtitle stream.
-    public var subtitleStreamIndex: Int?
-    /// Gets or sets the repeat mode.
-    public var repeatMode: RepeatMode?
-    /// Gets or sets the now playing position ticks.
-    public var positionTicks: Int?
-    /// Gets or sets the index of the now playing audio stream.
-    public var audioStreamIndex: Int?
-    /// Gets or sets a value indicating whether this instance is paused.
-    public var isPaused: Bool?
-    /// Gets or sets a value indicating whether this instance is muted.
-    public var isMuted: Bool?
-    /// Gets or sets the volume level.
-    public var volumeLevel: Int?
-
-    public init(playMethod: PlayMethod? = nil, mediaSourceID: String? = nil, canSeek: Bool? = nil, subtitleStreamIndex: Int? = nil, repeatMode: RepeatMode? = nil, positionTicks: Int? = nil, audioStreamIndex: Int? = nil, isPaused: Bool? = nil, isMuted: Bool? = nil, volumeLevel: Int? = nil) {
-        self.playMethod = playMethod
-        self.mediaSourceID = mediaSourceID
-        self.canSeek = canSeek
-        self.subtitleStreamIndex = subtitleStreamIndex
-        self.repeatMode = repeatMode
-        self.positionTicks = positionTicks
-        self.audioStreamIndex = audioStreamIndex
-        self.isPaused = isPaused
-        self.isMuted = isMuted
-        self.volumeLevel = volumeLevel
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case playMethod = "PlayMethod"
-        case mediaSourceID = "MediaSourceId"
-        case canSeek = "CanSeek"
-        case subtitleStreamIndex = "SubtitleStreamIndex"
-        case repeatMode = "RepeatMode"
-        case positionTicks = "PositionTicks"
-        case audioStreamIndex = "AudioStreamIndex"
-        case isPaused = "IsPaused"
-        case isMuted = "IsMuted"
-        case volumeLevel = "VolumeLevel"
-    }
-}
-
-public enum DayPattern: String, Codable, CaseIterable {
-    case daily = "Daily"
-    case weekdays = "Weekdays"
-    case weekends = "Weekends"
-}
-
-public struct ArtistInfoRemoteSearchQuery: Codable {
-    public var itemID: UUID?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    public var searchInfo: ArtistInfo?
-
-    public init(itemID: UUID? = nil, isIncludeDisabledProviders: Bool? = nil, searchProviderName: String? = nil, searchInfo: ArtistInfo? = nil) {
-        self.itemID = itemID
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.searchProviderName = searchProviderName
-        self.searchInfo = searchInfo
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemID = "ItemId"
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case searchProviderName = "SearchProviderName"
-        case searchInfo = "SearchInfo"
-    }
-}
-
-/// The create user by name request body.
-public struct CreateUserByName: Codable {
-    /// Gets or sets the password.
-    public var password: String?
-    /// Gets or sets the username.
-    public var name: String?
-
-    public init(password: String? = nil, name: String? = nil) {
-        self.password = password
-        self.name = name
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case password = "Password"
-        case name = "Name"
-    }
-}
-
-/// Enum ItemFilter.
-public enum ItemFilter: String, Codable, CaseIterable {
-    case isFolder = "IsFolder"
-    case isNotFolder = "IsNotFolder"
-    case isUnplayed = "IsUnplayed"
-    case isPlayed = "IsPlayed"
-    case isFavorite = "IsFavorite"
-    case isResumable = "IsResumable"
-    case likes = "Likes"
-    case dislikes = "Dislikes"
-    case isFavoriteOrLikes = "IsFavoriteOrLikes"
-}
-
-/// Update library options dto.
-public struct UpdateLibraryOptionsDto: Codable {
-    /// Gets or sets the library item id.
-    public var id: UUID?
-    /// Gets or sets library options.
-    public var libraryOptions: LibraryOptions?
-
-    public init(id: UUID? = nil, libraryOptions: LibraryOptions? = nil) {
-        self.id = id
-        self.libraryOptions = libraryOptions
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case libraryOptions = "LibraryOptions"
-    }
-}
-
-public struct PersonLookupInfoRemoteSearchQuery: Codable {
-    public var itemID: UUID?
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var searchInfo: PersonLookupInfo?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-
-    public init(itemID: UUID? = nil, isIncludeDisabledProviders: Bool? = nil, searchInfo: PersonLookupInfo? = nil, searchProviderName: String? = nil) {
-        self.itemID = itemID
-        self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.searchInfo = searchInfo
-        self.searchProviderName = searchProviderName
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case itemID = "ItemId"
-        case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case searchInfo = "SearchInfo"
-        case searchProviderName = "SearchProviderName"
-    }
-}
-
-/// Class RemoteImageInfo.
-public struct RemoteImageInfo: Codable {
-    /// Gets or sets the width.
-    public var width: Int?
-    /// Gets or sets the height.
-    public var height: Int?
-    /// Gets or sets the name of the provider.
-    public var providerName: String?
-    /// Gets a url used for previewing a smaller version.
-    public var thumbnailURL: String?
-    /// Gets or sets the community rating.
-    public var communityRating: Double?
-    /// Gets or sets the type.
-    public var type: ImageType?
-    /// Gets or sets the language.
-    public var language: String?
-    /// Gets or sets the URL.
-    public var url: String?
-    /// Gets or sets the type of the rating.
-    public var ratingType: RatingType?
-    /// Gets or sets the vote count.
-    public var voteCount: Int?
-
-    public init(width: Int? = nil, height: Int? = nil, providerName: String? = nil, thumbnailURL: String? = nil, communityRating: Double? = nil, type: ImageType? = nil, language: String? = nil, url: String? = nil, ratingType: RatingType? = nil, voteCount: Int? = nil) {
-        self.width = width
-        self.height = height
-        self.providerName = providerName
-        self.thumbnailURL = thumbnailURL
-        self.communityRating = communityRating
-        self.type = type
-        self.language = language
-        self.url = url
-        self.ratingType = ratingType
-        self.voteCount = voteCount
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case width = "Width"
-        case height = "Height"
-        case providerName = "ProviderName"
-        case thumbnailURL = "ThumbnailUrl"
-        case communityRating = "CommunityRating"
-        case type = "Type"
-        case language = "Language"
-        case url = "Url"
-        case ratingType = "RatingType"
-        case voteCount = "VoteCount"
-    }
-}
-
-public struct ControlResponse: Codable {
-    public var isSuccessful: Bool?
-    public var headers: [String: String]?
-    public var xml: String?
-
-    public init(isSuccessful: Bool? = nil, headers: [String: String]? = nil, xml: String? = nil) {
-        self.isSuccessful = isSuccessful
-        self.headers = headers
-        self.xml = xml
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case isSuccessful = "IsSuccessful"
-        case headers = "Headers"
-        case xml = "Xml"
-    }
-}
-
-/// Forgot Password request body DTO.
-public struct ForgotPasswordDto: Codable {
-    /// Gets or sets the entered username to have its password reset.
-    public var enteredUsername: String
-
-    public init(enteredUsername: String) {
-        self.enteredUsername = enteredUsername
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case enteredUsername = "EnteredUsername"
-    }
-}
-
-/// Used to control the data that gets attached to DtoBaseItems.
 public enum ItemFields: String, Codable, CaseIterable {
     case airTime = "AirTime"
     case canDelete = "CanDelete"
@@ -7428,7 +3281,6 @@ public enum ItemFields: String, Codable, CaseIterable {
     case specialFeatureCount = "SpecialFeatureCount"
 }
 
-/// An enum representing an unrated item.
 public enum UnratedItem: String, Codable, CaseIterable {
     case movie = "Movie"
     case trailer = "Trailer"
@@ -7441,119 +3293,2724 @@ public enum UnratedItem: String, Codable, CaseIterable {
     case other = "Other"
 }
 
-public struct PlaystateRequest: Codable {
-    /// Gets or sets the controlling user identifier.
-    public var controllingUserID: String?
-    /// Enum PlaystateCommand.
-    public var command: PlaystateCommand?
-    public var seekPositionTicks: Int?
+public enum TransportStreamTimestamp: String, Codable, CaseIterable {
+    case `none` = "None"
+    case zero = "Zero"
+    case valid = "Valid"
+}
 
-    public init(controllingUserID: String? = nil, command: PlaystateCommand? = nil, seekPositionTicks: Int? = nil) {
-        self.controllingUserID = controllingUserID
-        self.command = command
-        self.seekPositionTicks = seekPositionTicks
+public struct MusicVideoInfo: Codable {
+    public var parentIndexNumber: Int?
+    public var indexNumber: Int?
+    public var name: String?
+    public var metadataLanguage: String?
+    public var metadataCountryCode: String?
+    public var artists: [String]?
+    public var providerIDs: [String: String]?
+    public var isAutomated: Bool?
+    public var premiereDate: Date?
+    public var year: Int?
+    public var path: String?
+
+    public init(parentIndexNumber: Int? = nil, indexNumber: Int? = nil, name: String? = nil, metadataLanguage: String? = nil, metadataCountryCode: String? = nil, artists: [String]? = nil, providerIDs: [String: String]? = nil, isAutomated: Bool? = nil, premiereDate: Date? = nil, year: Int? = nil, path: String? = nil) {
+        self.parentIndexNumber = parentIndexNumber
+        self.indexNumber = indexNumber
+        self.name = name
+        self.metadataLanguage = metadataLanguage
+        self.metadataCountryCode = metadataCountryCode
+        self.artists = artists
+        self.providerIDs = providerIDs
+        self.isAutomated = isAutomated
+        self.premiereDate = premiereDate
+        self.year = year
+        self.path = path
     }
 
     private enum CodingKeys: String, CodingKey {
-        case controllingUserID = "ControllingUserId"
-        case command = "Command"
-        case seekPositionTicks = "SeekPositionTicks"
+        case parentIndexNumber = "ParentIndexNumber"
+        case indexNumber = "IndexNumber"
+        case name = "Name"
+        case metadataLanguage = "MetadataLanguage"
+        case metadataCountryCode = "MetadataCountryCode"
+        case artists = "Artists"
+        case providerIDs = "ProviderIds"
+        case isAutomated = "IsAutomated"
+        case premiereDate = "PremiereDate"
+        case year = "Year"
+        case path = "Path"
     }
 }
 
-public enum ChannelItemSortField: String, Codable, CaseIterable {
-    case name = "Name"
-    case communityRating = "CommunityRating"
-    case premiereDate = "PremiereDate"
-    case dateCreated = "DateCreated"
-    case runtime = "Runtime"
-    case playCount = "PlayCount"
-    case communityPlayCount = "CommunityPlayCount"
+public enum ScrollDirection: String, Codable, CaseIterable {
+    case horizontal = "Horizontal"
+    case vertical = "Vertical"
 }
 
-/// Enum GroupRepeatMode.
+public struct LibraryOptions: Codable {
+    public var disabledSubtitleFetchers: [String]?
+    public var metadataSavers: [String]?
+    public var seasonZeroDisplayName: String?
+    public var subtitleDownloadLanguages: [String]?
+    public var enableEmbeddedTitles: Bool?
+    public var metadataCountryCode: String?
+    public var isSkipSubtitlesIfEmbeddedSubtitlesPresent: Bool?
+    public var enableAutomaticSeriesGrouping: Bool?
+    public var isSaveLocalMetadata: Bool?
+    public var enablePhotos: Bool?
+    public var typeOptions: [TypeOptions]?
+    public var isExtractChapterImagesDuringLibraryScan: Bool?
+    public var subtitleFetcherOrder: [String]?
+    public var enableRealtimeMonitor: Bool?
+    public var requirePerfectSubtitleMatch: Bool?
+    public var isSaveSubtitlesWithMedia: Bool?
+    public var pathInfos: [MediaPathInfo]?
+    public var enableInternetProviders: Bool?
+    public var enableEmbeddedEpisodeInfos: Bool?
+    public var isSkipSubtitlesIfAudioTrackMatches: Bool?
+    public var localMetadataReaderOrder: [String]?
+    public var disabledLocalMetadataReaders: [String]?
+    public var enableChapterImageExtraction: Bool?
+    public var automaticRefreshIntervalDays: Int?
+    public var preferredMetadataLanguage: String?
+
+    public init(disabledSubtitleFetchers: [String]? = nil, metadataSavers: [String]? = nil, seasonZeroDisplayName: String? = nil, subtitleDownloadLanguages: [String]? = nil, enableEmbeddedTitles: Bool? = nil, metadataCountryCode: String? = nil, isSkipSubtitlesIfEmbeddedSubtitlesPresent: Bool? = nil, enableAutomaticSeriesGrouping: Bool? = nil, isSaveLocalMetadata: Bool? = nil, enablePhotos: Bool? = nil, typeOptions: [TypeOptions]? = nil, isExtractChapterImagesDuringLibraryScan: Bool? = nil, subtitleFetcherOrder: [String]? = nil, enableRealtimeMonitor: Bool? = nil, requirePerfectSubtitleMatch: Bool? = nil, isSaveSubtitlesWithMedia: Bool? = nil, pathInfos: [MediaPathInfo]? = nil, enableInternetProviders: Bool? = nil, enableEmbeddedEpisodeInfos: Bool? = nil, isSkipSubtitlesIfAudioTrackMatches: Bool? = nil, localMetadataReaderOrder: [String]? = nil, disabledLocalMetadataReaders: [String]? = nil, enableChapterImageExtraction: Bool? = nil, automaticRefreshIntervalDays: Int? = nil, preferredMetadataLanguage: String? = nil) {
+        self.disabledSubtitleFetchers = disabledSubtitleFetchers
+        self.metadataSavers = metadataSavers
+        self.seasonZeroDisplayName = seasonZeroDisplayName
+        self.subtitleDownloadLanguages = subtitleDownloadLanguages
+        self.enableEmbeddedTitles = enableEmbeddedTitles
+        self.metadataCountryCode = metadataCountryCode
+        self.isSkipSubtitlesIfEmbeddedSubtitlesPresent = isSkipSubtitlesIfEmbeddedSubtitlesPresent
+        self.enableAutomaticSeriesGrouping = enableAutomaticSeriesGrouping
+        self.isSaveLocalMetadata = isSaveLocalMetadata
+        self.enablePhotos = enablePhotos
+        self.typeOptions = typeOptions
+        self.isExtractChapterImagesDuringLibraryScan = isExtractChapterImagesDuringLibraryScan
+        self.subtitleFetcherOrder = subtitleFetcherOrder
+        self.enableRealtimeMonitor = enableRealtimeMonitor
+        self.requirePerfectSubtitleMatch = requirePerfectSubtitleMatch
+        self.isSaveSubtitlesWithMedia = isSaveSubtitlesWithMedia
+        self.pathInfos = pathInfos
+        self.enableInternetProviders = enableInternetProviders
+        self.enableEmbeddedEpisodeInfos = enableEmbeddedEpisodeInfos
+        self.isSkipSubtitlesIfAudioTrackMatches = isSkipSubtitlesIfAudioTrackMatches
+        self.localMetadataReaderOrder = localMetadataReaderOrder
+        self.disabledLocalMetadataReaders = disabledLocalMetadataReaders
+        self.enableChapterImageExtraction = enableChapterImageExtraction
+        self.automaticRefreshIntervalDays = automaticRefreshIntervalDays
+        self.preferredMetadataLanguage = preferredMetadataLanguage
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case disabledSubtitleFetchers = "DisabledSubtitleFetchers"
+        case metadataSavers = "MetadataSavers"
+        case seasonZeroDisplayName = "SeasonZeroDisplayName"
+        case subtitleDownloadLanguages = "SubtitleDownloadLanguages"
+        case enableEmbeddedTitles = "EnableEmbeddedTitles"
+        case metadataCountryCode = "MetadataCountryCode"
+        case isSkipSubtitlesIfEmbeddedSubtitlesPresent = "SkipSubtitlesIfEmbeddedSubtitlesPresent"
+        case enableAutomaticSeriesGrouping = "EnableAutomaticSeriesGrouping"
+        case isSaveLocalMetadata = "SaveLocalMetadata"
+        case enablePhotos = "EnablePhotos"
+        case typeOptions = "TypeOptions"
+        case isExtractChapterImagesDuringLibraryScan = "ExtractChapterImagesDuringLibraryScan"
+        case subtitleFetcherOrder = "SubtitleFetcherOrder"
+        case enableRealtimeMonitor = "EnableRealtimeMonitor"
+        case requirePerfectSubtitleMatch = "RequirePerfectSubtitleMatch"
+        case isSaveSubtitlesWithMedia = "SaveSubtitlesWithMedia"
+        case pathInfos = "PathInfos"
+        case enableInternetProviders = "EnableInternetProviders"
+        case enableEmbeddedEpisodeInfos = "EnableEmbeddedEpisodeInfos"
+        case isSkipSubtitlesIfAudioTrackMatches = "SkipSubtitlesIfAudioTrackMatches"
+        case localMetadataReaderOrder = "LocalMetadataReaderOrder"
+        case disabledLocalMetadataReaders = "DisabledLocalMetadataReaders"
+        case enableChapterImageExtraction = "EnableChapterImageExtraction"
+        case automaticRefreshIntervalDays = "AutomaticRefreshIntervalDays"
+        case preferredMetadataLanguage = "PreferredMetadataLanguage"
+    }
+}
+
+public struct BaseItem: Codable {
+    public var shortcutPath: String?
+    public var height: Int?
+    public var remoteTrailers: [MediaURL]?
+    public var width: Int?
+    public var extraIDs: [UUID]?
+    public var size: Int?
+    public var dateLastSaved: Date?
+    public var container: String?
+    public var isShortcut: Bool?
+    public var isHD: Bool?
+    public var isSupportsExternalTransfer: Bool?
+
+    public init(shortcutPath: String? = nil, height: Int? = nil, remoteTrailers: [MediaURL]? = nil, width: Int? = nil, extraIDs: [UUID]? = nil, size: Int? = nil, dateLastSaved: Date? = nil, container: String? = nil, isShortcut: Bool? = nil, isHD: Bool? = nil, isSupportsExternalTransfer: Bool? = nil) {
+        self.shortcutPath = shortcutPath
+        self.height = height
+        self.remoteTrailers = remoteTrailers
+        self.width = width
+        self.extraIDs = extraIDs
+        self.size = size
+        self.dateLastSaved = dateLastSaved
+        self.container = container
+        self.isShortcut = isShortcut
+        self.isHD = isHD
+        self.isSupportsExternalTransfer = isSupportsExternalTransfer
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case shortcutPath = "ShortcutPath"
+        case height = "Height"
+        case remoteTrailers = "RemoteTrailers"
+        case width = "Width"
+        case extraIDs = "ExtraIds"
+        case size = "Size"
+        case dateLastSaved = "DateLastSaved"
+        case container = "Container"
+        case isShortcut = "IsShortcut"
+        case isHD = "IsHD"
+        case isSupportsExternalTransfer = "SupportsExternalTransfer"
+    }
+}
+
+public struct AuthenticationResult: Codable {
+    public var sessionInfo: SessionInfo?
+    public var user: UserDto?
+    public var serverID: String?
+    public var accessToken: String?
+
+    public init(sessionInfo: SessionInfo? = nil, user: UserDto? = nil, serverID: String? = nil, accessToken: String? = nil) {
+        self.sessionInfo = sessionInfo
+        self.user = user
+        self.serverID = serverID
+        self.accessToken = accessToken
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case sessionInfo = "SessionInfo"
+        case user = "User"
+        case serverID = "ServerId"
+        case accessToken = "AccessToken"
+    }
+}
+
+public enum ImageOrientation: String, Codable, CaseIterable {
+    case topLeft = "TopLeft"
+    case topRight = "TopRight"
+    case bottomRight = "BottomRight"
+    case bottomLeft = "BottomLeft"
+    case leftTop = "LeftTop"
+    case rightTop = "RightTop"
+    case rightBottom = "RightBottom"
+    case leftBottom = "LeftBottom"
+}
+
+public enum SessionMessageType: String, Codable, CaseIterable {
+    case forceKeepAlive = "ForceKeepAlive"
+    case generalCommand = "GeneralCommand"
+    case userDataChanged = "UserDataChanged"
+    case sessions = "Sessions"
+    case play = "Play"
+    case syncPlayCommand = "SyncPlayCommand"
+    case syncPlayGroupUpdate = "SyncPlayGroupUpdate"
+    case playstate = "Playstate"
+    case restartRequired = "RestartRequired"
+    case serverShuttingDown = "ServerShuttingDown"
+    case serverRestarting = "ServerRestarting"
+    case libraryChanged = "LibraryChanged"
+    case userDeleted = "UserDeleted"
+    case userUpdated = "UserUpdated"
+    case seriesTimerCreated = "SeriesTimerCreated"
+    case timerCreated = "TimerCreated"
+    case seriesTimerCancelled = "SeriesTimerCancelled"
+    case timerCancelled = "TimerCancelled"
+    case refreshProgress = "RefreshProgress"
+    case scheduledTaskEnded = "ScheduledTaskEnded"
+    case packageInstallationCancelled = "PackageInstallationCancelled"
+    case packageInstallationFailed = "PackageInstallationFailed"
+    case packageInstallationCompleted = "PackageInstallationCompleted"
+    case packageInstalling = "PackageInstalling"
+    case packageUninstalled = "PackageUninstalled"
+    case activityLogEntry = "ActivityLogEntry"
+    case scheduledTasksInfo = "ScheduledTasksInfo"
+    case activityLogEntryStart = "ActivityLogEntryStart"
+    case activityLogEntryStop = "ActivityLogEntryStop"
+    case sessionsStart = "SessionsStart"
+    case sessionsStop = "SessionsStop"
+    case scheduledTasksInfoStart = "ScheduledTasksInfoStart"
+    case scheduledTasksInfoStop = "ScheduledTasksInfoStop"
+    case keepAlive = "KeepAlive"
+}
+
+public struct AddVirtualFolderDto: Codable {
+    public var libraryOptions: LibraryOptions?
+
+    public init(libraryOptions: LibraryOptions? = nil) {
+        self.libraryOptions = libraryOptions
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case libraryOptions = "LibraryOptions"
+    }
+}
+
+public struct HTTPHeaderInfo: Codable {
+    public var match: HeaderMatchType?
+    public var value: String?
+    public var name: String?
+
+    public init(match: HeaderMatchType? = nil, value: String? = nil, name: String? = nil) {
+        self.match = match
+        self.value = value
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case match = "Match"
+        case value = "Value"
+        case name = "Name"
+    }
+}
+
+public struct DeviceInfo: Codable {
+    public var lastUserName: String?
+    public var lastUserID: UUID?
+    public var dateLastActivity: Date?
+    public var capabilities: ClientCapabilities?
+    public var id: String?
+    public var name: String?
+    public var appVersion: String?
+    public var appName: String?
+    public var iconURL: String?
+
+    public init(lastUserName: String? = nil, lastUserID: UUID? = nil, dateLastActivity: Date? = nil, capabilities: ClientCapabilities? = nil, id: String? = nil, name: String? = nil, appVersion: String? = nil, appName: String? = nil, iconURL: String? = nil) {
+        self.lastUserName = lastUserName
+        self.lastUserID = lastUserID
+        self.dateLastActivity = dateLastActivity
+        self.capabilities = capabilities
+        self.id = id
+        self.name = name
+        self.appVersion = appVersion
+        self.appName = appName
+        self.iconURL = iconURL
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case lastUserName = "LastUserName"
+        case lastUserID = "LastUserId"
+        case dateLastActivity = "DateLastActivity"
+        case capabilities = "Capabilities"
+        case id = "Id"
+        case name = "Name"
+        case appVersion = "AppVersion"
+        case appName = "AppName"
+        case iconURL = "IconUrl"
+    }
+}
+
+public enum ProfileConditionValue: String, Codable, CaseIterable {
+    case audioChannels = "AudioChannels"
+    case audioBitrate = "AudioBitrate"
+    case audioProfile = "AudioProfile"
+    case width = "Width"
+    case height = "Height"
+    case has64BitOffsets = "Has64BitOffsets"
+    case packetLength = "PacketLength"
+    case videoBitDepth = "VideoBitDepth"
+    case videoBitrate = "VideoBitrate"
+    case videoFramerate = "VideoFramerate"
+    case videoLevel = "VideoLevel"
+    case videoProfile = "VideoProfile"
+    case videoTimestamp = "VideoTimestamp"
+    case isAnamorphic = "IsAnamorphic"
+    case refFrames = "RefFrames"
+    case numAudioStreams = "NumAudioStreams"
+    case numVideoStreams = "NumVideoStreams"
+    case isSecondaryAudio = "IsSecondaryAudio"
+    case videoCodecTag = "VideoCodecTag"
+    case isAvc = "IsAvc"
+    case isInterlaced = "IsInterlaced"
+    case audioSampleRate = "AudioSampleRate"
+    case audioBitDepth = "AudioBitDepth"
+}
+
+public struct DeviceIdentification: Codable {
+    public var modelDescription: String?
+    public var modelNumber: String?
+    public var modelName: String?
+    public var modelURL: String?
+    public var serialNumber: String?
+    public var manufacturer: String?
+    public var headers: [HTTPHeaderInfo]?
+    public var friendlyName: String?
+    public var manufacturerURL: String?
+
+    public init(modelDescription: String? = nil, modelNumber: String? = nil, modelName: String? = nil, modelURL: String? = nil, serialNumber: String? = nil, manufacturer: String? = nil, headers: [HTTPHeaderInfo]? = nil, friendlyName: String? = nil, manufacturerURL: String? = nil) {
+        self.modelDescription = modelDescription
+        self.modelNumber = modelNumber
+        self.modelName = modelName
+        self.modelURL = modelURL
+        self.serialNumber = serialNumber
+        self.manufacturer = manufacturer
+        self.headers = headers
+        self.friendlyName = friendlyName
+        self.manufacturerURL = manufacturerURL
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case modelDescription = "ModelDescription"
+        case modelNumber = "ModelNumber"
+        case modelName = "ModelName"
+        case modelURL = "ModelUrl"
+        case serialNumber = "SerialNumber"
+        case manufacturer = "Manufacturer"
+        case headers = "Headers"
+        case friendlyName = "FriendlyName"
+        case manufacturerURL = "ManufacturerUrl"
+    }
+}
+
+public struct ForgotPasswordPinDto: Codable {
+    public var pin: String
+
+    public init(pin: String) {
+        self.pin = pin
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case pin = "Pin"
+    }
+}
+
+public struct BookInfo: Codable {
+    public var indexNumber: Int?
+    public var parentIndexNumber: Int?
+    public var seriesName: String?
+    public var providerIDs: [String: String]?
+    public var year: Int?
+    public var metadataLanguage: String?
+    public var path: String?
+    public var isAutomated: Bool?
+    public var metadataCountryCode: String?
+    public var name: String?
+    public var premiereDate: Date?
+
+    public init(indexNumber: Int? = nil, parentIndexNumber: Int? = nil, seriesName: String? = nil, providerIDs: [String: String]? = nil, year: Int? = nil, metadataLanguage: String? = nil, path: String? = nil, isAutomated: Bool? = nil, metadataCountryCode: String? = nil, name: String? = nil, premiereDate: Date? = nil) {
+        self.indexNumber = indexNumber
+        self.parentIndexNumber = parentIndexNumber
+        self.seriesName = seriesName
+        self.providerIDs = providerIDs
+        self.year = year
+        self.metadataLanguage = metadataLanguage
+        self.path = path
+        self.isAutomated = isAutomated
+        self.metadataCountryCode = metadataCountryCode
+        self.name = name
+        self.premiereDate = premiereDate
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case indexNumber = "IndexNumber"
+        case parentIndexNumber = "ParentIndexNumber"
+        case seriesName = "SeriesName"
+        case providerIDs = "ProviderIds"
+        case year = "Year"
+        case metadataLanguage = "MetadataLanguage"
+        case path = "Path"
+        case isAutomated = "IsAutomated"
+        case metadataCountryCode = "MetadataCountryCode"
+        case name = "Name"
+        case premiereDate = "PremiereDate"
+    }
+}
+
+public enum ChannelType: String, Codable, CaseIterable {
+    case tv = "TV"
+    case radio = "Radio"
+}
+
+public enum GroupQueueMode: String, Codable, CaseIterable {
+    case queue = "Queue"
+    case queueNext = "QueueNext"
+}
+
+public struct DeviceProfile: Codable {
+    public var isIgnoreTranscodeByteRangeRequests: Bool?
+    public var requiresPlainFolders: Bool?
+    public var containerProfiles: [ContainerProfile]?
+    public var enableSingleAlbumArtLimit: Bool?
+    public var id: String?
+    public var supportedMediaTypes: String?
+    public var modelNumber: String?
+    public var manufacturer: String?
+    public var albumArtPn: String?
+    public var responseProfiles: [ResponseProfile]?
+    public var enableSingleSubtitleLimit: Bool?
+    public var musicStreamingTranscodingBitrate: Int?
+    public var modelURL: String?
+    public var maxAlbumArtHeight: Int?
+    public var timelineOffsetSeconds: Int?
+    public var protocolInfo: String?
+    public var subtitleProfiles: [SubtitleProfile]?
+    public var sonyAggregationFlags: String?
+    public var requiresPlainVideoItems: Bool?
+    public var modelDescription: String?
+    public var enableMSMediaReceiverRegistrar: Bool?
+    public var friendlyName: String?
+    public var manufacturerURL: String?
+    public var directPlayProfiles: [DirectPlayProfile]?
+    public var transcodingProfiles: [TranscodingProfile]?
+    public var maxStreamingBitrate: Int?
+    public var maxIconWidth: Int?
+    public var xmlRootAttributes: [XmlAttribute]?
+    public var identification: DeviceIdentification?
+    public var maxIconHeight: Int?
+    public var name: String?
+    public var serialNumber: String?
+    public var enableAlbumArtInDidl: Bool?
+    public var maxStaticBitrate: Int?
+    public var modelName: String?
+    public var maxStaticMusicBitrate: Int?
+    public var userID: String?
+    public var maxAlbumArtWidth: Int?
+    public var codecProfiles: [CodecProfile]?
+
+    public init(isIgnoreTranscodeByteRangeRequests: Bool? = nil, requiresPlainFolders: Bool? = nil, containerProfiles: [ContainerProfile]? = nil, enableSingleAlbumArtLimit: Bool? = nil, id: String? = nil, supportedMediaTypes: String? = nil, modelNumber: String? = nil, manufacturer: String? = nil, albumArtPn: String? = nil, responseProfiles: [ResponseProfile]? = nil, enableSingleSubtitleLimit: Bool? = nil, musicStreamingTranscodingBitrate: Int? = nil, modelURL: String? = nil, maxAlbumArtHeight: Int? = nil, timelineOffsetSeconds: Int? = nil, protocolInfo: String? = nil, subtitleProfiles: [SubtitleProfile]? = nil, sonyAggregationFlags: String? = nil, requiresPlainVideoItems: Bool? = nil, modelDescription: String? = nil, enableMSMediaReceiverRegistrar: Bool? = nil, friendlyName: String? = nil, manufacturerURL: String? = nil, directPlayProfiles: [DirectPlayProfile]? = nil, transcodingProfiles: [TranscodingProfile]? = nil, maxStreamingBitrate: Int? = nil, maxIconWidth: Int? = nil, xmlRootAttributes: [XmlAttribute]? = nil, identification: DeviceIdentification? = nil, maxIconHeight: Int? = nil, name: String? = nil, serialNumber: String? = nil, enableAlbumArtInDidl: Bool? = nil, maxStaticBitrate: Int? = nil, modelName: String? = nil, maxStaticMusicBitrate: Int? = nil, userID: String? = nil, maxAlbumArtWidth: Int? = nil, codecProfiles: [CodecProfile]? = nil) {
+        self.isIgnoreTranscodeByteRangeRequests = isIgnoreTranscodeByteRangeRequests
+        self.requiresPlainFolders = requiresPlainFolders
+        self.containerProfiles = containerProfiles
+        self.enableSingleAlbumArtLimit = enableSingleAlbumArtLimit
+        self.id = id
+        self.supportedMediaTypes = supportedMediaTypes
+        self.modelNumber = modelNumber
+        self.manufacturer = manufacturer
+        self.albumArtPn = albumArtPn
+        self.responseProfiles = responseProfiles
+        self.enableSingleSubtitleLimit = enableSingleSubtitleLimit
+        self.musicStreamingTranscodingBitrate = musicStreamingTranscodingBitrate
+        self.modelURL = modelURL
+        self.maxAlbumArtHeight = maxAlbumArtHeight
+        self.timelineOffsetSeconds = timelineOffsetSeconds
+        self.protocolInfo = protocolInfo
+        self.subtitleProfiles = subtitleProfiles
+        self.sonyAggregationFlags = sonyAggregationFlags
+        self.requiresPlainVideoItems = requiresPlainVideoItems
+        self.modelDescription = modelDescription
+        self.enableMSMediaReceiverRegistrar = enableMSMediaReceiverRegistrar
+        self.friendlyName = friendlyName
+        self.manufacturerURL = manufacturerURL
+        self.directPlayProfiles = directPlayProfiles
+        self.transcodingProfiles = transcodingProfiles
+        self.maxStreamingBitrate = maxStreamingBitrate
+        self.maxIconWidth = maxIconWidth
+        self.xmlRootAttributes = xmlRootAttributes
+        self.identification = identification
+        self.maxIconHeight = maxIconHeight
+        self.name = name
+        self.serialNumber = serialNumber
+        self.enableAlbumArtInDidl = enableAlbumArtInDidl
+        self.maxStaticBitrate = maxStaticBitrate
+        self.modelName = modelName
+        self.maxStaticMusicBitrate = maxStaticMusicBitrate
+        self.userID = userID
+        self.maxAlbumArtWidth = maxAlbumArtWidth
+        self.codecProfiles = codecProfiles
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isIgnoreTranscodeByteRangeRequests = "IgnoreTranscodeByteRangeRequests"
+        case requiresPlainFolders = "RequiresPlainFolders"
+        case containerProfiles = "ContainerProfiles"
+        case enableSingleAlbumArtLimit = "EnableSingleAlbumArtLimit"
+        case id = "Id"
+        case supportedMediaTypes = "SupportedMediaTypes"
+        case modelNumber = "ModelNumber"
+        case manufacturer = "Manufacturer"
+        case albumArtPn = "AlbumArtPn"
+        case responseProfiles = "ResponseProfiles"
+        case enableSingleSubtitleLimit = "EnableSingleSubtitleLimit"
+        case musicStreamingTranscodingBitrate = "MusicStreamingTranscodingBitrate"
+        case modelURL = "ModelUrl"
+        case maxAlbumArtHeight = "MaxAlbumArtHeight"
+        case timelineOffsetSeconds = "TimelineOffsetSeconds"
+        case protocolInfo = "ProtocolInfo"
+        case subtitleProfiles = "SubtitleProfiles"
+        case sonyAggregationFlags = "SonyAggregationFlags"
+        case requiresPlainVideoItems = "RequiresPlainVideoItems"
+        case modelDescription = "ModelDescription"
+        case enableMSMediaReceiverRegistrar = "EnableMSMediaReceiverRegistrar"
+        case friendlyName = "FriendlyName"
+        case manufacturerURL = "ManufacturerUrl"
+        case directPlayProfiles = "DirectPlayProfiles"
+        case transcodingProfiles = "TranscodingProfiles"
+        case maxStreamingBitrate = "MaxStreamingBitrate"
+        case maxIconWidth = "MaxIconWidth"
+        case xmlRootAttributes = "XmlRootAttributes"
+        case identification = "Identification"
+        case maxIconHeight = "MaxIconHeight"
+        case name = "Name"
+        case serialNumber = "SerialNumber"
+        case enableAlbumArtInDidl = "EnableAlbumArtInDidl"
+        case maxStaticBitrate = "MaxStaticBitrate"
+        case modelName = "ModelName"
+        case maxStaticMusicBitrate = "MaxStaticMusicBitrate"
+        case userID = "UserId"
+        case maxAlbumArtWidth = "MaxAlbumArtWidth"
+        case codecProfiles = "CodecProfiles"
+    }
+}
+
+public final class BaseItemDto: Codable {
+    public let parentBackdropImageTags: [String]?
+    public let path: String?
+    public let shutterSpeed: Double?
+    public let isLive: Bool?
+    public let isPremiere: Bool?
+    public let runTimeTicks: Int?
+    public let timerID: String?
+    public let aspectRatio: String?
+    public let dateLastMediaAdded: Date?
+    public let lockData: Bool?
+    public let displayPreferencesID: String?
+    public let channelPrimaryImageTag: String?
+    public let isSports: Bool?
+    public let channelNumber: String?
+    public let musicVideoCount: Int?
+    public let preferredMetadataCountryCode: String?
+    public let seasonID: UUID?
+    public let people: [BaseItemPerson]?
+    public let airTime: String?
+    public let canDelete: Bool?
+    public let channelType: ChannelType?
+    public let video3DFormat: Video3DFormat?
+    public let indexNumber: Int?
+    public let trailerCount: Int?
+    public let mediaType: String?
+    public let channelID: UUID?
+    public let airDays: [DayOfWeek]?
+    public let studios: [NameGuidPair]?
+    public let seasonName: String?
+    public let airsBeforeSeasonNumber: Int?
+    public let longitude: Double?
+    public let cumulativeRunTimeTicks: Int?
+    public let status: String?
+    public let seriesCount: Int?
+    public let providerIDs: [String: String]?
+    public let localTrailerCount: Int?
+    public let productionYear: Int?
+    public let serverID: String?
+    public let locationType: LocationType?
+    public let name: String?
+    public let artistItems: [NameGuidPair]?
+    public let parentThumbItemID: String?
+    public let sortName: String?
+    public let playlistItemID: String?
+    public let remoteTrailers: [MediaURL]?
+    public let productionLocations: [String]?
+    public let dateCreated: Date?
+    public let parentArtImageTag: String?
+    public let songCount: Int?
+    public let communityRating: Double?
+    public let primaryImageAspectRatio: Double?
+    public let mediaSources: [MediaSourceInfo]?
+    public let chapters: [ChapterInfo]?
+    public let partCount: Int?
+    public let criticRating: Double?
+    public let recursiveItemCount: Int?
+    public let imageBlurHashes: ImageBlurHashes?
+    public let collectionType: String?
+    public let altitude: Double?
+    public let id: UUID?
+    public let parentPrimaryImageTag: String?
+    public let episodeCount: Int?
+    public let albumArtists: [NameGuidPair]?
+    public let parentBackdropItemID: String?
+    public let latitude: Double?
+    public let taglines: [String]?
+    public let seriesID: UUID?
+    public let width: Int?
+    public let customRating: String?
+    public let cameraMake: String?
+    public let seriesThumbImageTag: String?
+    public let isoType: IsoType?
+    public let album: String?
+    public let focalLength: Double?
+    public let parentID: UUID?
+    public let artists: [String]?
+    public let audio: ProgramAudio?
+    public let completionPercentage: Double?
+    public let preferredMetadataLanguage: String?
+    public let cameraModel: String?
+    public let parentArtItemID: String?
+    public let childCount: Int?
+    public let videoType: VideoType?
+    public let userData: UserItemDataDto?
+    public let endDate: Date?
+    public let backdropImageTags: [String]?
+    public let screenshotImageTags: [String]?
+    public let software: String?
+    public let number: String?
+    public let parentIndexNumber: Int?
+    public let originalTitle: String?
+    public let seriesTimerID: String?
+    public let isNews: Bool?
+    public let canDownload: Bool?
+    public let etag: String?
+    public let hasSubtitles: Bool?
+    public let isSeries: Bool?
+    public let parentLogoItemID: String?
+    public let forcedSortName: String?
+    public let programID: String?
+    public let tags: [String]?
+    public let seriesPrimaryImageTag: String?
+    public let airsAfterSeasonNumber: Int?
+    public let isRepeat: Bool?
+    public let officialRating: String?
+    public let isKids: Bool?
+    public let height: Int?
+    public let albumID: UUID?
+    public let mediaStreams: [MediaStream]?
+    public let playAccess: PlayAccess?
+    public let lockedFields: [MetadataField]?
+    public let parentPrimaryImageItemID: String?
+    public let isMovie: Bool?
+    public let programCount: Int?
+    public let container: String?
+    public let seriesStudio: String?
+    public let displayOrder: String?
+    public let parentThumbImageTag: String?
+    public let imageTags: [String: String]?
+    public let startDate: Date?
+    public let genres: [String]?
+    public let externalURLs: [ExternalURL]?
+    public let isSupportsSync: Bool?
+    public let artistCount: Int?
+    public let enableMediaSourceDisplay: Bool?
+    public let isHD: Bool?
+    public let specialFeatureCount: Int?
+    public let aperture: Double?
+    public let albumPrimaryImageTag: String?
+    public let genreItems: [NameGuidPair]?
+    public let isFolder: Bool?
+    public let overview: String?
+    public let parentLogoImageTag: String?
+    public let airsBeforeEpisodeNumber: Int?
+    public let albumArtist: String?
+    public let channelName: String?
+    public let exposureTime: Double?
+    public let indexNumberEnd: Int?
+    public let albumCount: Int?
+    public let seriesName: String?
+    public let premiereDate: Date?
+    public let movieCount: Int?
+    public let sourceType: String?
+    public let episodeTitle: String?
+    public let extraType: String?
+    public let mediaSourceCount: Int?
+    public let imageOrientation: ImageOrientation?
+    public let isPlaceHolder: Bool?
+    public let type: String?
+    public let isoSpeedRating: Int?
+    public let currentProgram: BaseItemDto?
+
+    public struct ImageBlurHashes: Codable {
+        public var chapter: [String: String]?
+        public var boxRear: [String: String]?
+        public var menu: [String: String]?
+        public var banner: [String: String]?
+        public var art: [String: String]?
+        public var screenshot: [String: String]?
+        public var logo: [String: String]?
+        public var backdrop: [String: String]?
+        public var thumb: [String: String]?
+        public var disc: [String: String]?
+        public var box: [String: String]?
+        public var profile: [String: String]?
+        public var primary: [String: String]?
+
+        public init(chapter: [String: String]? = nil, boxRear: [String: String]? = nil, menu: [String: String]? = nil, banner: [String: String]? = nil, art: [String: String]? = nil, screenshot: [String: String]? = nil, logo: [String: String]? = nil, backdrop: [String: String]? = nil, thumb: [String: String]? = nil, disc: [String: String]? = nil, box: [String: String]? = nil, profile: [String: String]? = nil, primary: [String: String]? = nil) {
+            self.chapter = chapter
+            self.boxRear = boxRear
+            self.menu = menu
+            self.banner = banner
+            self.art = art
+            self.screenshot = screenshot
+            self.logo = logo
+            self.backdrop = backdrop
+            self.thumb = thumb
+            self.disc = disc
+            self.box = box
+            self.profile = profile
+            self.primary = primary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chapter = "Chapter"
+            case boxRear = "BoxRear"
+            case menu = "Menu"
+            case banner = "Banner"
+            case art = "Art"
+            case screenshot = "Screenshot"
+            case logo = "Logo"
+            case backdrop = "Backdrop"
+            case thumb = "Thumb"
+            case disc = "Disc"
+            case box = "Box"
+            case profile = "Profile"
+            case primary = "Primary"
+        }
+    }
+
+    public init(parentBackdropImageTags: [String]? = nil, path: String? = nil, shutterSpeed: Double? = nil, isLive: Bool? = nil, isPremiere: Bool? = nil, runTimeTicks: Int? = nil, timerID: String? = nil, aspectRatio: String? = nil, dateLastMediaAdded: Date? = nil, lockData: Bool? = nil, displayPreferencesID: String? = nil, channelPrimaryImageTag: String? = nil, isSports: Bool? = nil, channelNumber: String? = nil, musicVideoCount: Int? = nil, preferredMetadataCountryCode: String? = nil, seasonID: UUID? = nil, people: [BaseItemPerson]? = nil, airTime: String? = nil, canDelete: Bool? = nil, channelType: ChannelType? = nil, video3DFormat: Video3DFormat? = nil, indexNumber: Int? = nil, trailerCount: Int? = nil, mediaType: String? = nil, channelID: UUID? = nil, airDays: [DayOfWeek]? = nil, studios: [NameGuidPair]? = nil, seasonName: String? = nil, airsBeforeSeasonNumber: Int? = nil, longitude: Double? = nil, cumulativeRunTimeTicks: Int? = nil, status: String? = nil, seriesCount: Int? = nil, providerIDs: [String: String]? = nil, localTrailerCount: Int? = nil, productionYear: Int? = nil, serverID: String? = nil, locationType: LocationType? = nil, name: String? = nil, artistItems: [NameGuidPair]? = nil, parentThumbItemID: String? = nil, sortName: String? = nil, playlistItemID: String? = nil, remoteTrailers: [MediaURL]? = nil, productionLocations: [String]? = nil, dateCreated: Date? = nil, parentArtImageTag: String? = nil, songCount: Int? = nil, communityRating: Double? = nil, primaryImageAspectRatio: Double? = nil, mediaSources: [MediaSourceInfo]? = nil, chapters: [ChapterInfo]? = nil, partCount: Int? = nil, criticRating: Double? = nil, recursiveItemCount: Int? = nil, imageBlurHashes: ImageBlurHashes? = nil, collectionType: String? = nil, altitude: Double? = nil, id: UUID? = nil, parentPrimaryImageTag: String? = nil, episodeCount: Int? = nil, albumArtists: [NameGuidPair]? = nil, parentBackdropItemID: String? = nil, latitude: Double? = nil, taglines: [String]? = nil, seriesID: UUID? = nil, width: Int? = nil, customRating: String? = nil, cameraMake: String? = nil, seriesThumbImageTag: String? = nil, isoType: IsoType? = nil, album: String? = nil, focalLength: Double? = nil, parentID: UUID? = nil, artists: [String]? = nil, audio: ProgramAudio? = nil, completionPercentage: Double? = nil, preferredMetadataLanguage: String? = nil, cameraModel: String? = nil, parentArtItemID: String? = nil, childCount: Int? = nil, videoType: VideoType? = nil, userData: UserItemDataDto? = nil, endDate: Date? = nil, backdropImageTags: [String]? = nil, screenshotImageTags: [String]? = nil, software: String? = nil, number: String? = nil, parentIndexNumber: Int? = nil, originalTitle: String? = nil, seriesTimerID: String? = nil, isNews: Bool? = nil, canDownload: Bool? = nil, etag: String? = nil, hasSubtitles: Bool? = nil, isSeries: Bool? = nil, parentLogoItemID: String? = nil, forcedSortName: String? = nil, programID: String? = nil, tags: [String]? = nil, seriesPrimaryImageTag: String? = nil, airsAfterSeasonNumber: Int? = nil, isRepeat: Bool? = nil, officialRating: String? = nil, isKids: Bool? = nil, height: Int? = nil, albumID: UUID? = nil, mediaStreams: [MediaStream]? = nil, playAccess: PlayAccess? = nil, lockedFields: [MetadataField]? = nil, parentPrimaryImageItemID: String? = nil, isMovie: Bool? = nil, programCount: Int? = nil, container: String? = nil, seriesStudio: String? = nil, displayOrder: String? = nil, parentThumbImageTag: String? = nil, imageTags: [String: String]? = nil, startDate: Date? = nil, genres: [String]? = nil, externalURLs: [ExternalURL]? = nil, isSupportsSync: Bool? = nil, artistCount: Int? = nil, enableMediaSourceDisplay: Bool? = nil, isHD: Bool? = nil, specialFeatureCount: Int? = nil, aperture: Double? = nil, albumPrimaryImageTag: String? = nil, genreItems: [NameGuidPair]? = nil, isFolder: Bool? = nil, overview: String? = nil, parentLogoImageTag: String? = nil, airsBeforeEpisodeNumber: Int? = nil, albumArtist: String? = nil, channelName: String? = nil, exposureTime: Double? = nil, indexNumberEnd: Int? = nil, albumCount: Int? = nil, seriesName: String? = nil, premiereDate: Date? = nil, movieCount: Int? = nil, sourceType: String? = nil, episodeTitle: String? = nil, extraType: String? = nil, mediaSourceCount: Int? = nil, imageOrientation: ImageOrientation? = nil, isPlaceHolder: Bool? = nil, type: String? = nil, isoSpeedRating: Int? = nil, currentProgram: BaseItemDto? = nil) {
+        self.parentBackdropImageTags = parentBackdropImageTags
+        self.path = path
+        self.shutterSpeed = shutterSpeed
+        self.isLive = isLive
+        self.isPremiere = isPremiere
+        self.runTimeTicks = runTimeTicks
+        self.timerID = timerID
+        self.aspectRatio = aspectRatio
+        self.dateLastMediaAdded = dateLastMediaAdded
+        self.lockData = lockData
+        self.displayPreferencesID = displayPreferencesID
+        self.channelPrimaryImageTag = channelPrimaryImageTag
+        self.isSports = isSports
+        self.channelNumber = channelNumber
+        self.musicVideoCount = musicVideoCount
+        self.preferredMetadataCountryCode = preferredMetadataCountryCode
+        self.seasonID = seasonID
+        self.people = people
+        self.airTime = airTime
+        self.canDelete = canDelete
+        self.channelType = channelType
+        self.video3DFormat = video3DFormat
+        self.indexNumber = indexNumber
+        self.trailerCount = trailerCount
+        self.mediaType = mediaType
+        self.channelID = channelID
+        self.airDays = airDays
+        self.studios = studios
+        self.seasonName = seasonName
+        self.airsBeforeSeasonNumber = airsBeforeSeasonNumber
+        self.longitude = longitude
+        self.cumulativeRunTimeTicks = cumulativeRunTimeTicks
+        self.status = status
+        self.seriesCount = seriesCount
+        self.providerIDs = providerIDs
+        self.localTrailerCount = localTrailerCount
+        self.productionYear = productionYear
+        self.serverID = serverID
+        self.locationType = locationType
+        self.name = name
+        self.artistItems = artistItems
+        self.parentThumbItemID = parentThumbItemID
+        self.sortName = sortName
+        self.playlistItemID = playlistItemID
+        self.remoteTrailers = remoteTrailers
+        self.productionLocations = productionLocations
+        self.dateCreated = dateCreated
+        self.parentArtImageTag = parentArtImageTag
+        self.songCount = songCount
+        self.communityRating = communityRating
+        self.primaryImageAspectRatio = primaryImageAspectRatio
+        self.mediaSources = mediaSources
+        self.chapters = chapters
+        self.partCount = partCount
+        self.criticRating = criticRating
+        self.recursiveItemCount = recursiveItemCount
+        self.imageBlurHashes = imageBlurHashes
+        self.collectionType = collectionType
+        self.altitude = altitude
+        self.id = id
+        self.parentPrimaryImageTag = parentPrimaryImageTag
+        self.episodeCount = episodeCount
+        self.albumArtists = albumArtists
+        self.parentBackdropItemID = parentBackdropItemID
+        self.latitude = latitude
+        self.taglines = taglines
+        self.seriesID = seriesID
+        self.width = width
+        self.customRating = customRating
+        self.cameraMake = cameraMake
+        self.seriesThumbImageTag = seriesThumbImageTag
+        self.isoType = isoType
+        self.album = album
+        self.focalLength = focalLength
+        self.parentID = parentID
+        self.artists = artists
+        self.audio = audio
+        self.completionPercentage = completionPercentage
+        self.preferredMetadataLanguage = preferredMetadataLanguage
+        self.cameraModel = cameraModel
+        self.parentArtItemID = parentArtItemID
+        self.childCount = childCount
+        self.videoType = videoType
+        self.userData = userData
+        self.endDate = endDate
+        self.backdropImageTags = backdropImageTags
+        self.screenshotImageTags = screenshotImageTags
+        self.software = software
+        self.number = number
+        self.parentIndexNumber = parentIndexNumber
+        self.originalTitle = originalTitle
+        self.seriesTimerID = seriesTimerID
+        self.isNews = isNews
+        self.canDownload = canDownload
+        self.etag = etag
+        self.hasSubtitles = hasSubtitles
+        self.isSeries = isSeries
+        self.parentLogoItemID = parentLogoItemID
+        self.forcedSortName = forcedSortName
+        self.programID = programID
+        self.tags = tags
+        self.seriesPrimaryImageTag = seriesPrimaryImageTag
+        self.airsAfterSeasonNumber = airsAfterSeasonNumber
+        self.isRepeat = isRepeat
+        self.officialRating = officialRating
+        self.isKids = isKids
+        self.height = height
+        self.albumID = albumID
+        self.mediaStreams = mediaStreams
+        self.playAccess = playAccess
+        self.lockedFields = lockedFields
+        self.parentPrimaryImageItemID = parentPrimaryImageItemID
+        self.isMovie = isMovie
+        self.programCount = programCount
+        self.container = container
+        self.seriesStudio = seriesStudio
+        self.displayOrder = displayOrder
+        self.parentThumbImageTag = parentThumbImageTag
+        self.imageTags = imageTags
+        self.startDate = startDate
+        self.genres = genres
+        self.externalURLs = externalURLs
+        self.isSupportsSync = isSupportsSync
+        self.artistCount = artistCount
+        self.enableMediaSourceDisplay = enableMediaSourceDisplay
+        self.isHD = isHD
+        self.specialFeatureCount = specialFeatureCount
+        self.aperture = aperture
+        self.albumPrimaryImageTag = albumPrimaryImageTag
+        self.genreItems = genreItems
+        self.isFolder = isFolder
+        self.overview = overview
+        self.parentLogoImageTag = parentLogoImageTag
+        self.airsBeforeEpisodeNumber = airsBeforeEpisodeNumber
+        self.albumArtist = albumArtist
+        self.channelName = channelName
+        self.exposureTime = exposureTime
+        self.indexNumberEnd = indexNumberEnd
+        self.albumCount = albumCount
+        self.seriesName = seriesName
+        self.premiereDate = premiereDate
+        self.movieCount = movieCount
+        self.sourceType = sourceType
+        self.episodeTitle = episodeTitle
+        self.extraType = extraType
+        self.mediaSourceCount = mediaSourceCount
+        self.imageOrientation = imageOrientation
+        self.isPlaceHolder = isPlaceHolder
+        self.type = type
+        self.isoSpeedRating = isoSpeedRating
+        self.currentProgram = currentProgram
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case parentBackdropImageTags = "ParentBackdropImageTags"
+        case path = "Path"
+        case shutterSpeed = "ShutterSpeed"
+        case isLive = "IsLive"
+        case isPremiere = "IsPremiere"
+        case runTimeTicks = "RunTimeTicks"
+        case timerID = "TimerId"
+        case aspectRatio = "AspectRatio"
+        case dateLastMediaAdded = "DateLastMediaAdded"
+        case lockData = "LockData"
+        case displayPreferencesID = "DisplayPreferencesId"
+        case channelPrimaryImageTag = "ChannelPrimaryImageTag"
+        case isSports = "IsSports"
+        case channelNumber = "ChannelNumber"
+        case musicVideoCount = "MusicVideoCount"
+        case preferredMetadataCountryCode = "PreferredMetadataCountryCode"
+        case seasonID = "SeasonId"
+        case people = "People"
+        case airTime = "AirTime"
+        case canDelete = "CanDelete"
+        case channelType = "ChannelType"
+        case video3DFormat = "Video3DFormat"
+        case indexNumber = "IndexNumber"
+        case trailerCount = "TrailerCount"
+        case mediaType = "MediaType"
+        case channelID = "ChannelId"
+        case airDays = "AirDays"
+        case studios = "Studios"
+        case seasonName = "SeasonName"
+        case airsBeforeSeasonNumber = "AirsBeforeSeasonNumber"
+        case longitude = "Longitude"
+        case cumulativeRunTimeTicks = "CumulativeRunTimeTicks"
+        case status = "Status"
+        case seriesCount = "SeriesCount"
+        case providerIDs = "ProviderIds"
+        case localTrailerCount = "LocalTrailerCount"
+        case productionYear = "ProductionYear"
+        case serverID = "ServerId"
+        case locationType = "LocationType"
+        case name = "Name"
+        case artistItems = "ArtistItems"
+        case parentThumbItemID = "ParentThumbItemId"
+        case sortName = "SortName"
+        case playlistItemID = "PlaylistItemId"
+        case remoteTrailers = "RemoteTrailers"
+        case productionLocations = "ProductionLocations"
+        case dateCreated = "DateCreated"
+        case parentArtImageTag = "ParentArtImageTag"
+        case songCount = "SongCount"
+        case communityRating = "CommunityRating"
+        case primaryImageAspectRatio = "PrimaryImageAspectRatio"
+        case mediaSources = "MediaSources"
+        case chapters = "Chapters"
+        case partCount = "PartCount"
+        case criticRating = "CriticRating"
+        case recursiveItemCount = "RecursiveItemCount"
+        case imageBlurHashes = "ImageBlurHashes"
+        case collectionType = "CollectionType"
+        case altitude = "Altitude"
+        case id = "Id"
+        case parentPrimaryImageTag = "ParentPrimaryImageTag"
+        case episodeCount = "EpisodeCount"
+        case albumArtists = "AlbumArtists"
+        case parentBackdropItemID = "ParentBackdropItemId"
+        case latitude = "Latitude"
+        case taglines = "Taglines"
+        case seriesID = "SeriesId"
+        case width = "Width"
+        case customRating = "CustomRating"
+        case cameraMake = "CameraMake"
+        case seriesThumbImageTag = "SeriesThumbImageTag"
+        case isoType = "IsoType"
+        case album = "Album"
+        case focalLength = "FocalLength"
+        case parentID = "ParentId"
+        case artists = "Artists"
+        case audio = "Audio"
+        case completionPercentage = "CompletionPercentage"
+        case preferredMetadataLanguage = "PreferredMetadataLanguage"
+        case cameraModel = "CameraModel"
+        case parentArtItemID = "ParentArtItemId"
+        case childCount = "ChildCount"
+        case videoType = "VideoType"
+        case userData = "UserData"
+        case endDate = "EndDate"
+        case backdropImageTags = "BackdropImageTags"
+        case screenshotImageTags = "ScreenshotImageTags"
+        case software = "Software"
+        case number = "Number"
+        case parentIndexNumber = "ParentIndexNumber"
+        case originalTitle = "OriginalTitle"
+        case seriesTimerID = "SeriesTimerId"
+        case isNews = "IsNews"
+        case canDownload = "CanDownload"
+        case etag = "Etag"
+        case hasSubtitles = "HasSubtitles"
+        case isSeries = "IsSeries"
+        case parentLogoItemID = "ParentLogoItemId"
+        case forcedSortName = "ForcedSortName"
+        case programID = "ProgramId"
+        case tags = "Tags"
+        case seriesPrimaryImageTag = "SeriesPrimaryImageTag"
+        case airsAfterSeasonNumber = "AirsAfterSeasonNumber"
+        case isRepeat = "IsRepeat"
+        case officialRating = "OfficialRating"
+        case isKids = "IsKids"
+        case height = "Height"
+        case albumID = "AlbumId"
+        case mediaStreams = "MediaStreams"
+        case playAccess = "PlayAccess"
+        case lockedFields = "LockedFields"
+        case parentPrimaryImageItemID = "ParentPrimaryImageItemId"
+        case isMovie = "IsMovie"
+        case programCount = "ProgramCount"
+        case container = "Container"
+        case seriesStudio = "SeriesStudio"
+        case displayOrder = "DisplayOrder"
+        case parentThumbImageTag = "ParentThumbImageTag"
+        case imageTags = "ImageTags"
+        case startDate = "StartDate"
+        case genres = "Genres"
+        case externalURLs = "ExternalUrls"
+        case isSupportsSync = "SupportsSync"
+        case artistCount = "ArtistCount"
+        case enableMediaSourceDisplay = "EnableMediaSourceDisplay"
+        case isHD = "IsHD"
+        case specialFeatureCount = "SpecialFeatureCount"
+        case aperture = "Aperture"
+        case albumPrimaryImageTag = "AlbumPrimaryImageTag"
+        case genreItems = "GenreItems"
+        case isFolder = "IsFolder"
+        case overview = "Overview"
+        case parentLogoImageTag = "ParentLogoImageTag"
+        case airsBeforeEpisodeNumber = "AirsBeforeEpisodeNumber"
+        case albumArtist = "AlbumArtist"
+        case channelName = "ChannelName"
+        case exposureTime = "ExposureTime"
+        case indexNumberEnd = "IndexNumberEnd"
+        case albumCount = "AlbumCount"
+        case seriesName = "SeriesName"
+        case premiereDate = "PremiereDate"
+        case movieCount = "MovieCount"
+        case sourceType = "SourceType"
+        case episodeTitle = "EpisodeTitle"
+        case extraType = "ExtraType"
+        case mediaSourceCount = "MediaSourceCount"
+        case imageOrientation = "ImageOrientation"
+        case isPlaceHolder = "IsPlaceHolder"
+        case type = "Type"
+        case isoSpeedRating = "IsoSpeedRating"
+        case currentProgram = "CurrentProgram"
+    }
+}
+
+public struct AuthenticationInfo: Codable {
+    public var userName: String?
+    public var dateRevoked: Date?
+    public var deviceID: String?
+    public var id: Int?
+    public var appVersion: String?
+    public var dateCreated: Date?
+    public var deviceName: String?
+    public var isActive: Bool?
+    public var accessToken: String?
+    public var dateLastActivity: Date?
+    public var userID: UUID?
+    public var appName: String?
+
+    public init(userName: String? = nil, dateRevoked: Date? = nil, deviceID: String? = nil, id: Int? = nil, appVersion: String? = nil, dateCreated: Date? = nil, deviceName: String? = nil, isActive: Bool? = nil, accessToken: String? = nil, dateLastActivity: Date? = nil, userID: UUID? = nil, appName: String? = nil) {
+        self.userName = userName
+        self.dateRevoked = dateRevoked
+        self.deviceID = deviceID
+        self.id = id
+        self.appVersion = appVersion
+        self.dateCreated = dateCreated
+        self.deviceName = deviceName
+        self.isActive = isActive
+        self.accessToken = accessToken
+        self.dateLastActivity = dateLastActivity
+        self.userID = userID
+        self.appName = appName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case userName = "UserName"
+        case dateRevoked = "DateRevoked"
+        case deviceID = "DeviceId"
+        case id = "Id"
+        case appVersion = "AppVersion"
+        case dateCreated = "DateCreated"
+        case deviceName = "DeviceName"
+        case isActive = "IsActive"
+        case accessToken = "AccessToken"
+        case dateLastActivity = "DateLastActivity"
+        case userID = "UserId"
+        case appName = "AppName"
+    }
+}
+
 public enum GroupRepeatMode: String, Codable, CaseIterable {
     case repeatOne = "RepeatOne"
     case repeatAll = "RepeatAll"
     case repeatNone = "RepeatNone"
 }
 
-public struct TunerHostInfo: Codable {
-    public var type: String?
-    public var allowHWTranscoding: Bool?
-    public var source: String?
-    public var url: String?
-    public var userAgent: String?
-    public var tunerCount: Int?
-    public var enableStreamLooping: Bool?
-    public var deviceID: String?
-    public var isImportFavoritesOnly: Bool?
-    public var friendlyName: String?
-    public var id: String?
+public struct UpdateMediaPathRequestDto: Codable {
+    public var name: String
+    public var pathInfo: MediaPathInfo
 
-    public init(type: String? = nil, allowHWTranscoding: Bool? = nil, source: String? = nil, url: String? = nil, userAgent: String? = nil, tunerCount: Int? = nil, enableStreamLooping: Bool? = nil, deviceID: String? = nil, isImportFavoritesOnly: Bool? = nil, friendlyName: String? = nil, id: String? = nil) {
+    public init(name: String, pathInfo: MediaPathInfo) {
+        self.name = name
+        self.pathInfo = pathInfo
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case pathInfo = "PathInfo"
+    }
+}
+
+public enum RatingType: String, Codable, CaseIterable {
+    case score = "Score"
+    case likes = "Likes"
+}
+
+public struct MovePlaylistItemRequestDto: Codable {
+    public var playlistItemID: UUID?
+    public var newIndex: Int?
+
+    public init(playlistItemID: UUID? = nil, newIndex: Int? = nil) {
+        self.playlistItemID = playlistItemID
+        self.newIndex = newIndex
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playlistItemID = "PlaylistItemId"
+        case newIndex = "NewIndex"
+    }
+}
+
+public struct QueueRequestDto: Codable {
+    public var mode: GroupQueueMode?
+    public var itemIDs: [UUID]?
+
+    public init(mode: GroupQueueMode? = nil, itemIDs: [UUID]? = nil) {
+        self.mode = mode
+        self.itemIDs = itemIDs
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case mode = "Mode"
+        case itemIDs = "ItemIds"
+    }
+}
+
+public enum TaskState: String, Codable, CaseIterable {
+    case idle = "Idle"
+    case cancelling = "Cancelling"
+    case running = "Running"
+}
+
+public struct PlaystateRequest: Codable {
+    public var controllingUserID: String?
+    public var seekPositionTicks: Int?
+    public var command: PlaystateCommand?
+
+    public init(controllingUserID: String? = nil, seekPositionTicks: Int? = nil, command: PlaystateCommand? = nil) {
+        self.controllingUserID = controllingUserID
+        self.seekPositionTicks = seekPositionTicks
+        self.command = command
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case controllingUserID = "ControllingUserId"
+        case seekPositionTicks = "SeekPositionTicks"
+        case command = "Command"
+    }
+}
+
+public enum DlnaProfileType: String, Codable, CaseIterable {
+    case audio = "Audio"
+    case video = "Video"
+    case photo = "Photo"
+}
+
+public struct EndPointInfo: Codable {
+    public var isInNetwork: Bool?
+    public var isLocal: Bool?
+
+    public init(isInNetwork: Bool? = nil, isLocal: Bool? = nil) {
+        self.isInNetwork = isInNetwork
+        self.isLocal = isLocal
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isInNetwork = "IsInNetwork"
+        case isLocal = "IsLocal"
+    }
+}
+
+public struct StartupUserDto: Codable {
+    public var name: String?
+    public var password: String?
+
+    public init(name: String? = nil, password: String? = nil) {
+        self.name = name
+        self.password = password
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case password = "Password"
+    }
+}
+
+public struct SeriesTimerInfoDto: Codable {
+    public var startDate: Date?
+    public var externalID: String?
+    public var isRecordAnyTime: Bool?
+    public var parentBackdropImageTags: [String]?
+    public var parentPrimaryImageItemID: String?
+    public var isRecordAnyChannel: Bool?
+    public var isRecordNewOnly: Bool?
+    public var priority: Int?
+    public var keepUntil: KeepUntil?
+    public var channelID: UUID?
+    public var parentPrimaryImageTag: String?
+    public var keepUpTo: Int?
+    public var parentThumbImageTag: String?
+    public var endDate: Date?
+    public var postPaddingSeconds: Int?
+    public var serverID: String?
+    public var parentThumbItemID: String?
+    public var type: String?
+    public var serviceName: String?
+    public var channelName: String?
+    public var id: String?
+    public var dayPattern: DayPattern?
+    public var overview: String?
+    public var externalProgramID: String?
+    public var externalChannelID: String?
+    public var isPostPaddingRequired: Bool?
+    public var prePaddingSeconds: Int?
+    public var channelPrimaryImageTag: String?
+    public var programID: String?
+    public var name: String?
+    public var isSkipEpisodesInLibrary: Bool?
+    public var parentBackdropItemID: String?
+    public var imageTags: [String: String]?
+    public var isPrePaddingRequired: Bool?
+    public var days: [DayOfWeek]?
+
+    public init(startDate: Date? = nil, externalID: String? = nil, isRecordAnyTime: Bool? = nil, parentBackdropImageTags: [String]? = nil, parentPrimaryImageItemID: String? = nil, isRecordAnyChannel: Bool? = nil, isRecordNewOnly: Bool? = nil, priority: Int? = nil, keepUntil: KeepUntil? = nil, channelID: UUID? = nil, parentPrimaryImageTag: String? = nil, keepUpTo: Int? = nil, parentThumbImageTag: String? = nil, endDate: Date? = nil, postPaddingSeconds: Int? = nil, serverID: String? = nil, parentThumbItemID: String? = nil, type: String? = nil, serviceName: String? = nil, channelName: String? = nil, id: String? = nil, dayPattern: DayPattern? = nil, overview: String? = nil, externalProgramID: String? = nil, externalChannelID: String? = nil, isPostPaddingRequired: Bool? = nil, prePaddingSeconds: Int? = nil, channelPrimaryImageTag: String? = nil, programID: String? = nil, name: String? = nil, isSkipEpisodesInLibrary: Bool? = nil, parentBackdropItemID: String? = nil, imageTags: [String: String]? = nil, isPrePaddingRequired: Bool? = nil, days: [DayOfWeek]? = nil) {
+        self.startDate = startDate
+        self.externalID = externalID
+        self.isRecordAnyTime = isRecordAnyTime
+        self.parentBackdropImageTags = parentBackdropImageTags
+        self.parentPrimaryImageItemID = parentPrimaryImageItemID
+        self.isRecordAnyChannel = isRecordAnyChannel
+        self.isRecordNewOnly = isRecordNewOnly
+        self.priority = priority
+        self.keepUntil = keepUntil
+        self.channelID = channelID
+        self.parentPrimaryImageTag = parentPrimaryImageTag
+        self.keepUpTo = keepUpTo
+        self.parentThumbImageTag = parentThumbImageTag
+        self.endDate = endDate
+        self.postPaddingSeconds = postPaddingSeconds
+        self.serverID = serverID
+        self.parentThumbItemID = parentThumbItemID
         self.type = type
-        self.allowHWTranscoding = allowHWTranscoding
-        self.source = source
-        self.url = url
-        self.userAgent = userAgent
-        self.tunerCount = tunerCount
-        self.enableStreamLooping = enableStreamLooping
-        self.deviceID = deviceID
-        self.isImportFavoritesOnly = isImportFavoritesOnly
-        self.friendlyName = friendlyName
+        self.serviceName = serviceName
+        self.channelName = channelName
         self.id = id
+        self.dayPattern = dayPattern
+        self.overview = overview
+        self.externalProgramID = externalProgramID
+        self.externalChannelID = externalChannelID
+        self.isPostPaddingRequired = isPostPaddingRequired
+        self.prePaddingSeconds = prePaddingSeconds
+        self.channelPrimaryImageTag = channelPrimaryImageTag
+        self.programID = programID
+        self.name = name
+        self.isSkipEpisodesInLibrary = isSkipEpisodesInLibrary
+        self.parentBackdropItemID = parentBackdropItemID
+        self.imageTags = imageTags
+        self.isPrePaddingRequired = isPrePaddingRequired
+        self.days = days
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case startDate = "StartDate"
+        case externalID = "ExternalId"
+        case isRecordAnyTime = "RecordAnyTime"
+        case parentBackdropImageTags = "ParentBackdropImageTags"
+        case parentPrimaryImageItemID = "ParentPrimaryImageItemId"
+        case isRecordAnyChannel = "RecordAnyChannel"
+        case isRecordNewOnly = "RecordNewOnly"
+        case priority = "Priority"
+        case keepUntil = "KeepUntil"
+        case channelID = "ChannelId"
+        case parentPrimaryImageTag = "ParentPrimaryImageTag"
+        case keepUpTo = "KeepUpTo"
+        case parentThumbImageTag = "ParentThumbImageTag"
+        case endDate = "EndDate"
+        case postPaddingSeconds = "PostPaddingSeconds"
+        case serverID = "ServerId"
+        case parentThumbItemID = "ParentThumbItemId"
+        case type = "Type"
+        case serviceName = "ServiceName"
+        case channelName = "ChannelName"
+        case id = "Id"
+        case dayPattern = "DayPattern"
+        case overview = "Overview"
+        case externalProgramID = "ExternalProgramId"
+        case externalChannelID = "ExternalChannelId"
+        case isPostPaddingRequired = "IsPostPaddingRequired"
+        case prePaddingSeconds = "PrePaddingSeconds"
+        case channelPrimaryImageTag = "ChannelPrimaryImageTag"
+        case programID = "ProgramId"
+        case name = "Name"
+        case isSkipEpisodesInLibrary = "SkipEpisodesInLibrary"
+        case parentBackdropItemID = "ParentBackdropItemId"
+        case imageTags = "ImageTags"
+        case isPrePaddingRequired = "IsPrePaddingRequired"
+        case days = "Days"
+    }
+}
+
+public struct WakeOnLanInfo: Codable {
+    public var macAddress: String?
+    public var port: Int?
+
+    public init(macAddress: String? = nil, port: Int? = nil) {
+        self.macAddress = macAddress
+        self.port = port
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case macAddress = "MacAddress"
+        case port = "Port"
+    }
+}
+
+public struct TaskTriggerInfo: Codable {
+    public var timeOfDayTicks: Int?
+    public var maxRuntimeTicks: Int?
+    public var dayOfWeek: DayOfWeek?
+    public var type: String?
+    public var intervalTicks: Int?
+
+    public init(timeOfDayTicks: Int? = nil, maxRuntimeTicks: Int? = nil, dayOfWeek: DayOfWeek? = nil, type: String? = nil, intervalTicks: Int? = nil) {
+        self.timeOfDayTicks = timeOfDayTicks
+        self.maxRuntimeTicks = maxRuntimeTicks
+        self.dayOfWeek = dayOfWeek
+        self.type = type
+        self.intervalTicks = intervalTicks
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case timeOfDayTicks = "TimeOfDayTicks"
+        case maxRuntimeTicks = "MaxRuntimeTicks"
+        case dayOfWeek = "DayOfWeek"
+        case type = "Type"
+        case intervalTicks = "IntervalTicks"
+    }
+}
+
+public struct LiveStreamResponse: Codable {
+    public var mediaSource: MediaSourceInfo?
+
+    public init(mediaSource: MediaSourceInfo? = nil) {
+        self.mediaSource = mediaSource
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case mediaSource = "MediaSource"
+    }
+}
+
+public struct UserConfiguration: Codable {
+    public var latestItemsExcludes: [String]?
+    public var isDisplayMissingEpisodes: Bool?
+    public var subtitleMode: SubtitlePlaybackMode?
+    public var audioLanguagePreference: String?
+    public var isDisplayCollectionsView: Bool?
+    public var myMediaExcludes: [String]?
+    public var orderedViews: [String]?
+    public var isPlayDefaultAudioTrack: Bool?
+    public var groupedFolders: [String]?
+    public var enableLocalPassword: Bool?
+    public var isRememberSubtitleSelections: Bool?
+    public var subtitleLanguagePreference: String?
+    public var isRememberAudioSelections: Bool?
+    public var isHidePlayedInLatest: Bool?
+    public var enableNextEpisodeAutoPlay: Bool?
+
+    public init(latestItemsExcludes: [String]? = nil, isDisplayMissingEpisodes: Bool? = nil, subtitleMode: SubtitlePlaybackMode? = nil, audioLanguagePreference: String? = nil, isDisplayCollectionsView: Bool? = nil, myMediaExcludes: [String]? = nil, orderedViews: [String]? = nil, isPlayDefaultAudioTrack: Bool? = nil, groupedFolders: [String]? = nil, enableLocalPassword: Bool? = nil, isRememberSubtitleSelections: Bool? = nil, subtitleLanguagePreference: String? = nil, isRememberAudioSelections: Bool? = nil, isHidePlayedInLatest: Bool? = nil, enableNextEpisodeAutoPlay: Bool? = nil) {
+        self.latestItemsExcludes = latestItemsExcludes
+        self.isDisplayMissingEpisodes = isDisplayMissingEpisodes
+        self.subtitleMode = subtitleMode
+        self.audioLanguagePreference = audioLanguagePreference
+        self.isDisplayCollectionsView = isDisplayCollectionsView
+        self.myMediaExcludes = myMediaExcludes
+        self.orderedViews = orderedViews
+        self.isPlayDefaultAudioTrack = isPlayDefaultAudioTrack
+        self.groupedFolders = groupedFolders
+        self.enableLocalPassword = enableLocalPassword
+        self.isRememberSubtitleSelections = isRememberSubtitleSelections
+        self.subtitleLanguagePreference = subtitleLanguagePreference
+        self.isRememberAudioSelections = isRememberAudioSelections
+        self.isHidePlayedInLatest = isHidePlayedInLatest
+        self.enableNextEpisodeAutoPlay = enableNextEpisodeAutoPlay
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case latestItemsExcludes = "LatestItemsExcludes"
+        case isDisplayMissingEpisodes = "DisplayMissingEpisodes"
+        case subtitleMode = "SubtitleMode"
+        case audioLanguagePreference = "AudioLanguagePreference"
+        case isDisplayCollectionsView = "DisplayCollectionsView"
+        case myMediaExcludes = "MyMediaExcludes"
+        case orderedViews = "OrderedViews"
+        case isPlayDefaultAudioTrack = "PlayDefaultAudioTrack"
+        case groupedFolders = "GroupedFolders"
+        case enableLocalPassword = "EnableLocalPassword"
+        case isRememberSubtitleSelections = "RememberSubtitleSelections"
+        case subtitleLanguagePreference = "SubtitleLanguagePreference"
+        case isRememberAudioSelections = "RememberAudioSelections"
+        case isHidePlayedInLatest = "HidePlayedInLatest"
+        case enableNextEpisodeAutoPlay = "EnableNextEpisodeAutoPlay"
+    }
+}
+
+public struct MediaUpdateInfoDto: Codable {
+    public var updates: [MediaUpdateInfoPathDto]?
+
+    public init(updates: [MediaUpdateInfoPathDto]? = nil) {
+        self.updates = updates
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case updates = "Updates"
+    }
+}
+
+public struct BufferRequestDto: Codable {
+    public var playlistItemID: UUID?
+    public var positionTicks: Int?
+    public var isPlaying: Bool?
+    public var when: Date?
+
+    public init(playlistItemID: UUID? = nil, positionTicks: Int? = nil, isPlaying: Bool? = nil, when: Date? = nil) {
+        self.playlistItemID = playlistItemID
+        self.positionTicks = positionTicks
+        self.isPlaying = isPlaying
+        self.when = when
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playlistItemID = "PlaylistItemId"
+        case positionTicks = "PositionTicks"
+        case isPlaying = "IsPlaying"
+        case when = "When"
+    }
+}
+
+public struct ArtistInfoRemoteSearchQuery: Codable {
+    public var searchInfo: ArtistInfo?
+    public var itemID: UUID?
+    public var searchProviderName: String?
+    public var isIncludeDisabledProviders: Bool?
+
+    public init(searchInfo: ArtistInfo? = nil, itemID: UUID? = nil, searchProviderName: String? = nil, isIncludeDisabledProviders: Bool? = nil) {
+        self.searchInfo = searchInfo
+        self.itemID = itemID
+        self.searchProviderName = searchProviderName
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case searchInfo = "SearchInfo"
+        case itemID = "ItemId"
+        case searchProviderName = "SearchProviderName"
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+    }
+}
+
+public struct NameValuePair: Codable {
+    public var name: String?
+    public var value: String?
+
+    public init(name: String? = nil, value: String? = nil) {
+        self.name = name
+        self.value = value
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+}
+
+public struct NextItemRequestDto: Codable {
+    public var playlistItemID: UUID?
+
+    public init(playlistItemID: UUID? = nil) {
+        self.playlistItemID = playlistItemID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playlistItemID = "PlaylistItemId"
+    }
+}
+
+public enum HeaderMatchType: String, Codable, CaseIterable {
+    case equals = "Equals"
+    case regex = "Regex"
+    case substring = "Substring"
+}
+
+public struct SeriesInfo: Codable {
+    public var indexNumber: Int?
+    public var parentIndexNumber: Int?
+    public var name: String?
+    public var metadataCountryCode: String?
+    public var isAutomated: Bool?
+    public var year: Int?
+    public var path: String?
+    public var providerIDs: [String: String]?
+    public var premiereDate: Date?
+    public var metadataLanguage: String?
+
+    public init(indexNumber: Int? = nil, parentIndexNumber: Int? = nil, name: String? = nil, metadataCountryCode: String? = nil, isAutomated: Bool? = nil, year: Int? = nil, path: String? = nil, providerIDs: [String: String]? = nil, premiereDate: Date? = nil, metadataLanguage: String? = nil) {
+        self.indexNumber = indexNumber
+        self.parentIndexNumber = parentIndexNumber
+        self.name = name
+        self.metadataCountryCode = metadataCountryCode
+        self.isAutomated = isAutomated
+        self.year = year
+        self.path = path
+        self.providerIDs = providerIDs
+        self.premiereDate = premiereDate
+        self.metadataLanguage = metadataLanguage
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case indexNumber = "IndexNumber"
+        case parentIndexNumber = "ParentIndexNumber"
+        case name = "Name"
+        case metadataCountryCode = "MetadataCountryCode"
+        case isAutomated = "IsAutomated"
+        case year = "Year"
+        case path = "Path"
+        case providerIDs = "ProviderIds"
+        case premiereDate = "PremiereDate"
+        case metadataLanguage = "MetadataLanguage"
+    }
+}
+
+public struct SetRepeatModeRequestDto: Codable {
+    public var mode: GroupRepeatMode?
+
+    public init(mode: GroupRepeatMode? = nil) {
+        self.mode = mode
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case mode = "Mode"
+    }
+}
+
+public enum GeneralCommandType: String, Codable, CaseIterable {
+    case moveUp = "MoveUp"
+    case moveDown = "MoveDown"
+    case moveLeft = "MoveLeft"
+    case moveRight = "MoveRight"
+    case pageUp = "PageUp"
+    case pageDown = "PageDown"
+    case previousLetter = "PreviousLetter"
+    case nextLetter = "NextLetter"
+    case toggleOsd = "ToggleOsd"
+    case toggleContextMenu = "ToggleContextMenu"
+    case select = "Select"
+    case back = "Back"
+    case takeScreenshot = "TakeScreenshot"
+    case sendKey = "SendKey"
+    case sendString = "SendString"
+    case goHome = "GoHome"
+    case goToSettings = "GoToSettings"
+    case volumeUp = "VolumeUp"
+    case volumeDown = "VolumeDown"
+    case mute = "Mute"
+    case unmute = "Unmute"
+    case toggleMute = "ToggleMute"
+    case setVolume = "SetVolume"
+    case setAudioStreamIndex = "SetAudioStreamIndex"
+    case setSubtitleStreamIndex = "SetSubtitleStreamIndex"
+    case toggleFullscreen = "ToggleFullscreen"
+    case displayContent = "DisplayContent"
+    case goToSearch = "GoToSearch"
+    case displayMessage = "DisplayMessage"
+    case setRepeatMode = "SetRepeatMode"
+    case channelUp = "ChannelUp"
+    case channelDown = "ChannelDown"
+    case guide = "Guide"
+    case toggleStats = "ToggleStats"
+    case playMediaSource = "PlayMediaSource"
+    case playTrailers = "PlayTrailers"
+    case setShuffleQueue = "SetShuffleQueue"
+    case playState = "PlayState"
+    case playNext = "PlayNext"
+    case toggleOsdMenu = "ToggleOsdMenu"
+    case play = "Play"
+}
+
+public enum SubtitleDeliveryMethod: String, Codable, CaseIterable {
+    case encode = "Encode"
+    case embed = "Embed"
+    case external = "External"
+    case hls = "Hls"
+}
+
+public enum SyncPlayUserAccessType: String, Codable, CaseIterable {
+    case createAndJoinGroups = "CreateAndJoinGroups"
+    case joinGroups = "JoinGroups"
+    case `none` = "None"
+}
+
+public enum IsoType: String, Codable, CaseIterable {
+    case dvd = "Dvd"
+    case bluRay = "BluRay"
+}
+
+public struct NameIDPair: Codable {
+    public var id: String?
+    public var name: String?
+
+    public init(id: String? = nil, name: String? = nil) {
+        self.id = id
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case name = "Name"
+    }
+}
+
+public struct ExternalIDInfo: Codable {
+    public var name: String?
+    public var key: String?
+    public var urlFormatString: String?
+    public var type: ExternalIDMediaType?
+
+    public init(name: String? = nil, key: String? = nil, urlFormatString: String? = nil, type: ExternalIDMediaType? = nil) {
+        self.name = name
+        self.key = key
+        self.urlFormatString = urlFormatString
+        self.type = type
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case key = "Key"
+        case urlFormatString = "UrlFormatString"
+        case type = "Type"
+    }
+}
+
+public enum MetadataRefreshMode: String, Codable, CaseIterable {
+    case `none` = "None"
+    case validationOnly = "ValidationOnly"
+    case `default` = "Default"
+    case fullRefresh = "FullRefresh"
+}
+
+public enum PluginStatus: String, Codable, CaseIterable {
+    case active = "Active"
+    case restart = "Restart"
+    case deleted = "Deleted"
+    case superceded = "Superceded"
+    case malfunctioned = "Malfunctioned"
+    case notSupported = "NotSupported"
+    case disabled = "Disabled"
+}
+
+public struct SessionUserInfo: Codable {
+    public var userID: UUID?
+    public var userName: String?
+
+    public init(userID: UUID? = nil, userName: String? = nil) {
+        self.userID = userID
+        self.userName = userName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case userID = "UserId"
+        case userName = "UserName"
+    }
+}
+
+public struct MediaPathInfo: Codable {
+    public var networkPath: String?
+    public var path: String?
+
+    public init(networkPath: String? = nil, path: String? = nil) {
+        self.networkPath = networkPath
+        self.path = path
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case networkPath = "NetworkPath"
+        case path = "Path"
+    }
+}
+
+public struct ForgotPasswordDto: Codable {
+    public var enteredUsername: String
+
+    public init(enteredUsername: String) {
+        self.enteredUsername = enteredUsername
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case enteredUsername = "EnteredUsername"
+    }
+}
+
+public enum MediaStreamType: String, Codable, CaseIterable {
+    case audio = "Audio"
+    case video = "Video"
+    case subtitle = "Subtitle"
+    case embeddedImage = "EmbeddedImage"
+}
+
+public struct ClientCapabilitiesDto: Codable {
+    public var iconURL: String?
+    public var messageCallbackURL: String?
+    public var isSupportsSync: Bool?
+    public var playableMediaTypes: [String]?
+    public var isSupportsPersistentIdentifier: Bool?
+    public var appStoreURL: String?
+    public var supportedCommands: [GeneralCommandType]?
+    public var isSupportsContentUploading: Bool?
+    public var deviceProfile: DeviceProfile?
+    public var isSupportsMediaControl: Bool?
+
+    public init(iconURL: String? = nil, messageCallbackURL: String? = nil, isSupportsSync: Bool? = nil, playableMediaTypes: [String]? = nil, isSupportsPersistentIdentifier: Bool? = nil, appStoreURL: String? = nil, supportedCommands: [GeneralCommandType]? = nil, isSupportsContentUploading: Bool? = nil, deviceProfile: DeviceProfile? = nil, isSupportsMediaControl: Bool? = nil) {
+        self.iconURL = iconURL
+        self.messageCallbackURL = messageCallbackURL
+        self.isSupportsSync = isSupportsSync
+        self.playableMediaTypes = playableMediaTypes
+        self.isSupportsPersistentIdentifier = isSupportsPersistentIdentifier
+        self.appStoreURL = appStoreURL
+        self.supportedCommands = supportedCommands
+        self.isSupportsContentUploading = isSupportsContentUploading
+        self.deviceProfile = deviceProfile
+        self.isSupportsMediaControl = isSupportsMediaControl
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case iconURL = "IconUrl"
+        case messageCallbackURL = "MessageCallbackUrl"
+        case isSupportsSync = "SupportsSync"
+        case playableMediaTypes = "PlayableMediaTypes"
+        case isSupportsPersistentIdentifier = "SupportsPersistentIdentifier"
+        case appStoreURL = "AppStoreUrl"
+        case supportedCommands = "SupportedCommands"
+        case isSupportsContentUploading = "SupportsContentUploading"
+        case deviceProfile = "DeviceProfile"
+        case isSupportsMediaControl = "SupportsMediaControl"
+    }
+}
+
+public struct MediaPathDto: Codable {
+    public var path: String?
+    public var pathInfo: MediaPathInfo?
+    public var name: String
+
+    public init(path: String? = nil, pathInfo: MediaPathInfo? = nil, name: String) {
+        self.path = path
+        self.pathInfo = pathInfo
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case path = "Path"
+        case pathInfo = "PathInfo"
+        case name = "Name"
+    }
+}
+
+public struct MediaUpdateInfoPathDto: Codable {
+    public var updateType: String?
+    public var path: String?
+
+    public init(updateType: String? = nil, path: String? = nil) {
+        self.updateType = updateType
+        self.path = path
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case updateType = "UpdateType"
+        case path = "Path"
+    }
+}
+
+public struct LibraryTypeOptionsDto: Codable {
+    public var imageFetchers: [LibraryOptionInfoDto]?
+    public var metadataFetchers: [LibraryOptionInfoDto]?
+    public var defaultImageOptions: [ImageOption]?
+    public var supportedImageTypes: [ImageType]?
+    public var type: String?
+
+    public init(imageFetchers: [LibraryOptionInfoDto]? = nil, metadataFetchers: [LibraryOptionInfoDto]? = nil, defaultImageOptions: [ImageOption]? = nil, supportedImageTypes: [ImageType]? = nil, type: String? = nil) {
+        self.imageFetchers = imageFetchers
+        self.metadataFetchers = metadataFetchers
+        self.defaultImageOptions = defaultImageOptions
+        self.supportedImageTypes = supportedImageTypes
+        self.type = type
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case imageFetchers = "ImageFetchers"
+        case metadataFetchers = "MetadataFetchers"
+        case defaultImageOptions = "DefaultImageOptions"
+        case supportedImageTypes = "SupportedImageTypes"
+        case type = "Type"
+    }
+}
+
+public struct ObjectGroupUpdate: Codable {
+    public var type: GroupUpdateType?
+    public var groupID: UUID?
+    public var data: AnyJSON?
+
+    public init(type: GroupUpdateType? = nil, groupID: UUID? = nil, data: AnyJSON? = nil) {
+        self.type = type
+        self.groupID = groupID
+        self.data = data
     }
 
     private enum CodingKeys: String, CodingKey {
         case type = "Type"
-        case allowHWTranscoding = "AllowHWTranscoding"
-        case source = "Source"
-        case url = "Url"
-        case userAgent = "UserAgent"
-        case tunerCount = "TunerCount"
-        case enableStreamLooping = "EnableStreamLooping"
-        case deviceID = "DeviceId"
-        case isImportFavoritesOnly = "ImportFavoritesOnly"
-        case friendlyName = "FriendlyName"
+        case groupID = "GroupId"
+        case data = "Data"
+    }
+}
+
+public enum ProfileConditionType: String, Codable, CaseIterable {
+    case equals = "Equals"
+    case notEquals = "NotEquals"
+    case lessThanEqual = "LessThanEqual"
+    case greaterThanEqual = "GreaterThanEqual"
+    case equalsAny = "EqualsAny"
+}
+
+public enum DayOfWeek: String, Codable, CaseIterable {
+    case sunday = "Sunday"
+    case monday = "Monday"
+    case tuesday = "Tuesday"
+    case wednesday = "Wednesday"
+    case thursday = "Thursday"
+    case friday = "Friday"
+    case saturday = "Saturday"
+}
+
+public struct MessageCommand: Codable {
+    public var header: String?
+    public var text: String
+    public var timeoutMs: Int?
+
+    public init(header: String? = nil, text: String, timeoutMs: Int? = nil) {
+        self.header = header
+        self.text = text
+        self.timeoutMs = timeoutMs
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case header = "Header"
+        case text = "Text"
+        case timeoutMs = "TimeoutMs"
+    }
+}
+
+public struct AccessSchedule: Codable {
+    public var userID: UUID
+    public var startHour: Double
+    public var dayOfWeek: DynamicDayOfWeek
+    public var endHour: Double
+    public var id: Int
+
+    public init(userID: UUID, startHour: Double, dayOfWeek: DynamicDayOfWeek, endHour: Double, id: Int) {
+        self.userID = userID
+        self.startHour = startHour
+        self.dayOfWeek = dayOfWeek
+        self.endHour = endHour
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case userID = "UserId"
+        case startHour = "StartHour"
+        case dayOfWeek = "DayOfWeek"
+        case endHour = "EndHour"
         case id = "Id"
     }
 }
 
-/// The specific media type of an MediaBrowser.Model.Providers.ExternalIdInfo.
-public enum ExternalIDMediaType: String, Codable, CaseIterable {
-    case album = "Album"
-    case albumArtist = "AlbumArtist"
-    case artist = "Artist"
-    case boxSet = "BoxSet"
-    case episode = "Episode"
-    case movie = "Movie"
-    case otherArtist = "OtherArtist"
-    case person = "Person"
-    case releaseGroup = "ReleaseGroup"
-    case season = "Season"
-    case series = "Series"
-    case track = "Track"
+public struct IgnoreWaitRequestDto: Codable {
+    public var isIgnoreWait: Bool?
+
+    public init(isIgnoreWait: Bool? = nil) {
+        self.isIgnoreWait = isIgnoreWait
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isIgnoreWait = "IgnoreWait"
+    }
 }
 
-public struct AuthenticationInfoQueryResult: Codable {
-    /// The total number of records available.
-    public var totalRecordCount: Int?
-    /// Gets or sets the items.
-    public var items: [AuthenticationInfo]?
-    /// The index of the first record in Items.
-    public var startIndex: Int?
+public enum NotificationLevel: String, Codable, CaseIterable {
+    case normal = "Normal"
+    case warning = "Warning"
+    case error = "Error"
+}
 
-    public init(totalRecordCount: Int? = nil, items: [AuthenticationInfo]? = nil, startIndex: Int? = nil) {
-        self.totalRecordCount = totalRecordCount
+public struct RecommendationDto: Codable {
+    public var recommendationType: RecommendationType?
+    public var items: [BaseItemDto]?
+    public var baselineItemName: String?
+    public var categoryID: UUID?
+
+    public init(recommendationType: RecommendationType? = nil, items: [BaseItemDto]? = nil, baselineItemName: String? = nil, categoryID: UUID? = nil) {
+        self.recommendationType = recommendationType
         self.items = items
-        self.startIndex = startIndex
+        self.baselineItemName = baselineItemName
+        self.categoryID = categoryID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case recommendationType = "RecommendationType"
+        case items = "Items"
+        case baselineItemName = "BaselineItemName"
+        case categoryID = "CategoryId"
+    }
+}
+
+public struct XmlAttribute: Codable {
+    public var name: String?
+    public var value: String?
+
+    public init(name: String? = nil, value: String? = nil) {
+        self.name = name
+        self.value = value
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+}
+
+public enum EncodingContext: String, Codable, CaseIterable {
+    case streaming = "Streaming"
+    case `static` = "Static"
+}
+
+public struct FontFile: Codable {
+    public var dateCreated: Date?
+    public var size: Int?
+    public var name: String?
+    public var dateModified: Date?
+
+    public init(dateCreated: Date? = nil, size: Int? = nil, name: String? = nil, dateModified: Date? = nil) {
+        self.dateCreated = dateCreated
+        self.size = size
+        self.name = name
+        self.dateModified = dateModified
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case dateCreated = "DateCreated"
+        case size = "Size"
+        case name = "Name"
+        case dateModified = "DateModified"
+    }
+}
+
+public struct MovieInfo: Codable {
+    public var indexNumber: Int?
+    public var metadataLanguage: String?
+    public var premiereDate: Date?
+    public var isAutomated: Bool?
+    public var metadataCountryCode: String?
+    public var providerIDs: [String: String]?
+    public var path: String?
+    public var year: Int?
+    public var parentIndexNumber: Int?
+    public var name: String?
+
+    public init(indexNumber: Int? = nil, metadataLanguage: String? = nil, premiereDate: Date? = nil, isAutomated: Bool? = nil, metadataCountryCode: String? = nil, providerIDs: [String: String]? = nil, path: String? = nil, year: Int? = nil, parentIndexNumber: Int? = nil, name: String? = nil) {
+        self.indexNumber = indexNumber
+        self.metadataLanguage = metadataLanguage
+        self.premiereDate = premiereDate
+        self.isAutomated = isAutomated
+        self.metadataCountryCode = metadataCountryCode
+        self.providerIDs = providerIDs
+        self.path = path
+        self.year = year
+        self.parentIndexNumber = parentIndexNumber
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case indexNumber = "IndexNumber"
+        case metadataLanguage = "MetadataLanguage"
+        case premiereDate = "PremiereDate"
+        case isAutomated = "IsAutomated"
+        case metadataCountryCode = "MetadataCountryCode"
+        case providerIDs = "ProviderIds"
+        case path = "Path"
+        case year = "Year"
+        case parentIndexNumber = "ParentIndexNumber"
+        case name = "Name"
+    }
+}
+
+public struct UserItemDataDto: Codable {
+    public var unplayedItemCount: Int?
+    public var playCount: Int?
+    public var isPlayed: Bool?
+    public var isLikes: Bool?
+    public var playbackPositionTicks: Int?
+    public var itemID: String?
+    public var lastPlayedDate: Date?
+    public var rating: Double?
+    public var key: String?
+    public var isFavorite: Bool?
+    public var playedPercentage: Double?
+
+    public init(unplayedItemCount: Int? = nil, playCount: Int? = nil, isPlayed: Bool? = nil, isLikes: Bool? = nil, playbackPositionTicks: Int? = nil, itemID: String? = nil, lastPlayedDate: Date? = nil, rating: Double? = nil, key: String? = nil, isFavorite: Bool? = nil, playedPercentage: Double? = nil) {
+        self.unplayedItemCount = unplayedItemCount
+        self.playCount = playCount
+        self.isPlayed = isPlayed
+        self.isLikes = isLikes
+        self.playbackPositionTicks = playbackPositionTicks
+        self.itemID = itemID
+        self.lastPlayedDate = lastPlayedDate
+        self.rating = rating
+        self.key = key
+        self.isFavorite = isFavorite
+        self.playedPercentage = playedPercentage
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case unplayedItemCount = "UnplayedItemCount"
+        case playCount = "PlayCount"
+        case isPlayed = "Played"
+        case isLikes = "Likes"
+        case playbackPositionTicks = "PlaybackPositionTicks"
+        case itemID = "ItemId"
+        case lastPlayedDate = "LastPlayedDate"
+        case rating = "Rating"
+        case key = "Key"
+        case isFavorite = "IsFavorite"
+        case playedPercentage = "PlayedPercentage"
+    }
+}
+
+public enum MetadataField: String, Codable, CaseIterable {
+    case cast = "Cast"
+    case genres = "Genres"
+    case productionLocations = "ProductionLocations"
+    case studios = "Studios"
+    case tags = "Tags"
+    case name = "Name"
+    case overview = "Overview"
+    case runtime = "Runtime"
+    case officialRating = "OfficialRating"
+}
+
+public struct SetChannelMappingDto: Codable {
+    public var tunerChannelID: String
+    public var providerChannelID: String
+    public var providerID: String
+
+    public init(tunerChannelID: String, providerChannelID: String, providerID: String) {
+        self.tunerChannelID = tunerChannelID
+        self.providerChannelID = providerChannelID
+        self.providerID = providerID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case tunerChannelID = "TunerChannelId"
+        case providerChannelID = "ProviderChannelId"
+        case providerID = "ProviderId"
+    }
+}
+
+public struct SessionInfo: Codable {
+    public var deviceName: String?
+    public var additionalUsers: [SessionUserInfo]?
+    public var userID: UUID?
+    public var nowPlayingItem: BaseItemDto?
+    public var transcodingInfo: TranscodingInfo?
+    public var userName: String?
+    public var deviceType: String?
+    public var nowViewingItem: BaseItemDto?
+    public var serverID: String?
+    public var id: String?
+    public var lastPlaybackCheckIn: Date?
+    public var applicationVersion: String?
+    public var remoteEndPoint: String?
+    public var supportedCommands: [GeneralCommandType]?
+    public var isSupportsMediaControl: Bool?
+    public var isSupportsRemoteControl: Bool?
+    public var deviceID: String?
+    public var isActive: Bool?
+    public var playableMediaTypes: [String]?
+    public var hasCustomDeviceName: Bool?
+    public var capabilities: ClientCapabilities?
+    public var nowPlayingQueue: [QueueItem]?
+    public var userPrimaryImageTag: String?
+    public var lastActivityDate: Date?
+    public var fullNowPlayingItem: BaseItem?
+    public var client: String?
+    public var playlistItemID: String?
+    public var playState: PlayerStateInfo?
+
+    public init(deviceName: String? = nil, additionalUsers: [SessionUserInfo]? = nil, userID: UUID? = nil, nowPlayingItem: BaseItemDto? = nil, transcodingInfo: TranscodingInfo? = nil, userName: String? = nil, deviceType: String? = nil, nowViewingItem: BaseItemDto? = nil, serverID: String? = nil, id: String? = nil, lastPlaybackCheckIn: Date? = nil, applicationVersion: String? = nil, remoteEndPoint: String? = nil, supportedCommands: [GeneralCommandType]? = nil, isSupportsMediaControl: Bool? = nil, isSupportsRemoteControl: Bool? = nil, deviceID: String? = nil, isActive: Bool? = nil, playableMediaTypes: [String]? = nil, hasCustomDeviceName: Bool? = nil, capabilities: ClientCapabilities? = nil, nowPlayingQueue: [QueueItem]? = nil, userPrimaryImageTag: String? = nil, lastActivityDate: Date? = nil, fullNowPlayingItem: BaseItem? = nil, client: String? = nil, playlistItemID: String? = nil, playState: PlayerStateInfo? = nil) {
+        self.deviceName = deviceName
+        self.additionalUsers = additionalUsers
+        self.userID = userID
+        self.nowPlayingItem = nowPlayingItem
+        self.transcodingInfo = transcodingInfo
+        self.userName = userName
+        self.deviceType = deviceType
+        self.nowViewingItem = nowViewingItem
+        self.serverID = serverID
+        self.id = id
+        self.lastPlaybackCheckIn = lastPlaybackCheckIn
+        self.applicationVersion = applicationVersion
+        self.remoteEndPoint = remoteEndPoint
+        self.supportedCommands = supportedCommands
+        self.isSupportsMediaControl = isSupportsMediaControl
+        self.isSupportsRemoteControl = isSupportsRemoteControl
+        self.deviceID = deviceID
+        self.isActive = isActive
+        self.playableMediaTypes = playableMediaTypes
+        self.hasCustomDeviceName = hasCustomDeviceName
+        self.capabilities = capabilities
+        self.nowPlayingQueue = nowPlayingQueue
+        self.userPrimaryImageTag = userPrimaryImageTag
+        self.lastActivityDate = lastActivityDate
+        self.fullNowPlayingItem = fullNowPlayingItem
+        self.client = client
+        self.playlistItemID = playlistItemID
+        self.playState = playState
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case deviceName = "DeviceName"
+        case additionalUsers = "AdditionalUsers"
+        case userID = "UserId"
+        case nowPlayingItem = "NowPlayingItem"
+        case transcodingInfo = "TranscodingInfo"
+        case userName = "UserName"
+        case deviceType = "DeviceType"
+        case nowViewingItem = "NowViewingItem"
+        case serverID = "ServerId"
+        case id = "Id"
+        case lastPlaybackCheckIn = "LastPlaybackCheckIn"
+        case applicationVersion = "ApplicationVersion"
+        case remoteEndPoint = "RemoteEndPoint"
+        case supportedCommands = "SupportedCommands"
+        case isSupportsMediaControl = "SupportsMediaControl"
+        case isSupportsRemoteControl = "SupportsRemoteControl"
+        case deviceID = "DeviceId"
+        case isActive = "IsActive"
+        case playableMediaTypes = "PlayableMediaTypes"
+        case hasCustomDeviceName = "HasCustomDeviceName"
+        case capabilities = "Capabilities"
+        case nowPlayingQueue = "NowPlayingQueue"
+        case userPrimaryImageTag = "UserPrimaryImageTag"
+        case lastActivityDate = "LastActivityDate"
+        case fullNowPlayingItem = "FullNowPlayingItem"
+        case client = "Client"
+        case playlistItemID = "PlaylistItemId"
+        case playState = "PlayState"
+    }
+}
+
+public struct PlaybackStartInfo: Codable {
+    public var liveStreamID: String?
+    public var item: BaseItemDto?
+    public var mediaSourceID: String?
+    public var subtitleStreamIndex: Int?
+    public var playbackStartTimeTicks: Int?
+    public var playlistItemID: String?
+    public var itemID: UUID?
+    public var isPaused: Bool?
+    public var volumeLevel: Int?
+    public var isMuted: Bool?
+    public var audioStreamIndex: Int?
+    public var positionTicks: Int?
+    public var aspectRatio: String?
+    public var repeatMode: RepeatMode?
+    public var nowPlayingQueue: [QueueItem]?
+    public var playSessionID: String?
+    public var brightness: Int?
+    public var playMethod: PlayMethod?
+    public var sessionID: String?
+    public var canSeek: Bool?
+
+    public init(liveStreamID: String? = nil, item: BaseItemDto? = nil, mediaSourceID: String? = nil, subtitleStreamIndex: Int? = nil, playbackStartTimeTicks: Int? = nil, playlistItemID: String? = nil, itemID: UUID? = nil, isPaused: Bool? = nil, volumeLevel: Int? = nil, isMuted: Bool? = nil, audioStreamIndex: Int? = nil, positionTicks: Int? = nil, aspectRatio: String? = nil, repeatMode: RepeatMode? = nil, nowPlayingQueue: [QueueItem]? = nil, playSessionID: String? = nil, brightness: Int? = nil, playMethod: PlayMethod? = nil, sessionID: String? = nil, canSeek: Bool? = nil) {
+        self.liveStreamID = liveStreamID
+        self.item = item
+        self.mediaSourceID = mediaSourceID
+        self.subtitleStreamIndex = subtitleStreamIndex
+        self.playbackStartTimeTicks = playbackStartTimeTicks
+        self.playlistItemID = playlistItemID
+        self.itemID = itemID
+        self.isPaused = isPaused
+        self.volumeLevel = volumeLevel
+        self.isMuted = isMuted
+        self.audioStreamIndex = audioStreamIndex
+        self.positionTicks = positionTicks
+        self.aspectRatio = aspectRatio
+        self.repeatMode = repeatMode
+        self.nowPlayingQueue = nowPlayingQueue
+        self.playSessionID = playSessionID
+        self.brightness = brightness
+        self.playMethod = playMethod
+        self.sessionID = sessionID
+        self.canSeek = canSeek
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case liveStreamID = "LiveStreamId"
+        case item = "Item"
+        case mediaSourceID = "MediaSourceId"
+        case subtitleStreamIndex = "SubtitleStreamIndex"
+        case playbackStartTimeTicks = "PlaybackStartTimeTicks"
+        case playlistItemID = "PlaylistItemId"
+        case itemID = "ItemId"
+        case isPaused = "IsPaused"
+        case volumeLevel = "VolumeLevel"
+        case isMuted = "IsMuted"
+        case audioStreamIndex = "AudioStreamIndex"
+        case positionTicks = "PositionTicks"
+        case aspectRatio = "AspectRatio"
+        case repeatMode = "RepeatMode"
+        case nowPlayingQueue = "NowPlayingQueue"
+        case playSessionID = "PlaySessionId"
+        case brightness = "Brightness"
+        case playMethod = "PlayMethod"
+        case sessionID = "SessionId"
+        case canSeek = "CanSeek"
+    }
+}
+
+public struct MediaEncoderPathDto: Codable {
+    public var pathType: String?
+    public var path: String?
+
+    public init(pathType: String? = nil, path: String? = nil) {
+        self.pathType = pathType
+        self.path = path
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case pathType = "PathType"
+        case path = "Path"
+    }
+}
+
+public enum SeriesStatus: String, Codable, CaseIterable {
+    case continuing = "Continuing"
+    case ended = "Ended"
+}
+
+public enum MediaProtocol: String, Codable, CaseIterable {
+    case file = "File"
+    case http = "Http"
+    case rtmp = "Rtmp"
+    case rtsp = "Rtsp"
+    case udp = "Udp"
+    case rtp = "Rtp"
+    case ftp = "Ftp"
+}
+
+public struct ImageByNameInfo: Codable {
+    public var format: String?
+    public var fileLength: Int?
+    public var theme: String?
+    public var name: String?
+    public var context: String?
+
+    public init(format: String? = nil, fileLength: Int? = nil, theme: String? = nil, name: String? = nil, context: String? = nil) {
+        self.format = format
+        self.fileLength = fileLength
+        self.theme = theme
+        self.name = name
+        self.context = context
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case format = "Format"
+        case fileLength = "FileLength"
+        case theme = "Theme"
+        case name = "Name"
+        case context = "Context"
+    }
+}
+
+public struct VersionInfo: Codable {
+    public var repositoryName: String?
+    public var version: String?
+    public var sourceURL: String?
+    public var changelog: String?
+    public var repositoryURL: String?
+    public var timestamp: String?
+    public var targetAbi: String?
+    public var versionNumber: Version?
+    public var checksum: String?
+
+    public init(repositoryName: String? = nil, version: String? = nil, sourceURL: String? = nil, changelog: String? = nil, repositoryURL: String? = nil, timestamp: String? = nil, targetAbi: String? = nil, versionNumber: Version? = nil, checksum: String? = nil) {
+        self.repositoryName = repositoryName
+        self.version = version
+        self.sourceURL = sourceURL
+        self.changelog = changelog
+        self.repositoryURL = repositoryURL
+        self.timestamp = timestamp
+        self.targetAbi = targetAbi
+        self.versionNumber = versionNumber
+        self.checksum = checksum
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case repositoryName
+        case version
+        case sourceURL = "sourceUrl"
+        case changelog
+        case repositoryURL = "repositoryUrl"
+        case timestamp
+        case targetAbi
+        case versionNumber = "VersionNumber"
+        case checksum
+    }
+}
+
+public enum CollectionTypeOptions: String, Codable, CaseIterable {
+    case movies = "Movies"
+    case tvShows = "TvShows"
+    case music = "Music"
+    case musicVideos = "MusicVideos"
+    case homeVideos = "HomeVideos"
+    case boxSets = "BoxSets"
+    case books = "Books"
+    case mixed = "Mixed"
+}
+
+public enum PlayAccess: String, Codable, CaseIterable {
+    case full = "Full"
+    case `none` = "None"
+}
+
+public struct RepositoryInfo: Codable {
+    public var url: String?
+    public var isEnabled: Bool?
+    public var name: String?
+
+    public init(url: String? = nil, isEnabled: Bool? = nil, name: String? = nil) {
+        self.url = url
+        self.isEnabled = isEnabled
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case url = "Url"
+        case isEnabled = "Enabled"
+        case name = "Name"
+    }
+}
+
+public struct BookInfoRemoteSearchQuery: Codable {
+    public var searchInfo: BookInfo?
+    public var searchProviderName: String?
+    public var itemID: UUID?
+    public var isIncludeDisabledProviders: Bool?
+
+    public init(searchInfo: BookInfo? = nil, searchProviderName: String? = nil, itemID: UUID? = nil, isIncludeDisabledProviders: Bool? = nil) {
+        self.searchInfo = searchInfo
+        self.searchProviderName = searchProviderName
+        self.itemID = itemID
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case searchInfo = "SearchInfo"
+        case searchProviderName = "SearchProviderName"
+        case itemID = "ItemId"
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+    }
+}
+
+public enum SendCommandType: String, Codable, CaseIterable {
+    case unpause = "Unpause"
+    case pause = "Pause"
+    case stop = "Stop"
+    case seek = "Seek"
+}
+
+public enum PlaybackErrorCode: String, Codable, CaseIterable {
+    case notAllowed = "NotAllowed"
+    case noCompatibleStream = "NoCompatibleStream"
+    case rateLimitExceeded = "RateLimitExceeded"
+}
+
+public struct ArtistInfo: Codable {
+    public var metadataCountryCode: String?
+    public var providerIDs: [String: String]?
+    public var year: Int?
+    public var isAutomated: Bool?
+    public var parentIndexNumber: Int?
+    public var indexNumber: Int?
+    public var songInfos: [SongInfo]?
+    public var name: String?
+    public var premiereDate: Date?
+    public var metadataLanguage: String?
+    public var path: String?
+
+    public init(metadataCountryCode: String? = nil, providerIDs: [String: String]? = nil, year: Int? = nil, isAutomated: Bool? = nil, parentIndexNumber: Int? = nil, indexNumber: Int? = nil, songInfos: [SongInfo]? = nil, name: String? = nil, premiereDate: Date? = nil, metadataLanguage: String? = nil, path: String? = nil) {
+        self.metadataCountryCode = metadataCountryCode
+        self.providerIDs = providerIDs
+        self.year = year
+        self.isAutomated = isAutomated
+        self.parentIndexNumber = parentIndexNumber
+        self.indexNumber = indexNumber
+        self.songInfos = songInfos
+        self.name = name
+        self.premiereDate = premiereDate
+        self.metadataLanguage = metadataLanguage
+        self.path = path
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case metadataCountryCode = "MetadataCountryCode"
+        case providerIDs = "ProviderIds"
+        case year = "Year"
+        case isAutomated = "IsAutomated"
+        case parentIndexNumber = "ParentIndexNumber"
+        case indexNumber = "IndexNumber"
+        case songInfos = "SongInfos"
+        case name = "Name"
+        case premiereDate = "PremiereDate"
+        case metadataLanguage = "MetadataLanguage"
+        case path = "Path"
+    }
+}
+
+public struct ReadyRequestDto: Codable {
+    public var when: Date?
+    public var isPlaying: Bool?
+    public var positionTicks: Int?
+    public var playlistItemID: UUID?
+
+    public init(when: Date? = nil, isPlaying: Bool? = nil, positionTicks: Int? = nil, playlistItemID: UUID? = nil) {
+        self.when = when
+        self.isPlaying = isPlaying
+        self.positionTicks = positionTicks
+        self.playlistItemID = playlistItemID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case when = "When"
+        case isPlaying = "IsPlaying"
+        case positionTicks = "PositionTicks"
+        case playlistItemID = "PlaylistItemId"
+    }
+}
+
+public enum ProgramAudio: String, Codable, CaseIterable {
+    case mono = "Mono"
+    case stereo = "Stereo"
+    case dolby = "Dolby"
+    case dolbyDigital = "DolbyDigital"
+    case thx = "Thx"
+    case atmos = "Atmos"
+}
+
+public struct LocalizationOption: Codable {
+    public var name: String?
+    public var value: String?
+
+    public init(name: String? = nil, value: String? = nil) {
+        self.name = name
+        self.value = value
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+}
+
+public struct PingRequestDto: Codable {
+    public var ping: Int?
+
+    public init(ping: Int? = nil) {
+        self.ping = ping
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case ping = "Ping"
+    }
+}
+
+public struct NotificationResultDto: Codable {
+    public var totalRecordCount: Int?
+    public var notifications: [NotificationDto]?
+
+    public init(totalRecordCount: Int? = nil, notifications: [NotificationDto]? = nil) {
+        self.totalRecordCount = totalRecordCount
+        self.notifications = notifications
     }
 
     private enum CodingKeys: String, CodingKey {
         case totalRecordCount = "TotalRecordCount"
-        case items = "Items"
-        case startIndex = "StartIndex"
+        case notifications = "Notifications"
+    }
+}
+
+public struct BoxSetInfo: Codable {
+    public var isAutomated: Bool?
+    public var path: String?
+    public var indexNumber: Int?
+    public var metadataLanguage: String?
+    public var providerIDs: [String: String]?
+    public var premiereDate: Date?
+    public var metadataCountryCode: String?
+    public var name: String?
+    public var parentIndexNumber: Int?
+    public var year: Int?
+
+    public init(isAutomated: Bool? = nil, path: String? = nil, indexNumber: Int? = nil, metadataLanguage: String? = nil, providerIDs: [String: String]? = nil, premiereDate: Date? = nil, metadataCountryCode: String? = nil, name: String? = nil, parentIndexNumber: Int? = nil, year: Int? = nil) {
+        self.isAutomated = isAutomated
+        self.path = path
+        self.indexNumber = indexNumber
+        self.metadataLanguage = metadataLanguage
+        self.providerIDs = providerIDs
+        self.premiereDate = premiereDate
+        self.metadataCountryCode = metadataCountryCode
+        self.name = name
+        self.parentIndexNumber = parentIndexNumber
+        self.year = year
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isAutomated = "IsAutomated"
+        case path = "Path"
+        case indexNumber = "IndexNumber"
+        case metadataLanguage = "MetadataLanguage"
+        case providerIDs = "ProviderIds"
+        case premiereDate = "PremiereDate"
+        case metadataCountryCode = "MetadataCountryCode"
+        case name = "Name"
+        case parentIndexNumber = "ParentIndexNumber"
+        case year = "Year"
+    }
+}
+
+public struct InstallationInfo: Codable {
+    public var guid: UUID?
+    public var version: Version?
+    public var name: String?
+    public var changelog: String?
+    public var sourceURL: String?
+    public var checksum: String?
+    public var packageInfo: PackageInfo?
+
+    public init(guid: UUID? = nil, version: Version? = nil, name: String? = nil, changelog: String? = nil, sourceURL: String? = nil, checksum: String? = nil, packageInfo: PackageInfo? = nil) {
+        self.guid = guid
+        self.version = version
+        self.name = name
+        self.changelog = changelog
+        self.sourceURL = sourceURL
+        self.checksum = checksum
+        self.packageInfo = packageInfo
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case guid = "Guid"
+        case version = "Version"
+        case name = "Name"
+        case changelog = "Changelog"
+        case sourceURL = "SourceUrl"
+        case checksum = "Checksum"
+        case packageInfo = "PackageInfo"
+    }
+}
+
+public enum Video3DFormat: String, Codable, CaseIterable {
+    case halfSideBySide = "HalfSideBySide"
+    case fullSideBySide = "FullSideBySide"
+    case fullTopAndBottom = "FullTopAndBottom"
+    case halfTopAndBottom = "HalfTopAndBottom"
+    case mvc = "MVC"
+}
+
+public enum ImageSavingConvention: String, Codable, CaseIterable {
+    case legacy = "Legacy"
+    case compatible = "Compatible"
+}
+
+public struct OpenLiveStreamDto: Codable {
+    public var audioStreamIndex: Int?
+    public var directPlayProtocols: [MediaProtocol]?
+    public var openToken: String?
+    public var playSessionID: String?
+    public var enableDirectPlay: Bool?
+    public var itemID: UUID?
+    public var userID: UUID?
+    public var enableDirectStream: Bool?
+    public var maxStreamingBitrate: Int?
+    public var maxAudioChannels: Int?
+    public var deviceProfile: DeviceProfile?
+    public var subtitleStreamIndex: Int?
+    public var startTimeTicks: Int?
+
+    public init(audioStreamIndex: Int? = nil, directPlayProtocols: [MediaProtocol]? = nil, openToken: String? = nil, playSessionID: String? = nil, enableDirectPlay: Bool? = nil, itemID: UUID? = nil, userID: UUID? = nil, enableDirectStream: Bool? = nil, maxStreamingBitrate: Int? = nil, maxAudioChannels: Int? = nil, deviceProfile: DeviceProfile? = nil, subtitleStreamIndex: Int? = nil, startTimeTicks: Int? = nil) {
+        self.audioStreamIndex = audioStreamIndex
+        self.directPlayProtocols = directPlayProtocols
+        self.openToken = openToken
+        self.playSessionID = playSessionID
+        self.enableDirectPlay = enableDirectPlay
+        self.itemID = itemID
+        self.userID = userID
+        self.enableDirectStream = enableDirectStream
+        self.maxStreamingBitrate = maxStreamingBitrate
+        self.maxAudioChannels = maxAudioChannels
+        self.deviceProfile = deviceProfile
+        self.subtitleStreamIndex = subtitleStreamIndex
+        self.startTimeTicks = startTimeTicks
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case audioStreamIndex = "AudioStreamIndex"
+        case directPlayProtocols = "DirectPlayProtocols"
+        case openToken = "OpenToken"
+        case playSessionID = "PlaySessionId"
+        case enableDirectPlay = "EnableDirectPlay"
+        case itemID = "ItemId"
+        case userID = "UserId"
+        case enableDirectStream = "EnableDirectStream"
+        case maxStreamingBitrate = "MaxStreamingBitrate"
+        case maxAudioChannels = "MaxAudioChannels"
+        case deviceProfile = "DeviceProfile"
+        case subtitleStreamIndex = "SubtitleStreamIndex"
+        case startTimeTicks = "StartTimeTicks"
+    }
+}
+
+public struct LibraryOptionInfoDto: Codable {
+    public var name: String?
+    public var isDefaultEnabled: Bool?
+
+    public init(name: String? = nil, isDefaultEnabled: Bool? = nil) {
+        self.name = name
+        self.isDefaultEnabled = isDefaultEnabled
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case isDefaultEnabled = "DefaultEnabled"
+    }
+}
+
+public enum KeepUntil: String, Codable, CaseIterable {
+    case untilDeleted = "UntilDeleted"
+    case untilSpaceNeeded = "UntilSpaceNeeded"
+    case untilWatched = "UntilWatched"
+    case untilDate = "UntilDate"
+}
+
+public struct SetShuffleModeRequestDto: Codable {
+    public var mode: GroupShuffleMode?
+
+    public init(mode: GroupShuffleMode? = nil) {
+        self.mode = mode
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case mode = "Mode"
     }
 }
 
@@ -7563,60 +6020,967 @@ public enum PlayMethod: String, Codable, CaseIterable {
     case directPlay = "DirectPlay"
 }
 
-/// Enum SyncPlayUserAccessType.
-public enum SyncPlayUserAccessType: String, Codable, CaseIterable {
-    case createAndJoinGroups = "CreateAndJoinGroups"
-    case joinGroups = "JoinGroups"
-    case `none` = "None"
+public struct TranscodingInfo: Codable {
+    public var isAudioDirect: Bool?
+    public var audioCodec: String?
+    public var height: Int?
+    public var videoCodec: String?
+    public var width: Int?
+    public var bitrate: Int?
+    public var framerate: Double?
+    public var isVideoDirect: Bool?
+    public var container: String?
+    public var transcodeReasons: [TranscodeReason]?
+    public var audioChannels: Int?
+    public var completionPercentage: Double?
+
+    public init(isAudioDirect: Bool? = nil, audioCodec: String? = nil, height: Int? = nil, videoCodec: String? = nil, width: Int? = nil, bitrate: Int? = nil, framerate: Double? = nil, isVideoDirect: Bool? = nil, container: String? = nil, transcodeReasons: [TranscodeReason]? = nil, audioChannels: Int? = nil, completionPercentage: Double? = nil) {
+        self.isAudioDirect = isAudioDirect
+        self.audioCodec = audioCodec
+        self.height = height
+        self.videoCodec = videoCodec
+        self.width = width
+        self.bitrate = bitrate
+        self.framerate = framerate
+        self.isVideoDirect = isVideoDirect
+        self.container = container
+        self.transcodeReasons = transcodeReasons
+        self.audioChannels = audioChannels
+        self.completionPercentage = completionPercentage
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isAudioDirect = "IsAudioDirect"
+        case audioCodec = "AudioCodec"
+        case height = "Height"
+        case videoCodec = "VideoCodec"
+        case width = "Width"
+        case bitrate = "Bitrate"
+        case framerate = "Framerate"
+        case isVideoDirect = "IsVideoDirect"
+        case container = "Container"
+        case transcodeReasons = "TranscodeReasons"
+        case audioChannels = "AudioChannels"
+        case completionPercentage = "CompletionPercentage"
+    }
 }
 
-public struct RemoteSubtitleInfo: Codable {
-    public var name: String?
-    public var communityRating: Double?
-    public var dateCreated: Date?
-    public var providerName: String?
-    public var isHashMatch: Bool?
-    public var threeLetterISOLanguageName: String?
-    public var downloadCount: Int?
-    public var author: String?
-    public var format: String?
-    public var id: String?
-    public var comment: String?
+public enum QuickConnectState: String, Codable, CaseIterable {
+    case unavailable = "Unavailable"
+    case available = "Available"
+    case active = "Active"
+}
 
-    public init(name: String? = nil, communityRating: Double? = nil, dateCreated: Date? = nil, providerName: String? = nil, isHashMatch: Bool? = nil, threeLetterISOLanguageName: String? = nil, downloadCount: Int? = nil, author: String? = nil, format: String? = nil, id: String? = nil, comment: String? = nil) {
-        self.name = name
-        self.communityRating = communityRating
-        self.dateCreated = dateCreated
-        self.providerName = providerName
-        self.isHashMatch = isHashMatch
-        self.threeLetterISOLanguageName = threeLetterISOLanguageName
-        self.downloadCount = downloadCount
-        self.author = author
-        self.format = format
+public struct TimerEventInfo: Codable {
+    public var id: String?
+    public var programID: UUID?
+
+    public init(id: String? = nil, programID: UUID? = nil) {
         self.id = id
-        self.comment = comment
+        self.programID = programID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case programID = "ProgramId"
+    }
+}
+
+public struct SeekRequestDto: Codable {
+    public var positionTicks: Int?
+
+    public init(positionTicks: Int? = nil) {
+        self.positionTicks = positionTicks
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case positionTicks = "PositionTicks"
+    }
+}
+
+public struct DefaultDirectoryBrowserInfoDto: Codable {
+    public var path: String?
+
+    public init(path: String? = nil) {
+        self.path = path
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case path = "Path"
+    }
+}
+
+public struct ActivityLogEntryQueryResult: Codable {
+    public var startIndex: Int?
+    public var totalRecordCount: Int?
+    public var items: [ActivityLogEntry]?
+
+    public init(startIndex: Int? = nil, totalRecordCount: Int? = nil, items: [ActivityLogEntry]? = nil) {
+        self.startIndex = startIndex
+        self.totalRecordCount = totalRecordCount
+        self.items = items
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case startIndex = "StartIndex"
+        case totalRecordCount = "TotalRecordCount"
+        case items = "Items"
+    }
+}
+
+public struct NameGuidPair: Codable {
+    public var id: UUID?
+    public var name: String?
+
+    public init(id: UUID? = nil, name: String? = nil) {
+        self.id = id
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case name = "Name"
+    }
+}
+
+public struct PlayRequest: Codable {
+    public var playCommand: PlayCommand?
+    public var controllingUserID: UUID?
+    public var startPositionTicks: Int?
+    public var mediaSourceID: String?
+    public var subtitleStreamIndex: Int?
+    public var audioStreamIndex: Int?
+    public var startIndex: Int?
+    public var itemIDs: [UUID]?
+
+    public init(playCommand: PlayCommand? = nil, controllingUserID: UUID? = nil, startPositionTicks: Int? = nil, mediaSourceID: String? = nil, subtitleStreamIndex: Int? = nil, audioStreamIndex: Int? = nil, startIndex: Int? = nil, itemIDs: [UUID]? = nil) {
+        self.playCommand = playCommand
+        self.controllingUserID = controllingUserID
+        self.startPositionTicks = startPositionTicks
+        self.mediaSourceID = mediaSourceID
+        self.subtitleStreamIndex = subtitleStreamIndex
+        self.audioStreamIndex = audioStreamIndex
+        self.startIndex = startIndex
+        self.itemIDs = itemIDs
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playCommand = "PlayCommand"
+        case controllingUserID = "ControllingUserId"
+        case startPositionTicks = "StartPositionTicks"
+        case mediaSourceID = "MediaSourceId"
+        case subtitleStreamIndex = "SubtitleStreamIndex"
+        case audioStreamIndex = "AudioStreamIndex"
+        case startIndex = "StartIndex"
+        case itemIDs = "ItemIds"
+    }
+}
+
+public struct NotificationDto: Codable {
+    public var url: String?
+    public var name: String?
+    public var id: String?
+    public var isRead: Bool?
+    public var description: String?
+    public var level: NotificationLevel?
+    public var date: Date?
+    public var userID: String?
+
+    public init(url: String? = nil, name: String? = nil, id: String? = nil, isRead: Bool? = nil, description: String? = nil, level: NotificationLevel? = nil, date: Date? = nil, userID: String? = nil) {
+        self.url = url
+        self.name = name
+        self.id = id
+        self.isRead = isRead
+        self.description = description
+        self.level = level
+        self.date = date
+        self.userID = userID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case url = "Url"
+        case name = "Name"
+        case id = "Id"
+        case isRead = "IsRead"
+        case description = "Description"
+        case level = "Level"
+        case date = "Date"
+        case userID = "UserId"
+    }
+}
+
+public struct GetProgramsDto: Codable {
+    public var enableUserData: Bool?
+    public var fields: [ItemFields]?
+    public var minStartDate: Date?
+    public var channelIDs: [UUID]?
+    public var imageTypeLimit: Int?
+    public var librarySeriesID: UUID?
+    public var enableImageTypes: [ImageType]?
+    public var startIndex: Int?
+    public var isAiring: Bool?
+    public var userID: UUID?
+    public var genreIDs: [UUID]?
+    public var isSports: Bool?
+    public var maxStartDate: Date?
+    public var genres: [String]?
+    public var isSeries: Bool?
+    public var isKids: Bool?
+    public var enableImages: Bool?
+    public var sortOrder: [SortOrder]?
+    public var limit: Int?
+    public var hasAired: Bool?
+    public var minEndDate: Date?
+    public var maxEndDate: Date?
+    public var sortBy: [String]?
+    public var isNews: Bool?
+    public var enableTotalRecordCount: Bool?
+    public var seriesTimerID: String?
+    public var isMovie: Bool?
+
+    public init(enableUserData: Bool? = nil, fields: [ItemFields]? = nil, minStartDate: Date? = nil, channelIDs: [UUID]? = nil, imageTypeLimit: Int? = nil, librarySeriesID: UUID? = nil, enableImageTypes: [ImageType]? = nil, startIndex: Int? = nil, isAiring: Bool? = nil, userID: UUID? = nil, genreIDs: [UUID]? = nil, isSports: Bool? = nil, maxStartDate: Date? = nil, genres: [String]? = nil, isSeries: Bool? = nil, isKids: Bool? = nil, enableImages: Bool? = nil, sortOrder: [SortOrder]? = nil, limit: Int? = nil, hasAired: Bool? = nil, minEndDate: Date? = nil, maxEndDate: Date? = nil, sortBy: [String]? = nil, isNews: Bool? = nil, enableTotalRecordCount: Bool? = nil, seriesTimerID: String? = nil, isMovie: Bool? = nil) {
+        self.enableUserData = enableUserData
+        self.fields = fields
+        self.minStartDate = minStartDate
+        self.channelIDs = channelIDs
+        self.imageTypeLimit = imageTypeLimit
+        self.librarySeriesID = librarySeriesID
+        self.enableImageTypes = enableImageTypes
+        self.startIndex = startIndex
+        self.isAiring = isAiring
+        self.userID = userID
+        self.genreIDs = genreIDs
+        self.isSports = isSports
+        self.maxStartDate = maxStartDate
+        self.genres = genres
+        self.isSeries = isSeries
+        self.isKids = isKids
+        self.enableImages = enableImages
+        self.sortOrder = sortOrder
+        self.limit = limit
+        self.hasAired = hasAired
+        self.minEndDate = minEndDate
+        self.maxEndDate = maxEndDate
+        self.sortBy = sortBy
+        self.isNews = isNews
+        self.enableTotalRecordCount = enableTotalRecordCount
+        self.seriesTimerID = seriesTimerID
+        self.isMovie = isMovie
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case enableUserData = "EnableUserData"
+        case fields = "Fields"
+        case minStartDate = "MinStartDate"
+        case channelIDs = "ChannelIds"
+        case imageTypeLimit = "ImageTypeLimit"
+        case librarySeriesID = "LibrarySeriesId"
+        case enableImageTypes = "EnableImageTypes"
+        case startIndex = "StartIndex"
+        case isAiring = "IsAiring"
+        case userID = "UserId"
+        case genreIDs = "GenreIds"
+        case isSports = "IsSports"
+        case maxStartDate = "MaxStartDate"
+        case genres = "Genres"
+        case isSeries = "IsSeries"
+        case isKids = "IsKids"
+        case enableImages = "EnableImages"
+        case sortOrder = "SortOrder"
+        case limit = "Limit"
+        case hasAired = "HasAired"
+        case minEndDate = "MinEndDate"
+        case maxEndDate = "MaxEndDate"
+        case sortBy = "SortBy"
+        case isNews = "IsNews"
+        case enableTotalRecordCount = "EnableTotalRecordCount"
+        case seriesTimerID = "SeriesTimerId"
+        case isMovie = "IsMovie"
+    }
+}
+
+public enum DayPattern: String, Codable, CaseIterable {
+    case daily = "Daily"
+    case weekdays = "Weekdays"
+    case weekends = "Weekends"
+}
+
+public struct QuickConnectDto: Codable {
+    public var token: String
+
+    public init(token: String) {
+        self.token = token
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case token = "Token"
+    }
+}
+
+public struct ConfigurationPageInfo: Codable {
+    public var configurationPageType: ConfigurationPageType?
+    public var menuSection: String?
+    public var pluginID: UUID?
+    public var name: String?
+    public var enableInMainMenu: Bool?
+    public var menuIcon: String?
+    public var displayName: String?
+
+    public init(configurationPageType: ConfigurationPageType? = nil, menuSection: String? = nil, pluginID: UUID? = nil, name: String? = nil, enableInMainMenu: Bool? = nil, menuIcon: String? = nil, displayName: String? = nil) {
+        self.configurationPageType = configurationPageType
+        self.menuSection = menuSection
+        self.pluginID = pluginID
+        self.name = name
+        self.enableInMainMenu = enableInMainMenu
+        self.menuIcon = menuIcon
+        self.displayName = displayName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case configurationPageType = "ConfigurationPageType"
+        case menuSection = "MenuSection"
+        case pluginID = "PluginId"
+        case name = "Name"
+        case enableInMainMenu = "EnableInMainMenu"
+        case menuIcon = "MenuIcon"
+        case displayName = "DisplayName"
+    }
+}
+
+public struct ControlResponse: Codable {
+    public var headers: [String: String]?
+    public var isSuccessful: Bool?
+    public var xml: String?
+
+    public init(headers: [String: String]? = nil, isSuccessful: Bool? = nil, xml: String? = nil) {
+        self.headers = headers
+        self.isSuccessful = isSuccessful
+        self.xml = xml
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case headers = "Headers"
+        case isSuccessful = "IsSuccessful"
+        case xml = "Xml"
+    }
+}
+
+public enum DynamicDayOfWeek: String, Codable, CaseIterable {
+    case sunday = "Sunday"
+    case monday = "Monday"
+    case tuesday = "Tuesday"
+    case wednesday = "Wednesday"
+    case thursday = "Thursday"
+    case friday = "Friday"
+    case saturday = "Saturday"
+    case everyday = "Everyday"
+    case weekday = "Weekday"
+    case weekend = "Weekend"
+}
+
+public struct IPlugin: Codable {
+    public var dataFolderPath: String?
+    public var name: String?
+    public var assemblyFilePath: String?
+    public var description: String?
+    public var id: UUID?
+    public var canUninstall: Bool?
+    public var version: Version?
+
+    public init(dataFolderPath: String? = nil, name: String? = nil, assemblyFilePath: String? = nil, description: String? = nil, id: UUID? = nil, canUninstall: Bool? = nil, version: Version? = nil) {
+        self.dataFolderPath = dataFolderPath
+        self.name = name
+        self.assemblyFilePath = assemblyFilePath
+        self.description = description
+        self.id = id
+        self.canUninstall = canUninstall
+        self.version = version
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case dataFolderPath = "DataFolderPath"
+        case name = "Name"
+        case assemblyFilePath = "AssemblyFilePath"
+        case description = "Description"
+        case id = "Id"
+        case canUninstall = "CanUninstall"
+        case version = "Version"
+    }
+}
+
+public enum LiveTvServiceStatus: String, Codable, CaseIterable {
+    case ok = "Ok"
+    case unavailable = "Unavailable"
+}
+
+public struct SeriesInfoRemoteSearchQuery: Codable {
+    public var isIncludeDisabledProviders: Bool?
+    public var searchInfo: SeriesInfo?
+    public var itemID: UUID?
+    public var searchProviderName: String?
+
+    public init(isIncludeDisabledProviders: Bool? = nil, searchInfo: SeriesInfo? = nil, itemID: UUID? = nil, searchProviderName: String? = nil) {
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+        self.searchInfo = searchInfo
+        self.itemID = itemID
+        self.searchProviderName = searchProviderName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+        case searchInfo = "SearchInfo"
+        case itemID = "ItemId"
+        case searchProviderName = "SearchProviderName"
+    }
+}
+
+public struct CreatePlaylistDto: Codable {
+    public var name: String?
+    public var mediaType: String?
+    public var ids: [UUID]?
+    public var userID: UUID?
+
+    public init(name: String? = nil, mediaType: String? = nil, ids: [UUID]? = nil, userID: UUID? = nil) {
+        self.name = name
+        self.mediaType = mediaType
+        self.ids = ids
+        self.userID = userID
     }
 
     private enum CodingKeys: String, CodingKey {
         case name = "Name"
-        case communityRating = "CommunityRating"
-        case dateCreated = "DateCreated"
-        case providerName = "ProviderName"
-        case isHashMatch = "IsHashMatch"
-        case threeLetterISOLanguageName = "ThreeLetterISOLanguageName"
-        case downloadCount = "DownloadCount"
-        case author = "Author"
-        case format = "Format"
-        case id = "Id"
-        case comment = "Comment"
+        case mediaType = "MediaType"
+        case ids = "Ids"
+        case userID = "UserId"
     }
 }
 
-/// Plugin security info.
+public struct AuthenticationInfoQueryResult: Codable {
+    public var startIndex: Int?
+    public var totalRecordCount: Int?
+    public var items: [AuthenticationInfo]?
+
+    public init(startIndex: Int? = nil, totalRecordCount: Int? = nil, items: [AuthenticationInfo]? = nil) {
+        self.startIndex = startIndex
+        self.totalRecordCount = totalRecordCount
+        self.items = items
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case startIndex = "StartIndex"
+        case totalRecordCount = "TotalRecordCount"
+        case items = "Items"
+    }
+}
+
+public struct ListingsProviderInfo: Codable {
+    public var movieCategories: [String]?
+    public var zipCode: String?
+    public var channelMappings: [NameValuePair]?
+    public var password: String?
+    public var country: String?
+    public var preferredLanguage: String?
+    public var type: String?
+    public var path: String?
+    public var id: String?
+    public var userAgent: String?
+    public var enabledTuners: [String]?
+    public var listingsID: String?
+    public var sportsCategories: [String]?
+    public var moviePrefix: String?
+    public var kidsCategories: [String]?
+    public var username: String?
+    public var newsCategories: [String]?
+    public var enableAllTuners: Bool?
+
+    public init(movieCategories: [String]? = nil, zipCode: String? = nil, channelMappings: [NameValuePair]? = nil, password: String? = nil, country: String? = nil, preferredLanguage: String? = nil, type: String? = nil, path: String? = nil, id: String? = nil, userAgent: String? = nil, enabledTuners: [String]? = nil, listingsID: String? = nil, sportsCategories: [String]? = nil, moviePrefix: String? = nil, kidsCategories: [String]? = nil, username: String? = nil, newsCategories: [String]? = nil, enableAllTuners: Bool? = nil) {
+        self.movieCategories = movieCategories
+        self.zipCode = zipCode
+        self.channelMappings = channelMappings
+        self.password = password
+        self.country = country
+        self.preferredLanguage = preferredLanguage
+        self.type = type
+        self.path = path
+        self.id = id
+        self.userAgent = userAgent
+        self.enabledTuners = enabledTuners
+        self.listingsID = listingsID
+        self.sportsCategories = sportsCategories
+        self.moviePrefix = moviePrefix
+        self.kidsCategories = kidsCategories
+        self.username = username
+        self.newsCategories = newsCategories
+        self.enableAllTuners = enableAllTuners
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case movieCategories = "MovieCategories"
+        case zipCode = "ZipCode"
+        case channelMappings = "ChannelMappings"
+        case password = "Password"
+        case country = "Country"
+        case preferredLanguage = "PreferredLanguage"
+        case type = "Type"
+        case path = "Path"
+        case id = "Id"
+        case userAgent = "UserAgent"
+        case enabledTuners = "EnabledTuners"
+        case listingsID = "ListingsId"
+        case sportsCategories = "SportsCategories"
+        case moviePrefix = "MoviePrefix"
+        case kidsCategories = "KidsCategories"
+        case username = "Username"
+        case newsCategories = "NewsCategories"
+        case enableAllTuners = "EnableAllTuners"
+    }
+}
+
+public struct PlayerStateInfo: Codable {
+    public var isPaused: Bool?
+    public var repeatMode: RepeatMode?
+    public var mediaSourceID: String?
+    public var volumeLevel: Int?
+    public var isMuted: Bool?
+    public var canSeek: Bool?
+    public var positionTicks: Int?
+    public var audioStreamIndex: Int?
+    public var subtitleStreamIndex: Int?
+    public var playMethod: PlayMethod?
+
+    public init(isPaused: Bool? = nil, repeatMode: RepeatMode? = nil, mediaSourceID: String? = nil, volumeLevel: Int? = nil, isMuted: Bool? = nil, canSeek: Bool? = nil, positionTicks: Int? = nil, audioStreamIndex: Int? = nil, subtitleStreamIndex: Int? = nil, playMethod: PlayMethod? = nil) {
+        self.isPaused = isPaused
+        self.repeatMode = repeatMode
+        self.mediaSourceID = mediaSourceID
+        self.volumeLevel = volumeLevel
+        self.isMuted = isMuted
+        self.canSeek = canSeek
+        self.positionTicks = positionTicks
+        self.audioStreamIndex = audioStreamIndex
+        self.subtitleStreamIndex = subtitleStreamIndex
+        self.playMethod = playMethod
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isPaused = "IsPaused"
+        case repeatMode = "RepeatMode"
+        case mediaSourceID = "MediaSourceId"
+        case volumeLevel = "VolumeLevel"
+        case isMuted = "IsMuted"
+        case canSeek = "CanSeek"
+        case positionTicks = "PositionTicks"
+        case audioStreamIndex = "AudioStreamIndex"
+        case subtitleStreamIndex = "SubtitleStreamIndex"
+        case playMethod = "PlayMethod"
+    }
+}
+
+public struct ServerDiscoveryInfo: Codable {
+    public var address: String?
+    public var endpointAddress: String?
+    public var id: String?
+    public var name: String?
+
+    public init(address: String? = nil, endpointAddress: String? = nil, id: String? = nil, name: String? = nil) {
+        self.address = address
+        self.endpointAddress = endpointAddress
+        self.id = id
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case address = "Address"
+        case endpointAddress = "EndpointAddress"
+        case id = "Id"
+        case name = "Name"
+    }
+}
+
+public struct TranscodingProfile: Codable {
+    public var enableMpegtsM2TsMode: Bool?
+    public var maxAudioChannels: String?
+    public var audioCodec: String?
+    public var container: String?
+    public var videoCodec: String?
+    public var minSegments: Int?
+    public var enableSubtitlesInManifest: Bool?
+    public var isEstimateContentLength: Bool?
+    public var `protocol`: String?
+    public var type: DlnaProfileType?
+    public var transcodeSeekInfo: TranscodeSeekInfo?
+    public var isBreakOnNonKeyFrames: Bool?
+    public var context: EncodingContext?
+    public var isCopyTimestamps: Bool?
+    public var segmentLength: Int?
+
+    public init(enableMpegtsM2TsMode: Bool? = nil, maxAudioChannels: String? = nil, audioCodec: String? = nil, container: String? = nil, videoCodec: String? = nil, minSegments: Int? = nil, enableSubtitlesInManifest: Bool? = nil, isEstimateContentLength: Bool? = nil, `protocol`: String? = nil, type: DlnaProfileType? = nil, transcodeSeekInfo: TranscodeSeekInfo? = nil, isBreakOnNonKeyFrames: Bool? = nil, context: EncodingContext? = nil, isCopyTimestamps: Bool? = nil, segmentLength: Int? = nil) {
+        self.enableMpegtsM2TsMode = enableMpegtsM2TsMode
+        self.maxAudioChannels = maxAudioChannels
+        self.audioCodec = audioCodec
+        self.container = container
+        self.videoCodec = videoCodec
+        self.minSegments = minSegments
+        self.enableSubtitlesInManifest = enableSubtitlesInManifest
+        self.isEstimateContentLength = isEstimateContentLength
+        self.protocol = `protocol`
+        self.type = type
+        self.transcodeSeekInfo = transcodeSeekInfo
+        self.isBreakOnNonKeyFrames = isBreakOnNonKeyFrames
+        self.context = context
+        self.isCopyTimestamps = isCopyTimestamps
+        self.segmentLength = segmentLength
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case enableMpegtsM2TsMode = "EnableMpegtsM2TsMode"
+        case maxAudioChannels = "MaxAudioChannels"
+        case audioCodec = "AudioCodec"
+        case container = "Container"
+        case videoCodec = "VideoCodec"
+        case minSegments = "MinSegments"
+        case enableSubtitlesInManifest = "EnableSubtitlesInManifest"
+        case isEstimateContentLength = "EstimateContentLength"
+        case `protocol` = "Protocol"
+        case type = "Type"
+        case transcodeSeekInfo = "TranscodeSeekInfo"
+        case isBreakOnNonKeyFrames = "BreakOnNonKeyFrames"
+        case context = "Context"
+        case isCopyTimestamps = "CopyTimestamps"
+        case segmentLength = "SegmentLength"
+    }
+}
+
+public enum GroupStateType: String, Codable, CaseIterable {
+    case idle = "Idle"
+    case waiting = "Waiting"
+    case paused = "Paused"
+    case playing = "Playing"
+}
+
+public struct Version: Codable {
+    public var majorRevision: Int?
+    public var build: Int?
+    public var major: Int?
+    public var revision: Int?
+    public var minorRevision: Int?
+    public var minor: Int?
+
+    public init(majorRevision: Int? = nil, build: Int? = nil, major: Int? = nil, revision: Int? = nil, minorRevision: Int? = nil, minor: Int? = nil) {
+        self.majorRevision = majorRevision
+        self.build = build
+        self.major = major
+        self.revision = revision
+        self.minorRevision = minorRevision
+        self.minor = minor
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case majorRevision = "MajorRevision"
+        case build = "Build"
+        case major = "Major"
+        case revision = "Revision"
+        case minorRevision = "MinorRevision"
+        case minor = "Minor"
+    }
+}
+
+public struct AuthenticateUserByName: Codable {
+    public var password: String?
+    public var pw: String?
+    public var username: String?
+
+    public init(password: String? = nil, pw: String? = nil, username: String? = nil) {
+        self.password = password
+        self.pw = pw
+        self.username = username
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case password = "Password"
+        case pw = "Pw"
+        case username = "Username"
+    }
+}
+
+public struct PlaylistCreationResult: Codable {
+    public var id: String?
+
+    public init(id: String? = nil) {
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+    }
+}
+
+public enum ImageFormat: String, Codable, CaseIterable {
+    case bmp = "Bmp"
+    case gif = "Gif"
+    case jpg = "Jpg"
+    case png = "Png"
+    case webp = "Webp"
+}
+
+public struct GuideInfo: Codable {
+    public var endDate: Date?
+    public var startDate: Date?
+
+    public init(endDate: Date? = nil, startDate: Date? = nil) {
+        self.endDate = endDate
+        self.startDate = startDate
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case endDate = "EndDate"
+        case startDate = "StartDate"
+    }
+}
+
+public struct ValidatePathDto: Codable {
+    public var path: String?
+    public var isFile: Bool?
+    public var isValidateWritable: Bool?
+
+    public init(path: String? = nil, isFile: Bool? = nil, isValidateWritable: Bool? = nil) {
+        self.path = path
+        self.isFile = isFile
+        self.isValidateWritable = isValidateWritable
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case path = "Path"
+        case isFile = "IsFile"
+        case isValidateWritable = "ValidateWritable"
+    }
+}
+
+public struct PreviousItemRequestDto: Codable {
+    public var playlistItemID: UUID?
+
+    public init(playlistItemID: UUID? = nil) {
+        self.playlistItemID = playlistItemID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playlistItemID = "PlaylistItemId"
+    }
+}
+
+public struct RemoteImageResult: Codable {
+    public var images: [RemoteImageInfo]?
+    public var totalRecordCount: Int?
+    public var providers: [String]?
+
+    public init(images: [RemoteImageInfo]? = nil, totalRecordCount: Int? = nil, providers: [String]? = nil) {
+        self.images = images
+        self.totalRecordCount = totalRecordCount
+        self.providers = providers
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case images = "Images"
+        case totalRecordCount = "TotalRecordCount"
+        case providers = "Providers"
+    }
+}
+
+public struct UpdateLibraryOptionsDto: Codable {
+    public var libraryOptions: LibraryOptions?
+    public var id: UUID?
+
+    public init(libraryOptions: LibraryOptions? = nil, id: UUID? = nil) {
+        self.libraryOptions = libraryOptions
+        self.id = id
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case libraryOptions = "LibraryOptions"
+        case id = "Id"
+    }
+}
+
+public struct StartupRemoteAccessDto: Codable {
+    public var enableRemoteAccess: Bool
+    public var enableAutomaticPortMapping: Bool
+
+    public init(enableRemoteAccess: Bool, enableAutomaticPortMapping: Bool) {
+        self.enableRemoteAccess = enableRemoteAccess
+        self.enableAutomaticPortMapping = enableAutomaticPortMapping
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case enableRemoteAccess = "EnableRemoteAccess"
+        case enableAutomaticPortMapping = "EnableAutomaticPortMapping"
+    }
+}
+
+public struct VirtualFolderInfo: Codable {
+    public var locations: [String]?
+    public var refreshStatus: String?
+    public var itemID: String?
+    public var name: String?
+    public var refreshProgress: Double?
+    public var libraryOptions: LibraryOptions?
+    public var collectionType: CollectionTypeOptions?
+    public var primaryImageItemID: String?
+
+    public init(locations: [String]? = nil, refreshStatus: String? = nil, itemID: String? = nil, name: String? = nil, refreshProgress: Double? = nil, libraryOptions: LibraryOptions? = nil, collectionType: CollectionTypeOptions? = nil, primaryImageItemID: String? = nil) {
+        self.locations = locations
+        self.refreshStatus = refreshStatus
+        self.itemID = itemID
+        self.name = name
+        self.refreshProgress = refreshProgress
+        self.libraryOptions = libraryOptions
+        self.collectionType = collectionType
+        self.primaryImageItemID = primaryImageItemID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case locations = "Locations"
+        case refreshStatus = "RefreshStatus"
+        case itemID = "ItemId"
+        case name = "Name"
+        case refreshProgress = "RefreshProgress"
+        case libraryOptions = "LibraryOptions"
+        case collectionType = "CollectionType"
+        case primaryImageItemID = "PrimaryImageItemId"
+    }
+}
+
+public struct TunerChannelMapping: Codable {
+    public var id: String?
+    public var name: String?
+    public var providerChannelID: String?
+    public var providerChannelName: String?
+
+    public init(id: String? = nil, name: String? = nil, providerChannelID: String? = nil, providerChannelName: String? = nil) {
+        self.id = id
+        self.name = name
+        self.providerChannelID = providerChannelID
+        self.providerChannelName = providerChannelName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case name = "Name"
+        case providerChannelID = "ProviderChannelId"
+        case providerChannelName = "ProviderChannelName"
+    }
+}
+
+public struct SubtitleProfile: Codable {
+    public var language: String?
+    public var didlMode: String?
+    public var method: SubtitleDeliveryMethod?
+    public var container: String?
+    public var format: String?
+
+    public init(language: String? = nil, didlMode: String? = nil, method: SubtitleDeliveryMethod? = nil, container: String? = nil, format: String? = nil) {
+        self.language = language
+        self.didlMode = didlMode
+        self.method = method
+        self.container = container
+        self.format = format
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case language = "Language"
+        case didlMode = "DidlMode"
+        case method = "Method"
+        case container = "Container"
+        case format = "Format"
+    }
+}
+
+public struct DirectPlayProfile: Codable {
+    public var audioCodec: String?
+    public var container: String?
+    public var videoCodec: String?
+    public var type: DlnaProfileType?
+
+    public init(audioCodec: String? = nil, container: String? = nil, videoCodec: String? = nil, type: DlnaProfileType? = nil) {
+        self.audioCodec = audioCodec
+        self.container = container
+        self.videoCodec = videoCodec
+        self.type = type
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case audioCodec = "AudioCodec"
+        case container = "Container"
+        case videoCodec = "VideoCodec"
+        case type = "Type"
+    }
+}
+
+public struct BaseItemDtoQueryResult: Codable {
+    public var startIndex: Int?
+    public var totalRecordCount: Int?
+    public var items: [BaseItemDto]?
+
+    public init(startIndex: Int? = nil, totalRecordCount: Int? = nil, items: [BaseItemDto]? = nil) {
+        self.startIndex = startIndex
+        self.totalRecordCount = totalRecordCount
+        self.items = items
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case startIndex = "StartIndex"
+        case totalRecordCount = "TotalRecordCount"
+        case items = "Items"
+    }
+}
+
+public struct GroupInfoDto: Codable {
+    public var groupName: String?
+    public var participants: [String]?
+    public var lastUpdatedAt: Date?
+    public var groupID: UUID?
+    public var state: GroupStateType?
+
+    public init(groupName: String? = nil, participants: [String]? = nil, lastUpdatedAt: Date? = nil, groupID: UUID? = nil, state: GroupStateType? = nil) {
+        self.groupName = groupName
+        self.participants = participants
+        self.lastUpdatedAt = lastUpdatedAt
+        self.groupID = groupID
+        self.state = state
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case groupName = "GroupName"
+        case participants = "Participants"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case groupID = "GroupId"
+        case state = "State"
+    }
+}
+
+public struct ContainerProfile: Codable {
+    public var type: DlnaProfileType?
+    public var container: String?
+    public var conditions: [ProfileCondition]?
+
+    public init(type: DlnaProfileType? = nil, container: String? = nil, conditions: [ProfileCondition]? = nil) {
+        self.type = type
+        self.container = container
+        self.conditions = conditions
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case type = "Type"
+        case container = "Container"
+        case conditions = "Conditions"
+    }
+}
+
+public enum DeviceProfileType: String, Codable, CaseIterable {
+    case system = "System"
+    case user = "User"
+}
+
 public struct PluginSecurityInfo: Codable {
-    /// Gets or sets a value indicating whether is mb supporter.
     public var isMbSupporter: Bool?
-    /// Gets or sets the supporter key.
     public var supporterKey: String?
 
     public init(isMbSupporter: Bool? = nil, supporterKey: String? = nil) {
@@ -7630,884 +6994,270 @@ public struct PluginSecurityInfo: Codable {
     }
 }
 
-/// Media Update Info Dto.
-public struct MediaUpdateInfoDto: Codable {
-    /// Gets or sets the list of updates.
-    public var updates: [MediaUpdateInfoPathDto]?
+public struct FileSystemEntryInfo: Codable {
+    public var path: String?
+    public var type: FileSystemEntryType?
+    public var name: String?
 
-    public init(updates: [MediaUpdateInfoPathDto]? = nil) {
-        self.updates = updates
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case updates = "Updates"
-    }
-}
-
-/// Class MetadataOptions.
-public struct MetadataOptions: Codable {
-    public var disabledMetadataSavers: [String]?
-    public var disabledImageFetchers: [String]?
-    public var metadataFetcherOrder: [String]?
-    public var itemType: String?
-    public var disabledMetadataFetchers: [String]?
-    public var localMetadataReaderOrder: [String]?
-    public var imageFetcherOrder: [String]?
-
-    public init(disabledMetadataSavers: [String]? = nil, disabledImageFetchers: [String]? = nil, metadataFetcherOrder: [String]? = nil, itemType: String? = nil, disabledMetadataFetchers: [String]? = nil, localMetadataReaderOrder: [String]? = nil, imageFetcherOrder: [String]? = nil) {
-        self.disabledMetadataSavers = disabledMetadataSavers
-        self.disabledImageFetchers = disabledImageFetchers
-        self.metadataFetcherOrder = metadataFetcherOrder
-        self.itemType = itemType
-        self.disabledMetadataFetchers = disabledMetadataFetchers
-        self.localMetadataReaderOrder = localMetadataReaderOrder
-        self.imageFetcherOrder = imageFetcherOrder
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case disabledMetadataSavers = "DisabledMetadataSavers"
-        case disabledImageFetchers = "DisabledImageFetchers"
-        case metadataFetcherOrder = "MetadataFetcherOrder"
-        case itemType = "ItemType"
-        case disabledMetadataFetchers = "DisabledMetadataFetchers"
-        case localMetadataReaderOrder = "LocalMetadataReaderOrder"
-        case imageFetcherOrder = "ImageFetcherOrder"
-    }
-}
-
-public struct GuideInfo: Codable {
-    /// Gets or sets the start date.
-    public var startDate: Date?
-    /// Gets or sets the end date.
-    public var endDate: Date?
-
-    public init(startDate: Date? = nil, endDate: Date? = nil) {
-        self.startDate = startDate
-        self.endDate = endDate
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case startDate = "StartDate"
-        case endDate = "EndDate"
-    }
-}
-
-/// This is strictly used as a data transfer object from the api layer.
-This holds information about a BaseItem in a format that is convenient for the client.
-public final class BaseItemDto: Codable {
-    /// Gets or sets the screenshot image tags.
-    public let screenshotImageTags: [String]?
-    /// Gets or sets the artist items.
-    public let artistItems: [NameGuidPair]?
-    public let airsBeforeEpisodeNumber: Int?
-    /// Gets or sets the audio.
-    public let audio: ProgramAudio?
-    /// Gets or sets the play access.
-    public let playAccess: PlayAccess?
-    /// Gets or sets the display preferences id.
-    public let displayPreferencesID: String?
-    /// Gets or sets the external urls.
-    public let externalURLs: [ExternalURL]?
-    /// Gets or sets a value indicating whether this instance is folder.
-    public let isFolder: Bool?
-    /// Gets or sets the local trailer count.
-    public let localTrailerCount: Int?
-    /// Gets or sets the parent thumb item id.
-    public let parentThumbItemID: String?
-    /// If the item does not have a logo, this will hold the Id of the Parent that has one.
-    public let parentLogoItemID: String?
-    public let extraType: String?
-    /// Gets or sets the parent backdrop image tags.
-    public let parentBackdropImageTags: [String]?
-    public let altitude: Double?
-    public let imageOrientation: ImageOrientation?
-    /// Gets or sets the parent art image tag.
-    public let parentArtImageTag: String?
-    /// Gets or sets the playlist item identifier.
-    public let playlistItemID: String?
-    /// Gets or sets a value indicating whether this instance is repeat.
-    public let isRepeat: Bool?
-    /// Gets or sets the name.
-    public let name: String?
-    /// Gets or sets the series id.
-    public let seriesID: UUID?
-    /// Gets or sets the album count.
-    public let albumCount: Int?
-    public let originalTitle: String?
-    /// Gets or sets the parent primary image item identifier.
-    public let parentPrimaryImageItemID: String?
-    /// Gets or sets a value indicating whether [enable internet providers].
-    public let lockData: Bool?
-    /// Gets or sets the locked fields.
-    public let lockedFields: [MetadataField]?
-    public let isoSpeedRating: Int?
-    /// Gets or sets the album image tag.
-    public let albumPrimaryImageTag: String?
-    /// Gets or sets the date created.
-    public let dateCreated: Date?
-    /// Gets or sets the image tags.
-    public let imageTags: [String: String]?
-    /// Gets or sets the type of the iso.
-    public let isoType: IsoType?
-    public let preferredMetadataCountryCode: String?
-    /// Gets or sets the music video count.
-    public let musicVideoCount: Int?
-    public let focalLength: Double?
-    /// Gets or sets a value indicating whether this instance is live.
-    public let isLive: Bool?
-    /// Gets or sets the parent primary image tag.
-    public let parentPrimaryImageTag: String?
-    /// Gets or sets the overview.
-    public let overview: String?
-    /// Gets or sets the status.
-    public let status: String?
-    public let channelNumber: String?
-    /// Gets or sets the episode title.
-    public let episodeTitle: String?
-    public let programCount: Int?
-    /// Gets or sets the media streams.
-    public let mediaStreams: [MediaStream]?
-    /// Gets or sets the aspect ratio.
-    public let aspectRatio: String?
-    /// Gets or sets the trailer urls.
-    public let remoteTrailers: [MediaURL]?
-    /// Gets or sets the path.
-    public let path: String?
-    public let genreItems: [NameGuidPair]?
-    /// Gets or sets the type of the media.
-    public let mediaType: String?
-    /// Gets or sets the episode count.
-    public let episodeCount: Int?
-    /// Gets or sets the type of the video.
-    public let videoType: VideoType?
-    public let canDelete: Bool?
-    /// Gets or sets the parent thumb image tag.
-    public let parentThumbImageTag: String?
-    /// Gets or sets the movie count.
-    public let movieCount: Int?
-    /// Gets or sets the chapters.
-    public let chapters: [ChapterInfo]?
-    /// Gets or sets the series thumb image tag.
-    public let seriesThumbImageTag: String?
-    /// Gets or sets the video3 D format.
-    public let video3DFormat: Video3DFormat?
-    /// Gets or sets the primary image aspect ratio, after image enhancements.
-    public let primaryImageAspectRatio: Double?
-    /// Gets or sets a value indicating whether this instance is sports.
-    public let isSports: Bool?
-    /// Gets or sets the critic rating.
-    public let criticRating: Double?
-    /// User data for this item based on the user it's being requested for.
-    public let userData: UserItemDataDto?
-    /// The start date of the recording, in UTC.
-    public let startDate: Date?
-    /// Gets or sets the studios.
-    public let studios: [NameGuidPair]?
-    /// Gets or sets a value indicating whether this instance is HD.
-    public let isHD: Bool?
-    public let longitude: Double?
-    /// Gets or sets the season identifier.
-    public let seasonID: UUID?
-    /// Gets or sets the premiere date.
-    public let premiereDate: Date?
-    /// If the item does not have any backdrops, this will hold the Id of the Parent that has one.
-    public let parentBackdropItemID: String?
-    /// Gets or sets the series count.
-    public let seriesCount: Int?
-    public let cameraModel: String?
-    public let width: Int?
-    public let forcedSortName: String?
-    /// Gets or sets the custom rating.
-    public let customRating: String?
-    /// Gets or sets a value indicating whether this instance is premiere.
-    public let isPremiere: Bool?
-    /// Gets or sets the run time ticks.
-    public let runTimeTicks: Int?
-    /// Gets or sets a value indicating whether this instance is place holder.
-    public let isPlaceHolder: Bool?
-    /// Gets or sets the id.
-    public let id: UUID?
-    /// Gets or sets the channel identifier.
-    public let channelID: UUID?
-    /// Gets or sets the special feature count.
-    public let specialFeatureCount: Int?
-    /// Gets or sets the air days.
-    public let airDays: [DayOfWeek]?
-    /// Gets or sets the part count.
-    public let partCount: Int?
-    /// Gets or sets the album id.
-    public let albumID: UUID?
-    public let height: Int?
-    /// Gets or sets the artists.
-    public let artists: [String]?
-    /// Gets or sets the community rating.
-    public let communityRating: Double?
-    /// Gets or sets the tags.
-    public let tags: [String]?
-    /// Gets or sets the type of the channel.
-    public let channelType: ChannelType?
-    /// Gets or sets a value indicating whether this instance is kids.
-    public let isKids: Bool?
-    /// Gets or sets the number.
-    public let number: String?
-    /// Gets or sets the type of the source.
-    public let sourceType: String?
-    /// Gets or sets the parent id.
-    public let parentID: UUID?
-    /// Gets or sets the end date.
-    public let endDate: Date?
-    /// Gets or sets the child count.
-    public let childCount: Int?
-    /// Gets or sets the type.
-    public let type: String?
-    /// Gets or sets a value indicating whether this instance is movie.
-    public let isMovie: Bool?
-    public let mediaSourceCount: Int?
-    public let exposureTime: Double?
-    /// Gets or sets the song count.
-    public let songCount: Int?
-    /// Gets or sets the trailer count.
-    public let trailerCount: Int?
-    public let dateLastMediaAdded: Date?
-    /// Gets or sets the parent index number.
-    public let parentIndexNumber: Int?
-    /// Gets or sets the album.
-    public let album: String?
-    /// Gets or sets the type of the location.
-    public let locationType: LocationType?
-    /// Gets or sets the album artists.
-    public let albumArtists: [NameGuidPair]?
-    /// Gets or sets the people.
-    public let people: [BaseItemPerson]?
-    /// Gets or sets the blurhashes for the image tags.
-Maps image type to dictionary mapping image tag to blurhash value.
-    public let imageBlurHashes: ImageBlurHashes?
-    public let cameraMake: String?
-    /// Gets or sets the current program.
-    public let currentProgram: BaseItemDto?
-    /// Gets or sets a value indicating whether [supports synchronize].
-    public let isSupportsSync: Bool?
-    public let software: String?
-    /// Gets or sets the backdrop image tags.
-    public let backdropImageTags: [String]?
-    /// If the item does not have a art, this will hold the Id of the Parent that has one.
-    public let parentArtItemID: String?
-    /// Gets or sets the series studio.
-    public let seriesStudio: String?
-    public let preferredMetadataLanguage: String?
-    /// Gets or sets the production year.
-    public let productionYear: Int?
-    public let hasSubtitles: Bool?
-    /// Gets or sets the completion percentage.
-    public let completionPercentage: Double?
-    public let container: String?
-    public let artistCount: Int?
-    /// Gets or sets the taglines.
-    public let taglines: [String]?
-    public let enableMediaSourceDisplay: Bool?
-    /// Gets or sets the cumulative run time ticks.
-    public let cumulativeRunTimeTicks: Int?
-    public let productionLocations: [String]?
-    public let airsAfterSeasonNumber: Int?
-    /// Gets or sets the index number end.
-    public let indexNumberEnd: Int?
-    /// Gets or sets the timer identifier.
-    public let timerID: String?
-    /// Gets or sets the provider ids.
-    public let providerIDs: [String: String]?
-    /// Gets or sets the program identifier.
-    public let programID: String?
-    /// Gets or sets the type of the collection.
-    public let collectionType: String?
-    /// Gets or sets the official rating.
-    public let officialRating: String?
-    /// Gets or sets the series primary image tag.
-    public let seriesPrimaryImageTag: String?
-    /// Gets or sets the index number.
-    public let indexNumber: Int?
-    /// Gets or sets the etag.
-    public let etag: String?
-    public let airsBeforeSeasonNumber: Int?
-    public let shutterSpeed: Double?
-    /// Gets or sets the genres.
-    public let genres: [String]?
-    /// Gets or sets the display order.
-    public let displayOrder: String?
-    /// Gets or sets the name of the season.
-    public let seasonName: String?
-    /// Gets or sets the server identifier.
-    public let serverID: String?
-    public let canDownload: Bool?
-    /// Gets or sets the series timer identifier.
-    public let seriesTimerID: String?
-    /// Gets or sets the parent logo image tag.
-    public let parentLogoImageTag: String?
-    public let aperture: Double?
-    /// Gets or sets a value indicating whether this instance is series.
-    public let isSeries: Bool?
-    /// Gets or sets the channel primary image tag.
-    public let channelPrimaryImageTag: String?
-    /// Gets or sets the name of the series.
-    public let seriesName: String?
-    /// Gets or sets the air time.
-    public let airTime: String?
-    /// Gets or sets the media versions.
-    public let mediaSources: [MediaSourceInfo]?
-    /// Gets or sets the name of the sort.
-    public let sortName: String?
-    public let latitude: Double?
-    /// Gets or sets the album artist.
-    public let albumArtist: String?
-    /// Gets or sets the recursive item count.
-    public let recursiveItemCount: Int?
-    public let channelName: String?
-    /// Gets or sets a value indicating whether this instance is news.
-    public let isNews: Bool?
-
-    /// Gets or sets the blurhashes for the image tags.
-Maps image type to dictionary mapping image tag to blurhash value.
-    public struct ImageBlurHashes: Codable {
-        public var screenshot: [String: String]?
-        public var logo: [String: String]?
-        public var art: [String: String]?
-        public var boxRear: [String: String]?
-        public var backdrop: [String: String]?
-        public var chapter: [String: String]?
-        public var banner: [String: String]?
-        public var thumb: [String: String]?
-        public var profile: [String: String]?
-        public var primary: [String: String]?
-        public var box: [String: String]?
-        public var menu: [String: String]?
-        public var disc: [String: String]?
-
-        public init(screenshot: [String: String]? = nil, logo: [String: String]? = nil, art: [String: String]? = nil, boxRear: [String: String]? = nil, backdrop: [String: String]? = nil, chapter: [String: String]? = nil, banner: [String: String]? = nil, thumb: [String: String]? = nil, profile: [String: String]? = nil, primary: [String: String]? = nil, box: [String: String]? = nil, menu: [String: String]? = nil, disc: [String: String]? = nil) {
-            self.screenshot = screenshot
-            self.logo = logo
-            self.art = art
-            self.boxRear = boxRear
-            self.backdrop = backdrop
-            self.chapter = chapter
-            self.banner = banner
-            self.thumb = thumb
-            self.profile = profile
-            self.primary = primary
-            self.box = box
-            self.menu = menu
-            self.disc = disc
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case screenshot = "Screenshot"
-            case logo = "Logo"
-            case art = "Art"
-            case boxRear = "BoxRear"
-            case backdrop = "Backdrop"
-            case chapter = "Chapter"
-            case banner = "Banner"
-            case thumb = "Thumb"
-            case profile = "Profile"
-            case primary = "Primary"
-            case box = "Box"
-            case menu = "Menu"
-            case disc = "Disc"
-        }
-    }
-
-    public init(screenshotImageTags: [String]? = nil, artistItems: [NameGuidPair]? = nil, airsBeforeEpisodeNumber: Int? = nil, audio: ProgramAudio? = nil, playAccess: PlayAccess? = nil, displayPreferencesID: String? = nil, externalURLs: [ExternalURL]? = nil, isFolder: Bool? = nil, localTrailerCount: Int? = nil, parentThumbItemID: String? = nil, parentLogoItemID: String? = nil, extraType: String? = nil, parentBackdropImageTags: [String]? = nil, altitude: Double? = nil, imageOrientation: ImageOrientation? = nil, parentArtImageTag: String? = nil, playlistItemID: String? = nil, isRepeat: Bool? = nil, name: String? = nil, seriesID: UUID? = nil, albumCount: Int? = nil, originalTitle: String? = nil, parentPrimaryImageItemID: String? = nil, lockData: Bool? = nil, lockedFields: [MetadataField]? = nil, isoSpeedRating: Int? = nil, albumPrimaryImageTag: String? = nil, dateCreated: Date? = nil, imageTags: [String: String]? = nil, isoType: IsoType? = nil, preferredMetadataCountryCode: String? = nil, musicVideoCount: Int? = nil, focalLength: Double? = nil, isLive: Bool? = nil, parentPrimaryImageTag: String? = nil, overview: String? = nil, status: String? = nil, channelNumber: String? = nil, episodeTitle: String? = nil, programCount: Int? = nil, mediaStreams: [MediaStream]? = nil, aspectRatio: String? = nil, remoteTrailers: [MediaURL]? = nil, path: String? = nil, genreItems: [NameGuidPair]? = nil, mediaType: String? = nil, episodeCount: Int? = nil, videoType: VideoType? = nil, canDelete: Bool? = nil, parentThumbImageTag: String? = nil, movieCount: Int? = nil, chapters: [ChapterInfo]? = nil, seriesThumbImageTag: String? = nil, video3DFormat: Video3DFormat? = nil, primaryImageAspectRatio: Double? = nil, isSports: Bool? = nil, criticRating: Double? = nil, userData: UserItemDataDto? = nil, startDate: Date? = nil, studios: [NameGuidPair]? = nil, isHD: Bool? = nil, longitude: Double? = nil, seasonID: UUID? = nil, premiereDate: Date? = nil, parentBackdropItemID: String? = nil, seriesCount: Int? = nil, cameraModel: String? = nil, width: Int? = nil, forcedSortName: String? = nil, customRating: String? = nil, isPremiere: Bool? = nil, runTimeTicks: Int? = nil, isPlaceHolder: Bool? = nil, id: UUID? = nil, channelID: UUID? = nil, specialFeatureCount: Int? = nil, airDays: [DayOfWeek]? = nil, partCount: Int? = nil, albumID: UUID? = nil, height: Int? = nil, artists: [String]? = nil, communityRating: Double? = nil, tags: [String]? = nil, channelType: ChannelType? = nil, isKids: Bool? = nil, number: String? = nil, sourceType: String? = nil, parentID: UUID? = nil, endDate: Date? = nil, childCount: Int? = nil, type: String? = nil, isMovie: Bool? = nil, mediaSourceCount: Int? = nil, exposureTime: Double? = nil, songCount: Int? = nil, trailerCount: Int? = nil, dateLastMediaAdded: Date? = nil, parentIndexNumber: Int? = nil, album: String? = nil, locationType: LocationType? = nil, albumArtists: [NameGuidPair]? = nil, people: [BaseItemPerson]? = nil, imageBlurHashes: ImageBlurHashes? = nil, cameraMake: String? = nil, currentProgram: BaseItemDto? = nil, isSupportsSync: Bool? = nil, software: String? = nil, backdropImageTags: [String]? = nil, parentArtItemID: String? = nil, seriesStudio: String? = nil, preferredMetadataLanguage: String? = nil, productionYear: Int? = nil, hasSubtitles: Bool? = nil, completionPercentage: Double? = nil, container: String? = nil, artistCount: Int? = nil, taglines: [String]? = nil, enableMediaSourceDisplay: Bool? = nil, cumulativeRunTimeTicks: Int? = nil, productionLocations: [String]? = nil, airsAfterSeasonNumber: Int? = nil, indexNumberEnd: Int? = nil, timerID: String? = nil, providerIDs: [String: String]? = nil, programID: String? = nil, collectionType: String? = nil, officialRating: String? = nil, seriesPrimaryImageTag: String? = nil, indexNumber: Int? = nil, etag: String? = nil, airsBeforeSeasonNumber: Int? = nil, shutterSpeed: Double? = nil, genres: [String]? = nil, displayOrder: String? = nil, seasonName: String? = nil, serverID: String? = nil, canDownload: Bool? = nil, seriesTimerID: String? = nil, parentLogoImageTag: String? = nil, aperture: Double? = nil, isSeries: Bool? = nil, channelPrimaryImageTag: String? = nil, seriesName: String? = nil, airTime: String? = nil, mediaSources: [MediaSourceInfo]? = nil, sortName: String? = nil, latitude: Double? = nil, albumArtist: String? = nil, recursiveItemCount: Int? = nil, channelName: String? = nil, isNews: Bool? = nil) {
-        self.screenshotImageTags = screenshotImageTags
-        self.artistItems = artistItems
-        self.airsBeforeEpisodeNumber = airsBeforeEpisodeNumber
-        self.audio = audio
-        self.playAccess = playAccess
-        self.displayPreferencesID = displayPreferencesID
-        self.externalURLs = externalURLs
-        self.isFolder = isFolder
-        self.localTrailerCount = localTrailerCount
-        self.parentThumbItemID = parentThumbItemID
-        self.parentLogoItemID = parentLogoItemID
-        self.extraType = extraType
-        self.parentBackdropImageTags = parentBackdropImageTags
-        self.altitude = altitude
-        self.imageOrientation = imageOrientation
-        self.parentArtImageTag = parentArtImageTag
-        self.playlistItemID = playlistItemID
-        self.isRepeat = isRepeat
-        self.name = name
-        self.seriesID = seriesID
-        self.albumCount = albumCount
-        self.originalTitle = originalTitle
-        self.parentPrimaryImageItemID = parentPrimaryImageItemID
-        self.lockData = lockData
-        self.lockedFields = lockedFields
-        self.isoSpeedRating = isoSpeedRating
-        self.albumPrimaryImageTag = albumPrimaryImageTag
-        self.dateCreated = dateCreated
-        self.imageTags = imageTags
-        self.isoType = isoType
-        self.preferredMetadataCountryCode = preferredMetadataCountryCode
-        self.musicVideoCount = musicVideoCount
-        self.focalLength = focalLength
-        self.isLive = isLive
-        self.parentPrimaryImageTag = parentPrimaryImageTag
-        self.overview = overview
-        self.status = status
-        self.channelNumber = channelNumber
-        self.episodeTitle = episodeTitle
-        self.programCount = programCount
-        self.mediaStreams = mediaStreams
-        self.aspectRatio = aspectRatio
-        self.remoteTrailers = remoteTrailers
+    public init(path: String? = nil, type: FileSystemEntryType? = nil, name: String? = nil) {
         self.path = path
-        self.genreItems = genreItems
-        self.mediaType = mediaType
-        self.episodeCount = episodeCount
-        self.videoType = videoType
-        self.canDelete = canDelete
-        self.parentThumbImageTag = parentThumbImageTag
-        self.movieCount = movieCount
-        self.chapters = chapters
-        self.seriesThumbImageTag = seriesThumbImageTag
-        self.video3DFormat = video3DFormat
-        self.primaryImageAspectRatio = primaryImageAspectRatio
-        self.isSports = isSports
-        self.criticRating = criticRating
-        self.userData = userData
-        self.startDate = startDate
-        self.studios = studios
-        self.isHD = isHD
-        self.longitude = longitude
-        self.seasonID = seasonID
-        self.premiereDate = premiereDate
-        self.parentBackdropItemID = parentBackdropItemID
-        self.seriesCount = seriesCount
-        self.cameraModel = cameraModel
-        self.width = width
-        self.forcedSortName = forcedSortName
-        self.customRating = customRating
-        self.isPremiere = isPremiere
-        self.runTimeTicks = runTimeTicks
-        self.isPlaceHolder = isPlaceHolder
-        self.id = id
-        self.channelID = channelID
-        self.specialFeatureCount = specialFeatureCount
-        self.airDays = airDays
-        self.partCount = partCount
-        self.albumID = albumID
-        self.height = height
-        self.artists = artists
-        self.communityRating = communityRating
-        self.tags = tags
-        self.channelType = channelType
-        self.isKids = isKids
-        self.number = number
-        self.sourceType = sourceType
-        self.parentID = parentID
-        self.endDate = endDate
-        self.childCount = childCount
         self.type = type
-        self.isMovie = isMovie
-        self.mediaSourceCount = mediaSourceCount
-        self.exposureTime = exposureTime
-        self.songCount = songCount
-        self.trailerCount = trailerCount
-        self.dateLastMediaAdded = dateLastMediaAdded
-        self.parentIndexNumber = parentIndexNumber
-        self.album = album
-        self.locationType = locationType
-        self.albumArtists = albumArtists
-        self.people = people
-        self.imageBlurHashes = imageBlurHashes
-        self.cameraMake = cameraMake
-        self.currentProgram = currentProgram
-        self.isSupportsSync = isSupportsSync
-        self.software = software
-        self.backdropImageTags = backdropImageTags
-        self.parentArtItemID = parentArtItemID
-        self.seriesStudio = seriesStudio
-        self.preferredMetadataLanguage = preferredMetadataLanguage
-        self.productionYear = productionYear
-        self.hasSubtitles = hasSubtitles
-        self.completionPercentage = completionPercentage
-        self.container = container
-        self.artistCount = artistCount
-        self.taglines = taglines
-        self.enableMediaSourceDisplay = enableMediaSourceDisplay
-        self.cumulativeRunTimeTicks = cumulativeRunTimeTicks
-        self.productionLocations = productionLocations
-        self.airsAfterSeasonNumber = airsAfterSeasonNumber
-        self.indexNumberEnd = indexNumberEnd
-        self.timerID = timerID
-        self.providerIDs = providerIDs
-        self.programID = programID
-        self.collectionType = collectionType
-        self.officialRating = officialRating
-        self.seriesPrimaryImageTag = seriesPrimaryImageTag
-        self.indexNumber = indexNumber
-        self.etag = etag
-        self.airsBeforeSeasonNumber = airsBeforeSeasonNumber
-        self.shutterSpeed = shutterSpeed
-        self.genres = genres
-        self.displayOrder = displayOrder
-        self.seasonName = seasonName
-        self.serverID = serverID
-        self.canDownload = canDownload
-        self.seriesTimerID = seriesTimerID
-        self.parentLogoImageTag = parentLogoImageTag
-        self.aperture = aperture
-        self.isSeries = isSeries
-        self.channelPrimaryImageTag = channelPrimaryImageTag
-        self.seriesName = seriesName
-        self.airTime = airTime
-        self.mediaSources = mediaSources
-        self.sortName = sortName
-        self.latitude = latitude
-        self.albumArtist = albumArtist
-        self.recursiveItemCount = recursiveItemCount
-        self.channelName = channelName
-        self.isNews = isNews
+        self.name = name
     }
 
     private enum CodingKeys: String, CodingKey {
-        case screenshotImageTags = "ScreenshotImageTags"
-        case artistItems = "ArtistItems"
-        case airsBeforeEpisodeNumber = "AirsBeforeEpisodeNumber"
-        case audio = "Audio"
-        case playAccess = "PlayAccess"
-        case displayPreferencesID = "DisplayPreferencesId"
-        case externalURLs = "ExternalUrls"
-        case isFolder = "IsFolder"
-        case localTrailerCount = "LocalTrailerCount"
-        case parentThumbItemID = "ParentThumbItemId"
-        case parentLogoItemID = "ParentLogoItemId"
-        case extraType = "ExtraType"
-        case parentBackdropImageTags = "ParentBackdropImageTags"
-        case altitude = "Altitude"
-        case imageOrientation = "ImageOrientation"
-        case parentArtImageTag = "ParentArtImageTag"
-        case playlistItemID = "PlaylistItemId"
-        case isRepeat = "IsRepeat"
-        case name = "Name"
-        case seriesID = "SeriesId"
-        case albumCount = "AlbumCount"
-        case originalTitle = "OriginalTitle"
-        case parentPrimaryImageItemID = "ParentPrimaryImageItemId"
-        case lockData = "LockData"
-        case lockedFields = "LockedFields"
-        case isoSpeedRating = "IsoSpeedRating"
-        case albumPrimaryImageTag = "AlbumPrimaryImageTag"
-        case dateCreated = "DateCreated"
-        case imageTags = "ImageTags"
-        case isoType = "IsoType"
-        case preferredMetadataCountryCode = "PreferredMetadataCountryCode"
-        case musicVideoCount = "MusicVideoCount"
-        case focalLength = "FocalLength"
-        case isLive = "IsLive"
-        case parentPrimaryImageTag = "ParentPrimaryImageTag"
-        case overview = "Overview"
-        case status = "Status"
-        case channelNumber = "ChannelNumber"
-        case episodeTitle = "EpisodeTitle"
-        case programCount = "ProgramCount"
-        case mediaStreams = "MediaStreams"
-        case aspectRatio = "AspectRatio"
-        case remoteTrailers = "RemoteTrailers"
         case path = "Path"
-        case genreItems = "GenreItems"
-        case mediaType = "MediaType"
-        case episodeCount = "EpisodeCount"
-        case videoType = "VideoType"
-        case canDelete = "CanDelete"
-        case parentThumbImageTag = "ParentThumbImageTag"
-        case movieCount = "MovieCount"
-        case chapters = "Chapters"
-        case seriesThumbImageTag = "SeriesThumbImageTag"
-        case video3DFormat = "Video3DFormat"
-        case primaryImageAspectRatio = "PrimaryImageAspectRatio"
-        case isSports = "IsSports"
-        case criticRating = "CriticRating"
-        case userData = "UserData"
-        case startDate = "StartDate"
-        case studios = "Studios"
-        case isHD = "IsHD"
-        case longitude = "Longitude"
-        case seasonID = "SeasonId"
-        case premiereDate = "PremiereDate"
-        case parentBackdropItemID = "ParentBackdropItemId"
-        case seriesCount = "SeriesCount"
-        case cameraModel = "CameraModel"
-        case width = "Width"
-        case forcedSortName = "ForcedSortName"
-        case customRating = "CustomRating"
-        case isPremiere = "IsPremiere"
-        case runTimeTicks = "RunTimeTicks"
-        case isPlaceHolder = "IsPlaceHolder"
-        case id = "Id"
-        case channelID = "ChannelId"
-        case specialFeatureCount = "SpecialFeatureCount"
-        case airDays = "AirDays"
-        case partCount = "PartCount"
-        case albumID = "AlbumId"
-        case height = "Height"
-        case artists = "Artists"
-        case communityRating = "CommunityRating"
-        case tags = "Tags"
-        case channelType = "ChannelType"
-        case isKids = "IsKids"
-        case number = "Number"
-        case sourceType = "SourceType"
-        case parentID = "ParentId"
-        case endDate = "EndDate"
-        case childCount = "ChildCount"
         case type = "Type"
-        case isMovie = "IsMovie"
-        case mediaSourceCount = "MediaSourceCount"
-        case exposureTime = "ExposureTime"
-        case songCount = "SongCount"
-        case trailerCount = "TrailerCount"
-        case dateLastMediaAdded = "DateLastMediaAdded"
-        case parentIndexNumber = "ParentIndexNumber"
-        case album = "Album"
-        case locationType = "LocationType"
-        case albumArtists = "AlbumArtists"
-        case people = "People"
-        case imageBlurHashes = "ImageBlurHashes"
-        case cameraMake = "CameraMake"
-        case currentProgram = "CurrentProgram"
-        case isSupportsSync = "SupportsSync"
-        case software = "Software"
-        case backdropImageTags = "BackdropImageTags"
-        case parentArtItemID = "ParentArtItemId"
-        case seriesStudio = "SeriesStudio"
-        case preferredMetadataLanguage = "PreferredMetadataLanguage"
-        case productionYear = "ProductionYear"
-        case hasSubtitles = "HasSubtitles"
-        case completionPercentage = "CompletionPercentage"
-        case container = "Container"
-        case artistCount = "ArtistCount"
-        case taglines = "Taglines"
-        case enableMediaSourceDisplay = "EnableMediaSourceDisplay"
-        case cumulativeRunTimeTicks = "CumulativeRunTimeTicks"
-        case productionLocations = "ProductionLocations"
-        case airsAfterSeasonNumber = "AirsAfterSeasonNumber"
-        case indexNumberEnd = "IndexNumberEnd"
-        case timerID = "TimerId"
-        case providerIDs = "ProviderIds"
-        case programID = "ProgramId"
-        case collectionType = "CollectionType"
-        case officialRating = "OfficialRating"
-        case seriesPrimaryImageTag = "SeriesPrimaryImageTag"
-        case indexNumber = "IndexNumber"
-        case etag = "Etag"
-        case airsBeforeSeasonNumber = "AirsBeforeSeasonNumber"
-        case shutterSpeed = "ShutterSpeed"
-        case genres = "Genres"
-        case displayOrder = "DisplayOrder"
-        case seasonName = "SeasonName"
-        case serverID = "ServerId"
-        case canDownload = "CanDownload"
-        case seriesTimerID = "SeriesTimerId"
-        case parentLogoImageTag = "ParentLogoImageTag"
-        case aperture = "Aperture"
-        case isSeries = "IsSeries"
-        case channelPrimaryImageTag = "ChannelPrimaryImageTag"
-        case seriesName = "SeriesName"
-        case airTime = "AirTime"
-        case mediaSources = "MediaSources"
-        case sortName = "SortName"
-        case latitude = "Latitude"
-        case albumArtist = "AlbumArtist"
-        case recursiveItemCount = "RecursiveItemCount"
-        case channelName = "ChannelName"
-        case isNews = "IsNews"
+        case name = "Name"
     }
 }
 
-/// An enum representing the sorting order.
-public enum SortOrder: String, Codable, CaseIterable {
-    case ascending = "Ascending"
-    case descending = "Descending"
-}
+public struct QueueItem: Codable {
+    public var id: UUID?
+    public var playlistItemID: String?
 
-public struct AllThemeMediaResult: Codable {
-    /// Class ThemeMediaResult.
-    public var themeVideosResult: ThemeMediaResult?
-    /// Class ThemeMediaResult.
-    public var soundtrackSongsResult: ThemeMediaResult?
-    /// Class ThemeMediaResult.
-    public var themeSongsResult: ThemeMediaResult?
-
-    public init(themeVideosResult: ThemeMediaResult? = nil, soundtrackSongsResult: ThemeMediaResult? = nil, themeSongsResult: ThemeMediaResult? = nil) {
-        self.themeVideosResult = themeVideosResult
-        self.soundtrackSongsResult = soundtrackSongsResult
-        self.themeSongsResult = themeSongsResult
+    public init(id: UUID? = nil, playlistItemID: String? = nil) {
+        self.id = id
+        self.playlistItemID = playlistItemID
     }
 
     private enum CodingKeys: String, CodingKey {
-        case themeVideosResult = "ThemeVideosResult"
-        case soundtrackSongsResult = "SoundtrackSongsResult"
-        case themeSongsResult = "ThemeSongsResult"
+        case id = "Id"
+        case playlistItemID = "PlaylistItemId"
     }
 }
 
-public struct MovieInfoRemoteSearchQuery: Codable {
-    /// Gets or sets a value indicating whether disabled providers should be included.
-    public var isIncludeDisabledProviders: Bool?
-    public var itemID: UUID?
-    /// Will only search within the given provider when set.
-    public var searchProviderName: String?
-    public var searchInfo: MovieInfo?
+public enum CodecType: String, Codable, CaseIterable {
+    case video = "Video"
+    case videoAudio = "VideoAudio"
+    case audio = "Audio"
+}
 
-    public init(isIncludeDisabledProviders: Bool? = nil, itemID: UUID? = nil, searchProviderName: String? = nil, searchInfo: MovieInfo? = nil) {
+public struct TrailerInfoRemoteSearchQuery: Codable {
+    public var isIncludeDisabledProviders: Bool?
+    public var searchInfo: TrailerInfo?
+    public var searchProviderName: String?
+    public var itemID: UUID?
+
+    public init(isIncludeDisabledProviders: Bool? = nil, searchInfo: TrailerInfo? = nil, searchProviderName: String? = nil, itemID: UUID? = nil) {
         self.isIncludeDisabledProviders = isIncludeDisabledProviders
-        self.itemID = itemID
-        self.searchProviderName = searchProviderName
         self.searchInfo = searchInfo
+        self.searchProviderName = searchProviderName
+        self.itemID = itemID
     }
 
     private enum CodingKeys: String, CodingKey {
         case isIncludeDisabledProviders = "IncludeDisabledProviders"
-        case itemID = "ItemId"
-        case searchProviderName = "SearchProviderName"
         case searchInfo = "SearchInfo"
+        case searchProviderName = "SearchProviderName"
+        case itemID = "ItemId"
     }
 }
 
-public enum ChannelMediaType: String, Codable, CaseIterable {
-    case audio = "Audio"
-    case video = "Video"
-    case photo = "Photo"
-}
+public struct LibraryUpdateInfo: Codable {
+    public var foldersAddedTo: [String]?
+    public var collectionFolders: [String]?
+    public var itemsAdded: [String]?
+    public var foldersRemovedFrom: [String]?
+    public var isEmpty: Bool?
+    public var itemsUpdated: [String]?
+    public var itemsRemoved: [String]?
 
-public struct UserPolicy: Codable {
-    public var enablePlaybackRemuxing: Bool?
-    public var enableRemoteControlOfOtherUsers: Bool?
-    public var blockedMediaFolders: [UUID]?
-    /// Gets or sets a value indicating whether this instance is administrator.
-    public var isAdministrator: Bool?
-    public var enableUserPreferenceAccess: Bool?
-    public var blockUnratedItems: [UnratedItem]?
-    public var enabledChannels: [UUID]?
-    public var enabledDevices: [String]?
-    public var enableMediaPlayback: Bool?
-    public var enabledFolders: [UUID]?
-    public var enableRemoteAccess: Bool?
-    public var enableContentDeletion: Bool?
-    public var passwordResetProviderID: String?
-    public var authenticationProviderID: String?
-    public var invalidLoginAttemptCount: Int?
-    public var enableVideoPlaybackTranscoding: Bool?
-    public var enableAudioPlaybackTranscoding: Bool?
-    public var enableSharedDeviceControl: Bool?
-    public var loginAttemptsBeforeLockout: Int?
-    public var blockedChannels: [UUID]?
-    public var enableAllDevices: Bool?
-    /// Gets or sets the max parental rating.
-    public var maxParentalRating: Int?
-    public var maxActiveSessions: Int?
-    public var enableContentDownloading: Bool?
-    public var enablePublicSharing: Bool?
-    public var enableLiveTvManagement: Bool?
-    public var remoteClientBitrateLimit: Int?
-    /// Gets or sets a value indicating whether this instance is disabled.
-    public var isDisabled: Bool?
-    public var accessSchedules: [AccessSchedule]?
-    public var enableContentDeletionFromFolders: [String]?
-    public var enableMediaConversion: Bool?
-    /// Gets or sets a value indicating what SyncPlay features the user can access.
-    public var syncPlayAccess: SyncPlayUserAccessType?
-    public var isForceRemoteSourceTranscoding: Bool?
-    public var enableAllChannels: Bool?
-    /// Gets or sets a value indicating whether [enable synchronize].
-    public var enableSyncTranscoding: Bool?
-    public var blockedTags: [String]?
-    public var enableLiveTvAccess: Bool?
-    public var enableAllFolders: Bool?
-    /// Gets or sets a value indicating whether this instance is hidden.
-    public var isHidden: Bool?
-
-    public init(enablePlaybackRemuxing: Bool? = nil, enableRemoteControlOfOtherUsers: Bool? = nil, blockedMediaFolders: [UUID]? = nil, isAdministrator: Bool? = nil, enableUserPreferenceAccess: Bool? = nil, blockUnratedItems: [UnratedItem]? = nil, enabledChannels: [UUID]? = nil, enabledDevices: [String]? = nil, enableMediaPlayback: Bool? = nil, enabledFolders: [UUID]? = nil, enableRemoteAccess: Bool? = nil, enableContentDeletion: Bool? = nil, passwordResetProviderID: String? = nil, authenticationProviderID: String? = nil, invalidLoginAttemptCount: Int? = nil, enableVideoPlaybackTranscoding: Bool? = nil, enableAudioPlaybackTranscoding: Bool? = nil, enableSharedDeviceControl: Bool? = nil, loginAttemptsBeforeLockout: Int? = nil, blockedChannels: [UUID]? = nil, enableAllDevices: Bool? = nil, maxParentalRating: Int? = nil, maxActiveSessions: Int? = nil, enableContentDownloading: Bool? = nil, enablePublicSharing: Bool? = nil, enableLiveTvManagement: Bool? = nil, remoteClientBitrateLimit: Int? = nil, isDisabled: Bool? = nil, accessSchedules: [AccessSchedule]? = nil, enableContentDeletionFromFolders: [String]? = nil, enableMediaConversion: Bool? = nil, syncPlayAccess: SyncPlayUserAccessType? = nil, isForceRemoteSourceTranscoding: Bool? = nil, enableAllChannels: Bool? = nil, enableSyncTranscoding: Bool? = nil, blockedTags: [String]? = nil, enableLiveTvAccess: Bool? = nil, enableAllFolders: Bool? = nil, isHidden: Bool? = nil) {
-        self.enablePlaybackRemuxing = enablePlaybackRemuxing
-        self.enableRemoteControlOfOtherUsers = enableRemoteControlOfOtherUsers
-        self.blockedMediaFolders = blockedMediaFolders
-        self.isAdministrator = isAdministrator
-        self.enableUserPreferenceAccess = enableUserPreferenceAccess
-        self.blockUnratedItems = blockUnratedItems
-        self.enabledChannels = enabledChannels
-        self.enabledDevices = enabledDevices
-        self.enableMediaPlayback = enableMediaPlayback
-        self.enabledFolders = enabledFolders
-        self.enableRemoteAccess = enableRemoteAccess
-        self.enableContentDeletion = enableContentDeletion
-        self.passwordResetProviderID = passwordResetProviderID
-        self.authenticationProviderID = authenticationProviderID
-        self.invalidLoginAttemptCount = invalidLoginAttemptCount
-        self.enableVideoPlaybackTranscoding = enableVideoPlaybackTranscoding
-        self.enableAudioPlaybackTranscoding = enableAudioPlaybackTranscoding
-        self.enableSharedDeviceControl = enableSharedDeviceControl
-        self.loginAttemptsBeforeLockout = loginAttemptsBeforeLockout
-        self.blockedChannels = blockedChannels
-        self.enableAllDevices = enableAllDevices
-        self.maxParentalRating = maxParentalRating
-        self.maxActiveSessions = maxActiveSessions
-        self.enableContentDownloading = enableContentDownloading
-        self.enablePublicSharing = enablePublicSharing
-        self.enableLiveTvManagement = enableLiveTvManagement
-        self.remoteClientBitrateLimit = remoteClientBitrateLimit
-        self.isDisabled = isDisabled
-        self.accessSchedules = accessSchedules
-        self.enableContentDeletionFromFolders = enableContentDeletionFromFolders
-        self.enableMediaConversion = enableMediaConversion
-        self.syncPlayAccess = syncPlayAccess
-        self.isForceRemoteSourceTranscoding = isForceRemoteSourceTranscoding
-        self.enableAllChannels = enableAllChannels
-        self.enableSyncTranscoding = enableSyncTranscoding
-        self.blockedTags = blockedTags
-        self.enableLiveTvAccess = enableLiveTvAccess
-        self.enableAllFolders = enableAllFolders
-        self.isHidden = isHidden
+    public init(foldersAddedTo: [String]? = nil, collectionFolders: [String]? = nil, itemsAdded: [String]? = nil, foldersRemovedFrom: [String]? = nil, isEmpty: Bool? = nil, itemsUpdated: [String]? = nil, itemsRemoved: [String]? = nil) {
+        self.foldersAddedTo = foldersAddedTo
+        self.collectionFolders = collectionFolders
+        self.itemsAdded = itemsAdded
+        self.foldersRemovedFrom = foldersRemovedFrom
+        self.isEmpty = isEmpty
+        self.itemsUpdated = itemsUpdated
+        self.itemsRemoved = itemsRemoved
     }
 
     private enum CodingKeys: String, CodingKey {
-        case enablePlaybackRemuxing = "EnablePlaybackRemuxing"
-        case enableRemoteControlOfOtherUsers = "EnableRemoteControlOfOtherUsers"
-        case blockedMediaFolders = "BlockedMediaFolders"
-        case isAdministrator = "IsAdministrator"
-        case enableUserPreferenceAccess = "EnableUserPreferenceAccess"
-        case blockUnratedItems = "BlockUnratedItems"
-        case enabledChannels = "EnabledChannels"
-        case enabledDevices = "EnabledDevices"
-        case enableMediaPlayback = "EnableMediaPlayback"
-        case enabledFolders = "EnabledFolders"
-        case enableRemoteAccess = "EnableRemoteAccess"
-        case enableContentDeletion = "EnableContentDeletion"
-        case passwordResetProviderID = "PasswordResetProviderId"
-        case authenticationProviderID = "AuthenticationProviderId"
-        case invalidLoginAttemptCount = "InvalidLoginAttemptCount"
-        case enableVideoPlaybackTranscoding = "EnableVideoPlaybackTranscoding"
-        case enableAudioPlaybackTranscoding = "EnableAudioPlaybackTranscoding"
-        case enableSharedDeviceControl = "EnableSharedDeviceControl"
-        case loginAttemptsBeforeLockout = "LoginAttemptsBeforeLockout"
-        case blockedChannels = "BlockedChannels"
-        case enableAllDevices = "EnableAllDevices"
-        case maxParentalRating = "MaxParentalRating"
-        case maxActiveSessions = "MaxActiveSessions"
-        case enableContentDownloading = "EnableContentDownloading"
-        case enablePublicSharing = "EnablePublicSharing"
-        case enableLiveTvManagement = "EnableLiveTvManagement"
-        case remoteClientBitrateLimit = "RemoteClientBitrateLimit"
-        case isDisabled = "IsDisabled"
-        case accessSchedules = "AccessSchedules"
-        case enableContentDeletionFromFolders = "EnableContentDeletionFromFolders"
-        case enableMediaConversion = "EnableMediaConversion"
-        case syncPlayAccess = "SyncPlayAccess"
-        case isForceRemoteSourceTranscoding = "ForceRemoteSourceTranscoding"
-        case enableAllChannels = "EnableAllChannels"
-        case enableSyncTranscoding = "EnableSyncTranscoding"
-        case blockedTags = "BlockedTags"
-        case enableLiveTvAccess = "EnableLiveTvAccess"
-        case enableAllFolders = "EnableAllFolders"
-        case isHidden = "IsHidden"
+        case foldersAddedTo = "FoldersAddedTo"
+        case collectionFolders = "CollectionFolders"
+        case itemsAdded = "ItemsAdded"
+        case foldersRemovedFrom = "FoldersRemovedFrom"
+        case isEmpty = "IsEmpty"
+        case itemsUpdated = "ItemsUpdated"
+        case itemsRemoved = "ItemsRemoved"
+    }
+}
+
+public struct SongInfo: Codable {
+    public var albumArtists: [String]?
+    public var metadataLanguage: String?
+    public var album: String?
+    public var parentIndexNumber: Int?
+    public var artists: [String]?
+    public var metadataCountryCode: String?
+    public var isAutomated: Bool?
+    public var name: String?
+    public var path: String?
+    public var providerIDs: [String: String]?
+    public var indexNumber: Int?
+    public var premiereDate: Date?
+    public var year: Int?
+
+    public init(albumArtists: [String]? = nil, metadataLanguage: String? = nil, album: String? = nil, parentIndexNumber: Int? = nil, artists: [String]? = nil, metadataCountryCode: String? = nil, isAutomated: Bool? = nil, name: String? = nil, path: String? = nil, providerIDs: [String: String]? = nil, indexNumber: Int? = nil, premiereDate: Date? = nil, year: Int? = nil) {
+        self.albumArtists = albumArtists
+        self.metadataLanguage = metadataLanguage
+        self.album = album
+        self.parentIndexNumber = parentIndexNumber
+        self.artists = artists
+        self.metadataCountryCode = metadataCountryCode
+        self.isAutomated = isAutomated
+        self.name = name
+        self.path = path
+        self.providerIDs = providerIDs
+        self.indexNumber = indexNumber
+        self.premiereDate = premiereDate
+        self.year = year
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case albumArtists = "AlbumArtists"
+        case metadataLanguage = "MetadataLanguage"
+        case album = "Album"
+        case parentIndexNumber = "ParentIndexNumber"
+        case artists = "Artists"
+        case metadataCountryCode = "MetadataCountryCode"
+        case isAutomated = "IsAutomated"
+        case name = "Name"
+        case path = "Path"
+        case providerIDs = "ProviderIds"
+        case indexNumber = "IndexNumber"
+        case premiereDate = "PremiereDate"
+        case year = "Year"
+    }
+}
+
+public enum RepeatMode: String, Codable, CaseIterable {
+    case repeatNone = "RepeatNone"
+    case repeatAll = "RepeatAll"
+    case repeatOne = "RepeatOne"
+}
+
+public struct PlaybackInfoDto: Codable {
+    public var allowAudioStreamCopy: Bool?
+    public var subtitleStreamIndex: Int?
+    public var userID: UUID?
+    public var maxStreamingBitrate: Int?
+    public var isAutoOpenLiveStream: Bool?
+    public var liveStreamID: String?
+    public var allowVideoStreamCopy: Bool?
+    public var enableDirectPlay: Bool?
+    public var maxAudioChannels: Int?
+    public var enableDirectStream: Bool?
+    public var audioStreamIndex: Int?
+    public var mediaSourceID: String?
+    public var startTimeTicks: Int?
+    public var deviceProfile: DeviceProfile?
+    public var enableTranscoding: Bool?
+
+    public init(allowAudioStreamCopy: Bool? = nil, subtitleStreamIndex: Int? = nil, userID: UUID? = nil, maxStreamingBitrate: Int? = nil, isAutoOpenLiveStream: Bool? = nil, liveStreamID: String? = nil, allowVideoStreamCopy: Bool? = nil, enableDirectPlay: Bool? = nil, maxAudioChannels: Int? = nil, enableDirectStream: Bool? = nil, audioStreamIndex: Int? = nil, mediaSourceID: String? = nil, startTimeTicks: Int? = nil, deviceProfile: DeviceProfile? = nil, enableTranscoding: Bool? = nil) {
+        self.allowAudioStreamCopy = allowAudioStreamCopy
+        self.subtitleStreamIndex = subtitleStreamIndex
+        self.userID = userID
+        self.maxStreamingBitrate = maxStreamingBitrate
+        self.isAutoOpenLiveStream = isAutoOpenLiveStream
+        self.liveStreamID = liveStreamID
+        self.allowVideoStreamCopy = allowVideoStreamCopy
+        self.enableDirectPlay = enableDirectPlay
+        self.maxAudioChannels = maxAudioChannels
+        self.enableDirectStream = enableDirectStream
+        self.audioStreamIndex = audioStreamIndex
+        self.mediaSourceID = mediaSourceID
+        self.startTimeTicks = startTimeTicks
+        self.deviceProfile = deviceProfile
+        self.enableTranscoding = enableTranscoding
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case allowAudioStreamCopy = "AllowAudioStreamCopy"
+        case subtitleStreamIndex = "SubtitleStreamIndex"
+        case userID = "UserId"
+        case maxStreamingBitrate = "MaxStreamingBitrate"
+        case isAutoOpenLiveStream = "AutoOpenLiveStream"
+        case liveStreamID = "LiveStreamId"
+        case allowVideoStreamCopy = "AllowVideoStreamCopy"
+        case enableDirectPlay = "EnableDirectPlay"
+        case maxAudioChannels = "MaxAudioChannels"
+        case enableDirectStream = "EnableDirectStream"
+        case audioStreamIndex = "AudioStreamIndex"
+        case mediaSourceID = "MediaSourceId"
+        case startTimeTicks = "StartTimeTicks"
+        case deviceProfile = "DeviceProfile"
+        case enableTranscoding = "EnableTranscoding"
+    }
+}
+
+public struct SetPlaylistItemRequestDto: Codable {
+    public var playlistItemID: UUID?
+
+    public init(playlistItemID: UUID? = nil) {
+        self.playlistItemID = playlistItemID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case playlistItemID = "PlaylistItemId"
+    }
+}
+
+public struct MovieInfoRemoteSearchQuery: Codable {
+    public var searchInfo: MovieInfo?
+    public var itemID: UUID?
+    public var isIncludeDisabledProviders: Bool?
+    public var searchProviderName: String?
+
+    public init(searchInfo: MovieInfo? = nil, itemID: UUID? = nil, isIncludeDisabledProviders: Bool? = nil, searchProviderName: String? = nil) {
+        self.searchInfo = searchInfo
+        self.itemID = itemID
+        self.isIncludeDisabledProviders = isIncludeDisabledProviders
+        self.searchProviderName = searchProviderName
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case searchInfo = "SearchInfo"
+        case itemID = "ItemId"
+        case isIncludeDisabledProviders = "IncludeDisabledProviders"
+        case searchProviderName = "SearchProviderName"
+    }
+}
+
+public struct SpecialViewOptionDto: Codable {
+    public var id: String?
+    public var name: String?
+
+    public init(id: String? = nil, name: String? = nil) {
+        self.id = id
+        self.name = name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case name = "Name"
+    }
+}
+
+public struct LibraryOptionsResultDto: Codable {
+    public var typeOptions: [LibraryTypeOptionsDto]?
+    public var metadataSavers: [LibraryOptionInfoDto]?
+    public var metadataReaders: [LibraryOptionInfoDto]?
+    public var subtitleFetchers: [LibraryOptionInfoDto]?
+
+    public init(typeOptions: [LibraryTypeOptionsDto]? = nil, metadataSavers: [LibraryOptionInfoDto]? = nil, metadataReaders: [LibraryOptionInfoDto]? = nil, subtitleFetchers: [LibraryOptionInfoDto]? = nil) {
+        self.typeOptions = typeOptions
+        self.metadataSavers = metadataSavers
+        self.metadataReaders = metadataReaders
+        self.subtitleFetchers = subtitleFetchers
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case typeOptions = "TypeOptions"
+        case metadataSavers = "MetadataSavers"
+        case metadataReaders = "MetadataReaders"
+        case subtitleFetchers = "SubtitleFetchers"
     }
 }
 
