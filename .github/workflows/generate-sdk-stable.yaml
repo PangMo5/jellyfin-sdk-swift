@@ -22,7 +22,8 @@ jobs:
         mint run CreateAPI create-api generate \
         jellyfin-openapi-stable.json \
         --package JellyfinAPI \
-        --output .
+        --output . \
+        --config .create-api.yaml
 
     - name: Replace Sources
       run: |

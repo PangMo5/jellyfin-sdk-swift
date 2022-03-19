@@ -79,7 +79,7 @@ paths:
   # Available options:
   #   - "rest" - generate structs to represent path components
   #   - "operations" - generate a plain list of operatinos
-  style: rest
+  style: operations
   # Namespace for all generated paths
   namespace: "Paths"
   # Generate response headers using https://github.com/kean/HTTPHeaders
@@ -118,7 +118,7 @@ rename:
 
 comments:
   # Generate comments
-  isEnabled: true
+  isEnabled: false
   # Generate titles
   isAddingTitles: true
   # Generate description 
