@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct EndPointInfo: Codable, Hashable {
+public struct EndPointInfo: Codable, JSONEncodable, Hashable {
 
     public var isLocal: Bool?
     public var isInNetwork: Bool?
@@ -28,8 +28,9 @@ public struct EndPointInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(isLocal, forKey: .isLocal)
-        try encoderContainer.encodeIfPresent(isInNetwork, forKey: .isInNetwork)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(isLocal, forKey: .isLocal)
+        try container.encodeIfPresent(isInNetwork, forKey: .isInNetwork)
     }
 }
+

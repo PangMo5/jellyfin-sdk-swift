@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class FontFile. */
-public struct FontFile: Codable, Hashable {
+public struct FontFile: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -39,10 +39,11 @@ public struct FontFile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(size, forKey: .size)
-        try encoderContainer.encodeIfPresent(dateCreated, forKey: .dateCreated)
-        try encoderContainer.encodeIfPresent(dateModified, forKey: .dateModified)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(size, forKey: .size)
+        try container.encodeIfPresent(dateCreated, forKey: .dateCreated)
+        try container.encodeIfPresent(dateModified, forKey: .dateModified)
     }
 }
+

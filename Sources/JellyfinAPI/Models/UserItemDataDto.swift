@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class UserItemDataDto. */
-public struct UserItemDataDto: Codable, Hashable {
+public struct UserItemDataDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the rating. */
     public var rating: Double?
@@ -67,17 +67,18 @@ public struct UserItemDataDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(rating, forKey: .rating)
-        try encoderContainer.encodeIfPresent(playedPercentage, forKey: .playedPercentage)
-        try encoderContainer.encodeIfPresent(unplayedItemCount, forKey: .unplayedItemCount)
-        try encoderContainer.encodeIfPresent(playbackPositionTicks, forKey: .playbackPositionTicks)
-        try encoderContainer.encodeIfPresent(playCount, forKey: .playCount)
-        try encoderContainer.encodeIfPresent(isFavorite, forKey: .isFavorite)
-        try encoderContainer.encodeIfPresent(likes, forKey: .likes)
-        try encoderContainer.encodeIfPresent(lastPlayedDate, forKey: .lastPlayedDate)
-        try encoderContainer.encodeIfPresent(played, forKey: .played)
-        try encoderContainer.encodeIfPresent(key, forKey: .key)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(rating, forKey: .rating)
+        try container.encodeIfPresent(playedPercentage, forKey: .playedPercentage)
+        try container.encodeIfPresent(unplayedItemCount, forKey: .unplayedItemCount)
+        try container.encodeIfPresent(playbackPositionTicks, forKey: .playbackPositionTicks)
+        try container.encodeIfPresent(playCount, forKey: .playCount)
+        try container.encodeIfPresent(isFavorite, forKey: .isFavorite)
+        try container.encodeIfPresent(likes, forKey: .likes)
+        try container.encodeIfPresent(lastPlayedDate, forKey: .lastPlayedDate)
+        try container.encodeIfPresent(played, forKey: .played)
+        try container.encodeIfPresent(key, forKey: .key)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
     }
 }
+

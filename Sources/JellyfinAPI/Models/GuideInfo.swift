@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct GuideInfo: Codable, Hashable {
+public struct GuideInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the start date. */
     public var startDate: Date?
@@ -30,8 +30,9 @@ public struct GuideInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(startDate, forKey: .startDate)
-        try encoderContainer.encodeIfPresent(endDate, forKey: .endDate)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(startDate, forKey: .startDate)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
     }
 }
+

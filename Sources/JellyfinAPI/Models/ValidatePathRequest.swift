@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Validate path object. */
-public struct ValidatePathRequest: Codable, Hashable {
+public struct ValidatePathRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether validate if path is writable. */
     public var validateWritable: Bool?
@@ -35,9 +35,10 @@ public struct ValidatePathRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(validateWritable, forKey: .validateWritable)
-        try encoderContainer.encodeIfPresent(path, forKey: .path)
-        try encoderContainer.encodeIfPresent(isFile, forKey: .isFile)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(validateWritable, forKey: .validateWritable)
+        try container.encodeIfPresent(path, forKey: .path)
+        try container.encodeIfPresent(isFile, forKey: .isFile)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Gets or sets the path info. */
-public struct MediaPathDtoPathInfo: Codable, Hashable {
+public struct MediaPathDtoPathInfo: Codable, JSONEncodable, Hashable {
 
     public var path: String?
     public var networkPath: String?
@@ -29,8 +29,9 @@ public struct MediaPathDtoPathInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(path, forKey: .path)
-        try encoderContainer.encodeIfPresent(networkPath, forKey: .networkPath)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(path, forKey: .path)
+        try container.encodeIfPresent(networkPath, forKey: .networkPath)
     }
 }
+

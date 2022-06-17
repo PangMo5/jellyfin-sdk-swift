@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SessionUserInfo. */
-public struct SessionUserInfo: Codable, Hashable {
+public struct SessionUserInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the user identifier. */
     public var userId: String?
@@ -31,8 +31,9 @@ public struct SessionUserInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(userName, forKey: .userName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(userName, forKey: .userName)
     }
 }
+

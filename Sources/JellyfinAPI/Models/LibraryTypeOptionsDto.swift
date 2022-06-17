@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Library type options dto. */
-public struct LibraryTypeOptionsDto: Codable, Hashable {
+public struct LibraryTypeOptionsDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the type. */
     public var type: String?
@@ -43,11 +43,12 @@ public struct LibraryTypeOptionsDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(metadataFetchers, forKey: .metadataFetchers)
-        try encoderContainer.encodeIfPresent(imageFetchers, forKey: .imageFetchers)
-        try encoderContainer.encodeIfPresent(supportedImageTypes, forKey: .supportedImageTypes)
-        try encoderContainer.encodeIfPresent(defaultImageOptions, forKey: .defaultImageOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(metadataFetchers, forKey: .metadataFetchers)
+        try container.encodeIfPresent(imageFetchers, forKey: .imageFetchers)
+        try container.encodeIfPresent(supportedImageTypes, forKey: .supportedImageTypes)
+        try container.encodeIfPresent(defaultImageOptions, forKey: .defaultImageOptions)
     }
 }
+

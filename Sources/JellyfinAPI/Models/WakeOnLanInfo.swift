@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Provides the MAC address and port for wake-on-LAN functionality. */
-public struct WakeOnLanInfo: Codable, Hashable {
+public struct WakeOnLanInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets the MAC address of the device. */
     public var macAddress: String?
@@ -31,8 +31,9 @@ public struct WakeOnLanInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(macAddress, forKey: .macAddress)
-        try encoderContainer.encodeIfPresent(port, forKey: .port)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(macAddress, forKey: .macAddress)
+        try container.encodeIfPresent(port, forKey: .port)
     }
 }
+

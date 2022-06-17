@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Add virtual folder dto. */
-public struct AddVirtualFolderDto: Codable, Hashable {
+public struct AddVirtualFolderDto: Codable, JSONEncodable, Hashable {
 
     public var libraryOptions: AddVirtualFolderDtoLibraryOptions?
 
@@ -26,7 +26,8 @@ public struct AddVirtualFolderDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(libraryOptions, forKey: .libraryOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(libraryOptions, forKey: .libraryOptions)
     }
 }
+

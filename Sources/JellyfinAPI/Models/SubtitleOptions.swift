@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SubtitleOptions: Codable, Hashable {
+public struct SubtitleOptions: Codable, JSONEncodable, Hashable {
 
     public var skipIfEmbeddedSubtitlesPresent: Bool?
     public var skipIfAudioTrackMatches: Bool?
@@ -49,15 +49,16 @@ public struct SubtitleOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(skipIfEmbeddedSubtitlesPresent, forKey: .skipIfEmbeddedSubtitlesPresent)
-        try encoderContainer.encodeIfPresent(skipIfAudioTrackMatches, forKey: .skipIfAudioTrackMatches)
-        try encoderContainer.encodeIfPresent(downloadLanguages, forKey: .downloadLanguages)
-        try encoderContainer.encodeIfPresent(downloadMovieSubtitles, forKey: .downloadMovieSubtitles)
-        try encoderContainer.encodeIfPresent(downloadEpisodeSubtitles, forKey: .downloadEpisodeSubtitles)
-        try encoderContainer.encodeIfPresent(openSubtitlesUsername, forKey: .openSubtitlesUsername)
-        try encoderContainer.encodeIfPresent(openSubtitlesPasswordHash, forKey: .openSubtitlesPasswordHash)
-        try encoderContainer.encodeIfPresent(isOpenSubtitleVipAccount, forKey: .isOpenSubtitleVipAccount)
-        try encoderContainer.encodeIfPresent(requirePerfectMatch, forKey: .requirePerfectMatch)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(skipIfEmbeddedSubtitlesPresent, forKey: .skipIfEmbeddedSubtitlesPresent)
+        try container.encodeIfPresent(skipIfAudioTrackMatches, forKey: .skipIfAudioTrackMatches)
+        try container.encodeIfPresent(downloadLanguages, forKey: .downloadLanguages)
+        try container.encodeIfPresent(downloadMovieSubtitles, forKey: .downloadMovieSubtitles)
+        try container.encodeIfPresent(downloadEpisodeSubtitles, forKey: .downloadEpisodeSubtitles)
+        try container.encodeIfPresent(openSubtitlesUsername, forKey: .openSubtitlesUsername)
+        try container.encodeIfPresent(openSubtitlesPasswordHash, forKey: .openSubtitlesPasswordHash)
+        try container.encodeIfPresent(isOpenSubtitleVipAccount, forKey: .isOpenSubtitleVipAccount)
+        try container.encodeIfPresent(requirePerfectMatch, forKey: .requirePerfectMatch)
     }
 }
+

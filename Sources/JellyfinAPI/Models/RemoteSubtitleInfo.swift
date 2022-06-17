@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct RemoteSubtitleInfo: Codable, Hashable {
+public struct RemoteSubtitleInfo: Codable, JSONEncodable, Hashable {
 
     public var threeLetterISOLanguageName: String?
     public var id: String?
@@ -55,17 +55,18 @@ public struct RemoteSubtitleInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(threeLetterISOLanguageName, forKey: .threeLetterISOLanguageName)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(providerName, forKey: .providerName)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(format, forKey: .format)
-        try encoderContainer.encodeIfPresent(author, forKey: .author)
-        try encoderContainer.encodeIfPresent(comment, forKey: .comment)
-        try encoderContainer.encodeIfPresent(dateCreated, forKey: .dateCreated)
-        try encoderContainer.encodeIfPresent(communityRating, forKey: .communityRating)
-        try encoderContainer.encodeIfPresent(downloadCount, forKey: .downloadCount)
-        try encoderContainer.encodeIfPresent(isHashMatch, forKey: .isHashMatch)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(threeLetterISOLanguageName, forKey: .threeLetterISOLanguageName)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(providerName, forKey: .providerName)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(format, forKey: .format)
+        try container.encodeIfPresent(author, forKey: .author)
+        try container.encodeIfPresent(comment, forKey: .comment)
+        try container.encodeIfPresent(dateCreated, forKey: .dateCreated)
+        try container.encodeIfPresent(communityRating, forKey: .communityRating)
+        try container.encodeIfPresent(downloadCount, forKey: .downloadCount)
+        try container.encodeIfPresent(isHashMatch, forKey: .isHashMatch)
     }
 }
+

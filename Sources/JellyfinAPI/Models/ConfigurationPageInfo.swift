@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The configuration page info. */
-public struct ConfigurationPageInfo: Codable, Hashable {
+public struct ConfigurationPageInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -47,12 +47,13 @@ public struct ConfigurationPageInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(enableInMainMenu, forKey: .enableInMainMenu)
-        try encoderContainer.encodeIfPresent(menuSection, forKey: .menuSection)
-        try encoderContainer.encodeIfPresent(menuIcon, forKey: .menuIcon)
-        try encoderContainer.encodeIfPresent(displayName, forKey: .displayName)
-        try encoderContainer.encodeIfPresent(pluginId, forKey: .pluginId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(enableInMainMenu, forKey: .enableInMainMenu)
+        try container.encodeIfPresent(menuSection, forKey: .menuSection)
+        try container.encodeIfPresent(menuIcon, forKey: .menuIcon)
+        try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(pluginId, forKey: .pluginId)
     }
 }
+

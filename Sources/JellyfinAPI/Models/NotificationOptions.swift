@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct NotificationOptions: Codable, Hashable {
+public struct NotificationOptions: Codable, JSONEncodable, Hashable {
 
     public var options: [NotificationOption]?
 
@@ -25,7 +25,8 @@ public struct NotificationOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(options, forKey: .options)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(options, forKey: .options)
     }
 }
+

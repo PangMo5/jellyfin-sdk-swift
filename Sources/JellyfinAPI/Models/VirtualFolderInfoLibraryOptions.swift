@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct VirtualFolderInfoLibraryOptions: Codable, Hashable {
+public struct VirtualFolderInfoLibraryOptions: Codable, JSONEncodable, Hashable {
 
     public var enablePhotos: Bool?
     public var enableRealtimeMonitor: Bool?
@@ -107,33 +107,34 @@ public struct VirtualFolderInfoLibraryOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(enablePhotos, forKey: .enablePhotos)
-        try encoderContainer.encodeIfPresent(enableRealtimeMonitor, forKey: .enableRealtimeMonitor)
-        try encoderContainer.encodeIfPresent(enableChapterImageExtraction, forKey: .enableChapterImageExtraction)
-        try encoderContainer.encodeIfPresent(extractChapterImagesDuringLibraryScan, forKey: .extractChapterImagesDuringLibraryScan)
-        try encoderContainer.encodeIfPresent(pathInfos, forKey: .pathInfos)
-        try encoderContainer.encodeIfPresent(saveLocalMetadata, forKey: .saveLocalMetadata)
-        try encoderContainer.encodeIfPresent(enableInternetProviders, forKey: .enableInternetProviders)
-        try encoderContainer.encodeIfPresent(enableAutomaticSeriesGrouping, forKey: .enableAutomaticSeriesGrouping)
-        try encoderContainer.encodeIfPresent(enableEmbeddedTitles, forKey: .enableEmbeddedTitles)
-        try encoderContainer.encodeIfPresent(enableEmbeddedEpisodeInfos, forKey: .enableEmbeddedEpisodeInfos)
-        try encoderContainer.encodeIfPresent(automaticRefreshIntervalDays, forKey: .automaticRefreshIntervalDays)
-        try encoderContainer.encodeIfPresent(preferredMetadataLanguage, forKey: .preferredMetadataLanguage)
-        try encoderContainer.encodeIfPresent(metadataCountryCode, forKey: .metadataCountryCode)
-        try encoderContainer.encodeIfPresent(seasonZeroDisplayName, forKey: .seasonZeroDisplayName)
-        try encoderContainer.encodeIfPresent(metadataSavers, forKey: .metadataSavers)
-        try encoderContainer.encodeIfPresent(disabledLocalMetadataReaders, forKey: .disabledLocalMetadataReaders)
-        try encoderContainer.encodeIfPresent(localMetadataReaderOrder, forKey: .localMetadataReaderOrder)
-        try encoderContainer.encodeIfPresent(disabledSubtitleFetchers, forKey: .disabledSubtitleFetchers)
-        try encoderContainer.encodeIfPresent(subtitleFetcherOrder, forKey: .subtitleFetcherOrder)
-        try encoderContainer.encodeIfPresent(skipSubtitlesIfEmbeddedSubtitlesPresent, forKey: .skipSubtitlesIfEmbeddedSubtitlesPresent)
-        try encoderContainer.encodeIfPresent(skipSubtitlesIfAudioTrackMatches, forKey: .skipSubtitlesIfAudioTrackMatches)
-        try encoderContainer.encodeIfPresent(subtitleDownloadLanguages, forKey: .subtitleDownloadLanguages)
-        try encoderContainer.encodeIfPresent(requirePerfectSubtitleMatch, forKey: .requirePerfectSubtitleMatch)
-        try encoderContainer.encodeIfPresent(saveSubtitlesWithMedia, forKey: .saveSubtitlesWithMedia)
-        try encoderContainer.encodeIfPresent(automaticallyAddToCollection, forKey: .automaticallyAddToCollection)
-        try encoderContainer.encodeIfPresent(allowEmbeddedSubtitles, forKey: .allowEmbeddedSubtitles)
-        try encoderContainer.encodeIfPresent(typeOptions, forKey: .typeOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(enablePhotos, forKey: .enablePhotos)
+        try container.encodeIfPresent(enableRealtimeMonitor, forKey: .enableRealtimeMonitor)
+        try container.encodeIfPresent(enableChapterImageExtraction, forKey: .enableChapterImageExtraction)
+        try container.encodeIfPresent(extractChapterImagesDuringLibraryScan, forKey: .extractChapterImagesDuringLibraryScan)
+        try container.encodeIfPresent(pathInfos, forKey: .pathInfos)
+        try container.encodeIfPresent(saveLocalMetadata, forKey: .saveLocalMetadata)
+        try container.encodeIfPresent(enableInternetProviders, forKey: .enableInternetProviders)
+        try container.encodeIfPresent(enableAutomaticSeriesGrouping, forKey: .enableAutomaticSeriesGrouping)
+        try container.encodeIfPresent(enableEmbeddedTitles, forKey: .enableEmbeddedTitles)
+        try container.encodeIfPresent(enableEmbeddedEpisodeInfos, forKey: .enableEmbeddedEpisodeInfos)
+        try container.encodeIfPresent(automaticRefreshIntervalDays, forKey: .automaticRefreshIntervalDays)
+        try container.encodeIfPresent(preferredMetadataLanguage, forKey: .preferredMetadataLanguage)
+        try container.encodeIfPresent(metadataCountryCode, forKey: .metadataCountryCode)
+        try container.encodeIfPresent(seasonZeroDisplayName, forKey: .seasonZeroDisplayName)
+        try container.encodeIfPresent(metadataSavers, forKey: .metadataSavers)
+        try container.encodeIfPresent(disabledLocalMetadataReaders, forKey: .disabledLocalMetadataReaders)
+        try container.encodeIfPresent(localMetadataReaderOrder, forKey: .localMetadataReaderOrder)
+        try container.encodeIfPresent(disabledSubtitleFetchers, forKey: .disabledSubtitleFetchers)
+        try container.encodeIfPresent(subtitleFetcherOrder, forKey: .subtitleFetcherOrder)
+        try container.encodeIfPresent(skipSubtitlesIfEmbeddedSubtitlesPresent, forKey: .skipSubtitlesIfEmbeddedSubtitlesPresent)
+        try container.encodeIfPresent(skipSubtitlesIfAudioTrackMatches, forKey: .skipSubtitlesIfAudioTrackMatches)
+        try container.encodeIfPresent(subtitleDownloadLanguages, forKey: .subtitleDownloadLanguages)
+        try container.encodeIfPresent(requirePerfectSubtitleMatch, forKey: .requirePerfectSubtitleMatch)
+        try container.encodeIfPresent(saveSubtitlesWithMedia, forKey: .saveSubtitlesWithMedia)
+        try container.encodeIfPresent(automaticallyAddToCollection, forKey: .automaticallyAddToCollection)
+        try container.encodeIfPresent(allowEmbeddedSubtitles, forKey: .allowEmbeddedSubtitles)
+        try container.encodeIfPresent(typeOptions, forKey: .typeOptions)
     }
 }
+

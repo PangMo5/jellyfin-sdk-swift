@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ListingsProviderInfo: Codable, Hashable {
+public struct ListingsProviderInfo: Codable, JSONEncodable, Hashable {
 
     public var id: String?
     public var type: String?
@@ -76,24 +76,25 @@ public struct ListingsProviderInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(username, forKey: .username)
-        try encoderContainer.encodeIfPresent(password, forKey: .password)
-        try encoderContainer.encodeIfPresent(listingsId, forKey: .listingsId)
-        try encoderContainer.encodeIfPresent(zipCode, forKey: .zipCode)
-        try encoderContainer.encodeIfPresent(country, forKey: .country)
-        try encoderContainer.encodeIfPresent(path, forKey: .path)
-        try encoderContainer.encodeIfPresent(enabledTuners, forKey: .enabledTuners)
-        try encoderContainer.encodeIfPresent(enableAllTuners, forKey: .enableAllTuners)
-        try encoderContainer.encodeIfPresent(newsCategories, forKey: .newsCategories)
-        try encoderContainer.encodeIfPresent(sportsCategories, forKey: .sportsCategories)
-        try encoderContainer.encodeIfPresent(kidsCategories, forKey: .kidsCategories)
-        try encoderContainer.encodeIfPresent(movieCategories, forKey: .movieCategories)
-        try encoderContainer.encodeIfPresent(channelMappings, forKey: .channelMappings)
-        try encoderContainer.encodeIfPresent(moviePrefix, forKey: .moviePrefix)
-        try encoderContainer.encodeIfPresent(preferredLanguage, forKey: .preferredLanguage)
-        try encoderContainer.encodeIfPresent(userAgent, forKey: .userAgent)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(listingsId, forKey: .listingsId)
+        try container.encodeIfPresent(zipCode, forKey: .zipCode)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(path, forKey: .path)
+        try container.encodeIfPresent(enabledTuners, forKey: .enabledTuners)
+        try container.encodeIfPresent(enableAllTuners, forKey: .enableAllTuners)
+        try container.encodeIfPresent(newsCategories, forKey: .newsCategories)
+        try container.encodeIfPresent(sportsCategories, forKey: .sportsCategories)
+        try container.encodeIfPresent(kidsCategories, forKey: .kidsCategories)
+        try container.encodeIfPresent(movieCategories, forKey: .movieCategories)
+        try container.encodeIfPresent(channelMappings, forKey: .channelMappings)
+        try container.encodeIfPresent(moviePrefix, forKey: .moviePrefix)
+        try container.encodeIfPresent(preferredLanguage, forKey: .preferredLanguage)
+        try container.encodeIfPresent(userAgent, forKey: .userAgent)
     }
 }
+

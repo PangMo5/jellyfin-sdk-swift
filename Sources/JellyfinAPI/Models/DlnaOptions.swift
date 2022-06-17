@@ -11,15 +11,15 @@ import AnyCodable
 #endif
 
 /** The DlnaOptions class contains the user definable parameters for the dlna subsystems. */
-public struct DlnaOptions: Codable, Hashable {
+public struct DlnaOptions: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether gets or sets a value to indicate the status of the dlna playTo subsystem. */
     public var enablePlayTo: Bool?
     /** Gets or sets a value indicating whether gets or sets a value to indicate the status of the dlna server subsystem. */
     public var enableServer: Bool?
-    /** Gets or sets a value indicating whether detailed dlna server logs are sent to the console/log.  If the setting \&quot;Emby.Dlna\&quot;: \&quot;Debug\&quot; msut be set in logging.default.json for this property to work. */
+    /** Gets or sets a value indicating whether detailed dlna server logs are sent to the console/log.  If the setting \"Emby.Dlna\": \"Debug\" msut be set in logging.default.json for this property to work. */
     public var enableDebugLog: Bool?
-    /** Gets or sets a value indicating whether whether detailed playTo debug logs are sent to the console/log.  If the setting \&quot;Emby.Dlna.PlayTo\&quot;: \&quot;Debug\&quot; msut be set in logging.default.json for this property to work. */
+    /** Gets or sets a value indicating whether whether detailed playTo debug logs are sent to the console/log.  If the setting \"Emby.Dlna.PlayTo\": \"Debug\" msut be set in logging.default.json for this property to work. */
     public var enablePlayToTracing: Bool?
     /** Gets or sets the ssdp client discovery interval time (in seconds).  This is the time after which the server will send a ssdp search request. */
     public var clientDiscoveryIntervalSeconds: Int?
@@ -67,17 +67,18 @@ public struct DlnaOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(enablePlayTo, forKey: .enablePlayTo)
-        try encoderContainer.encodeIfPresent(enableServer, forKey: .enableServer)
-        try encoderContainer.encodeIfPresent(enableDebugLog, forKey: .enableDebugLog)
-        try encoderContainer.encodeIfPresent(enablePlayToTracing, forKey: .enablePlayToTracing)
-        try encoderContainer.encodeIfPresent(clientDiscoveryIntervalSeconds, forKey: .clientDiscoveryIntervalSeconds)
-        try encoderContainer.encodeIfPresent(aliveMessageIntervalSeconds, forKey: .aliveMessageIntervalSeconds)
-        try encoderContainer.encodeIfPresent(blastAliveMessageIntervalSeconds, forKey: .blastAliveMessageIntervalSeconds)
-        try encoderContainer.encodeIfPresent(defaultUserId, forKey: .defaultUserId)
-        try encoderContainer.encodeIfPresent(autoCreatePlayToProfiles, forKey: .autoCreatePlayToProfiles)
-        try encoderContainer.encodeIfPresent(blastAliveMessages, forKey: .blastAliveMessages)
-        try encoderContainer.encodeIfPresent(sendOnlyMatchedHost, forKey: .sendOnlyMatchedHost)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(enablePlayTo, forKey: .enablePlayTo)
+        try container.encodeIfPresent(enableServer, forKey: .enableServer)
+        try container.encodeIfPresent(enableDebugLog, forKey: .enableDebugLog)
+        try container.encodeIfPresent(enablePlayToTracing, forKey: .enablePlayToTracing)
+        try container.encodeIfPresent(clientDiscoveryIntervalSeconds, forKey: .clientDiscoveryIntervalSeconds)
+        try container.encodeIfPresent(aliveMessageIntervalSeconds, forKey: .aliveMessageIntervalSeconds)
+        try container.encodeIfPresent(blastAliveMessageIntervalSeconds, forKey: .blastAliveMessageIntervalSeconds)
+        try container.encodeIfPresent(defaultUserId, forKey: .defaultUserId)
+        try container.encodeIfPresent(autoCreatePlayToProfiles, forKey: .autoCreatePlayToProfiles)
+        try container.encodeIfPresent(blastAliveMessages, forKey: .blastAliveMessages)
+        try container.encodeIfPresent(sendOnlyMatchedHost, forKey: .sendOnlyMatchedHost)
     }
 }
+

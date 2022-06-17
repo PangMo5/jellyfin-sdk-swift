@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct NotificationTypeInfo: Codable, Hashable {
+public struct NotificationTypeInfo: Codable, JSONEncodable, Hashable {
 
     public var type: String?
     public var name: String?
@@ -37,11 +37,12 @@ public struct NotificationTypeInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(enabled, forKey: .enabled)
-        try encoderContainer.encodeIfPresent(category, forKey: .category)
-        try encoderContainer.encodeIfPresent(isBasedOnUserEvent, forKey: .isBasedOnUserEvent)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(enabled, forKey: .enabled)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(isBasedOnUserEvent, forKey: .isBasedOnUserEvent)
     }
 }
+

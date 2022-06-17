@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Update library options dto. */
-public struct UpdateLibraryOptionsDto: Codable, Hashable {
+public struct UpdateLibraryOptionsDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the library item id. */
     public var id: String?
@@ -30,8 +30,9 @@ public struct UpdateLibraryOptionsDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(libraryOptions, forKey: .libraryOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(libraryOptions, forKey: .libraryOptions)
     }
 }
+

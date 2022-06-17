@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The admin notification dto. */
-public struct AdminNotificationDto: Codable, Hashable {
+public struct AdminNotificationDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the notification name. */
     public var name: String?
@@ -39,10 +39,11 @@ public struct AdminNotificationDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(description, forKey: .description)
-        try encoderContainer.encodeIfPresent(notificationLevel, forKey: .notificationLevel)
-        try encoderContainer.encodeIfPresent(url, forKey: .url)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(notificationLevel, forKey: .notificationLevel)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 }
+

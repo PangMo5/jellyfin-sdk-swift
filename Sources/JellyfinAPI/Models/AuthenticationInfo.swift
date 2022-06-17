@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct AuthenticationInfo: Codable, Hashable {
+public struct AuthenticationInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the identifier. */
     public var id: Int64?
@@ -68,18 +68,19 @@ public struct AuthenticationInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(accessToken, forKey: .accessToken)
-        try encoderContainer.encodeIfPresent(deviceId, forKey: .deviceId)
-        try encoderContainer.encodeIfPresent(appName, forKey: .appName)
-        try encoderContainer.encodeIfPresent(appVersion, forKey: .appVersion)
-        try encoderContainer.encodeIfPresent(deviceName, forKey: .deviceName)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(isActive, forKey: .isActive)
-        try encoderContainer.encodeIfPresent(dateCreated, forKey: .dateCreated)
-        try encoderContainer.encodeIfPresent(dateRevoked, forKey: .dateRevoked)
-        try encoderContainer.encodeIfPresent(dateLastActivity, forKey: .dateLastActivity)
-        try encoderContainer.encodeIfPresent(userName, forKey: .userName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(accessToken, forKey: .accessToken)
+        try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encodeIfPresent(appName, forKey: .appName)
+        try container.encodeIfPresent(appVersion, forKey: .appVersion)
+        try container.encodeIfPresent(deviceName, forKey: .deviceName)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(isActive, forKey: .isActive)
+        try container.encodeIfPresent(dateCreated, forKey: .dateCreated)
+        try container.encodeIfPresent(dateRevoked, forKey: .dateRevoked)
+        try container.encodeIfPresent(dateLastActivity, forKey: .dateLastActivity)
+        try container.encodeIfPresent(userName, forKey: .userName)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** This is used by the api to get information about a Person within a BaseItem. */
-public struct BaseItemPerson: Codable, Hashable {
+public struct BaseItemPerson: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -46,12 +46,13 @@ public struct BaseItemPerson: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(role, forKey: .role)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(primaryImageTag, forKey: .primaryImageTag)
-        try encoderContainer.encodeIfPresent(imageBlurHashes, forKey: .imageBlurHashes)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(role, forKey: .role)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(primaryImageTag, forKey: .primaryImageTag)
+        try container.encodeIfPresent(imageBlurHashes, forKey: .imageBlurHashes)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SetShuffleModeRequestDto. */
-public struct SyncPlaySetShuffleModeRequest: Codable, Hashable {
+public struct SyncPlaySetShuffleModeRequest: Codable, JSONEncodable, Hashable {
 
     /** Enum GroupShuffleMode. */
     public var mode: GroupShuffleMode?
@@ -27,7 +27,8 @@ public struct SyncPlaySetShuffleModeRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(mode, forKey: .mode)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mode, forKey: .mode)
     }
 }
+

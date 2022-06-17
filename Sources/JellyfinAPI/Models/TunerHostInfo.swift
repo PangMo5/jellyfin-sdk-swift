@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TunerHostInfo: Codable, Hashable {
+public struct TunerHostInfo: Codable, JSONEncodable, Hashable {
 
     public var id: String?
     public var url: String?
@@ -55,17 +55,18 @@ public struct TunerHostInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(url, forKey: .url)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(deviceId, forKey: .deviceId)
-        try encoderContainer.encodeIfPresent(friendlyName, forKey: .friendlyName)
-        try encoderContainer.encodeIfPresent(importFavoritesOnly, forKey: .importFavoritesOnly)
-        try encoderContainer.encodeIfPresent(allowHWTranscoding, forKey: .allowHWTranscoding)
-        try encoderContainer.encodeIfPresent(enableStreamLooping, forKey: .enableStreamLooping)
-        try encoderContainer.encodeIfPresent(source, forKey: .source)
-        try encoderContainer.encodeIfPresent(tunerCount, forKey: .tunerCount)
-        try encoderContainer.encodeIfPresent(userAgent, forKey: .userAgent)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encodeIfPresent(friendlyName, forKey: .friendlyName)
+        try container.encodeIfPresent(importFavoritesOnly, forKey: .importFavoritesOnly)
+        try container.encodeIfPresent(allowHWTranscoding, forKey: .allowHWTranscoding)
+        try container.encodeIfPresent(enableStreamLooping, forKey: .enableStreamLooping)
+        try container.encodeIfPresent(source, forKey: .source)
+        try container.encodeIfPresent(tunerCount, forKey: .tunerCount)
+        try container.encodeIfPresent(userAgent, forKey: .userAgent)
     }
 }
+

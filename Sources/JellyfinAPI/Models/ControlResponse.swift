@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ControlResponse: Codable, Hashable {
+public struct ControlResponse: Codable, JSONEncodable, Hashable {
 
     public var headers: [String: String]?
     public var xml: String?
@@ -31,9 +31,10 @@ public struct ControlResponse: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(headers, forKey: .headers)
-        try encoderContainer.encodeIfPresent(xml, forKey: .xml)
-        try encoderContainer.encodeIfPresent(isSuccessful, forKey: .isSuccessful)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(headers, forKey: .headers)
+        try container.encodeIfPresent(xml, forKey: .xml)
+        try container.encodeIfPresent(isSuccessful, forKey: .isSuccessful)
     }
 }
+

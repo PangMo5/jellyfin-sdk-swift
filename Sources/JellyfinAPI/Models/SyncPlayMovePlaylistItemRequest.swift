@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class MovePlaylistItemRequestDto. */
-public struct SyncPlayMovePlaylistItemRequest: Codable, Hashable {
+public struct SyncPlayMovePlaylistItemRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the playlist identifier of the item. */
     public var playlistItemId: String?
@@ -31,8 +31,9 @@ public struct SyncPlayMovePlaylistItemRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
-        try encoderContainer.encodeIfPresent(newIndex, forKey: .newIndex)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
+        try container.encodeIfPresent(newIndex, forKey: .newIndex)
     }
 }
+

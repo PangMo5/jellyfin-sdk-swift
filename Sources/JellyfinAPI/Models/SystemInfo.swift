@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SystemInfo. */
-public struct SystemInfo: Codable, Hashable {
+public struct SystemInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the local address. */
     public var localAddress: String?
@@ -126,32 +126,33 @@ public struct SystemInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(localAddress, forKey: .localAddress)
-        try encoderContainer.encodeIfPresent(serverName, forKey: .serverName)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(productName, forKey: .productName)
-        try encoderContainer.encodeIfPresent(operatingSystem, forKey: .operatingSystem)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(startupWizardCompleted, forKey: .startupWizardCompleted)
-        try encoderContainer.encodeIfPresent(operatingSystemDisplayName, forKey: .operatingSystemDisplayName)
-        try encoderContainer.encodeIfPresent(packageName, forKey: .packageName)
-        try encoderContainer.encodeIfPresent(hasPendingRestart, forKey: .hasPendingRestart)
-        try encoderContainer.encodeIfPresent(isShuttingDown, forKey: .isShuttingDown)
-        try encoderContainer.encodeIfPresent(supportsLibraryMonitor, forKey: .supportsLibraryMonitor)
-        try encoderContainer.encodeIfPresent(webSocketPortNumber, forKey: .webSocketPortNumber)
-        try encoderContainer.encodeIfPresent(completedInstallations, forKey: .completedInstallations)
-        try encoderContainer.encodeIfPresent(canSelfRestart, forKey: .canSelfRestart)
-        try encoderContainer.encodeIfPresent(canLaunchWebBrowser, forKey: .canLaunchWebBrowser)
-        try encoderContainer.encodeIfPresent(programDataPath, forKey: .programDataPath)
-        try encoderContainer.encodeIfPresent(webPath, forKey: .webPath)
-        try encoderContainer.encodeIfPresent(itemsByNamePath, forKey: .itemsByNamePath)
-        try encoderContainer.encodeIfPresent(cachePath, forKey: .cachePath)
-        try encoderContainer.encodeIfPresent(logPath, forKey: .logPath)
-        try encoderContainer.encodeIfPresent(internalMetadataPath, forKey: .internalMetadataPath)
-        try encoderContainer.encodeIfPresent(transcodingTempPath, forKey: .transcodingTempPath)
-        try encoderContainer.encodeIfPresent(hasUpdateAvailable, forKey: .hasUpdateAvailable)
-        try encoderContainer.encodeIfPresent(encoderLocation, forKey: .encoderLocation)
-        try encoderContainer.encodeIfPresent(systemArchitecture, forKey: .systemArchitecture)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(localAddress, forKey: .localAddress)
+        try container.encodeIfPresent(serverName, forKey: .serverName)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(productName, forKey: .productName)
+        try container.encodeIfPresent(operatingSystem, forKey: .operatingSystem)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(startupWizardCompleted, forKey: .startupWizardCompleted)
+        try container.encodeIfPresent(operatingSystemDisplayName, forKey: .operatingSystemDisplayName)
+        try container.encodeIfPresent(packageName, forKey: .packageName)
+        try container.encodeIfPresent(hasPendingRestart, forKey: .hasPendingRestart)
+        try container.encodeIfPresent(isShuttingDown, forKey: .isShuttingDown)
+        try container.encodeIfPresent(supportsLibraryMonitor, forKey: .supportsLibraryMonitor)
+        try container.encodeIfPresent(webSocketPortNumber, forKey: .webSocketPortNumber)
+        try container.encodeIfPresent(completedInstallations, forKey: .completedInstallations)
+        try container.encodeIfPresent(canSelfRestart, forKey: .canSelfRestart)
+        try container.encodeIfPresent(canLaunchWebBrowser, forKey: .canLaunchWebBrowser)
+        try container.encodeIfPresent(programDataPath, forKey: .programDataPath)
+        try container.encodeIfPresent(webPath, forKey: .webPath)
+        try container.encodeIfPresent(itemsByNamePath, forKey: .itemsByNamePath)
+        try container.encodeIfPresent(cachePath, forKey: .cachePath)
+        try container.encodeIfPresent(logPath, forKey: .logPath)
+        try container.encodeIfPresent(internalMetadataPath, forKey: .internalMetadataPath)
+        try container.encodeIfPresent(transcodingTempPath, forKey: .transcodingTempPath)
+        try container.encodeIfPresent(hasUpdateAvailable, forKey: .hasUpdateAvailable)
+        try container.encodeIfPresent(encoderLocation, forKey: .encoderLocation)
+        try container.encodeIfPresent(systemArchitecture, forKey: .systemArchitecture)
     }
 }
+

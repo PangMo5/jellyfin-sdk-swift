@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Default directory browser info. */
-public struct DefaultDirectoryBrowserInfoDto: Codable, Hashable {
+public struct DefaultDirectoryBrowserInfoDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the path. */
     public var path: String?
@@ -27,7 +27,8 @@ public struct DefaultDirectoryBrowserInfoDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(path, forKey: .path)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(path, forKey: .path)
     }
 }
+

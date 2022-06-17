@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct QueryFilters: Codable, Hashable {
+public struct QueryFilters: Codable, JSONEncodable, Hashable {
 
     public var genres: [NameGuidPair]?
     public var tags: [String]?
@@ -28,8 +28,9 @@ public struct QueryFilters: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(genres, forKey: .genres)
-        try encoderContainer.encodeIfPresent(tags, forKey: .tags)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(genres, forKey: .genres)
+        try container.encodeIfPresent(tags, forKey: .tags)
     }
 }
+

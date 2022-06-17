@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct LiveTvOptions: Codable, Hashable {
+public struct LiveTvOptions: Codable, JSONEncodable, Hashable {
 
     public var guideDays: Int?
     public var recordingPath: String?
@@ -61,19 +61,20 @@ public struct LiveTvOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(guideDays, forKey: .guideDays)
-        try encoderContainer.encodeIfPresent(recordingPath, forKey: .recordingPath)
-        try encoderContainer.encodeIfPresent(movieRecordingPath, forKey: .movieRecordingPath)
-        try encoderContainer.encodeIfPresent(seriesRecordingPath, forKey: .seriesRecordingPath)
-        try encoderContainer.encodeIfPresent(enableRecordingSubfolders, forKey: .enableRecordingSubfolders)
-        try encoderContainer.encodeIfPresent(enableOriginalAudioWithEncodedRecordings, forKey: .enableOriginalAudioWithEncodedRecordings)
-        try encoderContainer.encodeIfPresent(tunerHosts, forKey: .tunerHosts)
-        try encoderContainer.encodeIfPresent(listingProviders, forKey: .listingProviders)
-        try encoderContainer.encodeIfPresent(prePaddingSeconds, forKey: .prePaddingSeconds)
-        try encoderContainer.encodeIfPresent(postPaddingSeconds, forKey: .postPaddingSeconds)
-        try encoderContainer.encodeIfPresent(mediaLocationsCreated, forKey: .mediaLocationsCreated)
-        try encoderContainer.encodeIfPresent(recordingPostProcessor, forKey: .recordingPostProcessor)
-        try encoderContainer.encodeIfPresent(recordingPostProcessorArguments, forKey: .recordingPostProcessorArguments)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(guideDays, forKey: .guideDays)
+        try container.encodeIfPresent(recordingPath, forKey: .recordingPath)
+        try container.encodeIfPresent(movieRecordingPath, forKey: .movieRecordingPath)
+        try container.encodeIfPresent(seriesRecordingPath, forKey: .seriesRecordingPath)
+        try container.encodeIfPresent(enableRecordingSubfolders, forKey: .enableRecordingSubfolders)
+        try container.encodeIfPresent(enableOriginalAudioWithEncodedRecordings, forKey: .enableOriginalAudioWithEncodedRecordings)
+        try container.encodeIfPresent(tunerHosts, forKey: .tunerHosts)
+        try container.encodeIfPresent(listingProviders, forKey: .listingProviders)
+        try container.encodeIfPresent(prePaddingSeconds, forKey: .prePaddingSeconds)
+        try container.encodeIfPresent(postPaddingSeconds, forKey: .postPaddingSeconds)
+        try container.encodeIfPresent(mediaLocationsCreated, forKey: .mediaLocationsCreated)
+        try container.encodeIfPresent(recordingPostProcessor, forKey: .recordingPostProcessor)
+        try container.encodeIfPresent(recordingPostProcessorArguments, forKey: .recordingPostProcessorArguments)
     }
 }
+

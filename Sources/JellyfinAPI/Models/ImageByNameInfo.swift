@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ImageByNameInfo: Codable, Hashable {
+public struct ImageByNameInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -42,11 +42,12 @@ public struct ImageByNameInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(theme, forKey: .theme)
-        try encoderContainer.encodeIfPresent(context, forKey: .context)
-        try encoderContainer.encodeIfPresent(fileLength, forKey: .fileLength)
-        try encoderContainer.encodeIfPresent(format, forKey: .format)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(theme, forKey: .theme)
+        try container.encodeIfPresent(context, forKey: .context)
+        try container.encodeIfPresent(fileLength, forKey: .fileLength)
+        try container.encodeIfPresent(format, forKey: .format)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Open live stream dto. */
-public struct OpenLiveStreamDto: Codable, Hashable {
+public struct OpenLiveStreamDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the open token. */
     public var openToken: String?
@@ -74,19 +74,20 @@ public struct OpenLiveStreamDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(openToken, forKey: .openToken)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(playSessionId, forKey: .playSessionId)
-        try encoderContainer.encodeIfPresent(maxStreamingBitrate, forKey: .maxStreamingBitrate)
-        try encoderContainer.encodeIfPresent(startTimeTicks, forKey: .startTimeTicks)
-        try encoderContainer.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
-        try encoderContainer.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
-        try encoderContainer.encodeIfPresent(maxAudioChannels, forKey: .maxAudioChannels)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
-        try encoderContainer.encodeIfPresent(enableDirectPlay, forKey: .enableDirectPlay)
-        try encoderContainer.encodeIfPresent(enableDirectStream, forKey: .enableDirectStream)
-        try encoderContainer.encodeIfPresent(deviceProfile, forKey: .deviceProfile)
-        try encoderContainer.encodeIfPresent(directPlayProtocols, forKey: .directPlayProtocols)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(openToken, forKey: .openToken)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(playSessionId, forKey: .playSessionId)
+        try container.encodeIfPresent(maxStreamingBitrate, forKey: .maxStreamingBitrate)
+        try container.encodeIfPresent(startTimeTicks, forKey: .startTimeTicks)
+        try container.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
+        try container.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
+        try container.encodeIfPresent(maxAudioChannels, forKey: .maxAudioChannels)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(enableDirectPlay, forKey: .enableDirectPlay)
+        try container.encodeIfPresent(enableDirectStream, forKey: .enableDirectStream)
+        try container.encodeIfPresent(deviceProfile, forKey: .deviceProfile)
+        try container.encodeIfPresent(directPlayProtocols, forKey: .directPlayProtocols)
     }
 }
+

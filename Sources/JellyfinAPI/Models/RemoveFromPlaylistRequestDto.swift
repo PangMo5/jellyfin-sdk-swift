@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class RemoveFromPlaylistRequestDto. */
-public struct RemoveFromPlaylistRequestDto: Codable, Hashable {
+public struct RemoveFromPlaylistRequestDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the playlist identifiers ot the items. Ignored when clearing the playlist. */
     public var playlistItemIds: [String]?
@@ -35,9 +35,10 @@ public struct RemoveFromPlaylistRequestDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(playlistItemIds, forKey: .playlistItemIds)
-        try encoderContainer.encodeIfPresent(clearPlaylist, forKey: .clearPlaylist)
-        try encoderContainer.encodeIfPresent(clearPlayingItem, forKey: .clearPlayingItem)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(playlistItemIds, forKey: .playlistItemIds)
+        try container.encodeIfPresent(clearPlaylist, forKey: .clearPlaylist)
+        try container.encodeIfPresent(clearPlayingItem, forKey: .clearPlayingItem)
     }
 }
+

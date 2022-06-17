@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Create new playlist dto. */
-public struct CreatePlaylistDto: Codable, Hashable {
+public struct CreatePlaylistDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name of the new playlist. */
     public var name: String?
@@ -39,10 +39,11 @@ public struct CreatePlaylistDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(ids, forKey: .ids)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(mediaType, forKey: .mediaType)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(ids, forKey: .ids)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(mediaType, forKey: .mediaType)
     }
 }
+

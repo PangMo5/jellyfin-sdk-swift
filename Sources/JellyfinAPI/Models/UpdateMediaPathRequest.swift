@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Update library options dto. */
-public struct UpdateMediaPathRequest: Codable, Hashable {
+public struct UpdateMediaPathRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the library name. */
     public var name: String
@@ -30,8 +30,9 @@ public struct UpdateMediaPathRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(name, forKey: .name)
-        try encoderContainer.encode(pathInfo, forKey: .pathInfo)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(pathInfo, forKey: .pathInfo)
     }
 }
+

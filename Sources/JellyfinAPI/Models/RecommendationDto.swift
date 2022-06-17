@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct RecommendationDto: Codable, Hashable {
+public struct RecommendationDto: Codable, JSONEncodable, Hashable {
 
     public var items: [BaseItemDto]?
     public var recommendationType: RecommendationType?
@@ -34,10 +34,11 @@ public struct RecommendationDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(items, forKey: .items)
-        try encoderContainer.encodeIfPresent(recommendationType, forKey: .recommendationType)
-        try encoderContainer.encodeIfPresent(baselineItemName, forKey: .baselineItemName)
-        try encoderContainer.encodeIfPresent(categoryId, forKey: .categoryId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(items, forKey: .items)
+        try container.encodeIfPresent(recommendationType, forKey: .recommendationType)
+        try container.encodeIfPresent(baselineItemName, forKey: .baselineItemName)
+        try container.encodeIfPresent(categoryId, forKey: .categoryId)
     }
 }
+

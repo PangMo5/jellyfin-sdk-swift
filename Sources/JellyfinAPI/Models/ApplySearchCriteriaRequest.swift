@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ApplySearchCriteriaRequest: Codable, Hashable {
+public struct ApplySearchCriteriaRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -61,18 +61,19 @@ public struct ApplySearchCriteriaRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(providerIds, forKey: .providerIds)
-        try encoderContainer.encodeIfPresent(productionYear, forKey: .productionYear)
-        try encoderContainer.encodeIfPresent(indexNumber, forKey: .indexNumber)
-        try encoderContainer.encodeIfPresent(indexNumberEnd, forKey: .indexNumberEnd)
-        try encoderContainer.encodeIfPresent(parentIndexNumber, forKey: .parentIndexNumber)
-        try encoderContainer.encodeIfPresent(premiereDate, forKey: .premiereDate)
-        try encoderContainer.encodeIfPresent(imageUrl, forKey: .imageUrl)
-        try encoderContainer.encodeIfPresent(searchProviderName, forKey: .searchProviderName)
-        try encoderContainer.encodeIfPresent(overview, forKey: .overview)
-        try encoderContainer.encodeIfPresent(albumArtist, forKey: .albumArtist)
-        try encoderContainer.encodeIfPresent(artists, forKey: .artists)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(providerIds, forKey: .providerIds)
+        try container.encodeIfPresent(productionYear, forKey: .productionYear)
+        try container.encodeIfPresent(indexNumber, forKey: .indexNumber)
+        try container.encodeIfPresent(indexNumberEnd, forKey: .indexNumberEnd)
+        try container.encodeIfPresent(parentIndexNumber, forKey: .parentIndexNumber)
+        try container.encodeIfPresent(premiereDate, forKey: .premiereDate)
+        try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
+        try container.encodeIfPresent(searchProviderName, forKey: .searchProviderName)
+        try container.encodeIfPresent(overview, forKey: .overview)
+        try container.encodeIfPresent(albumArtist, forKey: .albumArtist)
+        try container.encodeIfPresent(artists, forKey: .artists)
     }
 }
+

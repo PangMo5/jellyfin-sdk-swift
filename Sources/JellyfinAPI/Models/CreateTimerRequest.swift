@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct CreateTimerRequest: Codable, Hashable {
+public struct CreateTimerRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the Id of the recording. */
     public var id: String?
@@ -130,34 +130,35 @@ public struct CreateTimerRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(serverId, forKey: .serverId)
-        try encoderContainer.encodeIfPresent(externalId, forKey: .externalId)
-        try encoderContainer.encodeIfPresent(channelId, forKey: .channelId)
-        try encoderContainer.encodeIfPresent(externalChannelId, forKey: .externalChannelId)
-        try encoderContainer.encodeIfPresent(channelName, forKey: .channelName)
-        try encoderContainer.encodeIfPresent(channelPrimaryImageTag, forKey: .channelPrimaryImageTag)
-        try encoderContainer.encodeIfPresent(programId, forKey: .programId)
-        try encoderContainer.encodeIfPresent(externalProgramId, forKey: .externalProgramId)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(overview, forKey: .overview)
-        try encoderContainer.encodeIfPresent(startDate, forKey: .startDate)
-        try encoderContainer.encodeIfPresent(endDate, forKey: .endDate)
-        try encoderContainer.encodeIfPresent(serviceName, forKey: .serviceName)
-        try encoderContainer.encodeIfPresent(priority, forKey: .priority)
-        try encoderContainer.encodeIfPresent(prePaddingSeconds, forKey: .prePaddingSeconds)
-        try encoderContainer.encodeIfPresent(postPaddingSeconds, forKey: .postPaddingSeconds)
-        try encoderContainer.encodeIfPresent(isPrePaddingRequired, forKey: .isPrePaddingRequired)
-        try encoderContainer.encodeIfPresent(parentBackdropItemId, forKey: .parentBackdropItemId)
-        try encoderContainer.encodeIfPresent(parentBackdropImageTags, forKey: .parentBackdropImageTags)
-        try encoderContainer.encodeIfPresent(isPostPaddingRequired, forKey: .isPostPaddingRequired)
-        try encoderContainer.encodeIfPresent(keepUntil, forKey: .keepUntil)
-        try encoderContainer.encodeIfPresent(status, forKey: .status)
-        try encoderContainer.encodeIfPresent(seriesTimerId, forKey: .seriesTimerId)
-        try encoderContainer.encodeIfPresent(externalSeriesTimerId, forKey: .externalSeriesTimerId)
-        try encoderContainer.encodeIfPresent(runTimeTicks, forKey: .runTimeTicks)
-        try encoderContainer.encodeIfPresent(programInfo, forKey: .programInfo)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(serverId, forKey: .serverId)
+        try container.encodeIfPresent(externalId, forKey: .externalId)
+        try container.encodeIfPresent(channelId, forKey: .channelId)
+        try container.encodeIfPresent(externalChannelId, forKey: .externalChannelId)
+        try container.encodeIfPresent(channelName, forKey: .channelName)
+        try container.encodeIfPresent(channelPrimaryImageTag, forKey: .channelPrimaryImageTag)
+        try container.encodeIfPresent(programId, forKey: .programId)
+        try container.encodeIfPresent(externalProgramId, forKey: .externalProgramId)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(overview, forKey: .overview)
+        try container.encodeIfPresent(startDate, forKey: .startDate)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
+        try container.encodeIfPresent(serviceName, forKey: .serviceName)
+        try container.encodeIfPresent(priority, forKey: .priority)
+        try container.encodeIfPresent(prePaddingSeconds, forKey: .prePaddingSeconds)
+        try container.encodeIfPresent(postPaddingSeconds, forKey: .postPaddingSeconds)
+        try container.encodeIfPresent(isPrePaddingRequired, forKey: .isPrePaddingRequired)
+        try container.encodeIfPresent(parentBackdropItemId, forKey: .parentBackdropItemId)
+        try container.encodeIfPresent(parentBackdropImageTags, forKey: .parentBackdropImageTags)
+        try container.encodeIfPresent(isPostPaddingRequired, forKey: .isPostPaddingRequired)
+        try container.encodeIfPresent(keepUntil, forKey: .keepUntil)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(seriesTimerId, forKey: .seriesTimerId)
+        try container.encodeIfPresent(externalSeriesTimerId, forKey: .externalSeriesTimerId)
+        try container.encodeIfPresent(runTimeTicks, forKey: .runTimeTicks)
+        try container.encodeIfPresent(programInfo, forKey: .programInfo)
     }
 }
+

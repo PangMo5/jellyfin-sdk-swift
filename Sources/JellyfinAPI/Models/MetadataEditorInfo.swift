@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct MetadataEditorInfo: Codable, Hashable {
+public struct MetadataEditorInfo: Codable, JSONEncodable, Hashable {
 
     public var parentalRatingOptions: [ParentalRating]?
     public var countries: [CountryInfo]?
@@ -40,12 +40,13 @@ public struct MetadataEditorInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(parentalRatingOptions, forKey: .parentalRatingOptions)
-        try encoderContainer.encodeIfPresent(countries, forKey: .countries)
-        try encoderContainer.encodeIfPresent(cultures, forKey: .cultures)
-        try encoderContainer.encodeIfPresent(externalIdInfos, forKey: .externalIdInfos)
-        try encoderContainer.encodeIfPresent(contentType, forKey: .contentType)
-        try encoderContainer.encodeIfPresent(contentTypeOptions, forKey: .contentTypeOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(parentalRatingOptions, forKey: .parentalRatingOptions)
+        try container.encodeIfPresent(countries, forKey: .countries)
+        try container.encodeIfPresent(cultures, forKey: .cultures)
+        try container.encodeIfPresent(externalIdInfos, forKey: .externalIdInfos)
+        try container.encodeIfPresent(contentType, forKey: .contentType)
+        try container.encodeIfPresent(contentTypeOptions, forKey: .contentTypeOptions)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class InstallationInfo. */
-public struct InstallationInfo: Codable, Hashable {
+public struct InstallationInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the Id. */
     public var guid: String?
@@ -50,13 +50,14 @@ public struct InstallationInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(guid, forKey: .guid)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(changelog, forKey: .changelog)
-        try encoderContainer.encodeIfPresent(sourceUrl, forKey: .sourceUrl)
-        try encoderContainer.encodeIfPresent(checksum, forKey: .checksum)
-        try encoderContainer.encodeIfPresent(packageInfo, forKey: .packageInfo)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(guid, forKey: .guid)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(changelog, forKey: .changelog)
+        try container.encodeIfPresent(sourceUrl, forKey: .sourceUrl)
+        try container.encodeIfPresent(checksum, forKey: .checksum)
+        try container.encodeIfPresent(packageInfo, forKey: .packageInfo)
     }
 }
+

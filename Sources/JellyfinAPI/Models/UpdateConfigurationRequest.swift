@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Represents the server configuration. */
-public struct UpdateConfigurationRequest: Codable, Hashable {
+public struct UpdateConfigurationRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the number of days we should retain log files. */
     public var logFileRetentionDays: Int?
@@ -21,7 +21,7 @@ public struct UpdateConfigurationRequest: Codable, Hashable {
     public var cachePath: String?
     /** Gets or sets the last known version that was ran using the configuration. */
     public var previousVersion: String?
-    /** Gets or sets the stringified PreviousVersion to be stored/loaded,  because System.Version itself isn&#39;t xml-serializable. */
+    /** Gets or sets the stringified PreviousVersion to be stored/loaded,  because System.Version itself isn't xml-serializable. */
     public var previousVersionStr: String?
     /** Gets or sets a value indicating whether to enable prometheus metrics exporting. */
     public var enableMetrics: Bool?
@@ -40,7 +40,7 @@ public struct UpdateConfigurationRequest: Codable, Hashable {
     public var preferredMetadataLanguage: String?
     /** Gets or sets the metadata country code. */
     public var metadataCountryCode: String?
-    /** Gets or sets characters to be replaced with a &#39; &#39; in strings to create a sort name. */
+    /** Gets or sets characters to be replaced with a ' ' in strings to create a sort name. */
     public var sortReplaceCharacters: [String]?
     /** Gets or sets characters to be removed from strings to create a sort name. */
     public var sortRemoveCharacters: [String]?
@@ -197,54 +197,55 @@ public struct UpdateConfigurationRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(logFileRetentionDays, forKey: .logFileRetentionDays)
-        try encoderContainer.encodeIfPresent(isStartupWizardCompleted, forKey: .isStartupWizardCompleted)
-        try encoderContainer.encodeIfPresent(cachePath, forKey: .cachePath)
-        try encoderContainer.encodeIfPresent(previousVersion, forKey: .previousVersion)
-        try encoderContainer.encodeIfPresent(previousVersionStr, forKey: .previousVersionStr)
-        try encoderContainer.encodeIfPresent(enableMetrics, forKey: .enableMetrics)
-        try encoderContainer.encodeIfPresent(enableNormalizedItemByNameIds, forKey: .enableNormalizedItemByNameIds)
-        try encoderContainer.encodeIfPresent(isPortAuthorized, forKey: .isPortAuthorized)
-        try encoderContainer.encodeIfPresent(quickConnectAvailable, forKey: .quickConnectAvailable)
-        try encoderContainer.encodeIfPresent(enableCaseSensitiveItemIds, forKey: .enableCaseSensitiveItemIds)
-        try encoderContainer.encodeIfPresent(disableLiveTvChannelUserDataName, forKey: .disableLiveTvChannelUserDataName)
-        try encoderContainer.encodeIfPresent(metadataPath, forKey: .metadataPath)
-        try encoderContainer.encodeIfPresent(metadataNetworkPath, forKey: .metadataNetworkPath)
-        try encoderContainer.encodeIfPresent(preferredMetadataLanguage, forKey: .preferredMetadataLanguage)
-        try encoderContainer.encodeIfPresent(metadataCountryCode, forKey: .metadataCountryCode)
-        try encoderContainer.encodeIfPresent(sortReplaceCharacters, forKey: .sortReplaceCharacters)
-        try encoderContainer.encodeIfPresent(sortRemoveCharacters, forKey: .sortRemoveCharacters)
-        try encoderContainer.encodeIfPresent(sortRemoveWords, forKey: .sortRemoveWords)
-        try encoderContainer.encodeIfPresent(minResumePct, forKey: .minResumePct)
-        try encoderContainer.encodeIfPresent(maxResumePct, forKey: .maxResumePct)
-        try encoderContainer.encodeIfPresent(minResumeDurationSeconds, forKey: .minResumeDurationSeconds)
-        try encoderContainer.encodeIfPresent(minAudiobookResume, forKey: .minAudiobookResume)
-        try encoderContainer.encodeIfPresent(maxAudiobookResume, forKey: .maxAudiobookResume)
-        try encoderContainer.encodeIfPresent(libraryMonitorDelay, forKey: .libraryMonitorDelay)
-        try encoderContainer.encodeIfPresent(imageSavingConvention, forKey: .imageSavingConvention)
-        try encoderContainer.encodeIfPresent(metadataOptions, forKey: .metadataOptions)
-        try encoderContainer.encodeIfPresent(skipDeserializationForBasicTypes, forKey: .skipDeserializationForBasicTypes)
-        try encoderContainer.encodeIfPresent(serverName, forKey: .serverName)
-        try encoderContainer.encodeIfPresent(uICulture, forKey: .uICulture)
-        try encoderContainer.encodeIfPresent(saveMetadataHidden, forKey: .saveMetadataHidden)
-        try encoderContainer.encodeIfPresent(contentTypes, forKey: .contentTypes)
-        try encoderContainer.encodeIfPresent(remoteClientBitrateLimit, forKey: .remoteClientBitrateLimit)
-        try encoderContainer.encodeIfPresent(enableFolderView, forKey: .enableFolderView)
-        try encoderContainer.encodeIfPresent(enableGroupingIntoCollections, forKey: .enableGroupingIntoCollections)
-        try encoderContainer.encodeIfPresent(displaySpecialsWithinSeasons, forKey: .displaySpecialsWithinSeasons)
-        try encoderContainer.encodeIfPresent(codecsUsed, forKey: .codecsUsed)
-        try encoderContainer.encodeIfPresent(pluginRepositories, forKey: .pluginRepositories)
-        try encoderContainer.encodeIfPresent(enableExternalContentInSuggestions, forKey: .enableExternalContentInSuggestions)
-        try encoderContainer.encodeIfPresent(imageExtractionTimeoutMs, forKey: .imageExtractionTimeoutMs)
-        try encoderContainer.encodeIfPresent(pathSubstitutions, forKey: .pathSubstitutions)
-        try encoderContainer.encodeIfPresent(enableSlowResponseWarning, forKey: .enableSlowResponseWarning)
-        try encoderContainer.encodeIfPresent(slowResponseThresholdMs, forKey: .slowResponseThresholdMs)
-        try encoderContainer.encodeIfPresent(corsHosts, forKey: .corsHosts)
-        try encoderContainer.encodeIfPresent(activityLogRetentionDays, forKey: .activityLogRetentionDays)
-        try encoderContainer.encodeIfPresent(libraryScanFanoutConcurrency, forKey: .libraryScanFanoutConcurrency)
-        try encoderContainer.encodeIfPresent(libraryMetadataRefreshConcurrency, forKey: .libraryMetadataRefreshConcurrency)
-        try encoderContainer.encodeIfPresent(removeOldPlugins, forKey: .removeOldPlugins)
-        try encoderContainer.encodeIfPresent(allowClientLogUpload, forKey: .allowClientLogUpload)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(logFileRetentionDays, forKey: .logFileRetentionDays)
+        try container.encodeIfPresent(isStartupWizardCompleted, forKey: .isStartupWizardCompleted)
+        try container.encodeIfPresent(cachePath, forKey: .cachePath)
+        try container.encodeIfPresent(previousVersion, forKey: .previousVersion)
+        try container.encodeIfPresent(previousVersionStr, forKey: .previousVersionStr)
+        try container.encodeIfPresent(enableMetrics, forKey: .enableMetrics)
+        try container.encodeIfPresent(enableNormalizedItemByNameIds, forKey: .enableNormalizedItemByNameIds)
+        try container.encodeIfPresent(isPortAuthorized, forKey: .isPortAuthorized)
+        try container.encodeIfPresent(quickConnectAvailable, forKey: .quickConnectAvailable)
+        try container.encodeIfPresent(enableCaseSensitiveItemIds, forKey: .enableCaseSensitiveItemIds)
+        try container.encodeIfPresent(disableLiveTvChannelUserDataName, forKey: .disableLiveTvChannelUserDataName)
+        try container.encodeIfPresent(metadataPath, forKey: .metadataPath)
+        try container.encodeIfPresent(metadataNetworkPath, forKey: .metadataNetworkPath)
+        try container.encodeIfPresent(preferredMetadataLanguage, forKey: .preferredMetadataLanguage)
+        try container.encodeIfPresent(metadataCountryCode, forKey: .metadataCountryCode)
+        try container.encodeIfPresent(sortReplaceCharacters, forKey: .sortReplaceCharacters)
+        try container.encodeIfPresent(sortRemoveCharacters, forKey: .sortRemoveCharacters)
+        try container.encodeIfPresent(sortRemoveWords, forKey: .sortRemoveWords)
+        try container.encodeIfPresent(minResumePct, forKey: .minResumePct)
+        try container.encodeIfPresent(maxResumePct, forKey: .maxResumePct)
+        try container.encodeIfPresent(minResumeDurationSeconds, forKey: .minResumeDurationSeconds)
+        try container.encodeIfPresent(minAudiobookResume, forKey: .minAudiobookResume)
+        try container.encodeIfPresent(maxAudiobookResume, forKey: .maxAudiobookResume)
+        try container.encodeIfPresent(libraryMonitorDelay, forKey: .libraryMonitorDelay)
+        try container.encodeIfPresent(imageSavingConvention, forKey: .imageSavingConvention)
+        try container.encodeIfPresent(metadataOptions, forKey: .metadataOptions)
+        try container.encodeIfPresent(skipDeserializationForBasicTypes, forKey: .skipDeserializationForBasicTypes)
+        try container.encodeIfPresent(serverName, forKey: .serverName)
+        try container.encodeIfPresent(uICulture, forKey: .uICulture)
+        try container.encodeIfPresent(saveMetadataHidden, forKey: .saveMetadataHidden)
+        try container.encodeIfPresent(contentTypes, forKey: .contentTypes)
+        try container.encodeIfPresent(remoteClientBitrateLimit, forKey: .remoteClientBitrateLimit)
+        try container.encodeIfPresent(enableFolderView, forKey: .enableFolderView)
+        try container.encodeIfPresent(enableGroupingIntoCollections, forKey: .enableGroupingIntoCollections)
+        try container.encodeIfPresent(displaySpecialsWithinSeasons, forKey: .displaySpecialsWithinSeasons)
+        try container.encodeIfPresent(codecsUsed, forKey: .codecsUsed)
+        try container.encodeIfPresent(pluginRepositories, forKey: .pluginRepositories)
+        try container.encodeIfPresent(enableExternalContentInSuggestions, forKey: .enableExternalContentInSuggestions)
+        try container.encodeIfPresent(imageExtractionTimeoutMs, forKey: .imageExtractionTimeoutMs)
+        try container.encodeIfPresent(pathSubstitutions, forKey: .pathSubstitutions)
+        try container.encodeIfPresent(enableSlowResponseWarning, forKey: .enableSlowResponseWarning)
+        try container.encodeIfPresent(slowResponseThresholdMs, forKey: .slowResponseThresholdMs)
+        try container.encodeIfPresent(corsHosts, forKey: .corsHosts)
+        try container.encodeIfPresent(activityLogRetentionDays, forKey: .activityLogRetentionDays)
+        try container.encodeIfPresent(libraryScanFanoutConcurrency, forKey: .libraryScanFanoutConcurrency)
+        try container.encodeIfPresent(libraryMetadataRefreshConcurrency, forKey: .libraryMetadataRefreshConcurrency)
+        try container.encodeIfPresent(removeOldPlugins, forKey: .removeOldPlugins)
+        try container.encodeIfPresent(allowClientLogUpload, forKey: .allowClientLogUpload)
     }
 }
+

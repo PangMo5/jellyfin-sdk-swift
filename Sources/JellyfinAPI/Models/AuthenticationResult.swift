@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct AuthenticationResult: Codable, Hashable {
+public struct AuthenticationResult: Codable, JSONEncodable, Hashable {
 
     public var user: AuthenticationResultUser?
     public var sessionInfo: AuthenticationResultSessionInfo?
@@ -34,10 +34,11 @@ public struct AuthenticationResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(user, forKey: .user)
-        try encoderContainer.encodeIfPresent(sessionInfo, forKey: .sessionInfo)
-        try encoderContainer.encodeIfPresent(accessToken, forKey: .accessToken)
-        try encoderContainer.encodeIfPresent(serverId, forKey: .serverId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(user, forKey: .user)
+        try container.encodeIfPresent(sessionInfo, forKey: .sessionInfo)
+        try container.encodeIfPresent(accessToken, forKey: .accessToken)
+        try container.encodeIfPresent(serverId, forKey: .serverId)
     }
 }
+

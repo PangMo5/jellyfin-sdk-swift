@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TypeOptions: Codable, Hashable {
+public struct TypeOptions: Codable, JSONEncodable, Hashable {
 
     public var type: String?
     public var metadataFetchers: [String]?
@@ -40,12 +40,13 @@ public struct TypeOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(metadataFetchers, forKey: .metadataFetchers)
-        try encoderContainer.encodeIfPresent(metadataFetcherOrder, forKey: .metadataFetcherOrder)
-        try encoderContainer.encodeIfPresent(imageFetchers, forKey: .imageFetchers)
-        try encoderContainer.encodeIfPresent(imageFetcherOrder, forKey: .imageFetcherOrder)
-        try encoderContainer.encodeIfPresent(imageOptions, forKey: .imageOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(metadataFetchers, forKey: .metadataFetchers)
+        try container.encodeIfPresent(metadataFetcherOrder, forKey: .metadataFetcherOrder)
+        try container.encodeIfPresent(imageFetchers, forKey: .imageFetchers)
+        try container.encodeIfPresent(imageFetcherOrder, forKey: .imageFetcherOrder)
+        try container.encodeIfPresent(imageOptions, forKey: .imageOptions)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class TaskInfo. */
-public struct TaskInfo: Codable, Hashable {
+public struct TaskInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -62,16 +62,17 @@ public struct TaskInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(state, forKey: .state)
-        try encoderContainer.encodeIfPresent(currentProgressPercentage, forKey: .currentProgressPercentage)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(lastExecutionResult, forKey: .lastExecutionResult)
-        try encoderContainer.encodeIfPresent(triggers, forKey: .triggers)
-        try encoderContainer.encodeIfPresent(description, forKey: .description)
-        try encoderContainer.encodeIfPresent(category, forKey: .category)
-        try encoderContainer.encodeIfPresent(isHidden, forKey: .isHidden)
-        try encoderContainer.encodeIfPresent(key, forKey: .key)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(state, forKey: .state)
+        try container.encodeIfPresent(currentProgressPercentage, forKey: .currentProgressPercentage)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lastExecutionResult, forKey: .lastExecutionResult)
+        try container.encodeIfPresent(triggers, forKey: .triggers)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(isHidden, forKey: .isHidden)
+        try container.encodeIfPresent(key, forKey: .key)
     }
 }
+

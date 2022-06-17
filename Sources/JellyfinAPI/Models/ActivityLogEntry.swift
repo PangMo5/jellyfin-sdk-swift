@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** An activity log entry. */
-public struct ActivityLogEntry: Codable, Hashable {
+public struct ActivityLogEntry: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the identifier. */
     public var id: Int64?
@@ -64,16 +64,17 @@ public struct ActivityLogEntry: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(overview, forKey: .overview)
-        try encoderContainer.encodeIfPresent(shortOverview, forKey: .shortOverview)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
-        try encoderContainer.encodeIfPresent(date, forKey: .date)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(userPrimaryImageTag, forKey: .userPrimaryImageTag)
-        try encoderContainer.encodeIfPresent(severity, forKey: .severity)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(overview, forKey: .overview)
+        try container.encodeIfPresent(shortOverview, forKey: .shortOverview)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(userPrimaryImageTag, forKey: .userPrimaryImageTag)
+        try container.encodeIfPresent(severity, forKey: .severity)
     }
 }
+

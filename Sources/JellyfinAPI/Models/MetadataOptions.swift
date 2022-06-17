@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class MetadataOptions. */
-public struct MetadataOptions: Codable, Hashable {
+public struct MetadataOptions: Codable, JSONEncodable, Hashable {
 
     public var itemType: String?
     public var disabledMetadataSavers: [String]?
@@ -44,13 +44,14 @@ public struct MetadataOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(itemType, forKey: .itemType)
-        try encoderContainer.encodeIfPresent(disabledMetadataSavers, forKey: .disabledMetadataSavers)
-        try encoderContainer.encodeIfPresent(localMetadataReaderOrder, forKey: .localMetadataReaderOrder)
-        try encoderContainer.encodeIfPresent(disabledMetadataFetchers, forKey: .disabledMetadataFetchers)
-        try encoderContainer.encodeIfPresent(metadataFetcherOrder, forKey: .metadataFetcherOrder)
-        try encoderContainer.encodeIfPresent(disabledImageFetchers, forKey: .disabledImageFetchers)
-        try encoderContainer.encodeIfPresent(imageFetcherOrder, forKey: .imageFetcherOrder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(itemType, forKey: .itemType)
+        try container.encodeIfPresent(disabledMetadataSavers, forKey: .disabledMetadataSavers)
+        try container.encodeIfPresent(localMetadataReaderOrder, forKey: .localMetadataReaderOrder)
+        try container.encodeIfPresent(disabledMetadataFetchers, forKey: .disabledMetadataFetchers)
+        try container.encodeIfPresent(metadataFetcherOrder, forKey: .metadataFetcherOrder)
+        try container.encodeIfPresent(disabledImageFetchers, forKey: .disabledImageFetchers)
+        try container.encodeIfPresent(imageFetcherOrder, forKey: .imageFetcherOrder)
     }
 }
+

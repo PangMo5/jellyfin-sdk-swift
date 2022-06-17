@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SessionInfoTranscodingInfo: Codable, Hashable {
+public struct SessionInfoTranscodingInfo: Codable, JSONEncodable, Hashable {
 
     public enum TranscodeReasons: String, Codable, CaseIterable {
         case containerNotSupported = "ContainerNotSupported"
@@ -87,19 +87,20 @@ public struct SessionInfoTranscodingInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(audioCodec, forKey: .audioCodec)
-        try encoderContainer.encodeIfPresent(videoCodec, forKey: .videoCodec)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
-        try encoderContainer.encodeIfPresent(isVideoDirect, forKey: .isVideoDirect)
-        try encoderContainer.encodeIfPresent(isAudioDirect, forKey: .isAudioDirect)
-        try encoderContainer.encodeIfPresent(bitrate, forKey: .bitrate)
-        try encoderContainer.encodeIfPresent(framerate, forKey: .framerate)
-        try encoderContainer.encodeIfPresent(completionPercentage, forKey: .completionPercentage)
-        try encoderContainer.encodeIfPresent(width, forKey: .width)
-        try encoderContainer.encodeIfPresent(height, forKey: .height)
-        try encoderContainer.encodeIfPresent(audioChannels, forKey: .audioChannels)
-        try encoderContainer.encodeIfPresent(hardwareAccelerationType, forKey: .hardwareAccelerationType)
-        try encoderContainer.encodeIfPresent(transcodeReasons, forKey: .transcodeReasons)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(audioCodec, forKey: .audioCodec)
+        try container.encodeIfPresent(videoCodec, forKey: .videoCodec)
+        try container.encodeIfPresent(container, forKey: .container)
+        try container.encodeIfPresent(isVideoDirect, forKey: .isVideoDirect)
+        try container.encodeIfPresent(isAudioDirect, forKey: .isAudioDirect)
+        try container.encodeIfPresent(bitrate, forKey: .bitrate)
+        try container.encodeIfPresent(framerate, forKey: .framerate)
+        try container.encodeIfPresent(completionPercentage, forKey: .completionPercentage)
+        try container.encodeIfPresent(width, forKey: .width)
+        try container.encodeIfPresent(height, forKey: .height)
+        try container.encodeIfPresent(audioChannels, forKey: .audioChannels)
+        try container.encodeIfPresent(hardwareAccelerationType, forKey: .hardwareAccelerationType)
+        try container.encodeIfPresent(transcodeReasons, forKey: .transcodeReasons)
     }
 }
+

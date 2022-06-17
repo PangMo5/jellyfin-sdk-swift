@@ -10,12 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct NotificationOption: Codable, Hashable {
+public struct NotificationOption: Codable, JSONEncodable, Hashable {
 
     public var type: String?
-    /** Gets or sets user Ids to not monitor (it&#39;s opt out). */
+    /** Gets or sets user Ids to not monitor (it's opt out). */
     public var disabledMonitorUsers: [String]?
-    /** Gets or sets user Ids to send to (if SendToUserMode &#x3D;&#x3D; Custom). */
+    /** Gets or sets user Ids to send to (if SendToUserMode == Custom). */
     public var sendToUsers: [String]?
     /** Gets or sets a value indicating whether this MediaBrowser.Model.Notifications.NotificationOption is enabled. */
     public var enabled: Bool?
@@ -45,12 +45,13 @@ public struct NotificationOption: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(disabledMonitorUsers, forKey: .disabledMonitorUsers)
-        try encoderContainer.encodeIfPresent(sendToUsers, forKey: .sendToUsers)
-        try encoderContainer.encodeIfPresent(enabled, forKey: .enabled)
-        try encoderContainer.encodeIfPresent(disabledServices, forKey: .disabledServices)
-        try encoderContainer.encodeIfPresent(sendToUserMode, forKey: .sendToUserMode)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(disabledMonitorUsers, forKey: .disabledMonitorUsers)
+        try container.encodeIfPresent(sendToUsers, forKey: .sendToUsers)
+        try container.encodeIfPresent(enabled, forKey: .enabled)
+        try container.encodeIfPresent(disabledServices, forKey: .disabledServices)
+        try container.encodeIfPresent(sendToUserMode, forKey: .sendToUserMode)
     }
 }
+

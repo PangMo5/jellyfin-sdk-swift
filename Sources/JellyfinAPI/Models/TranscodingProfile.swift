@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TranscodingProfile: Codable, Hashable {
+public struct TranscodingProfile: Codable, JSONEncodable, Hashable {
 
     public var container: String?
     public var type: DlnaProfileType?
@@ -70,22 +70,23 @@ public struct TranscodingProfile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(videoCodec, forKey: .videoCodec)
-        try encoderContainer.encodeIfPresent(audioCodec, forKey: .audioCodec)
-        try encoderContainer.encodeIfPresent(_protocol, forKey: ._protocol)
-        try encoderContainer.encodeIfPresent(estimateContentLength, forKey: .estimateContentLength)
-        try encoderContainer.encodeIfPresent(enableMpegtsM2TsMode, forKey: .enableMpegtsM2TsMode)
-        try encoderContainer.encodeIfPresent(transcodeSeekInfo, forKey: .transcodeSeekInfo)
-        try encoderContainer.encodeIfPresent(copyTimestamps, forKey: .copyTimestamps)
-        try encoderContainer.encodeIfPresent(context, forKey: .context)
-        try encoderContainer.encodeIfPresent(enableSubtitlesInManifest, forKey: .enableSubtitlesInManifest)
-        try encoderContainer.encodeIfPresent(maxAudioChannels, forKey: .maxAudioChannels)
-        try encoderContainer.encodeIfPresent(minSegments, forKey: .minSegments)
-        try encoderContainer.encodeIfPresent(segmentLength, forKey: .segmentLength)
-        try encoderContainer.encodeIfPresent(breakOnNonKeyFrames, forKey: .breakOnNonKeyFrames)
-        try encoderContainer.encodeIfPresent(conditions, forKey: .conditions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(container, forKey: .container)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(videoCodec, forKey: .videoCodec)
+        try container.encodeIfPresent(audioCodec, forKey: .audioCodec)
+        try container.encodeIfPresent(_protocol, forKey: ._protocol)
+        try container.encodeIfPresent(estimateContentLength, forKey: .estimateContentLength)
+        try container.encodeIfPresent(enableMpegtsM2TsMode, forKey: .enableMpegtsM2TsMode)
+        try container.encodeIfPresent(transcodeSeekInfo, forKey: .transcodeSeekInfo)
+        try container.encodeIfPresent(copyTimestamps, forKey: .copyTimestamps)
+        try container.encodeIfPresent(context, forKey: .context)
+        try container.encodeIfPresent(enableSubtitlesInManifest, forKey: .enableSubtitlesInManifest)
+        try container.encodeIfPresent(maxAudioChannels, forKey: .maxAudioChannels)
+        try container.encodeIfPresent(minSegments, forKey: .minSegments)
+        try container.encodeIfPresent(segmentLength, forKey: .segmentLength)
+        try container.encodeIfPresent(breakOnNonKeyFrames, forKey: .breakOnNonKeyFrames)
+        try container.encodeIfPresent(conditions, forKey: .conditions)
     }
 }
+

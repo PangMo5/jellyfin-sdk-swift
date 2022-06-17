@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ForgotPasswordResult: Codable, Hashable {
+public struct ForgotPasswordResult: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the action. */
     public var action: ForgotPasswordAction?
@@ -34,9 +34,10 @@ public struct ForgotPasswordResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(action, forKey: .action)
-        try encoderContainer.encodeIfPresent(pinFile, forKey: .pinFile)
-        try encoderContainer.encodeIfPresent(pinExpirationDate, forKey: .pinExpirationDate)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(action, forKey: .action)
+        try container.encodeIfPresent(pinFile, forKey: .pinFile)
+        try container.encodeIfPresent(pinExpirationDate, forKey: .pinExpirationDate)
     }
 }
+

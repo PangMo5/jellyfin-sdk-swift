@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SeekRequestDto. */
-public struct SeekRequestDto: Codable, Hashable {
+public struct SeekRequestDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the position ticks. */
     public var positionTicks: Int64?
@@ -27,7 +27,8 @@ public struct SeekRequestDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(positionTicks, forKey: .positionTicks)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(positionTicks, forKey: .positionTicks)
     }
 }
+

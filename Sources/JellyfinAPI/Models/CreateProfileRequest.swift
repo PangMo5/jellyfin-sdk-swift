@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** A MediaBrowser.Model.Dlna.DeviceProfile represents a set of metadata which determines which content a certain device is able to play.  &lt;br /&gt;  Specifically, it defines the supported &lt;see cref&#x3D;\&quot;P:MediaBrowser.Model.Dlna.DeviceProfile.ContainerProfiles\&quot;&gt;containers&lt;/see&gt; and  &lt;see cref&#x3D;\&quot;P:MediaBrowser.Model.Dlna.DeviceProfile.CodecProfiles\&quot;&gt;codecs&lt;/see&gt; (video and/or audio, including codec profiles and levels)  the device is able to direct play (without transcoding or remuxing),  as well as which &lt;see cref&#x3D;\&quot;P:MediaBrowser.Model.Dlna.DeviceProfile.TranscodingProfiles\&quot;&gt;containers/codecs to transcode to&lt;/see&gt; in case it isn&#39;t. */
-public struct CreateProfileRequest: Codable, Hashable {
+public struct CreateProfileRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name of this device profile. */
     public var name: String?
@@ -56,11 +56,11 @@ public struct CreateProfileRequest: Codable, Hashable {
     public var maxIconHeight: Int?
     /** Gets or sets the maximum allowed bitrate for all streamed content. */
     public var maxStreamingBitrate: Int?
-    /** Gets or sets the maximum allowed bitrate for statically streamed content (&#x3D; direct played files). */
+    /** Gets or sets the maximum allowed bitrate for statically streamed content (= direct played files). */
     public var maxStaticBitrate: Int?
     /** Gets or sets the maximum allowed bitrate for transcoded music streams. */
     public var musicStreamingTranscodingBitrate: Int?
-    /** Gets or sets the maximum allowed bitrate for statically streamed (&#x3D; direct played) music files. */
+    /** Gets or sets the maximum allowed bitrate for statically streamed (= direct played) music files. */
     public var maxStaticMusicBitrate: Int?
     /** Gets or sets the content of the aggregationFlags element in the urn:schemas-sonycom:av namespace. */
     public var sonyAggregationFlags: String?
@@ -178,45 +178,46 @@ public struct CreateProfileRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(identification, forKey: .identification)
-        try encoderContainer.encodeIfPresent(friendlyName, forKey: .friendlyName)
-        try encoderContainer.encodeIfPresent(manufacturer, forKey: .manufacturer)
-        try encoderContainer.encodeIfPresent(manufacturerUrl, forKey: .manufacturerUrl)
-        try encoderContainer.encodeIfPresent(modelName, forKey: .modelName)
-        try encoderContainer.encodeIfPresent(modelDescription, forKey: .modelDescription)
-        try encoderContainer.encodeIfPresent(modelNumber, forKey: .modelNumber)
-        try encoderContainer.encodeIfPresent(modelUrl, forKey: .modelUrl)
-        try encoderContainer.encodeIfPresent(serialNumber, forKey: .serialNumber)
-        try encoderContainer.encodeIfPresent(enableAlbumArtInDidl, forKey: .enableAlbumArtInDidl)
-        try encoderContainer.encodeIfPresent(enableSingleAlbumArtLimit, forKey: .enableSingleAlbumArtLimit)
-        try encoderContainer.encodeIfPresent(enableSingleSubtitleLimit, forKey: .enableSingleSubtitleLimit)
-        try encoderContainer.encodeIfPresent(supportedMediaTypes, forKey: .supportedMediaTypes)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(albumArtPn, forKey: .albumArtPn)
-        try encoderContainer.encodeIfPresent(maxAlbumArtWidth, forKey: .maxAlbumArtWidth)
-        try encoderContainer.encodeIfPresent(maxAlbumArtHeight, forKey: .maxAlbumArtHeight)
-        try encoderContainer.encodeIfPresent(maxIconWidth, forKey: .maxIconWidth)
-        try encoderContainer.encodeIfPresent(maxIconHeight, forKey: .maxIconHeight)
-        try encoderContainer.encodeIfPresent(maxStreamingBitrate, forKey: .maxStreamingBitrate)
-        try encoderContainer.encodeIfPresent(maxStaticBitrate, forKey: .maxStaticBitrate)
-        try encoderContainer.encodeIfPresent(musicStreamingTranscodingBitrate, forKey: .musicStreamingTranscodingBitrate)
-        try encoderContainer.encodeIfPresent(maxStaticMusicBitrate, forKey: .maxStaticMusicBitrate)
-        try encoderContainer.encodeIfPresent(sonyAggregationFlags, forKey: .sonyAggregationFlags)
-        try encoderContainer.encodeIfPresent(protocolInfo, forKey: .protocolInfo)
-        try encoderContainer.encodeIfPresent(timelineOffsetSeconds, forKey: .timelineOffsetSeconds)
-        try encoderContainer.encodeIfPresent(requiresPlainVideoItems, forKey: .requiresPlainVideoItems)
-        try encoderContainer.encodeIfPresent(requiresPlainFolders, forKey: .requiresPlainFolders)
-        try encoderContainer.encodeIfPresent(enableMSMediaReceiverRegistrar, forKey: .enableMSMediaReceiverRegistrar)
-        try encoderContainer.encodeIfPresent(ignoreTranscodeByteRangeRequests, forKey: .ignoreTranscodeByteRangeRequests)
-        try encoderContainer.encodeIfPresent(xmlRootAttributes, forKey: .xmlRootAttributes)
-        try encoderContainer.encodeIfPresent(directPlayProfiles, forKey: .directPlayProfiles)
-        try encoderContainer.encodeIfPresent(transcodingProfiles, forKey: .transcodingProfiles)
-        try encoderContainer.encodeIfPresent(containerProfiles, forKey: .containerProfiles)
-        try encoderContainer.encodeIfPresent(codecProfiles, forKey: .codecProfiles)
-        try encoderContainer.encodeIfPresent(responseProfiles, forKey: .responseProfiles)
-        try encoderContainer.encodeIfPresent(subtitleProfiles, forKey: .subtitleProfiles)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(identification, forKey: .identification)
+        try container.encodeIfPresent(friendlyName, forKey: .friendlyName)
+        try container.encodeIfPresent(manufacturer, forKey: .manufacturer)
+        try container.encodeIfPresent(manufacturerUrl, forKey: .manufacturerUrl)
+        try container.encodeIfPresent(modelName, forKey: .modelName)
+        try container.encodeIfPresent(modelDescription, forKey: .modelDescription)
+        try container.encodeIfPresent(modelNumber, forKey: .modelNumber)
+        try container.encodeIfPresent(modelUrl, forKey: .modelUrl)
+        try container.encodeIfPresent(serialNumber, forKey: .serialNumber)
+        try container.encodeIfPresent(enableAlbumArtInDidl, forKey: .enableAlbumArtInDidl)
+        try container.encodeIfPresent(enableSingleAlbumArtLimit, forKey: .enableSingleAlbumArtLimit)
+        try container.encodeIfPresent(enableSingleSubtitleLimit, forKey: .enableSingleSubtitleLimit)
+        try container.encodeIfPresent(supportedMediaTypes, forKey: .supportedMediaTypes)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(albumArtPn, forKey: .albumArtPn)
+        try container.encodeIfPresent(maxAlbumArtWidth, forKey: .maxAlbumArtWidth)
+        try container.encodeIfPresent(maxAlbumArtHeight, forKey: .maxAlbumArtHeight)
+        try container.encodeIfPresent(maxIconWidth, forKey: .maxIconWidth)
+        try container.encodeIfPresent(maxIconHeight, forKey: .maxIconHeight)
+        try container.encodeIfPresent(maxStreamingBitrate, forKey: .maxStreamingBitrate)
+        try container.encodeIfPresent(maxStaticBitrate, forKey: .maxStaticBitrate)
+        try container.encodeIfPresent(musicStreamingTranscodingBitrate, forKey: .musicStreamingTranscodingBitrate)
+        try container.encodeIfPresent(maxStaticMusicBitrate, forKey: .maxStaticMusicBitrate)
+        try container.encodeIfPresent(sonyAggregationFlags, forKey: .sonyAggregationFlags)
+        try container.encodeIfPresent(protocolInfo, forKey: .protocolInfo)
+        try container.encodeIfPresent(timelineOffsetSeconds, forKey: .timelineOffsetSeconds)
+        try container.encodeIfPresent(requiresPlainVideoItems, forKey: .requiresPlainVideoItems)
+        try container.encodeIfPresent(requiresPlainFolders, forKey: .requiresPlainFolders)
+        try container.encodeIfPresent(enableMSMediaReceiverRegistrar, forKey: .enableMSMediaReceiverRegistrar)
+        try container.encodeIfPresent(ignoreTranscodeByteRangeRequests, forKey: .ignoreTranscodeByteRangeRequests)
+        try container.encodeIfPresent(xmlRootAttributes, forKey: .xmlRootAttributes)
+        try container.encodeIfPresent(directPlayProfiles, forKey: .directPlayProfiles)
+        try container.encodeIfPresent(transcodingProfiles, forKey: .transcodingProfiles)
+        try container.encodeIfPresent(containerProfiles, forKey: .containerProfiles)
+        try container.encodeIfPresent(codecProfiles, forKey: .codecProfiles)
+        try container.encodeIfPresent(responseProfiles, forKey: .responseProfiles)
+        try container.encodeIfPresent(subtitleProfiles, forKey: .subtitleProfiles)
     }
 }
+

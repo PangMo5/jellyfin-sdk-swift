@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The notification summary DTO. */
-public struct NotificationsSummaryDto: Codable, Hashable {
+public struct NotificationsSummaryDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the number of unread notifications. */
     public var unreadCount: Int?
@@ -31,8 +31,9 @@ public struct NotificationsSummaryDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(unreadCount, forKey: .unreadCount)
-        try encoderContainer.encodeIfPresent(maxUnreadNotificationLevel, forKey: .maxUnreadNotificationLevel)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(unreadCount, forKey: .unreadCount)
+        try container.encodeIfPresent(maxUnreadNotificationLevel, forKey: .maxUnreadNotificationLevel)
     }
 }
+

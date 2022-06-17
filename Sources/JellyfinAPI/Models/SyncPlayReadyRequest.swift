@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class ReadyRequest. */
-public struct SyncPlayReadyRequest: Codable, Hashable {
+public struct SyncPlayReadyRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets when the request has been made by the client. */
     public var when: Date?
@@ -39,10 +39,11 @@ public struct SyncPlayReadyRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(when, forKey: .when)
-        try encoderContainer.encodeIfPresent(positionTicks, forKey: .positionTicks)
-        try encoderContainer.encodeIfPresent(isPlaying, forKey: .isPlaying)
-        try encoderContainer.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(when, forKey: .when)
+        try container.encodeIfPresent(positionTicks, forKey: .positionTicks)
+        try container.encodeIfPresent(isPlaying, forKey: .isPlaying)
+        try container.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
     }
 }
+

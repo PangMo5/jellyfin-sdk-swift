@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct DeviceIdentification: Codable, Hashable {
+public struct DeviceIdentification: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name of the friendly. */
     public var friendlyName: String?
@@ -58,15 +58,16 @@ public struct DeviceIdentification: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(friendlyName, forKey: .friendlyName)
-        try encoderContainer.encodeIfPresent(modelNumber, forKey: .modelNumber)
-        try encoderContainer.encodeIfPresent(serialNumber, forKey: .serialNumber)
-        try encoderContainer.encodeIfPresent(modelName, forKey: .modelName)
-        try encoderContainer.encodeIfPresent(modelDescription, forKey: .modelDescription)
-        try encoderContainer.encodeIfPresent(modelUrl, forKey: .modelUrl)
-        try encoderContainer.encodeIfPresent(manufacturer, forKey: .manufacturer)
-        try encoderContainer.encodeIfPresent(manufacturerUrl, forKey: .manufacturerUrl)
-        try encoderContainer.encodeIfPresent(headers, forKey: .headers)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(friendlyName, forKey: .friendlyName)
+        try container.encodeIfPresent(modelNumber, forKey: .modelNumber)
+        try container.encodeIfPresent(serialNumber, forKey: .serialNumber)
+        try container.encodeIfPresent(modelName, forKey: .modelName)
+        try container.encodeIfPresent(modelDescription, forKey: .modelDescription)
+        try container.encodeIfPresent(modelUrl, forKey: .modelUrl)
+        try container.encodeIfPresent(manufacturer, forKey: .manufacturer)
+        try container.encodeIfPresent(manufacturerUrl, forKey: .manufacturerUrl)
+        try container.encodeIfPresent(headers, forKey: .headers)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class CultureDto. */
-public struct CultureDto: Codable, Hashable {
+public struct CultureDto: Codable, JSONEncodable, Hashable {
 
     /** Gets the name. */
     public var name: String?
@@ -42,11 +42,12 @@ public struct CultureDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(displayName, forKey: .displayName)
-        try encoderContainer.encodeIfPresent(twoLetterISOLanguageName, forKey: .twoLetterISOLanguageName)
-        try encoderContainer.encodeIfPresent(threeLetterISOLanguageName, forKey: .threeLetterISOLanguageName)
-        try encoderContainer.encodeIfPresent(threeLetterISOLanguageNames, forKey: .threeLetterISOLanguageNames)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(twoLetterISOLanguageName, forKey: .twoLetterISOLanguageName)
+        try container.encodeIfPresent(threeLetterISOLanguageName, forKey: .threeLetterISOLanguageName)
+        try container.encodeIfPresent(threeLetterISOLanguageNames, forKey: .threeLetterISOLanguageNames)
     }
 }
+

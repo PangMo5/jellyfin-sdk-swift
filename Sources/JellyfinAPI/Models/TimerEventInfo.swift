@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TimerEventInfo: Codable, Hashable {
+public struct TimerEventInfo: Codable, JSONEncodable, Hashable {
 
     public var id: String?
     public var programId: String?
@@ -28,8 +28,9 @@ public struct TimerEventInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(programId, forKey: .programId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(programId, forKey: .programId)
     }
 }
+

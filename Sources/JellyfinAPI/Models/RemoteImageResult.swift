@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class RemoteImageResult. */
-public struct RemoteImageResult: Codable, Hashable {
+public struct RemoteImageResult: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the images. */
     public var images: [RemoteImageInfo]?
@@ -35,9 +35,10 @@ public struct RemoteImageResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(images, forKey: .images)
-        try encoderContainer.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
-        try encoderContainer.encodeIfPresent(providers, forKey: .providers)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(images, forKey: .images)
+        try container.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
+        try container.encodeIfPresent(providers, forKey: .providers)
     }
 }
+

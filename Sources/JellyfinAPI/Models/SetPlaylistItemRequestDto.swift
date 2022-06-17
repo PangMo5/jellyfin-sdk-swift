@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SetPlaylistItemRequestDto. */
-public struct SetPlaylistItemRequestDto: Codable, Hashable {
+public struct SetPlaylistItemRequestDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the playlist identifier of the playing item. */
     public var playlistItemId: String?
@@ -27,7 +27,8 @@ public struct SetPlaylistItemRequestDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
     }
 }
+

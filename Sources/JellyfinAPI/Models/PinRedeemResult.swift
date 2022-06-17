@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct PinRedeemResult: Codable, Hashable {
+public struct PinRedeemResult: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether this MediaBrowser.Model.Users.PinRedeemResult is success. */
     public var success: Bool?
@@ -30,8 +30,9 @@ public struct PinRedeemResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(success, forKey: .success)
-        try encoderContainer.encodeIfPresent(usersReset, forKey: .usersReset)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(success, forKey: .success)
+        try container.encodeIfPresent(usersReset, forKey: .usersReset)
     }
 }
+

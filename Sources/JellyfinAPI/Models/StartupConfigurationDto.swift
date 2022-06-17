@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The startup configuration DTO. */
-public struct StartupConfigurationDto: Codable, Hashable {
+public struct StartupConfigurationDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets UI language culture. */
     public var uICulture: String?
@@ -35,9 +35,10 @@ public struct StartupConfigurationDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(uICulture, forKey: .uICulture)
-        try encoderContainer.encodeIfPresent(metadataCountryCode, forKey: .metadataCountryCode)
-        try encoderContainer.encodeIfPresent(preferredMetadataLanguage, forKey: .preferredMetadataLanguage)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(uICulture, forKey: .uICulture)
+        try container.encodeIfPresent(metadataCountryCode, forKey: .metadataCountryCode)
+        try container.encodeIfPresent(preferredMetadataLanguage, forKey: .preferredMetadataLanguage)
     }
 }
+

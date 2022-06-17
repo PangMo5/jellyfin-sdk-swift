@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class LibrarySummary. */
-public struct ItemCounts: Codable, Hashable {
+public struct ItemCounts: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the movie count. */
     public var movieCount: Int?
@@ -71,18 +71,19 @@ public struct ItemCounts: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(movieCount, forKey: .movieCount)
-        try encoderContainer.encodeIfPresent(seriesCount, forKey: .seriesCount)
-        try encoderContainer.encodeIfPresent(episodeCount, forKey: .episodeCount)
-        try encoderContainer.encodeIfPresent(artistCount, forKey: .artistCount)
-        try encoderContainer.encodeIfPresent(programCount, forKey: .programCount)
-        try encoderContainer.encodeIfPresent(trailerCount, forKey: .trailerCount)
-        try encoderContainer.encodeIfPresent(songCount, forKey: .songCount)
-        try encoderContainer.encodeIfPresent(albumCount, forKey: .albumCount)
-        try encoderContainer.encodeIfPresent(musicVideoCount, forKey: .musicVideoCount)
-        try encoderContainer.encodeIfPresent(boxSetCount, forKey: .boxSetCount)
-        try encoderContainer.encodeIfPresent(bookCount, forKey: .bookCount)
-        try encoderContainer.encodeIfPresent(itemCount, forKey: .itemCount)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(movieCount, forKey: .movieCount)
+        try container.encodeIfPresent(seriesCount, forKey: .seriesCount)
+        try container.encodeIfPresent(episodeCount, forKey: .episodeCount)
+        try container.encodeIfPresent(artistCount, forKey: .artistCount)
+        try container.encodeIfPresent(programCount, forKey: .programCount)
+        try container.encodeIfPresent(trailerCount, forKey: .trailerCount)
+        try container.encodeIfPresent(songCount, forKey: .songCount)
+        try container.encodeIfPresent(albumCount, forKey: .albumCount)
+        try container.encodeIfPresent(musicVideoCount, forKey: .musicVideoCount)
+        try container.encodeIfPresent(boxSetCount, forKey: .boxSetCount)
+        try container.encodeIfPresent(bookCount, forKey: .bookCount)
+        try container.encodeIfPresent(itemCount, forKey: .itemCount)
     }
 }
+

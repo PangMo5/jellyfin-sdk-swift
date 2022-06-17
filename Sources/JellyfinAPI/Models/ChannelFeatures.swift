@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ChannelFeatures: Codable, Hashable {
+public struct ChannelFeatures: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -70,18 +70,19 @@ public struct ChannelFeatures: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(canSearch, forKey: .canSearch)
-        try encoderContainer.encodeIfPresent(mediaTypes, forKey: .mediaTypes)
-        try encoderContainer.encodeIfPresent(contentTypes, forKey: .contentTypes)
-        try encoderContainer.encodeIfPresent(maxPageSize, forKey: .maxPageSize)
-        try encoderContainer.encodeIfPresent(autoRefreshLevels, forKey: .autoRefreshLevels)
-        try encoderContainer.encodeIfPresent(defaultSortFields, forKey: .defaultSortFields)
-        try encoderContainer.encodeIfPresent(supportsSortOrderToggle, forKey: .supportsSortOrderToggle)
-        try encoderContainer.encodeIfPresent(supportsLatestMedia, forKey: .supportsLatestMedia)
-        try encoderContainer.encodeIfPresent(canFilter, forKey: .canFilter)
-        try encoderContainer.encodeIfPresent(supportsContentDownloading, forKey: .supportsContentDownloading)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(canSearch, forKey: .canSearch)
+        try container.encodeIfPresent(mediaTypes, forKey: .mediaTypes)
+        try container.encodeIfPresent(contentTypes, forKey: .contentTypes)
+        try container.encodeIfPresent(maxPageSize, forKey: .maxPageSize)
+        try container.encodeIfPresent(autoRefreshLevels, forKey: .autoRefreshLevels)
+        try container.encodeIfPresent(defaultSortFields, forKey: .defaultSortFields)
+        try container.encodeIfPresent(supportsSortOrderToggle, forKey: .supportsSortOrderToggle)
+        try container.encodeIfPresent(supportsLatestMedia, forKey: .supportsLatestMedia)
+        try container.encodeIfPresent(canFilter, forKey: .canFilter)
+        try container.encodeIfPresent(supportsContentDownloading, forKey: .supportsContentDownloading)
     }
 }
+

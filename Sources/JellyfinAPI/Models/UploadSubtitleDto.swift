@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Upload subtitles dto. */
-public struct UploadSubtitleDto: Codable, Hashable {
+public struct UploadSubtitleDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the subtitle language. */
     public var language: String
@@ -39,10 +39,11 @@ public struct UploadSubtitleDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(language, forKey: .language)
-        try encoderContainer.encode(format, forKey: .format)
-        try encoderContainer.encode(isForced, forKey: .isForced)
-        try encoderContainer.encode(data, forKey: .data)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(language, forKey: .language)
+        try container.encode(format, forKey: .format)
+        try container.encode(isForced, forKey: .isForced)
+        try container.encode(data, forKey: .data)
     }
 }
+

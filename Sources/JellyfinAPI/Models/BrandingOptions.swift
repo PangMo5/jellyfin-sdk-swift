@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The branding options. */
-public struct BrandingOptions: Codable, Hashable {
+public struct BrandingOptions: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the login disclaimer. */
     public var loginDisclaimer: String?
@@ -31,8 +31,9 @@ public struct BrandingOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(loginDisclaimer, forKey: .loginDisclaimer)
-        try encoderContainer.encodeIfPresent(customCss, forKey: .customCss)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(loginDisclaimer, forKey: .loginDisclaimer)
+        try container.encodeIfPresent(customCss, forKey: .customCss)
     }
 }
+

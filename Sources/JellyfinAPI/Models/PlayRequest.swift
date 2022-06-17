@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class PlayRequest. */
-public struct PlayRequest: Codable, Hashable {
+public struct PlayRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the item ids. */
     public var itemIds: [String]?
@@ -51,14 +51,15 @@ public struct PlayRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(itemIds, forKey: .itemIds)
-        try encoderContainer.encodeIfPresent(startPositionTicks, forKey: .startPositionTicks)
-        try encoderContainer.encodeIfPresent(playCommand, forKey: .playCommand)
-        try encoderContainer.encodeIfPresent(controllingUserId, forKey: .controllingUserId)
-        try encoderContainer.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
-        try encoderContainer.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
-        try encoderContainer.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
-        try encoderContainer.encodeIfPresent(startIndex, forKey: .startIndex)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(itemIds, forKey: .itemIds)
+        try container.encodeIfPresent(startPositionTicks, forKey: .startPositionTicks)
+        try container.encodeIfPresent(playCommand, forKey: .playCommand)
+        try container.encodeIfPresent(controllingUserId, forKey: .controllingUserId)
+        try container.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
+        try container.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
+        try container.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
+        try container.encodeIfPresent(startIndex, forKey: .startIndex)
     }
 }
+

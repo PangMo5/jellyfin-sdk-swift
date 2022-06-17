@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class IgnoreWaitRequestDto. */
-public struct SyncPlaySetIgnoreWaitRequest: Codable, Hashable {
+public struct SyncPlaySetIgnoreWaitRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether the client should be ignored. */
     public var ignoreWait: Bool?
@@ -27,7 +27,8 @@ public struct SyncPlaySetIgnoreWaitRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(ignoreWait, forKey: .ignoreWait)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(ignoreWait, forKey: .ignoreWait)
     }
 }
+

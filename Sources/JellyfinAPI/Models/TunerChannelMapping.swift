@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TunerChannelMapping: Codable, Hashable {
+public struct TunerChannelMapping: Codable, JSONEncodable, Hashable {
 
     public var name: String?
     public var providerChannelName: String?
@@ -34,10 +34,11 @@ public struct TunerChannelMapping: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(providerChannelName, forKey: .providerChannelName)
-        try encoderContainer.encodeIfPresent(providerChannelId, forKey: .providerChannelId)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(providerChannelName, forKey: .providerChannelName)
+        try container.encodeIfPresent(providerChannelId, forKey: .providerChannelId)
+        try container.encodeIfPresent(id, forKey: .id)
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct PlayerStateInfo: Codable, Hashable {
+public struct PlayerStateInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the now playing position ticks. */
     public var positionTicks: Int64?
@@ -66,17 +66,18 @@ public struct PlayerStateInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(positionTicks, forKey: .positionTicks)
-        try encoderContainer.encodeIfPresent(canSeek, forKey: .canSeek)
-        try encoderContainer.encodeIfPresent(isPaused, forKey: .isPaused)
-        try encoderContainer.encodeIfPresent(isMuted, forKey: .isMuted)
-        try encoderContainer.encodeIfPresent(volumeLevel, forKey: .volumeLevel)
-        try encoderContainer.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
-        try encoderContainer.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
-        try encoderContainer.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
-        try encoderContainer.encodeIfPresent(playMethod, forKey: .playMethod)
-        try encoderContainer.encodeIfPresent(repeatMode, forKey: .repeatMode)
-        try encoderContainer.encodeIfPresent(liveStreamId, forKey: .liveStreamId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(positionTicks, forKey: .positionTicks)
+        try container.encodeIfPresent(canSeek, forKey: .canSeek)
+        try container.encodeIfPresent(isPaused, forKey: .isPaused)
+        try container.encodeIfPresent(isMuted, forKey: .isMuted)
+        try container.encodeIfPresent(volumeLevel, forKey: .volumeLevel)
+        try container.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
+        try container.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
+        try container.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
+        try container.encodeIfPresent(playMethod, forKey: .playMethod)
+        try container.encodeIfPresent(repeatMode, forKey: .repeatMode)
+        try container.encodeIfPresent(liveStreamId, forKey: .liveStreamId)
     }
 }
+

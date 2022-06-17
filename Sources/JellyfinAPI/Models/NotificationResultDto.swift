@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** A list of notifications with the total record count for pagination. */
-public struct NotificationResultDto: Codable, Hashable {
+public struct NotificationResultDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the current page of notifications. */
     public var notifications: [NotificationDto]?
@@ -31,8 +31,9 @@ public struct NotificationResultDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(notifications, forKey: .notifications)
-        try encoderContainer.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(notifications, forKey: .notifications)
+        try container.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
     }
 }
+

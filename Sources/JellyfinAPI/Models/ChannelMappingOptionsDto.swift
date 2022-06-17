@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Channel mapping options dto. */
-public struct ChannelMappingOptionsDto: Codable, Hashable {
+public struct ChannelMappingOptionsDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets list of tuner channels. */
     public var tunerChannels: [TunerChannelMapping]?
@@ -39,10 +39,11 @@ public struct ChannelMappingOptionsDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(tunerChannels, forKey: .tunerChannels)
-        try encoderContainer.encodeIfPresent(providerChannels, forKey: .providerChannels)
-        try encoderContainer.encodeIfPresent(mappings, forKey: .mappings)
-        try encoderContainer.encodeIfPresent(providerName, forKey: .providerName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(tunerChannels, forKey: .tunerChannels)
+        try container.encodeIfPresent(providerChannels, forKey: .providerChannels)
+        try container.encodeIfPresent(mappings, forKey: .mappings)
+        try container.encodeIfPresent(providerName, forKey: .providerName)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Represents the external id information for serialization to the client. */
-public struct ExternalIdInfo: Codable, Hashable {
+public struct ExternalIdInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the display name of the external id provider (IE: IMDB, MusicBrainz, etc). */
     public var name: String?
@@ -39,10 +39,11 @@ public struct ExternalIdInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(key, forKey: .key)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(urlFormatString, forKey: .urlFormatString)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(key, forKey: .key)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(urlFormatString, forKey: .urlFormatString)
     }
 }
+

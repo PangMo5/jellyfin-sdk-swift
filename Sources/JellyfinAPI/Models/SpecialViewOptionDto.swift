@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Special view option dto. */
-public struct SpecialViewOptionDto: Codable, Hashable {
+public struct SpecialViewOptionDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets view option name. */
     public var name: String?
@@ -31,8 +31,9 @@ public struct SpecialViewOptionDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(id, forKey: .id)
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SendFullGeneralCommandRequest: Codable, Hashable {
+public struct SendFullGeneralCommandRequest: Codable, JSONEncodable, Hashable {
 
     /** This exists simply to identify a set of known commands. */
     public var name: GeneralCommandType?
@@ -32,9 +32,10 @@ public struct SendFullGeneralCommandRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(controllingUserId, forKey: .controllingUserId)
-        try encoderContainer.encodeIfPresent(arguments, forKey: .arguments)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(controllingUserId, forKey: .controllingUserId)
+        try container.encodeIfPresent(arguments, forKey: .arguments)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class NewGroupRequestDto. */
-public struct SyncPlayCreateGroupRequest: Codable, Hashable {
+public struct SyncPlayCreateGroupRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the group name. */
     public var groupName: String?
@@ -27,7 +27,8 @@ public struct SyncPlayCreateGroupRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(groupName, forKey: .groupName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(groupName, forKey: .groupName)
     }
 }
+

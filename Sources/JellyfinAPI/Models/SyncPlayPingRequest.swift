@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class PingRequestDto. */
-public struct SyncPlayPingRequest: Codable, Hashable {
+public struct SyncPlayPingRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the ping time. */
     public var ping: Int64?
@@ -27,7 +27,8 @@ public struct SyncPlayPingRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(ping, forKey: .ping)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(ping, forKey: .ping)
     }
 }
+

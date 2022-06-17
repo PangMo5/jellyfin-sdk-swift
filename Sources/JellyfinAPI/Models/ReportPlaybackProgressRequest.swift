@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class PlaybackProgressInfo. */
-public struct ReportPlaybackProgressRequest: Codable, Hashable {
+public struct ReportPlaybackProgressRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether this instance can seek. */
     public var canSeek: Bool?
@@ -97,26 +97,27 @@ public struct ReportPlaybackProgressRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(canSeek, forKey: .canSeek)
-        try encoderContainer.encodeIfPresent(item, forKey: .item)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
-        try encoderContainer.encodeIfPresent(sessionId, forKey: .sessionId)
-        try encoderContainer.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
-        try encoderContainer.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
-        try encoderContainer.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
-        try encoderContainer.encodeIfPresent(isPaused, forKey: .isPaused)
-        try encoderContainer.encodeIfPresent(isMuted, forKey: .isMuted)
-        try encoderContainer.encodeIfPresent(positionTicks, forKey: .positionTicks)
-        try encoderContainer.encodeIfPresent(playbackStartTimeTicks, forKey: .playbackStartTimeTicks)
-        try encoderContainer.encodeIfPresent(volumeLevel, forKey: .volumeLevel)
-        try encoderContainer.encodeIfPresent(brightness, forKey: .brightness)
-        try encoderContainer.encodeIfPresent(aspectRatio, forKey: .aspectRatio)
-        try encoderContainer.encodeIfPresent(playMethod, forKey: .playMethod)
-        try encoderContainer.encodeIfPresent(liveStreamId, forKey: .liveStreamId)
-        try encoderContainer.encodeIfPresent(playSessionId, forKey: .playSessionId)
-        try encoderContainer.encodeIfPresent(repeatMode, forKey: .repeatMode)
-        try encoderContainer.encodeIfPresent(nowPlayingQueue, forKey: .nowPlayingQueue)
-        try encoderContainer.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(canSeek, forKey: .canSeek)
+        try container.encodeIfPresent(item, forKey: .item)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(sessionId, forKey: .sessionId)
+        try container.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
+        try container.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
+        try container.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
+        try container.encodeIfPresent(isPaused, forKey: .isPaused)
+        try container.encodeIfPresent(isMuted, forKey: .isMuted)
+        try container.encodeIfPresent(positionTicks, forKey: .positionTicks)
+        try container.encodeIfPresent(playbackStartTimeTicks, forKey: .playbackStartTimeTicks)
+        try container.encodeIfPresent(volumeLevel, forKey: .volumeLevel)
+        try container.encodeIfPresent(brightness, forKey: .brightness)
+        try container.encodeIfPresent(aspectRatio, forKey: .aspectRatio)
+        try container.encodeIfPresent(playMethod, forKey: .playMethod)
+        try container.encodeIfPresent(liveStreamId, forKey: .liveStreamId)
+        try container.encodeIfPresent(playSessionId, forKey: .playSessionId)
+        try container.encodeIfPresent(repeatMode, forKey: .repeatMode)
+        try container.encodeIfPresent(nowPlayingQueue, forKey: .nowPlayingQueue)
+        try container.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
     }
 }
+

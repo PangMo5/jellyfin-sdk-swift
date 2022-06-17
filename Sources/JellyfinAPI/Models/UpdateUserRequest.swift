@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class UserDto. */
-public struct UpdateUserRequest: Codable, Hashable {
+public struct UpdateUserRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -77,20 +77,21 @@ public struct UpdateUserRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(serverId, forKey: .serverId)
-        try encoderContainer.encodeIfPresent(serverName, forKey: .serverName)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(primaryImageTag, forKey: .primaryImageTag)
-        try encoderContainer.encodeIfPresent(hasPassword, forKey: .hasPassword)
-        try encoderContainer.encodeIfPresent(hasConfiguredPassword, forKey: .hasConfiguredPassword)
-        try encoderContainer.encodeIfPresent(hasConfiguredEasyPassword, forKey: .hasConfiguredEasyPassword)
-        try encoderContainer.encodeIfPresent(enableAutoLogin, forKey: .enableAutoLogin)
-        try encoderContainer.encodeIfPresent(lastLoginDate, forKey: .lastLoginDate)
-        try encoderContainer.encodeIfPresent(lastActivityDate, forKey: .lastActivityDate)
-        try encoderContainer.encodeIfPresent(configuration, forKey: .configuration)
-        try encoderContainer.encodeIfPresent(policy, forKey: .policy)
-        try encoderContainer.encodeIfPresent(primaryImageAspectRatio, forKey: .primaryImageAspectRatio)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(serverId, forKey: .serverId)
+        try container.encodeIfPresent(serverName, forKey: .serverName)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(primaryImageTag, forKey: .primaryImageTag)
+        try container.encodeIfPresent(hasPassword, forKey: .hasPassword)
+        try container.encodeIfPresent(hasConfiguredPassword, forKey: .hasConfiguredPassword)
+        try container.encodeIfPresent(hasConfiguredEasyPassword, forKey: .hasConfiguredEasyPassword)
+        try container.encodeIfPresent(enableAutoLogin, forKey: .enableAutoLogin)
+        try container.encodeIfPresent(lastLoginDate, forKey: .lastLoginDate)
+        try container.encodeIfPresent(lastActivityDate, forKey: .lastActivityDate)
+        try container.encodeIfPresent(configuration, forKey: .configuration)
+        try container.encodeIfPresent(policy, forKey: .policy)
+        try container.encodeIfPresent(primaryImageAspectRatio, forKey: .primaryImageAspectRatio)
     }
 }
+

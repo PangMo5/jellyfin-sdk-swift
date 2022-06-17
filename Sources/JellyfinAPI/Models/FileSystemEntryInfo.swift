@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class FileSystemEntryInfo. */
-public struct FileSystemEntryInfo: Codable, Hashable {
+public struct FileSystemEntryInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets the name. */
     public var name: String?
@@ -35,9 +35,10 @@ public struct FileSystemEntryInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(path, forKey: .path)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(path, forKey: .path)
+        try container.encodeIfPresent(type, forKey: .type)
     }
 }
+

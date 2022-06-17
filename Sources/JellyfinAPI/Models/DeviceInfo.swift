@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct DeviceInfo: Codable, Hashable {
+public struct DeviceInfo: Codable, JSONEncodable, Hashable {
 
     public var name: String?
     /** Gets or sets the access token. */
@@ -59,16 +59,17 @@ public struct DeviceInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(accessToken, forKey: .accessToken)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(lastUserName, forKey: .lastUserName)
-        try encoderContainer.encodeIfPresent(appName, forKey: .appName)
-        try encoderContainer.encodeIfPresent(appVersion, forKey: .appVersion)
-        try encoderContainer.encodeIfPresent(lastUserId, forKey: .lastUserId)
-        try encoderContainer.encodeIfPresent(dateLastActivity, forKey: .dateLastActivity)
-        try encoderContainer.encodeIfPresent(capabilities, forKey: .capabilities)
-        try encoderContainer.encodeIfPresent(iconUrl, forKey: .iconUrl)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(accessToken, forKey: .accessToken)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lastUserName, forKey: .lastUserName)
+        try container.encodeIfPresent(appName, forKey: .appName)
+        try container.encodeIfPresent(appVersion, forKey: .appVersion)
+        try container.encodeIfPresent(lastUserId, forKey: .lastUserId)
+        try container.encodeIfPresent(dateLastActivity, forKey: .dateLastActivity)
+        try container.encodeIfPresent(capabilities, forKey: .capabilities)
+        try container.encodeIfPresent(iconUrl, forKey: .iconUrl)
     }
 }
+

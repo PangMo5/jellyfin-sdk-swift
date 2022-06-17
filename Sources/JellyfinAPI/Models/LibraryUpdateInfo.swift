@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class LibraryUpdateInfo. */
-public struct LibraryUpdateInfo: Codable, Hashable {
+public struct LibraryUpdateInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the folders added to. */
     public var foldersAddedTo: [String]?
@@ -49,13 +49,14 @@ public struct LibraryUpdateInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(foldersAddedTo, forKey: .foldersAddedTo)
-        try encoderContainer.encodeIfPresent(foldersRemovedFrom, forKey: .foldersRemovedFrom)
-        try encoderContainer.encodeIfPresent(itemsAdded, forKey: .itemsAdded)
-        try encoderContainer.encodeIfPresent(itemsRemoved, forKey: .itemsRemoved)
-        try encoderContainer.encodeIfPresent(itemsUpdated, forKey: .itemsUpdated)
-        try encoderContainer.encodeIfPresent(collectionFolders, forKey: .collectionFolders)
-        try encoderContainer.encodeIfPresent(isEmpty, forKey: .isEmpty)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(foldersAddedTo, forKey: .foldersAddedTo)
+        try container.encodeIfPresent(foldersRemovedFrom, forKey: .foldersRemovedFrom)
+        try container.encodeIfPresent(itemsAdded, forKey: .itemsAdded)
+        try container.encodeIfPresent(itemsRemoved, forKey: .itemsRemoved)
+        try container.encodeIfPresent(itemsUpdated, forKey: .itemsUpdated)
+        try container.encodeIfPresent(collectionFolders, forKey: .collectionFolders)
+        try container.encodeIfPresent(isEmpty, forKey: .isEmpty)
     }
 }
+

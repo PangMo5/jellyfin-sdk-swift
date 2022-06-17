@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct PublicSystemInfo: Codable, Hashable {
+public struct PublicSystemInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the local address. */
     public var localAddress: String?
@@ -50,13 +50,14 @@ public struct PublicSystemInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(localAddress, forKey: .localAddress)
-        try encoderContainer.encodeIfPresent(serverName, forKey: .serverName)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(productName, forKey: .productName)
-        try encoderContainer.encodeIfPresent(operatingSystem, forKey: .operatingSystem)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(startupWizardCompleted, forKey: .startupWizardCompleted)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(localAddress, forKey: .localAddress)
+        try container.encodeIfPresent(serverName, forKey: .serverName)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(productName, forKey: .productName)
+        try container.encodeIfPresent(operatingSystem, forKey: .operatingSystem)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(startupWizardCompleted, forKey: .startupWizardCompleted)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Used to hold information about a user&#39;s list of configured virtual folders. */
-public struct VirtualFolderInfo: Codable, Hashable {
+public struct VirtualFolderInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -52,14 +52,15 @@ public struct VirtualFolderInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(locations, forKey: .locations)
-        try encoderContainer.encodeIfPresent(collectionType, forKey: .collectionType)
-        try encoderContainer.encodeIfPresent(libraryOptions, forKey: .libraryOptions)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
-        try encoderContainer.encodeIfPresent(primaryImageItemId, forKey: .primaryImageItemId)
-        try encoderContainer.encodeIfPresent(refreshProgress, forKey: .refreshProgress)
-        try encoderContainer.encodeIfPresent(refreshStatus, forKey: .refreshStatus)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(locations, forKey: .locations)
+        try container.encodeIfPresent(collectionType, forKey: .collectionType)
+        try container.encodeIfPresent(libraryOptions, forKey: .libraryOptions)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(primaryImageItemId, forKey: .primaryImageItemId)
+        try container.encodeIfPresent(refreshProgress, forKey: .refreshProgress)
+        try container.encodeIfPresent(refreshStatus, forKey: .refreshStatus)
     }
 }
+

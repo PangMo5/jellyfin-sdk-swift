@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class TaskTriggerInfo. */
-public struct TaskTriggerInfo: Codable, Hashable {
+public struct TaskTriggerInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the type. */
     public var type: String?
@@ -43,11 +43,12 @@ public struct TaskTriggerInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(timeOfDayTicks, forKey: .timeOfDayTicks)
-        try encoderContainer.encodeIfPresent(intervalTicks, forKey: .intervalTicks)
-        try encoderContainer.encodeIfPresent(dayOfWeek, forKey: .dayOfWeek)
-        try encoderContainer.encodeIfPresent(maxRuntimeTicks, forKey: .maxRuntimeTicks)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(timeOfDayTicks, forKey: .timeOfDayTicks)
+        try container.encodeIfPresent(intervalTicks, forKey: .intervalTicks)
+        try container.encodeIfPresent(dayOfWeek, forKey: .dayOfWeek)
+        try container.encodeIfPresent(maxRuntimeTicks, forKey: .maxRuntimeTicks)
     }
 }
+

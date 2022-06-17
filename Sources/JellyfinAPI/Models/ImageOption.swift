@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ImageOption: Codable, Hashable {
+public struct ImageOption: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the type. */
     public var type: ImageType?
@@ -34,9 +34,10 @@ public struct ImageOption: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(limit, forKey: .limit)
-        try encoderContainer.encodeIfPresent(minWidth, forKey: .minWidth)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(limit, forKey: .limit)
+        try container.encodeIfPresent(minWidth, forKey: .minWidth)
     }
 }
+

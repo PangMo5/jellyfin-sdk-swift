@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class GroupInfoDto. */
-public struct GroupInfoDto: Codable, Hashable {
+public struct GroupInfoDto: Codable, JSONEncodable, Hashable {
 
     /** Gets the group identifier. */
     public var groupId: String?
@@ -43,11 +43,12 @@ public struct GroupInfoDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(groupId, forKey: .groupId)
-        try encoderContainer.encodeIfPresent(groupName, forKey: .groupName)
-        try encoderContainer.encodeIfPresent(state, forKey: .state)
-        try encoderContainer.encodeIfPresent(participants, forKey: .participants)
-        try encoderContainer.encodeIfPresent(lastUpdatedAt, forKey: .lastUpdatedAt)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(groupId, forKey: .groupId)
+        try container.encodeIfPresent(groupName, forKey: .groupName)
+        try container.encodeIfPresent(state, forKey: .state)
+        try container.encodeIfPresent(participants, forKey: .participants)
+        try container.encodeIfPresent(lastUpdatedAt, forKey: .lastUpdatedAt)
     }
 }
+

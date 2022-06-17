@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct XbmcMetadataOptions: Codable, Hashable {
+public struct XbmcMetadataOptions: Codable, JSONEncodable, Hashable {
 
     public var userId: String?
     public var releaseDateFormat: String?
@@ -37,11 +37,12 @@ public struct XbmcMetadataOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(releaseDateFormat, forKey: .releaseDateFormat)
-        try encoderContainer.encodeIfPresent(saveImagePathsInNfo, forKey: .saveImagePathsInNfo)
-        try encoderContainer.encodeIfPresent(enablePathSubstitution, forKey: .enablePathSubstitution)
-        try encoderContainer.encodeIfPresent(enableExtraThumbsDuplication, forKey: .enableExtraThumbsDuplication)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(releaseDateFormat, forKey: .releaseDateFormat)
+        try container.encodeIfPresent(saveImagePathsInNfo, forKey: .saveImagePathsInNfo)
+        try container.encodeIfPresent(enablePathSubstitution, forKey: .enablePathSubstitution)
+        try container.encodeIfPresent(enableExtraThumbsDuplication, forKey: .enableExtraThumbsDuplication)
     }
 }
+

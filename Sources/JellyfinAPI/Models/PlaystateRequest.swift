@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct PlaystateRequest: Codable, Hashable {
+public struct PlaystateRequest: Codable, JSONEncodable, Hashable {
 
     /** Enum PlaystateCommand. */
     public var command: PlaystateCommand?
@@ -33,9 +33,10 @@ public struct PlaystateRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(command, forKey: .command)
-        try encoderContainer.encodeIfPresent(seekPositionTicks, forKey: .seekPositionTicks)
-        try encoderContainer.encodeIfPresent(controllingUserId, forKey: .controllingUserId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(command, forKey: .command)
+        try container.encodeIfPresent(seekPositionTicks, forKey: .seekPositionTicks)
+        try container.encodeIfPresent(controllingUserId, forKey: .controllingUserId)
     }
 }
+

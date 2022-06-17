@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ContainerProfile: Codable, Hashable {
+public struct ContainerProfile: Codable, JSONEncodable, Hashable {
 
     public var type: DlnaProfileType?
     public var conditions: [ProfileCondition]?
@@ -31,9 +31,10 @@ public struct ContainerProfile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(conditions, forKey: .conditions)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(conditions, forKey: .conditions)
+        try container.encodeIfPresent(container, forKey: .container)
     }
 }
+

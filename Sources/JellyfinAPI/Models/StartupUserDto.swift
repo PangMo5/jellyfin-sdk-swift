@@ -11,11 +11,11 @@ import AnyCodable
 #endif
 
 /** The startup user DTO. */
-public struct StartupUserDto: Codable, Hashable {
+public struct StartupUserDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the username. */
     public var name: String?
-    /** Gets or sets the user&#39;s password. */
+    /** Gets or sets the user's password. */
     public var password: String?
 
     public init(name: String? = nil, password: String? = nil) {
@@ -31,8 +31,9 @@ public struct StartupUserDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(password, forKey: .password)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(password, forKey: .password)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class PlayRequestDto. */
-public struct PlayRequestDto: Codable, Hashable {
+public struct PlayRequestDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the playing queue. */
     public var playingQueue: [String]?
@@ -35,9 +35,10 @@ public struct PlayRequestDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(playingQueue, forKey: .playingQueue)
-        try encoderContainer.encodeIfPresent(playingItemPosition, forKey: .playingItemPosition)
-        try encoderContainer.encodeIfPresent(startPositionTicks, forKey: .startPositionTicks)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(playingQueue, forKey: .playingQueue)
+        try container.encodeIfPresent(playingItemPosition, forKey: .playingItemPosition)
+        try container.encodeIfPresent(startPositionTicks, forKey: .startPositionTicks)
     }
 }
+

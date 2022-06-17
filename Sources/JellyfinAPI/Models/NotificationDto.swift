@@ -11,21 +11,21 @@ import AnyCodable
 #endif
 
 /** The notification DTO. */
-public struct NotificationDto: Codable, Hashable {
+public struct NotificationDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the notification ID. Defaults to an empty string. */
     public var id: String?
-    /** Gets or sets the notification&#39;s user ID. Defaults to an empty string. */
+    /** Gets or sets the notification's user ID. Defaults to an empty string. */
     public var userId: String?
     /** Gets or sets the notification date. */
     public var date: Date?
     /** Gets or sets a value indicating whether the notification has been read. Defaults to false. */
     public var isRead: Bool?
-    /** Gets or sets the notification&#39;s name. Defaults to an empty string. */
+    /** Gets or sets the notification's name. Defaults to an empty string. */
     public var name: String?
-    /** Gets or sets the notification&#39;s description. Defaults to an empty string. */
+    /** Gets or sets the notification's description. Defaults to an empty string. */
     public var description: String?
-    /** Gets or sets the notification&#39;s URL. Defaults to an empty string. */
+    /** Gets or sets the notification's URL. Defaults to an empty string. */
     public var url: String?
     /** Gets or sets the notification level. */
     public var level: NotificationLevel?
@@ -55,14 +55,15 @@ public struct NotificationDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(date, forKey: .date)
-        try encoderContainer.encodeIfPresent(isRead, forKey: .isRead)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(description, forKey: .description)
-        try encoderContainer.encodeIfPresent(url, forKey: .url)
-        try encoderContainer.encodeIfPresent(level, forKey: .level)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(isRead, forKey: .isRead)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(level, forKey: .level)
     }
 }
+

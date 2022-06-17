@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct GetPersonRemoteSearchResultsRequest: Codable, Hashable {
+public struct GetPersonRemoteSearchResultsRequest: Codable, JSONEncodable, Hashable {
 
     public var searchInfo: PersonLookupInfoRemoteSearchQuerySearchInfo?
     public var itemId: String?
@@ -36,10 +36,11 @@ public struct GetPersonRemoteSearchResultsRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(searchInfo, forKey: .searchInfo)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
-        try encoderContainer.encodeIfPresent(searchProviderName, forKey: .searchProviderName)
-        try encoderContainer.encodeIfPresent(includeDisabledProviders, forKey: .includeDisabledProviders)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(searchInfo, forKey: .searchInfo)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(searchProviderName, forKey: .searchProviderName)
+        try container.encodeIfPresent(includeDisabledProviders, forKey: .includeDisabledProviders)
     }
 }
+

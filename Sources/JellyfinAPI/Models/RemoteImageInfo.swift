@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class RemoteImageInfo. */
-public struct RemoteImageInfo: Codable, Hashable {
+public struct RemoteImageInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name of the provider. */
     public var providerName: String?
@@ -63,16 +63,17 @@ public struct RemoteImageInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(providerName, forKey: .providerName)
-        try encoderContainer.encodeIfPresent(url, forKey: .url)
-        try encoderContainer.encodeIfPresent(thumbnailUrl, forKey: .thumbnailUrl)
-        try encoderContainer.encodeIfPresent(height, forKey: .height)
-        try encoderContainer.encodeIfPresent(width, forKey: .width)
-        try encoderContainer.encodeIfPresent(communityRating, forKey: .communityRating)
-        try encoderContainer.encodeIfPresent(voteCount, forKey: .voteCount)
-        try encoderContainer.encodeIfPresent(language, forKey: .language)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(ratingType, forKey: .ratingType)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(providerName, forKey: .providerName)
+        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(thumbnailUrl, forKey: .thumbnailUrl)
+        try container.encodeIfPresent(height, forKey: .height)
+        try container.encodeIfPresent(width, forKey: .width)
+        try container.encodeIfPresent(communityRating, forKey: .communityRating)
+        try container.encodeIfPresent(voteCount, forKey: .voteCount)
+        try container.encodeIfPresent(language, forKey: .language)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(ratingType, forKey: .ratingType)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class ImageInfo. */
-public struct ImageInfo: Codable, Hashable {
+public struct ImageInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the type of the image. */
     public var imageType: ImageType?
@@ -55,14 +55,15 @@ public struct ImageInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(imageType, forKey: .imageType)
-        try encoderContainer.encodeIfPresent(imageIndex, forKey: .imageIndex)
-        try encoderContainer.encodeIfPresent(imageTag, forKey: .imageTag)
-        try encoderContainer.encodeIfPresent(path, forKey: .path)
-        try encoderContainer.encodeIfPresent(blurHash, forKey: .blurHash)
-        try encoderContainer.encodeIfPresent(height, forKey: .height)
-        try encoderContainer.encodeIfPresent(width, forKey: .width)
-        try encoderContainer.encodeIfPresent(size, forKey: .size)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(imageType, forKey: .imageType)
+        try container.encodeIfPresent(imageIndex, forKey: .imageIndex)
+        try container.encodeIfPresent(imageTag, forKey: .imageTag)
+        try container.encodeIfPresent(path, forKey: .path)
+        try container.encodeIfPresent(blurHash, forKey: .blurHash)
+        try container.encodeIfPresent(height, forKey: .height)
+        try container.encodeIfPresent(width, forKey: .width)
+        try container.encodeIfPresent(size, forKey: .size)
     }
 }
+

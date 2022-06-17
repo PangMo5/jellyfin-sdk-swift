@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class BaseItem. */
-public struct BaseItem: Codable, Hashable {
+public struct BaseItem: Codable, JSONEncodable, Hashable {
 
     public var size: Int64?
     public var container: String?
@@ -57,17 +57,18 @@ public struct BaseItem: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(size, forKey: .size)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
-        try encoderContainer.encodeIfPresent(isHD, forKey: .isHD)
-        try encoderContainer.encodeIfPresent(isShortcut, forKey: .isShortcut)
-        try encoderContainer.encodeIfPresent(shortcutPath, forKey: .shortcutPath)
-        try encoderContainer.encodeIfPresent(width, forKey: .width)
-        try encoderContainer.encodeIfPresent(height, forKey: .height)
-        try encoderContainer.encodeIfPresent(extraIds, forKey: .extraIds)
-        try encoderContainer.encodeIfPresent(dateLastSaved, forKey: .dateLastSaved)
-        try encoderContainer.encodeIfPresent(remoteTrailers, forKey: .remoteTrailers)
-        try encoderContainer.encodeIfPresent(supportsExternalTransfer, forKey: .supportsExternalTransfer)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(size, forKey: .size)
+        try container.encodeIfPresent(container, forKey: .container)
+        try container.encodeIfPresent(isHD, forKey: .isHD)
+        try container.encodeIfPresent(isShortcut, forKey: .isShortcut)
+        try container.encodeIfPresent(shortcutPath, forKey: .shortcutPath)
+        try container.encodeIfPresent(width, forKey: .width)
+        try container.encodeIfPresent(height, forKey: .height)
+        try container.encodeIfPresent(extraIds, forKey: .extraIds)
+        try container.encodeIfPresent(dateLastSaved, forKey: .dateLastSaved)
+        try container.encodeIfPresent(remoteTrailers, forKey: .remoteTrailers)
+        try container.encodeIfPresent(supportsExternalTransfer, forKey: .supportsExternalTransfer)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Defines the Jellyfin.Networking.Configuration.NetworkConfiguration. */
-public struct NetworkConfiguration: Codable, Hashable {
+public struct NetworkConfiguration: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether the server should force connections over HTTPS. */
     public var requireHttps: Bool?
@@ -39,9 +39,9 @@ public struct NetworkConfiguration: Codable, Hashable {
     public var enableIPV6: Bool?
     /** Gets or sets a value indicating whether gets or sets IPV4 capability. */
     public var enableIPV4: Bool?
-    /** Gets or sets a value indicating whether detailed SSDP logs are sent to the console/log.  \&quot;Emby.Dlna\&quot;: \&quot;Debug\&quot; must be set in logging.default.json for this property to have any effect. */
+    /** Gets or sets a value indicating whether detailed SSDP logs are sent to the console/log.  \"Emby.Dlna\": \"Debug\" must be set in logging.default.json for this property to have any effect. */
     public var enableSSDPTracing: Bool?
-    /** Gets or sets the SSDPTracingFilter  Gets or sets a value indicating whether an IP address is to be used to filter the detailed ssdp logs that are being sent to the console/log.  If the setting \&quot;Emby.Dlna\&quot;: \&quot;Debug\&quot; msut be set in logging.default.json for this property to work. */
+    /** Gets or sets the SSDPTracingFilter  Gets or sets a value indicating whether an IP address is to be used to filter the detailed ssdp logs that are being sent to the console/log.  If the setting \"Emby.Dlna\": \"Debug\" msut be set in logging.default.json for this property to work. */
     public var sSDPTracingFilter: String?
     /** Gets or sets the number of times SSDP UDP messages are sent. */
     public var uDPSendCount: Int?
@@ -49,7 +49,7 @@ public struct NetworkConfiguration: Codable, Hashable {
     public var uDPSendDelay: Int?
     /** Gets or sets a value indicating whether address names that match Jellyfin.Networking.Configuration.NetworkConfiguration.VirtualInterfaceNames should be Ignore for the purposes of binding. */
     public var ignoreVirtualInterfaces: Bool?
-    /** Gets or sets a value indicating the interfaces that should be ignored. The list can be comma separated. &lt;seealso cref&#x3D;\&quot;P:Jellyfin.Networking.Configuration.NetworkConfiguration.IgnoreVirtualInterfaces\&quot; /&gt;. */
+    /** Gets or sets a value indicating the interfaces that should be ignored. The list can be comma separated. <seealso cref=\"P:Jellyfin.Networking.Configuration.NetworkConfiguration.IgnoreVirtualInterfaces\" />. */
     public var virtualInterfaceNames: String?
     /** Gets or sets the time (in seconds) between the pings of SSDP gateway monitor. */
     public var gatewayMonitorPeriod: Int?
@@ -65,9 +65,9 @@ public struct NetworkConfiguration: Codable, Hashable {
     public var autoDiscoveryTracing: Bool?
     /** Gets or sets a value indicating whether Autodiscovery is enabled. */
     public var autoDiscovery: Bool?
-    /** Gets or sets the filter for remote IP connectivity. Used in conjuntion with &lt;seealso cref&#x3D;\&quot;P:Jellyfin.Networking.Configuration.NetworkConfiguration.IsRemoteIPFilterBlacklist\&quot; /&gt;. */
+    /** Gets or sets the filter for remote IP connectivity. Used in conjuntion with <seealso cref=\"P:Jellyfin.Networking.Configuration.NetworkConfiguration.IsRemoteIPFilterBlacklist\" />. */
     public var remoteIPFilter: [String]?
-    /** Gets or sets a value indicating whether &lt;seealso cref&#x3D;\&quot;P:Jellyfin.Networking.Configuration.NetworkConfiguration.RemoteIPFilter\&quot; /&gt; contains a blacklist or a whitelist. Default is a whitelist. */
+    /** Gets or sets a value indicating whether <seealso cref=\"P:Jellyfin.Networking.Configuration.NetworkConfiguration.RemoteIPFilter\" /> contains a blacklist or a whitelist. Default is a whitelist. */
     public var isRemoteIPFilterBlacklist: Bool?
     /** Gets or sets a value indicating whether to enable automatic port forwarding. */
     public var enableUPnP: Bool?
@@ -77,7 +77,7 @@ public struct NetworkConfiguration: Codable, Hashable {
     public var localNetworkSubnets: [String]?
     /** Gets or sets the interface addresses which Jellyfin will bind to. If empty, all interfaces will be used. */
     public var localNetworkAddresses: [String]?
-    /** Gets or sets the known proxies. If the proxy is a network, it&#39;s added to the KnownNetworks. */
+    /** Gets or sets the known proxies. If the proxy is a network, it's added to the KnownNetworks. */
     public var knownProxies: [String]?
     /** Gets or sets a value indicating whether the published server uri is based on information in HTTP requests. */
     public var enablePublishedServerUriByRequest: Bool?
@@ -159,40 +159,41 @@ public struct NetworkConfiguration: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(requireHttps, forKey: .requireHttps)
-        try encoderContainer.encodeIfPresent(certificatePath, forKey: .certificatePath)
-        try encoderContainer.encodeIfPresent(certificatePassword, forKey: .certificatePassword)
-        try encoderContainer.encodeIfPresent(baseUrl, forKey: .baseUrl)
-        try encoderContainer.encodeIfPresent(publicHttpsPort, forKey: .publicHttpsPort)
-        try encoderContainer.encodeIfPresent(httpServerPortNumber, forKey: .httpServerPortNumber)
-        try encoderContainer.encodeIfPresent(httpsPortNumber, forKey: .httpsPortNumber)
-        try encoderContainer.encodeIfPresent(enableHttps, forKey: .enableHttps)
-        try encoderContainer.encodeIfPresent(publicPort, forKey: .publicPort)
-        try encoderContainer.encodeIfPresent(uPnPCreateHttpPortMap, forKey: .uPnPCreateHttpPortMap)
-        try encoderContainer.encodeIfPresent(uDPPortRange, forKey: .uDPPortRange)
-        try encoderContainer.encodeIfPresent(enableIPV6, forKey: .enableIPV6)
-        try encoderContainer.encodeIfPresent(enableIPV4, forKey: .enableIPV4)
-        try encoderContainer.encodeIfPresent(enableSSDPTracing, forKey: .enableSSDPTracing)
-        try encoderContainer.encodeIfPresent(sSDPTracingFilter, forKey: .sSDPTracingFilter)
-        try encoderContainer.encodeIfPresent(uDPSendCount, forKey: .uDPSendCount)
-        try encoderContainer.encodeIfPresent(uDPSendDelay, forKey: .uDPSendDelay)
-        try encoderContainer.encodeIfPresent(ignoreVirtualInterfaces, forKey: .ignoreVirtualInterfaces)
-        try encoderContainer.encodeIfPresent(virtualInterfaceNames, forKey: .virtualInterfaceNames)
-        try encoderContainer.encodeIfPresent(gatewayMonitorPeriod, forKey: .gatewayMonitorPeriod)
-        try encoderContainer.encodeIfPresent(enableMultiSocketBinding, forKey: .enableMultiSocketBinding)
-        try encoderContainer.encodeIfPresent(trustAllIP6Interfaces, forKey: .trustAllIP6Interfaces)
-        try encoderContainer.encodeIfPresent(hDHomerunPortRange, forKey: .hDHomerunPortRange)
-        try encoderContainer.encodeIfPresent(publishedServerUriBySubnet, forKey: .publishedServerUriBySubnet)
-        try encoderContainer.encodeIfPresent(autoDiscoveryTracing, forKey: .autoDiscoveryTracing)
-        try encoderContainer.encodeIfPresent(autoDiscovery, forKey: .autoDiscovery)
-        try encoderContainer.encodeIfPresent(remoteIPFilter, forKey: .remoteIPFilter)
-        try encoderContainer.encodeIfPresent(isRemoteIPFilterBlacklist, forKey: .isRemoteIPFilterBlacklist)
-        try encoderContainer.encodeIfPresent(enableUPnP, forKey: .enableUPnP)
-        try encoderContainer.encodeIfPresent(enableRemoteAccess, forKey: .enableRemoteAccess)
-        try encoderContainer.encodeIfPresent(localNetworkSubnets, forKey: .localNetworkSubnets)
-        try encoderContainer.encodeIfPresent(localNetworkAddresses, forKey: .localNetworkAddresses)
-        try encoderContainer.encodeIfPresent(knownProxies, forKey: .knownProxies)
-        try encoderContainer.encodeIfPresent(enablePublishedServerUriByRequest, forKey: .enablePublishedServerUriByRequest)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(requireHttps, forKey: .requireHttps)
+        try container.encodeIfPresent(certificatePath, forKey: .certificatePath)
+        try container.encodeIfPresent(certificatePassword, forKey: .certificatePassword)
+        try container.encodeIfPresent(baseUrl, forKey: .baseUrl)
+        try container.encodeIfPresent(publicHttpsPort, forKey: .publicHttpsPort)
+        try container.encodeIfPresent(httpServerPortNumber, forKey: .httpServerPortNumber)
+        try container.encodeIfPresent(httpsPortNumber, forKey: .httpsPortNumber)
+        try container.encodeIfPresent(enableHttps, forKey: .enableHttps)
+        try container.encodeIfPresent(publicPort, forKey: .publicPort)
+        try container.encodeIfPresent(uPnPCreateHttpPortMap, forKey: .uPnPCreateHttpPortMap)
+        try container.encodeIfPresent(uDPPortRange, forKey: .uDPPortRange)
+        try container.encodeIfPresent(enableIPV6, forKey: .enableIPV6)
+        try container.encodeIfPresent(enableIPV4, forKey: .enableIPV4)
+        try container.encodeIfPresent(enableSSDPTracing, forKey: .enableSSDPTracing)
+        try container.encodeIfPresent(sSDPTracingFilter, forKey: .sSDPTracingFilter)
+        try container.encodeIfPresent(uDPSendCount, forKey: .uDPSendCount)
+        try container.encodeIfPresent(uDPSendDelay, forKey: .uDPSendDelay)
+        try container.encodeIfPresent(ignoreVirtualInterfaces, forKey: .ignoreVirtualInterfaces)
+        try container.encodeIfPresent(virtualInterfaceNames, forKey: .virtualInterfaceNames)
+        try container.encodeIfPresent(gatewayMonitorPeriod, forKey: .gatewayMonitorPeriod)
+        try container.encodeIfPresent(enableMultiSocketBinding, forKey: .enableMultiSocketBinding)
+        try container.encodeIfPresent(trustAllIP6Interfaces, forKey: .trustAllIP6Interfaces)
+        try container.encodeIfPresent(hDHomerunPortRange, forKey: .hDHomerunPortRange)
+        try container.encodeIfPresent(publishedServerUriBySubnet, forKey: .publishedServerUriBySubnet)
+        try container.encodeIfPresent(autoDiscoveryTracing, forKey: .autoDiscoveryTracing)
+        try container.encodeIfPresent(autoDiscovery, forKey: .autoDiscovery)
+        try container.encodeIfPresent(remoteIPFilter, forKey: .remoteIPFilter)
+        try container.encodeIfPresent(isRemoteIPFilterBlacklist, forKey: .isRemoteIPFilterBlacklist)
+        try container.encodeIfPresent(enableUPnP, forKey: .enableUPnP)
+        try container.encodeIfPresent(enableRemoteAccess, forKey: .enableRemoteAccess)
+        try container.encodeIfPresent(localNetworkSubnets, forKey: .localNetworkSubnets)
+        try container.encodeIfPresent(localNetworkAddresses, forKey: .localNetworkAddresses)
+        try container.encodeIfPresent(knownProxies, forKey: .knownProxies)
+        try container.encodeIfPresent(enablePublishedServerUriByRequest, forKey: .enablePublishedServerUriByRequest)
     }
 }
+

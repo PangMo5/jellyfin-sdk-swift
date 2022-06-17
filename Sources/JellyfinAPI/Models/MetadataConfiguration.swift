@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct MetadataConfiguration: Codable, Hashable {
+public struct MetadataConfiguration: Codable, JSONEncodable, Hashable {
 
     public var useFileCreationTimeForDateAdded: Bool?
 
@@ -25,7 +25,8 @@ public struct MetadataConfiguration: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(useFileCreationTimeForDateAdded, forKey: .useFileCreationTimeForDateAdded)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(useFileCreationTimeForDateAdded, forKey: .useFileCreationTimeForDateAdded)
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct MediaUrl: Codable, Hashable {
+public struct MediaUrl: Codable, JSONEncodable, Hashable {
 
     public var url: String?
     public var name: String?
@@ -28,8 +28,9 @@ public struct MediaUrl: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(url, forKey: .url)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(name, forKey: .name)
     }
 }
+

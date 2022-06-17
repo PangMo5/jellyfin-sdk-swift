@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Defines the MediaBrowser.Model.Updates.VersionInfo class. */
-public struct VersionInfo: Codable, Hashable {
+public struct VersionInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the version. */
     public var version: String?
@@ -59,15 +59,16 @@ public struct VersionInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(versionNumber, forKey: .versionNumber)
-        try encoderContainer.encodeIfPresent(changelog, forKey: .changelog)
-        try encoderContainer.encodeIfPresent(targetAbi, forKey: .targetAbi)
-        try encoderContainer.encodeIfPresent(sourceUrl, forKey: .sourceUrl)
-        try encoderContainer.encodeIfPresent(checksum, forKey: .checksum)
-        try encoderContainer.encodeIfPresent(timestamp, forKey: .timestamp)
-        try encoderContainer.encodeIfPresent(repositoryName, forKey: .repositoryName)
-        try encoderContainer.encodeIfPresent(repositoryUrl, forKey: .repositoryUrl)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(versionNumber, forKey: .versionNumber)
+        try container.encodeIfPresent(changelog, forKey: .changelog)
+        try container.encodeIfPresent(targetAbi, forKey: .targetAbi)
+        try container.encodeIfPresent(sourceUrl, forKey: .sourceUrl)
+        try container.encodeIfPresent(checksum, forKey: .checksum)
+        try container.encodeIfPresent(timestamp, forKey: .timestamp)
+        try container.encodeIfPresent(repositoryName, forKey: .repositoryName)
+        try container.encodeIfPresent(repositoryUrl, forKey: .repositoryUrl)
     }
 }
+

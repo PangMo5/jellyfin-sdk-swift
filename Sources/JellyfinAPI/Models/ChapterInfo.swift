@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class ChapterInfo. */
-public struct ChapterInfo: Codable, Hashable {
+public struct ChapterInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the start position ticks. */
     public var startPositionTicks: Int64?
@@ -41,11 +41,12 @@ public struct ChapterInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(startPositionTicks, forKey: .startPositionTicks)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(imagePath, forKey: .imagePath)
-        try encoderContainer.encodeIfPresent(imageDateModified, forKey: .imageDateModified)
-        try encoderContainer.encodeIfPresent(imageTag, forKey: .imageTag)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(startPositionTicks, forKey: .startPositionTicks)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(imagePath, forKey: .imagePath)
+        try container.encodeIfPresent(imageDateModified, forKey: .imageDateModified)
+        try container.encodeIfPresent(imageTag, forKey: .imageTag)
     }
 }
+

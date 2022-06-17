@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class GroupUpdate. */
-public struct ObjectGroupUpdate: Codable, Hashable {
+public struct ObjectGroupUpdate: Codable, JSONEncodable, Hashable {
 
     /** Gets the group identifier. */
     public var groupId: String?
@@ -35,9 +35,10 @@ public struct ObjectGroupUpdate: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(groupId, forKey: .groupId)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(data, forKey: .data)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(groupId, forKey: .groupId)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(data, forKey: .data)
     }
 }
+

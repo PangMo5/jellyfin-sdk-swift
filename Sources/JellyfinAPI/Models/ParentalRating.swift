@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class ParentalRating. */
-public struct ParentalRating: Codable, Hashable {
+public struct ParentalRating: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -31,8 +31,9 @@ public struct ParentalRating: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(value, forKey: .value)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(value, forKey: .value)
     }
 }
+

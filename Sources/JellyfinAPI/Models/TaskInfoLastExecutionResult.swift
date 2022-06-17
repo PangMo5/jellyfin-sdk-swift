@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Gets or sets the last execution result. */
-public struct TaskInfoLastExecutionResult: Codable, Hashable {
+public struct TaskInfoLastExecutionResult: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the start time UTC. */
     public var startTimeUtc: Date?
@@ -55,14 +55,15 @@ public struct TaskInfoLastExecutionResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(startTimeUtc, forKey: .startTimeUtc)
-        try encoderContainer.encodeIfPresent(endTimeUtc, forKey: .endTimeUtc)
-        try encoderContainer.encodeIfPresent(status, forKey: .status)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(key, forKey: .key)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(errorMessage, forKey: .errorMessage)
-        try encoderContainer.encodeIfPresent(longErrorMessage, forKey: .longErrorMessage)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(startTimeUtc, forKey: .startTimeUtc)
+        try container.encodeIfPresent(endTimeUtc, forKey: .endTimeUtc)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(key, forKey: .key)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(errorMessage, forKey: .errorMessage)
+        try container.encodeIfPresent(longErrorMessage, forKey: .longErrorMessage)
     }
 }
+

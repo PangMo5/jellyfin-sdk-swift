@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Defines the MediaBrowser.Common.Plugins.IPlugin. */
-public struct IPlugin: Codable, Hashable {
+public struct IPlugin: Codable, JSONEncodable, Hashable {
 
     /** Gets the name of the plugin. */
     public var name: String?
@@ -51,13 +51,14 @@ public struct IPlugin: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(description, forKey: .description)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(assemblyFilePath, forKey: .assemblyFilePath)
-        try encoderContainer.encodeIfPresent(canUninstall, forKey: .canUninstall)
-        try encoderContainer.encodeIfPresent(dataFolderPath, forKey: .dataFolderPath)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(assemblyFilePath, forKey: .assemblyFilePath)
+        try container.encodeIfPresent(canUninstall, forKey: .canUninstall)
+        try container.encodeIfPresent(dataFolderPath, forKey: .dataFolderPath)
     }
 }
+

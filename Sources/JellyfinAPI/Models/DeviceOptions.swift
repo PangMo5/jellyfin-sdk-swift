@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** An entity representing custom options for a device. */
-public struct DeviceOptions: Codable, Hashable {
+public struct DeviceOptions: Codable, JSONEncodable, Hashable {
 
     /** Gets the id. */
     public var id: Int?
@@ -35,9 +35,10 @@ public struct DeviceOptions: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(deviceId, forKey: .deviceId)
-        try encoderContainer.encodeIfPresent(customName, forKey: .customName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encodeIfPresent(customName, forKey: .customName)
     }
 }
+

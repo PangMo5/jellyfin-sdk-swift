@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The update user easy password request body. */
-public struct UpdateUserEasyPasswordRequest: Codable, Hashable {
+public struct UpdateUserEasyPasswordRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the new sha1-hashed password. */
     public var newPassword: String?
@@ -35,9 +35,10 @@ public struct UpdateUserEasyPasswordRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(newPassword, forKey: .newPassword)
-        try encoderContainer.encodeIfPresent(newPw, forKey: .newPw)
-        try encoderContainer.encodeIfPresent(resetPassword, forKey: .resetPassword)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(newPassword, forKey: .newPassword)
+        try container.encodeIfPresent(newPw, forKey: .newPw)
+        try container.encodeIfPresent(resetPassword, forKey: .resetPassword)
     }
 }
+

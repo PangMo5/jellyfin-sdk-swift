@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SessionInfo. */
-public struct AuthenticationResultSessionInfo: Codable, Hashable {
+public struct AuthenticationResultSessionInfo: Codable, JSONEncodable, Hashable {
 
     public var playState: SessionInfoPlayState?
     public var additionalUsers: [SessionUserInfo]?
@@ -124,35 +124,36 @@ public struct AuthenticationResultSessionInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(playState, forKey: .playState)
-        try encoderContainer.encodeIfPresent(additionalUsers, forKey: .additionalUsers)
-        try encoderContainer.encodeIfPresent(capabilities, forKey: .capabilities)
-        try encoderContainer.encodeIfPresent(remoteEndPoint, forKey: .remoteEndPoint)
-        try encoderContainer.encodeIfPresent(playableMediaTypes, forKey: .playableMediaTypes)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(userName, forKey: .userName)
-        try encoderContainer.encodeIfPresent(client, forKey: .client)
-        try encoderContainer.encodeIfPresent(lastActivityDate, forKey: .lastActivityDate)
-        try encoderContainer.encodeIfPresent(lastPlaybackCheckIn, forKey: .lastPlaybackCheckIn)
-        try encoderContainer.encodeIfPresent(deviceName, forKey: .deviceName)
-        try encoderContainer.encodeIfPresent(deviceType, forKey: .deviceType)
-        try encoderContainer.encodeIfPresent(nowPlayingItem, forKey: .nowPlayingItem)
-        try encoderContainer.encodeIfPresent(fullNowPlayingItem, forKey: .fullNowPlayingItem)
-        try encoderContainer.encodeIfPresent(nowViewingItem, forKey: .nowViewingItem)
-        try encoderContainer.encodeIfPresent(deviceId, forKey: .deviceId)
-        try encoderContainer.encodeIfPresent(applicationVersion, forKey: .applicationVersion)
-        try encoderContainer.encodeIfPresent(transcodingInfo, forKey: .transcodingInfo)
-        try encoderContainer.encodeIfPresent(isActive, forKey: .isActive)
-        try encoderContainer.encodeIfPresent(supportsMediaControl, forKey: .supportsMediaControl)
-        try encoderContainer.encodeIfPresent(supportsRemoteControl, forKey: .supportsRemoteControl)
-        try encoderContainer.encodeIfPresent(nowPlayingQueue, forKey: .nowPlayingQueue)
-        try encoderContainer.encodeIfPresent(nowPlayingQueueFullItems, forKey: .nowPlayingQueueFullItems)
-        try encoderContainer.encodeIfPresent(hasCustomDeviceName, forKey: .hasCustomDeviceName)
-        try encoderContainer.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
-        try encoderContainer.encodeIfPresent(serverId, forKey: .serverId)
-        try encoderContainer.encodeIfPresent(userPrimaryImageTag, forKey: .userPrimaryImageTag)
-        try encoderContainer.encodeIfPresent(supportedCommands, forKey: .supportedCommands)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(playState, forKey: .playState)
+        try container.encodeIfPresent(additionalUsers, forKey: .additionalUsers)
+        try container.encodeIfPresent(capabilities, forKey: .capabilities)
+        try container.encodeIfPresent(remoteEndPoint, forKey: .remoteEndPoint)
+        try container.encodeIfPresent(playableMediaTypes, forKey: .playableMediaTypes)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(userName, forKey: .userName)
+        try container.encodeIfPresent(client, forKey: .client)
+        try container.encodeIfPresent(lastActivityDate, forKey: .lastActivityDate)
+        try container.encodeIfPresent(lastPlaybackCheckIn, forKey: .lastPlaybackCheckIn)
+        try container.encodeIfPresent(deviceName, forKey: .deviceName)
+        try container.encodeIfPresent(deviceType, forKey: .deviceType)
+        try container.encodeIfPresent(nowPlayingItem, forKey: .nowPlayingItem)
+        try container.encodeIfPresent(fullNowPlayingItem, forKey: .fullNowPlayingItem)
+        try container.encodeIfPresent(nowViewingItem, forKey: .nowViewingItem)
+        try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encodeIfPresent(applicationVersion, forKey: .applicationVersion)
+        try container.encodeIfPresent(transcodingInfo, forKey: .transcodingInfo)
+        try container.encodeIfPresent(isActive, forKey: .isActive)
+        try container.encodeIfPresent(supportsMediaControl, forKey: .supportsMediaControl)
+        try container.encodeIfPresent(supportsRemoteControl, forKey: .supportsRemoteControl)
+        try container.encodeIfPresent(nowPlayingQueue, forKey: .nowPlayingQueue)
+        try container.encodeIfPresent(nowPlayingQueueFullItems, forKey: .nowPlayingQueueFullItems)
+        try container.encodeIfPresent(hasCustomDeviceName, forKey: .hasCustomDeviceName)
+        try container.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
+        try container.encodeIfPresent(serverId, forKey: .serverId)
+        try container.encodeIfPresent(userPrimaryImageTag, forKey: .userPrimaryImageTag)
+        try container.encodeIfPresent(supportedCommands, forKey: .supportedCommands)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SearchHintResult. */
-public struct SearchHint: Codable, Hashable {
+public struct SearchHint: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the item id. */
     public var itemId: String?
@@ -133,35 +133,36 @@ public struct SearchHint: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(itemId, forKey: .itemId)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(matchedTerm, forKey: .matchedTerm)
-        try encoderContainer.encodeIfPresent(indexNumber, forKey: .indexNumber)
-        try encoderContainer.encodeIfPresent(productionYear, forKey: .productionYear)
-        try encoderContainer.encodeIfPresent(parentIndexNumber, forKey: .parentIndexNumber)
-        try encoderContainer.encodeIfPresent(primaryImageTag, forKey: .primaryImageTag)
-        try encoderContainer.encodeIfPresent(thumbImageTag, forKey: .thumbImageTag)
-        try encoderContainer.encodeIfPresent(thumbImageItemId, forKey: .thumbImageItemId)
-        try encoderContainer.encodeIfPresent(backdropImageTag, forKey: .backdropImageTag)
-        try encoderContainer.encodeIfPresent(backdropImageItemId, forKey: .backdropImageItemId)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(isFolder, forKey: .isFolder)
-        try encoderContainer.encodeIfPresent(runTimeTicks, forKey: .runTimeTicks)
-        try encoderContainer.encodeIfPresent(mediaType, forKey: .mediaType)
-        try encoderContainer.encodeIfPresent(startDate, forKey: .startDate)
-        try encoderContainer.encodeIfPresent(endDate, forKey: .endDate)
-        try encoderContainer.encodeIfPresent(series, forKey: .series)
-        try encoderContainer.encodeIfPresent(status, forKey: .status)
-        try encoderContainer.encodeIfPresent(album, forKey: .album)
-        try encoderContainer.encodeIfPresent(albumId, forKey: .albumId)
-        try encoderContainer.encodeIfPresent(albumArtist, forKey: .albumArtist)
-        try encoderContainer.encodeIfPresent(artists, forKey: .artists)
-        try encoderContainer.encodeIfPresent(songCount, forKey: .songCount)
-        try encoderContainer.encodeIfPresent(episodeCount, forKey: .episodeCount)
-        try encoderContainer.encodeIfPresent(channelId, forKey: .channelId)
-        try encoderContainer.encodeIfPresent(channelName, forKey: .channelName)
-        try encoderContainer.encodeIfPresent(primaryImageAspectRatio, forKey: .primaryImageAspectRatio)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(matchedTerm, forKey: .matchedTerm)
+        try container.encodeIfPresent(indexNumber, forKey: .indexNumber)
+        try container.encodeIfPresent(productionYear, forKey: .productionYear)
+        try container.encodeIfPresent(parentIndexNumber, forKey: .parentIndexNumber)
+        try container.encodeIfPresent(primaryImageTag, forKey: .primaryImageTag)
+        try container.encodeIfPresent(thumbImageTag, forKey: .thumbImageTag)
+        try container.encodeIfPresent(thumbImageItemId, forKey: .thumbImageItemId)
+        try container.encodeIfPresent(backdropImageTag, forKey: .backdropImageTag)
+        try container.encodeIfPresent(backdropImageItemId, forKey: .backdropImageItemId)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(isFolder, forKey: .isFolder)
+        try container.encodeIfPresent(runTimeTicks, forKey: .runTimeTicks)
+        try container.encodeIfPresent(mediaType, forKey: .mediaType)
+        try container.encodeIfPresent(startDate, forKey: .startDate)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
+        try container.encodeIfPresent(series, forKey: .series)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(album, forKey: .album)
+        try container.encodeIfPresent(albumId, forKey: .albumId)
+        try container.encodeIfPresent(albumArtist, forKey: .albumArtist)
+        try container.encodeIfPresent(artists, forKey: .artists)
+        try container.encodeIfPresent(songCount, forKey: .songCount)
+        try container.encodeIfPresent(episodeCount, forKey: .episodeCount)
+        try container.encodeIfPresent(channelId, forKey: .channelId)
+        try container.encodeIfPresent(channelName, forKey: .channelName)
+        try container.encodeIfPresent(primaryImageAspectRatio, forKey: .primaryImageAspectRatio)
     }
 }
+

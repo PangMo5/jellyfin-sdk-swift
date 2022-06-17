@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The server discovery info model. */
-public struct ServerDiscoveryInfo: Codable, Hashable {
+public struct ServerDiscoveryInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets the address. */
     public var address: String?
@@ -39,10 +39,11 @@ public struct ServerDiscoveryInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(address, forKey: .address)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(endpointAddress, forKey: .endpointAddress)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(address, forKey: .address)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(endpointAddress, forKey: .endpointAddress)
     }
 }
+

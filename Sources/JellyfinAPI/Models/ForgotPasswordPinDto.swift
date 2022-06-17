@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Forgot Password Pin enter request body DTO. */
-public struct ForgotPasswordPinDto: Codable, Hashable {
+public struct ForgotPasswordPinDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the entered pin to have the password reset. */
     public var pin: String
@@ -27,7 +27,8 @@ public struct ForgotPasswordPinDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(pin, forKey: .pin)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(pin, forKey: .pin)
     }
 }
+

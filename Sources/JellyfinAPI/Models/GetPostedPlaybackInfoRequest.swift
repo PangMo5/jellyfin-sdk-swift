@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Plabyback info dto. */
-public struct GetPostedPlaybackInfoRequest: Codable, Hashable {
+public struct GetPostedPlaybackInfoRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the playback userId. */
     public var userId: String?
@@ -82,21 +82,22 @@ public struct GetPostedPlaybackInfoRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(maxStreamingBitrate, forKey: .maxStreamingBitrate)
-        try encoderContainer.encodeIfPresent(startTimeTicks, forKey: .startTimeTicks)
-        try encoderContainer.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
-        try encoderContainer.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
-        try encoderContainer.encodeIfPresent(maxAudioChannels, forKey: .maxAudioChannels)
-        try encoderContainer.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
-        try encoderContainer.encodeIfPresent(liveStreamId, forKey: .liveStreamId)
-        try encoderContainer.encodeIfPresent(deviceProfile, forKey: .deviceProfile)
-        try encoderContainer.encodeIfPresent(enableDirectPlay, forKey: .enableDirectPlay)
-        try encoderContainer.encodeIfPresent(enableDirectStream, forKey: .enableDirectStream)
-        try encoderContainer.encodeIfPresent(enableTranscoding, forKey: .enableTranscoding)
-        try encoderContainer.encodeIfPresent(allowVideoStreamCopy, forKey: .allowVideoStreamCopy)
-        try encoderContainer.encodeIfPresent(allowAudioStreamCopy, forKey: .allowAudioStreamCopy)
-        try encoderContainer.encodeIfPresent(autoOpenLiveStream, forKey: .autoOpenLiveStream)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(maxStreamingBitrate, forKey: .maxStreamingBitrate)
+        try container.encodeIfPresent(startTimeTicks, forKey: .startTimeTicks)
+        try container.encodeIfPresent(audioStreamIndex, forKey: .audioStreamIndex)
+        try container.encodeIfPresent(subtitleStreamIndex, forKey: .subtitleStreamIndex)
+        try container.encodeIfPresent(maxAudioChannels, forKey: .maxAudioChannels)
+        try container.encodeIfPresent(mediaSourceId, forKey: .mediaSourceId)
+        try container.encodeIfPresent(liveStreamId, forKey: .liveStreamId)
+        try container.encodeIfPresent(deviceProfile, forKey: .deviceProfile)
+        try container.encodeIfPresent(enableDirectPlay, forKey: .enableDirectPlay)
+        try container.encodeIfPresent(enableDirectStream, forKey: .enableDirectStream)
+        try container.encodeIfPresent(enableTranscoding, forKey: .enableTranscoding)
+        try container.encodeIfPresent(allowVideoStreamCopy, forKey: .allowVideoStreamCopy)
+        try container.encodeIfPresent(allowAudioStreamCopy, forKey: .allowAudioStreamCopy)
+        try container.encodeIfPresent(autoOpenLiveStream, forKey: .autoOpenLiveStream)
     }
 }
+

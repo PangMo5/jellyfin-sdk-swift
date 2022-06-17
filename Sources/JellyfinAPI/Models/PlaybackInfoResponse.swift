@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class PlaybackInfoResponse. */
-public struct PlaybackInfoResponse: Codable, Hashable {
+public struct PlaybackInfoResponse: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the media sources. */
     public var mediaSources: [MediaSourceInfo]?
@@ -35,9 +35,10 @@ public struct PlaybackInfoResponse: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(mediaSources, forKey: .mediaSources)
-        try encoderContainer.encodeIfPresent(playSessionId, forKey: .playSessionId)
-        try encoderContainer.encodeIfPresent(errorCode, forKey: .errorCode)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mediaSources, forKey: .mediaSources)
+        try container.encodeIfPresent(playSessionId, forKey: .playSessionId)
+        try container.encodeIfPresent(errorCode, forKey: .errorCode)
     }
 }
+

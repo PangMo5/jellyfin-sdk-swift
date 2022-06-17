@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ConfigImageTypes: Codable, Hashable {
+public struct ConfigImageTypes: Codable, JSONEncodable, Hashable {
 
     public var backdropSizes: [String]?
     public var baseUrl: String?
@@ -43,13 +43,14 @@ public struct ConfigImageTypes: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(backdropSizes, forKey: .backdropSizes)
-        try encoderContainer.encodeIfPresent(baseUrl, forKey: .baseUrl)
-        try encoderContainer.encodeIfPresent(logoSizes, forKey: .logoSizes)
-        try encoderContainer.encodeIfPresent(posterSizes, forKey: .posterSizes)
-        try encoderContainer.encodeIfPresent(profileSizes, forKey: .profileSizes)
-        try encoderContainer.encodeIfPresent(secureBaseUrl, forKey: .secureBaseUrl)
-        try encoderContainer.encodeIfPresent(stillSizes, forKey: .stillSizes)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(backdropSizes, forKey: .backdropSizes)
+        try container.encodeIfPresent(baseUrl, forKey: .baseUrl)
+        try container.encodeIfPresent(logoSizes, forKey: .logoSizes)
+        try container.encodeIfPresent(posterSizes, forKey: .posterSizes)
+        try container.encodeIfPresent(profileSizes, forKey: .profileSizes)
+        try container.encodeIfPresent(secureBaseUrl, forKey: .secureBaseUrl)
+        try container.encodeIfPresent(stillSizes, forKey: .stillSizes)
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct LiveTvInfo: Codable, Hashable {
+public struct LiveTvInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the services. */
     public var services: [LiveTvServiceInfo]?
@@ -34,9 +34,10 @@ public struct LiveTvInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(services, forKey: .services)
-        try encoderContainer.encodeIfPresent(isEnabled, forKey: .isEnabled)
-        try encoderContainer.encodeIfPresent(enabledUsers, forKey: .enabledUsers)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(services, forKey: .services)
+        try container.encodeIfPresent(isEnabled, forKey: .isEnabled)
+        try container.encodeIfPresent(enabledUsers, forKey: .enabledUsers)
     }
 }
+

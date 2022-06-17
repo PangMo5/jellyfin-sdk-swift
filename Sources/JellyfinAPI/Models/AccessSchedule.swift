@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** An entity representing a user&#39;s access schedule. */
-public struct AccessSchedule: Codable, Hashable {
+public struct AccessSchedule: Codable, JSONEncodable, Hashable {
 
     /** Gets the id of this instance. */
     public var id: Int?
@@ -43,11 +43,12 @@ public struct AccessSchedule: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(dayOfWeek, forKey: .dayOfWeek)
-        try encoderContainer.encodeIfPresent(startHour, forKey: .startHour)
-        try encoderContainer.encodeIfPresent(endHour, forKey: .endHour)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(dayOfWeek, forKey: .dayOfWeek)
+        try container.encodeIfPresent(startHour, forKey: .startHour)
+        try container.encodeIfPresent(endHour, forKey: .endHour)
     }
 }
+

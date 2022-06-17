@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SeriesTimerInfoDtoQueryResult: Codable, Hashable {
+public struct SeriesTimerInfoDtoQueryResult: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the items. */
     public var items: [SeriesTimerInfoDto]?
@@ -34,9 +34,10 @@ public struct SeriesTimerInfoDtoQueryResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(items, forKey: .items)
-        try encoderContainer.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
-        try encoderContainer.encodeIfPresent(startIndex, forKey: .startIndex)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(items, forKey: .items)
+        try container.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
+        try container.encodeIfPresent(startIndex, forKey: .startIndex)
     }
 }
+

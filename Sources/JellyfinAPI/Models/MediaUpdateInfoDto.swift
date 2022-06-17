@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Media Update Info Dto. */
-public struct MediaUpdateInfoDto: Codable, Hashable {
+public struct MediaUpdateInfoDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the list of updates. */
     public var updates: [MediaUpdateInfoPathDto]?
@@ -27,7 +27,8 @@ public struct MediaUpdateInfoDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(updates, forKey: .updates)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(updates, forKey: .updates)
     }
 }
+

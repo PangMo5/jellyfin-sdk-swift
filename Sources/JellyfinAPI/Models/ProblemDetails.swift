@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ProblemDetails: Codable, Hashable {
+public struct ProblemDetails: Codable, JSONEncodable, Hashable {
 
     public var type: String?
     public var title: String?
@@ -52,12 +52,12 @@ public struct ProblemDetails: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(title, forKey: .title)
-        try encoderContainer.encodeIfPresent(status, forKey: .status)
-        try encoderContainer.encodeIfPresent(detail, forKey: .detail)
-        try encoderContainer.encodeIfPresent(instance, forKey: .instance)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(title, forKey: .title)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(detail, forKey: .detail)
+        try container.encodeIfPresent(instance, forKey: .instance)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(additionalProperties)
     }
@@ -65,13 +65,13 @@ public struct ProblemDetails: Codable, Hashable {
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
-        let decoderContainer = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        type = try decoderContainer.decodeIfPresent(String.self, forKey: .type)
-        title = try decoderContainer.decodeIfPresent(String.self, forKey: .title)
-        status = try decoderContainer.decodeIfPresent(Int.self, forKey: .status)
-        detail = try decoderContainer.decodeIfPresent(String.self, forKey: .detail)
-        instance = try decoderContainer.decodeIfPresent(String.self, forKey: .instance)
+        type = try container.decodeIfPresent(String.self, forKey: .type)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        status = try container.decodeIfPresent(Int.self, forKey: .status)
+        detail = try container.decodeIfPresent(String.self, forKey: .detail)
+        instance = try container.decodeIfPresent(String.self, forKey: .instance)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("type")
         nonAdditionalPropertyKeys.insert("title")
@@ -82,3 +82,4 @@ public struct ProblemDetails: Codable, Hashable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Stores the state of an quick connect request. */
-public struct QuickConnectResult: Codable, Hashable {
+public struct QuickConnectResult: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether this request is authorized. */
     public var authenticated: Bool?
@@ -55,14 +55,15 @@ public struct QuickConnectResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(authenticated, forKey: .authenticated)
-        try encoderContainer.encodeIfPresent(secret, forKey: .secret)
-        try encoderContainer.encodeIfPresent(code, forKey: .code)
-        try encoderContainer.encodeIfPresent(deviceId, forKey: .deviceId)
-        try encoderContainer.encodeIfPresent(deviceName, forKey: .deviceName)
-        try encoderContainer.encodeIfPresent(appName, forKey: .appName)
-        try encoderContainer.encodeIfPresent(appVersion, forKey: .appVersion)
-        try encoderContainer.encodeIfPresent(dateAdded, forKey: .dateAdded)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(authenticated, forKey: .authenticated)
+        try container.encodeIfPresent(secret, forKey: .secret)
+        try container.encodeIfPresent(code, forKey: .code)
+        try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encodeIfPresent(deviceName, forKey: .deviceName)
+        try container.encodeIfPresent(appName, forKey: .appName)
+        try container.encodeIfPresent(appVersion, forKey: .appVersion)
+        try container.encodeIfPresent(dateAdded, forKey: .dateAdded)
     }
 }
+

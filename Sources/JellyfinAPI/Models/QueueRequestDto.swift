@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class QueueRequestDto. */
-public struct QueueRequestDto: Codable, Hashable {
+public struct QueueRequestDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the items to enqueue. */
     public var itemIds: [String]?
@@ -31,8 +31,9 @@ public struct QueueRequestDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(itemIds, forKey: .itemIds)
-        try encoderContainer.encodeIfPresent(mode, forKey: .mode)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(itemIds, forKey: .itemIds)
+        try container.encodeIfPresent(mode, forKey: .mode)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SendCommand. */
-public struct SendCommand: Codable, Hashable {
+public struct SendCommand: Codable, JSONEncodable, Hashable {
 
     /** Gets the group identifier. */
     public var groupId: String?
@@ -47,12 +47,13 @@ public struct SendCommand: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(groupId, forKey: .groupId)
-        try encoderContainer.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
-        try encoderContainer.encodeIfPresent(when, forKey: .when)
-        try encoderContainer.encodeIfPresent(positionTicks, forKey: .positionTicks)
-        try encoderContainer.encodeIfPresent(command, forKey: .command)
-        try encoderContainer.encodeIfPresent(emittedAt, forKey: .emittedAt)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(groupId, forKey: .groupId)
+        try container.encodeIfPresent(playlistItemId, forKey: .playlistItemId)
+        try container.encodeIfPresent(when, forKey: .when)
+        try container.encodeIfPresent(positionTicks, forKey: .positionTicks)
+        try container.encodeIfPresent(command, forKey: .command)
+        try container.encodeIfPresent(emittedAt, forKey: .emittedAt)
     }
 }
+

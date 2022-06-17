@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** This is a serializable stub class that is used by the api to provide information about installed plugins. */
-public struct PluginInfo: Codable, Hashable {
+public struct PluginInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -55,14 +55,15 @@ public struct PluginInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(configurationFileName, forKey: .configurationFileName)
-        try encoderContainer.encodeIfPresent(description, forKey: .description)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(canUninstall, forKey: .canUninstall)
-        try encoderContainer.encodeIfPresent(hasImage, forKey: .hasImage)
-        try encoderContainer.encodeIfPresent(status, forKey: .status)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(configurationFileName, forKey: .configurationFileName)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(canUninstall, forKey: .canUninstall)
+        try container.encodeIfPresent(hasImage, forKey: .hasImage)
+        try container.encodeIfPresent(status, forKey: .status)
     }
 }
+

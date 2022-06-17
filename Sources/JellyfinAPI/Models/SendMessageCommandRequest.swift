@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SendMessageCommandRequest: Codable, Hashable {
+public struct SendMessageCommandRequest: Codable, JSONEncodable, Hashable {
 
     public var header: String?
     public var text: String
@@ -31,9 +31,10 @@ public struct SendMessageCommandRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(header, forKey: .header)
-        try encoderContainer.encode(text, forKey: .text)
-        try encoderContainer.encodeIfPresent(timeoutMs, forKey: .timeoutMs)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(header, forKey: .header)
+        try container.encode(text, forKey: .text)
+        try container.encodeIfPresent(timeoutMs, forKey: .timeoutMs)
     }
 }
+

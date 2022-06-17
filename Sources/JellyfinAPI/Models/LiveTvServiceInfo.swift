@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class ServiceInfo. */
-public struct LiveTvServiceInfo: Codable, Hashable {
+public struct LiveTvServiceInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -54,14 +54,15 @@ public struct LiveTvServiceInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(homePageUrl, forKey: .homePageUrl)
-        try encoderContainer.encodeIfPresent(status, forKey: .status)
-        try encoderContainer.encodeIfPresent(statusMessage, forKey: .statusMessage)
-        try encoderContainer.encodeIfPresent(version, forKey: .version)
-        try encoderContainer.encodeIfPresent(hasUpdateAvailable, forKey: .hasUpdateAvailable)
-        try encoderContainer.encodeIfPresent(isVisible, forKey: .isVisible)
-        try encoderContainer.encodeIfPresent(tuners, forKey: .tuners)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(homePageUrl, forKey: .homePageUrl)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(statusMessage, forKey: .statusMessage)
+        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(hasUpdateAvailable, forKey: .hasUpdateAvailable)
+        try container.encodeIfPresent(isVisible, forKey: .isVisible)
+        try container.encodeIfPresent(tuners, forKey: .tuners)
     }
 }
+

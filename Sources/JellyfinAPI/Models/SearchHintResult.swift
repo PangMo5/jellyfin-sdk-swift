@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SearchHintResult. */
-public struct SearchHintResult: Codable, Hashable {
+public struct SearchHintResult: Codable, JSONEncodable, Hashable {
 
     /** Gets the search hints. */
     public var searchHints: [SearchHint]?
@@ -31,8 +31,9 @@ public struct SearchHintResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(searchHints, forKey: .searchHints)
-        try encoderContainer.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(searchHints, forKey: .searchHints)
+        try container.encodeIfPresent(totalRecordCount, forKey: .totalRecordCount)
     }
 }
+

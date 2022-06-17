@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Gets or sets package information for the installation. */
-public struct InstallationInfoPackageInfo: Codable, Hashable {
+public struct InstallationInfoPackageInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -55,14 +55,15 @@ public struct InstallationInfoPackageInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(description, forKey: .description)
-        try encoderContainer.encodeIfPresent(overview, forKey: .overview)
-        try encoderContainer.encodeIfPresent(owner, forKey: .owner)
-        try encoderContainer.encodeIfPresent(category, forKey: .category)
-        try encoderContainer.encodeIfPresent(guid, forKey: .guid)
-        try encoderContainer.encodeIfPresent(versions, forKey: .versions)
-        try encoderContainer.encodeIfPresent(imageUrl, forKey: .imageUrl)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(overview, forKey: .overview)
+        try container.encodeIfPresent(owner, forKey: .owner)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(guid, forKey: .guid)
+        try container.encodeIfPresent(versions, forKey: .versions)
+        try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
     }
 }
+

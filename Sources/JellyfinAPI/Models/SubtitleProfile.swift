@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SubtitleProfile: Codable, Hashable {
+public struct SubtitleProfile: Codable, JSONEncodable, Hashable {
 
     public var format: String?
     /** Delivery method to use during playback of a specific subtitle format. */
@@ -38,11 +38,12 @@ public struct SubtitleProfile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(format, forKey: .format)
-        try encoderContainer.encodeIfPresent(method, forKey: .method)
-        try encoderContainer.encodeIfPresent(didlMode, forKey: .didlMode)
-        try encoderContainer.encodeIfPresent(language, forKey: .language)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(format, forKey: .format)
+        try container.encodeIfPresent(method, forKey: .method)
+        try container.encodeIfPresent(didlMode, forKey: .didlMode)
+        try container.encodeIfPresent(language, forKey: .language)
+        try container.encodeIfPresent(container, forKey: .container)
     }
 }
+

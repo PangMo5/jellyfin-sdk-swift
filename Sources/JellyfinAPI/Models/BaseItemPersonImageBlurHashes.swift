@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Gets or sets the primary image blurhash. */
-public struct BaseItemPersonImageBlurHashes: Codable, Hashable {
+public struct BaseItemPersonImageBlurHashes: Codable, JSONEncodable, Hashable {
 
     public var primary: [String: String]?
     public var art: [String: String]?
@@ -62,19 +62,20 @@ public struct BaseItemPersonImageBlurHashes: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(primary, forKey: .primary)
-        try encoderContainer.encodeIfPresent(art, forKey: .art)
-        try encoderContainer.encodeIfPresent(backdrop, forKey: .backdrop)
-        try encoderContainer.encodeIfPresent(banner, forKey: .banner)
-        try encoderContainer.encodeIfPresent(logo, forKey: .logo)
-        try encoderContainer.encodeIfPresent(thumb, forKey: .thumb)
-        try encoderContainer.encodeIfPresent(disc, forKey: .disc)
-        try encoderContainer.encodeIfPresent(box, forKey: .box)
-        try encoderContainer.encodeIfPresent(screenshot, forKey: .screenshot)
-        try encoderContainer.encodeIfPresent(menu, forKey: .menu)
-        try encoderContainer.encodeIfPresent(chapter, forKey: .chapter)
-        try encoderContainer.encodeIfPresent(boxRear, forKey: .boxRear)
-        try encoderContainer.encodeIfPresent(profile, forKey: .profile)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(primary, forKey: .primary)
+        try container.encodeIfPresent(art, forKey: .art)
+        try container.encodeIfPresent(backdrop, forKey: .backdrop)
+        try container.encodeIfPresent(banner, forKey: .banner)
+        try container.encodeIfPresent(logo, forKey: .logo)
+        try container.encodeIfPresent(thumb, forKey: .thumb)
+        try container.encodeIfPresent(disc, forKey: .disc)
+        try container.encodeIfPresent(box, forKey: .box)
+        try container.encodeIfPresent(screenshot, forKey: .screenshot)
+        try container.encodeIfPresent(menu, forKey: .menu)
+        try container.encodeIfPresent(chapter, forKey: .chapter)
+        try container.encodeIfPresent(boxRear, forKey: .boxRear)
+        try container.encodeIfPresent(profile, forKey: .profile)
     }
 }
+

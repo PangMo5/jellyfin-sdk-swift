@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Library options result dto. */
-public struct LibraryOptionsResultDto: Codable, Hashable {
+public struct LibraryOptionsResultDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the metadata savers. */
     public var metadataSavers: [LibraryOptionInfoDto]?
@@ -39,10 +39,11 @@ public struct LibraryOptionsResultDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(metadataSavers, forKey: .metadataSavers)
-        try encoderContainer.encodeIfPresent(metadataReaders, forKey: .metadataReaders)
-        try encoderContainer.encodeIfPresent(subtitleFetchers, forKey: .subtitleFetchers)
-        try encoderContainer.encodeIfPresent(typeOptions, forKey: .typeOptions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(metadataSavers, forKey: .metadataSavers)
+        try container.encodeIfPresent(metadataReaders, forKey: .metadataReaders)
+        try container.encodeIfPresent(subtitleFetchers, forKey: .subtitleFetchers)
+        try container.encodeIfPresent(typeOptions, forKey: .typeOptions)
     }
 }
+

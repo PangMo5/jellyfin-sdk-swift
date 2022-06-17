@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Startup remote access dto. */
-public struct SetRemoteAccessRequest: Codable, Hashable {
+public struct SetRemoteAccessRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets a value indicating whether enable remote access. */
     public var enableRemoteAccess: Bool
@@ -31,8 +31,9 @@ public struct SetRemoteAccessRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(enableRemoteAccess, forKey: .enableRemoteAccess)
-        try encoderContainer.encode(enableAutomaticPortMapping, forKey: .enableAutomaticPortMapping)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(enableRemoteAccess, forKey: .enableRemoteAccess)
+        try container.encode(enableAutomaticPortMapping, forKey: .enableAutomaticPortMapping)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class CountryInfo. */
-public struct CountryInfo: Codable, Hashable {
+public struct CountryInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the name. */
     public var name: String?
@@ -39,10 +39,11 @@ public struct CountryInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(displayName, forKey: .displayName)
-        try encoderContainer.encodeIfPresent(twoLetterISORegionName, forKey: .twoLetterISORegionName)
-        try encoderContainer.encodeIfPresent(threeLetterISORegionName, forKey: .threeLetterISORegionName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(twoLetterISORegionName, forKey: .twoLetterISORegionName)
+        try container.encodeIfPresent(threeLetterISORegionName, forKey: .threeLetterISORegionName)
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct LiveStreamResponse: Codable, Hashable {
+public struct LiveStreamResponse: Codable, JSONEncodable, Hashable {
 
     public var mediaSource: LiveStreamResponseMediaSource?
 
@@ -25,7 +25,8 @@ public struct LiveStreamResponse: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(mediaSource, forKey: .mediaSource)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mediaSource, forKey: .mediaSource)
     }
 }
+

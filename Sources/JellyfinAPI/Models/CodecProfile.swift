@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct CodecProfile: Codable, Hashable {
+public struct CodecProfile: Codable, JSONEncodable, Hashable {
 
     public var type: CodecType?
     public var conditions: [ProfileCondition]?
@@ -37,11 +37,12 @@ public struct CodecProfile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(conditions, forKey: .conditions)
-        try encoderContainer.encodeIfPresent(applyConditions, forKey: .applyConditions)
-        try encoderContainer.encodeIfPresent(codec, forKey: .codec)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(conditions, forKey: .conditions)
+        try container.encodeIfPresent(applyConditions, forKey: .applyConditions)
+        try container.encodeIfPresent(codec, forKey: .codec)
+        try container.encodeIfPresent(container, forKey: .container)
     }
 }
+

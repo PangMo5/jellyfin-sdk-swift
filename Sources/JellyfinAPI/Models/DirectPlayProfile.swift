@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct DirectPlayProfile: Codable, Hashable {
+public struct DirectPlayProfile: Codable, JSONEncodable, Hashable {
 
     public var container: String?
     public var audioCodec: String?
@@ -34,10 +34,11 @@ public struct DirectPlayProfile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
-        try encoderContainer.encodeIfPresent(audioCodec, forKey: .audioCodec)
-        try encoderContainer.encodeIfPresent(videoCodec, forKey: .videoCodec)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(container, forKey: .container)
+        try container.encodeIfPresent(audioCodec, forKey: .audioCodec)
+        try container.encodeIfPresent(videoCodec, forKey: .videoCodec)
+        try container.encodeIfPresent(type, forKey: .type)
     }
 }
+

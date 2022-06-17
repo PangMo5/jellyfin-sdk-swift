@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Forgot Password request body DTO. */
-public struct ForgotPasswordDto: Codable, Hashable {
+public struct ForgotPasswordDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the entered username to have its password reset. */
     public var enteredUsername: String
@@ -27,7 +27,8 @@ public struct ForgotPasswordDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(enteredUsername, forKey: .enteredUsername)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(enteredUsername, forKey: .enteredUsername)
     }
 }
+

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Client log document response dto. */
-public struct ClientLogDocumentResponseDto: Codable, Hashable {
+public struct ClientLogDocumentResponseDto: Codable, JSONEncodable, Hashable {
 
     /** Gets the resulting filename. */
     public var fileName: String?
@@ -27,7 +27,8 @@ public struct ClientLogDocumentResponseDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(fileName, forKey: .fileName)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(fileName, forKey: .fileName)
     }
 }
+

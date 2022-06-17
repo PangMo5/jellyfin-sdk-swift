@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct SessionInfoCapabilities: Codable, Hashable {
+public struct SessionInfoCapabilities: Codable, JSONEncodable, Hashable {
 
     public var playableMediaTypes: [String]?
     public var supportedCommands: [GeneralCommandType]?
@@ -52,16 +52,17 @@ public struct SessionInfoCapabilities: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(playableMediaTypes, forKey: .playableMediaTypes)
-        try encoderContainer.encodeIfPresent(supportedCommands, forKey: .supportedCommands)
-        try encoderContainer.encodeIfPresent(supportsMediaControl, forKey: .supportsMediaControl)
-        try encoderContainer.encodeIfPresent(supportsContentUploading, forKey: .supportsContentUploading)
-        try encoderContainer.encodeIfPresent(messageCallbackUrl, forKey: .messageCallbackUrl)
-        try encoderContainer.encodeIfPresent(supportsPersistentIdentifier, forKey: .supportsPersistentIdentifier)
-        try encoderContainer.encodeIfPresent(supportsSync, forKey: .supportsSync)
-        try encoderContainer.encodeIfPresent(deviceProfile, forKey: .deviceProfile)
-        try encoderContainer.encodeIfPresent(appStoreUrl, forKey: .appStoreUrl)
-        try encoderContainer.encodeIfPresent(iconUrl, forKey: .iconUrl)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(playableMediaTypes, forKey: .playableMediaTypes)
+        try container.encodeIfPresent(supportedCommands, forKey: .supportedCommands)
+        try container.encodeIfPresent(supportsMediaControl, forKey: .supportsMediaControl)
+        try container.encodeIfPresent(supportsContentUploading, forKey: .supportsContentUploading)
+        try container.encodeIfPresent(messageCallbackUrl, forKey: .messageCallbackUrl)
+        try container.encodeIfPresent(supportsPersistentIdentifier, forKey: .supportsPersistentIdentifier)
+        try container.encodeIfPresent(supportsSync, forKey: .supportsSync)
+        try container.encodeIfPresent(deviceProfile, forKey: .deviceProfile)
+        try container.encodeIfPresent(appStoreUrl, forKey: .appStoreUrl)
+        try container.encodeIfPresent(iconUrl, forKey: .iconUrl)
     }
 }
+

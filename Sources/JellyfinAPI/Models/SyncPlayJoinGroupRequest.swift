@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class JoinGroupRequestDto. */
-public struct SyncPlayJoinGroupRequest: Codable, Hashable {
+public struct SyncPlayJoinGroupRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the group identifier. */
     public var groupId: String?
@@ -27,7 +27,8 @@ public struct SyncPlayJoinGroupRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(groupId, forKey: .groupId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(groupId, forKey: .groupId)
     }
 }
+

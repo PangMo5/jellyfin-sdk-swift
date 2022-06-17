@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Defines the display preferences for any item that supports them (usually Folders). */
-public struct UpdateDisplayPreferencesRequest: Codable, Hashable {
+public struct UpdateDisplayPreferencesRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the user id. */
     public var id: String?
@@ -79,20 +79,21 @@ public struct UpdateDisplayPreferencesRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
-        try encoderContainer.encodeIfPresent(viewType, forKey: .viewType)
-        try encoderContainer.encodeIfPresent(sortBy, forKey: .sortBy)
-        try encoderContainer.encodeIfPresent(indexBy, forKey: .indexBy)
-        try encoderContainer.encodeIfPresent(rememberIndexing, forKey: .rememberIndexing)
-        try encoderContainer.encodeIfPresent(primaryImageHeight, forKey: .primaryImageHeight)
-        try encoderContainer.encodeIfPresent(primaryImageWidth, forKey: .primaryImageWidth)
-        try encoderContainer.encodeIfPresent(customPrefs, forKey: .customPrefs)
-        try encoderContainer.encodeIfPresent(scrollDirection, forKey: .scrollDirection)
-        try encoderContainer.encodeIfPresent(showBackdrop, forKey: .showBackdrop)
-        try encoderContainer.encodeIfPresent(rememberSorting, forKey: .rememberSorting)
-        try encoderContainer.encodeIfPresent(sortOrder, forKey: .sortOrder)
-        try encoderContainer.encodeIfPresent(showSidebar, forKey: .showSidebar)
-        try encoderContainer.encodeIfPresent(client, forKey: .client)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(viewType, forKey: .viewType)
+        try container.encodeIfPresent(sortBy, forKey: .sortBy)
+        try container.encodeIfPresent(indexBy, forKey: .indexBy)
+        try container.encodeIfPresent(rememberIndexing, forKey: .rememberIndexing)
+        try container.encodeIfPresent(primaryImageHeight, forKey: .primaryImageHeight)
+        try container.encodeIfPresent(primaryImageWidth, forKey: .primaryImageWidth)
+        try container.encodeIfPresent(customPrefs, forKey: .customPrefs)
+        try container.encodeIfPresent(scrollDirection, forKey: .scrollDirection)
+        try container.encodeIfPresent(showBackdrop, forKey: .showBackdrop)
+        try container.encodeIfPresent(rememberSorting, forKey: .rememberSorting)
+        try container.encodeIfPresent(sortOrder, forKey: .sortOrder)
+        try container.encodeIfPresent(showSidebar, forKey: .showSidebar)
+        try container.encodeIfPresent(client, forKey: .client)
     }
 }
+

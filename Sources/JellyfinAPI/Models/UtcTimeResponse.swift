@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class UtcTimeResponse. */
-public struct UtcTimeResponse: Codable, Hashable {
+public struct UtcTimeResponse: Codable, JSONEncodable, Hashable {
 
     /** Gets the UTC time when request has been received. */
     public var requestReceptionTime: Date?
@@ -31,8 +31,9 @@ public struct UtcTimeResponse: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(requestReceptionTime, forKey: .requestReceptionTime)
-        try encoderContainer.encodeIfPresent(responseTransmissionTime, forKey: .responseTransmissionTime)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(requestReceptionTime, forKey: .requestReceptionTime)
+        try container.encodeIfPresent(responseTransmissionTime, forKey: .responseTransmissionTime)
     }
 }
+

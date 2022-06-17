@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct PlaylistCreationResult: Codable, Hashable {
+public struct PlaylistCreationResult: Codable, JSONEncodable, Hashable {
 
     public var id: String?
 
@@ -25,7 +25,8 @@ public struct PlaylistCreationResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
     }
 }
+

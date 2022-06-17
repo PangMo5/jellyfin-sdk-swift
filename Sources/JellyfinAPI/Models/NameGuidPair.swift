@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct NameGuidPair: Codable, Hashable {
+public struct NameGuidPair: Codable, JSONEncodable, Hashable {
 
     public var name: String?
     public var id: String?
@@ -28,8 +28,9 @@ public struct NameGuidPair: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(id, forKey: .id)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(id, forKey: .id)
     }
 }
+

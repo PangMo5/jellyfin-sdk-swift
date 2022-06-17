@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class UserConfiguration. */
-public struct UserConfiguration: Codable, Hashable {
+public struct UserConfiguration: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the audio language preference. */
     public var audioLanguagePreference: String?
@@ -72,21 +72,22 @@ public struct UserConfiguration: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(audioLanguagePreference, forKey: .audioLanguagePreference)
-        try encoderContainer.encodeIfPresent(playDefaultAudioTrack, forKey: .playDefaultAudioTrack)
-        try encoderContainer.encodeIfPresent(subtitleLanguagePreference, forKey: .subtitleLanguagePreference)
-        try encoderContainer.encodeIfPresent(displayMissingEpisodes, forKey: .displayMissingEpisodes)
-        try encoderContainer.encodeIfPresent(groupedFolders, forKey: .groupedFolders)
-        try encoderContainer.encodeIfPresent(subtitleMode, forKey: .subtitleMode)
-        try encoderContainer.encodeIfPresent(displayCollectionsView, forKey: .displayCollectionsView)
-        try encoderContainer.encodeIfPresent(enableLocalPassword, forKey: .enableLocalPassword)
-        try encoderContainer.encodeIfPresent(orderedViews, forKey: .orderedViews)
-        try encoderContainer.encodeIfPresent(latestItemsExcludes, forKey: .latestItemsExcludes)
-        try encoderContainer.encodeIfPresent(myMediaExcludes, forKey: .myMediaExcludes)
-        try encoderContainer.encodeIfPresent(hidePlayedInLatest, forKey: .hidePlayedInLatest)
-        try encoderContainer.encodeIfPresent(rememberAudioSelections, forKey: .rememberAudioSelections)
-        try encoderContainer.encodeIfPresent(rememberSubtitleSelections, forKey: .rememberSubtitleSelections)
-        try encoderContainer.encodeIfPresent(enableNextEpisodeAutoPlay, forKey: .enableNextEpisodeAutoPlay)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(audioLanguagePreference, forKey: .audioLanguagePreference)
+        try container.encodeIfPresent(playDefaultAudioTrack, forKey: .playDefaultAudioTrack)
+        try container.encodeIfPresent(subtitleLanguagePreference, forKey: .subtitleLanguagePreference)
+        try container.encodeIfPresent(displayMissingEpisodes, forKey: .displayMissingEpisodes)
+        try container.encodeIfPresent(groupedFolders, forKey: .groupedFolders)
+        try container.encodeIfPresent(subtitleMode, forKey: .subtitleMode)
+        try container.encodeIfPresent(displayCollectionsView, forKey: .displayCollectionsView)
+        try container.encodeIfPresent(enableLocalPassword, forKey: .enableLocalPassword)
+        try container.encodeIfPresent(orderedViews, forKey: .orderedViews)
+        try container.encodeIfPresent(latestItemsExcludes, forKey: .latestItemsExcludes)
+        try container.encodeIfPresent(myMediaExcludes, forKey: .myMediaExcludes)
+        try container.encodeIfPresent(hidePlayedInLatest, forKey: .hidePlayedInLatest)
+        try container.encodeIfPresent(rememberAudioSelections, forKey: .rememberAudioSelections)
+        try container.encodeIfPresent(rememberSubtitleSelections, forKey: .rememberSubtitleSelections)
+        try container.encodeIfPresent(enableNextEpisodeAutoPlay, forKey: .enableNextEpisodeAutoPlay)
     }
 }
+

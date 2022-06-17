@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The authenticate user by name request body. */
-public struct AuthenticateUserByName: Codable, Hashable {
+public struct AuthenticateUserByName: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the username. */
     public var username: String?
@@ -36,9 +36,10 @@ public struct AuthenticateUserByName: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(username, forKey: .username)
-        try encoderContainer.encodeIfPresent(pw, forKey: .pw)
-        try encoderContainer.encodeIfPresent(password, forKey: .password)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(pw, forKey: .pw)
+        try container.encodeIfPresent(password, forKey: .password)
     }
 }
+

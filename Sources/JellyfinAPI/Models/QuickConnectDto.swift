@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** The quick connect request body. */
-public struct QuickConnectDto: Codable, Hashable {
+public struct QuickConnectDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the quick connect secret. */
     public var secret: String
@@ -27,7 +27,8 @@ public struct QuickConnectDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(secret, forKey: .secret)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(secret, forKey: .secret)
     }
 }
+

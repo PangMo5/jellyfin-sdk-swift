@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Set channel mapping dto. */
-public struct SetChannelMappingRequest: Codable, Hashable {
+public struct SetChannelMappingRequest: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the provider id. */
     public var providerId: String
@@ -35,9 +35,10 @@ public struct SetChannelMappingRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encode(providerId, forKey: .providerId)
-        try encoderContainer.encode(tunerChannelId, forKey: .tunerChannelId)
-        try encoderContainer.encode(providerChannelId, forKey: .providerChannelId)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(providerId, forKey: .providerId)
+        try container.encode(tunerChannelId, forKey: .tunerChannelId)
+        try container.encode(providerChannelId, forKey: .providerChannelId)
     }
 }
+

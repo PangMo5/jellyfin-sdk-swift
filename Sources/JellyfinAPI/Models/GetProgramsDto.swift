@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Get programs dto. */
-public struct GetProgramsDto: Codable, Hashable {
+public struct GetProgramsDto: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the channels to return guide information for. */
     public var channelIds: [String]?
@@ -131,33 +131,34 @@ public struct GetProgramsDto: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(channelIds, forKey: .channelIds)
-        try encoderContainer.encodeIfPresent(userId, forKey: .userId)
-        try encoderContainer.encodeIfPresent(minStartDate, forKey: .minStartDate)
-        try encoderContainer.encodeIfPresent(hasAired, forKey: .hasAired)
-        try encoderContainer.encodeIfPresent(isAiring, forKey: .isAiring)
-        try encoderContainer.encodeIfPresent(maxStartDate, forKey: .maxStartDate)
-        try encoderContainer.encodeIfPresent(minEndDate, forKey: .minEndDate)
-        try encoderContainer.encodeIfPresent(maxEndDate, forKey: .maxEndDate)
-        try encoderContainer.encodeIfPresent(isMovie, forKey: .isMovie)
-        try encoderContainer.encodeIfPresent(isSeries, forKey: .isSeries)
-        try encoderContainer.encodeIfPresent(isNews, forKey: .isNews)
-        try encoderContainer.encodeIfPresent(isKids, forKey: .isKids)
-        try encoderContainer.encodeIfPresent(isSports, forKey: .isSports)
-        try encoderContainer.encodeIfPresent(startIndex, forKey: .startIndex)
-        try encoderContainer.encodeIfPresent(limit, forKey: .limit)
-        try encoderContainer.encodeIfPresent(sortBy, forKey: .sortBy)
-        try encoderContainer.encodeIfPresent(sortOrder, forKey: .sortOrder)
-        try encoderContainer.encodeIfPresent(genres, forKey: .genres)
-        try encoderContainer.encodeIfPresent(genreIds, forKey: .genreIds)
-        try encoderContainer.encodeIfPresent(enableImages, forKey: .enableImages)
-        try encoderContainer.encodeIfPresent(enableTotalRecordCount, forKey: .enableTotalRecordCount)
-        try encoderContainer.encodeIfPresent(imageTypeLimit, forKey: .imageTypeLimit)
-        try encoderContainer.encodeIfPresent(enableImageTypes, forKey: .enableImageTypes)
-        try encoderContainer.encodeIfPresent(enableUserData, forKey: .enableUserData)
-        try encoderContainer.encodeIfPresent(seriesTimerId, forKey: .seriesTimerId)
-        try encoderContainer.encodeIfPresent(librarySeriesId, forKey: .librarySeriesId)
-        try encoderContainer.encodeIfPresent(fields, forKey: .fields)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(channelIds, forKey: .channelIds)
+        try container.encodeIfPresent(userId, forKey: .userId)
+        try container.encodeIfPresent(minStartDate, forKey: .minStartDate)
+        try container.encodeIfPresent(hasAired, forKey: .hasAired)
+        try container.encodeIfPresent(isAiring, forKey: .isAiring)
+        try container.encodeIfPresent(maxStartDate, forKey: .maxStartDate)
+        try container.encodeIfPresent(minEndDate, forKey: .minEndDate)
+        try container.encodeIfPresent(maxEndDate, forKey: .maxEndDate)
+        try container.encodeIfPresent(isMovie, forKey: .isMovie)
+        try container.encodeIfPresent(isSeries, forKey: .isSeries)
+        try container.encodeIfPresent(isNews, forKey: .isNews)
+        try container.encodeIfPresent(isKids, forKey: .isKids)
+        try container.encodeIfPresent(isSports, forKey: .isSports)
+        try container.encodeIfPresent(startIndex, forKey: .startIndex)
+        try container.encodeIfPresent(limit, forKey: .limit)
+        try container.encodeIfPresent(sortBy, forKey: .sortBy)
+        try container.encodeIfPresent(sortOrder, forKey: .sortOrder)
+        try container.encodeIfPresent(genres, forKey: .genres)
+        try container.encodeIfPresent(genreIds, forKey: .genreIds)
+        try container.encodeIfPresent(enableImages, forKey: .enableImages)
+        try container.encodeIfPresent(enableTotalRecordCount, forKey: .enableTotalRecordCount)
+        try container.encodeIfPresent(imageTypeLimit, forKey: .imageTypeLimit)
+        try container.encodeIfPresent(enableImageTypes, forKey: .enableImageTypes)
+        try container.encodeIfPresent(enableUserData, forKey: .enableUserData)
+        try container.encodeIfPresent(seriesTimerId, forKey: .seriesTimerId)
+        try container.encodeIfPresent(librarySeriesId, forKey: .librarySeriesId)
+        try container.encodeIfPresent(fields, forKey: .fields)
     }
 }
+

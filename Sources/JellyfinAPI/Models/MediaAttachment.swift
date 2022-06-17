@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class MediaAttachment. */
-public struct MediaAttachment: Codable, Hashable {
+public struct MediaAttachment: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the codec. */
     public var codec: String?
@@ -51,13 +51,14 @@ public struct MediaAttachment: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(codec, forKey: .codec)
-        try encoderContainer.encodeIfPresent(codecTag, forKey: .codecTag)
-        try encoderContainer.encodeIfPresent(comment, forKey: .comment)
-        try encoderContainer.encodeIfPresent(index, forKey: .index)
-        try encoderContainer.encodeIfPresent(fileName, forKey: .fileName)
-        try encoderContainer.encodeIfPresent(mimeType, forKey: .mimeType)
-        try encoderContainer.encodeIfPresent(deliveryUrl, forKey: .deliveryUrl)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(codec, forKey: .codec)
+        try container.encodeIfPresent(codecTag, forKey: .codecTag)
+        try container.encodeIfPresent(comment, forKey: .comment)
+        try container.encodeIfPresent(index, forKey: .index)
+        try container.encodeIfPresent(fileName, forKey: .fileName)
+        try container.encodeIfPresent(mimeType, forKey: .mimeType)
+        try container.encodeIfPresent(deliveryUrl, forKey: .deliveryUrl)
     }
 }
+

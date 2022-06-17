@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class ImageProviderInfo. */
-public struct ImageProviderInfo: Codable, Hashable {
+public struct ImageProviderInfo: Codable, JSONEncodable, Hashable {
 
     /** Gets the name. */
     public var name: String?
@@ -31,8 +31,9 @@ public struct ImageProviderInfo: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
-        try encoderContainer.encodeIfPresent(supportedImages, forKey: .supportedImages)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(supportedImages, forKey: .supportedImages)
     }
 }
+

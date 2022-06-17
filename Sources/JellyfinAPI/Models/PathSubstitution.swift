@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Defines the MediaBrowser.Model.Configuration.PathSubstitution. */
-public struct PathSubstitution: Codable, Hashable {
+public struct PathSubstitution: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the value to substitute. */
     public var from: String?
@@ -31,8 +31,9 @@ public struct PathSubstitution: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(from, forKey: .from)
-        try encoderContainer.encodeIfPresent(to, forKey: .to)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(to, forKey: .to)
     }
 }
+

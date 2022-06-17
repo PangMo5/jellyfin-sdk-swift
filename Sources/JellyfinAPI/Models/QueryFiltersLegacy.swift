@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct QueryFiltersLegacy: Codable, Hashable {
+public struct QueryFiltersLegacy: Codable, JSONEncodable, Hashable {
 
     public var genres: [String]?
     public var tags: [String]?
@@ -34,10 +34,11 @@ public struct QueryFiltersLegacy: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(genres, forKey: .genres)
-        try encoderContainer.encodeIfPresent(tags, forKey: .tags)
-        try encoderContainer.encodeIfPresent(officialRatings, forKey: .officialRatings)
-        try encoderContainer.encodeIfPresent(years, forKey: .years)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(genres, forKey: .genres)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(officialRatings, forKey: .officialRatings)
+        try container.encodeIfPresent(years, forKey: .years)
     }
 }
+

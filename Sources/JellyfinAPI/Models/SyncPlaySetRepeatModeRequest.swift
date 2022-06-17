@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Class SetRepeatModeRequestDto. */
-public struct SyncPlaySetRepeatModeRequest: Codable, Hashable {
+public struct SyncPlaySetRepeatModeRequest: Codable, JSONEncodable, Hashable {
 
     /** Enum GroupRepeatMode. */
     public var mode: GroupRepeatMode?
@@ -27,7 +27,8 @@ public struct SyncPlaySetRepeatModeRequest: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(mode, forKey: .mode)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mode, forKey: .mode)
     }
 }
+

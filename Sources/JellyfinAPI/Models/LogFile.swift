@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct LogFile: Codable, Hashable {
+public struct LogFile: Codable, JSONEncodable, Hashable {
 
     /** Gets or sets the date created. */
     public var dateCreated: Date?
@@ -38,10 +38,11 @@ public struct LogFile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(dateCreated, forKey: .dateCreated)
-        try encoderContainer.encodeIfPresent(dateModified, forKey: .dateModified)
-        try encoderContainer.encodeIfPresent(size, forKey: .size)
-        try encoderContainer.encodeIfPresent(name, forKey: .name)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(dateCreated, forKey: .dateCreated)
+        try container.encodeIfPresent(dateModified, forKey: .dateModified)
+        try container.encodeIfPresent(size, forKey: .size)
+        try container.encodeIfPresent(name, forKey: .name)
     }
 }
+

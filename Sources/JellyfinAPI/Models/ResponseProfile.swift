@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ResponseProfile: Codable, Hashable {
+public struct ResponseProfile: Codable, JSONEncodable, Hashable {
 
     public var container: String?
     public var audioCodec: String?
@@ -43,13 +43,14 @@ public struct ResponseProfile: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(container, forKey: .container)
-        try encoderContainer.encodeIfPresent(audioCodec, forKey: .audioCodec)
-        try encoderContainer.encodeIfPresent(videoCodec, forKey: .videoCodec)
-        try encoderContainer.encodeIfPresent(type, forKey: .type)
-        try encoderContainer.encodeIfPresent(orgPn, forKey: .orgPn)
-        try encoderContainer.encodeIfPresent(mimeType, forKey: .mimeType)
-        try encoderContainer.encodeIfPresent(conditions, forKey: .conditions)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(container, forKey: .container)
+        try container.encodeIfPresent(audioCodec, forKey: .audioCodec)
+        try container.encodeIfPresent(videoCodec, forKey: .videoCodec)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(orgPn, forKey: .orgPn)
+        try container.encodeIfPresent(mimeType, forKey: .mimeType)
+        try container.encodeIfPresent(conditions, forKey: .conditions)
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct AllThemeMediaResult: Codable, Hashable {
+public struct AllThemeMediaResult: Codable, JSONEncodable, Hashable {
 
     public var themeVideosResult: AllThemeMediaResultThemeVideosResult?
     public var themeSongsResult: AllThemeMediaResultThemeVideosResult?
@@ -31,9 +31,10 @@ public struct AllThemeMediaResult: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var encoderContainer = encoder.container(keyedBy: CodingKeys.self)
-        try encoderContainer.encodeIfPresent(themeVideosResult, forKey: .themeVideosResult)
-        try encoderContainer.encodeIfPresent(themeSongsResult, forKey: .themeSongsResult)
-        try encoderContainer.encodeIfPresent(soundtrackSongsResult, forKey: .soundtrackSongsResult)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(themeVideosResult, forKey: .themeVideosResult)
+        try container.encodeIfPresent(themeSongsResult, forKey: .themeSongsResult)
+        try container.encodeIfPresent(soundtrackSongsResult, forKey: .soundtrackSongsResult)
     }
 }
+
