@@ -1,6 +1,6 @@
 # ChannelsAPI
 
-All URIs are relative to *http://localhost:8096*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 Get all channel features.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import JellyfinAPI
@@ -62,7 +62,7 @@ This endpoint does not need any parameter.
 
 Get channel features.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import JellyfinAPI
@@ -86,7 +86,7 @@ ChannelsAPI.getChannelFeatures(channelId: channelId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **channelId** | [**String**](.md) | Channel id. | 
+ **channelId** | **String** | Channel id. | 
 
 ### Return type
 
@@ -110,7 +110,7 @@ Name | Type | Description  | Notes
 
 Get channel items.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import JellyfinAPI
@@ -142,9 +142,9 @@ ChannelsAPI.getChannelItems(channelId: channelId, folderId: folderId, userId: us
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **channelId** | [**String**](.md) | Channel Id. | 
- **folderId** | [**String**](.md) | Optional. Folder Id. | [optional] 
- **userId** | [**String**](.md) | Optional. User Id. | [optional] 
+ **channelId** | **String** | Channel Id. | 
+ **folderId** | **String** | Optional. Folder Id. | [optional] 
+ **userId** | **String** | Optional. User Id. | [optional] 
  **startIndex** | **Int** | Optional. The record index to start at. All items with a lower index will be dropped from the results. | [optional] 
  **limit** | **Int** | Optional. The maximum number of records to return. | [optional] 
  **sortOrder** | [**[SortOrder]**](SortOrder.md) | Optional. Sort Order - Ascending,Descending. | [optional] 
@@ -174,7 +174,7 @@ Name | Type | Description  | Notes
 
 Gets available channels.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import JellyfinAPI
@@ -203,7 +203,7 @@ ChannelsAPI.getChannels(userId: userId, startIndex: startIndex, limit: limit, su
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | [**String**](.md) | User Id to filter by. Use System.Guid.Empty to not filter by user. | [optional] 
+ **userId** | **String** | User Id to filter by. Use System.Guid.Empty to not filter by user. | [optional] 
  **startIndex** | **Int** | Optional. The record index to start at. All items with a lower index will be dropped from the results. | [optional] 
  **limit** | **Int** | Optional. The maximum number of records to return. | [optional] 
  **supportsLatestItems** | **Bool** | Optional. Filter by channels that support getting latest items. | [optional] 
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 
 Gets latest channel items.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import JellyfinAPI
@@ -261,7 +261,7 @@ ChannelsAPI.getLatestChannelItems(userId: userId, startIndex: startIndex, limit:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | [**String**](.md) | Optional. User Id. | [optional] 
+ **userId** | **String** | Optional. User Id. | [optional] 
  **startIndex** | **Int** | Optional. The record index to start at. All items with a lower index will be dropped from the results. | [optional] 
  **limit** | **Int** | Optional. The maximum number of records to return. | [optional] 
  **filters** | [**[ItemFilter]**](ItemFilter.md) | Optional. Specify additional filters to apply. | [optional] 
